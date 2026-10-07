@@ -1,0 +1,49 @@
+# Report of the project (docs/m6_contract.md; cf_stability/eval/report.py, cf_stability/eval/figures.py).
+# python scripts/make_report.py                 # runs/_report/: tables, figures, report.md, manifest.json
+# python scripts/make_report.py refresh=true    # first rerun make_tables.py and corridor_metrics.py tables=true
+
+refresh: false            # rerun the two table scripts before reading their CSVs
+
+# figures (docs/m6_contract.md, section 3); the design of E1-E5 and of the corridor (folds, seeds, laws,
+# intervals) is read from configs/make_tables.yaml and configs/corridor_metrics.yaml
+gain_architectures: [idm, mlp, pidl, residual_idm, gru, lstm, perl]   # figure 3: E1 fold 0 and the chosen E2 weight
+existence_experiment: e2_existence                                     # the existence arm of E2 (D93)
+existence_architectures: [gru, lstm, perl]
+e5_views: {openacc_acc: acc, openacc_human: human}                     # figure 4: view -> driving mode of its profiles
+e5_models: [idm, mlp, gru, lstm]                                       # without penalty (e5)
+e5_penalised: [mlp, gru, lstm]                                         # with the chosen weight (e5_<kind>_w<weight>)
+pulse_view: openacc_human  # the braking pulse has no driving mode: its panel shows the laws of this view
+scenario: i80_p1           # figures 5 and 6: period 1
+figure_laws: [idm_global, residual_idm_certified, mlp, gru, lstm]
+figure_seed: 0
+contour_dx: 20.0           # m: cells of the speed fields (as the waves of the metrics), lanes 1-6 together
+contour_dt: 2.0            # s
+contour_lanes: [1, 2, 3, 4, 5, 6]
+fd_dx: 100.0               # m: Edie cells of the fundamental diagrams (as the metrics), lanes together
+fd_dt: 30.0                # s
+fd_bin: 10.0               # veh/km: density bins of the binned flow of the ground truth
+gain_threshold: 1.02       # figure 3: the threshold of the audit
+dpi: 200                   # PNG; every figure is also written as PDF
+font_size: 9.0             # pt: readable at column width
+# section 11, the supplement of M8 (docs/m8_contract.md, section 11): every table of paths.tables_m8 and every figure
+# of paths.supplement_figures (PNG, PDF, caption <name>.txt); an expected one without its file gets a note
+m8_tables: [lowfreq_expansion, certificate_tightness, band_width, e2_monotone, band_sensitivity, temporal, asymmetry,
+            asymmetry_contrasts, correlation_pooled, correlation_pooled_laws, power]
+supplement_expected: [lowfreq_expansion, certificate_tightness, band_width, stability_map_*, contours_*, fd_*]
+
+paths:
+  runs_root: runs
+  out_dir: null            # null: <runs_root>/_report
+  tables_m4: null          # null: <runs_root>/_tables/m4
+  tables_m5: null          # null: <runs_root>/_tables/m5
+  tables_m8: null          # null: <runs_root>/_tables/m8
+  supplement_figures: null # null: <out_dir>/supplement/figures
+  corridor_root: null      # null: <runs_root>/corridor
+  docs_dir: docs           # decisions.md and the milestone reports (sections 9 and 10)
+  configs_dir: configs     # make_tables.yaml and corridor_metrics.yaml (the design)
+
+hydra:
+  run:
+    dir: outputs/${hydra.job.name}/${now:%Y-%m-%d_%H-%M-%S}
+  job:
+    chdir: false
