@@ -1,0 +1,62 @@
+{
+  "mlp": {
+    "kind": "jacobian",
+    "weight": 1.0,
+    "experiment": "e2_jacobian_w1",
+    "rule": "stable >= 0.9: smallest validation RMSE",
+    "stable": 1.0,
+    "val_rmse_s": 2.804038867673172,
+    "runs": 5,
+    "complete": true
+  },
+  "pidl": {
+    "kind": "jacobian",
+    "weight": 10.0,
+    "experiment": "e2_jacobian_w10",
+    "rule": "stable >= 0.9: smallest validation RMSE",
+    "stable": 1.0,
+    "val_rmse_s": 2.7779307810090366,
+    "runs": 5,
+    "complete": true
+  },
+  "gru": {
+    "kind": "gain",
+    "weight": 0.1,
+    "experiment": "e2_gain_w0.1",
+    "rule": "no weight reaches stable >= 0.9: largest stable share",
+    "stable": 0.23636363636363633,
+    "val_rmse_s": 2.3197293408708797,
+    "runs": 5,
+    "complete": true
+  },
+  "lstm": {
+    "kind": "gain",
+    "weight": 0.1,
+    "experiment": "e2_gain_w0.1",
+    "rule": "no weight reaches stable >= 0.9: largest stable share",
+    "stable": 0.5545454545454546,
+    "val_rmse_s": 2.7258189969068276,
+    "runs": 5,
+    "complete": true
+  },
+  "perl": {
+    "kind": "gain",
+    "weight": 0.1,
+    "experiment": "e2_gain_w0.1",
+    "rule": "no weight reaches stable >= 0.9: largest stable share",
+    "stable": 0.0,
+    "val_rmse_s": 2.9774844330404555,
+    "runs": 5,
+    "complete": true
+  },
+  "residual_idm": {
+    "kind": "jacobian",
+    "weight": 0.1,
+    "experiment": "e2_jacobian_w0.1",
+    "rule": "stable >= 0.9: smallest validation RMSE",
+    "stable": 0.990909090909091,
+    "val_rmse_s": 2.7365050325431954,
+    "runs": 5,
+    "complete": true
+  }
+}

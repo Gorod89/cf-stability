@@ -1,0 +1,28 @@
+{
+  "device": "cpu",
+  "kind": "idm_heterogeneous",
+  "law": "idm_heterogeneous_all",
+  "members": [],
+  "source": {
+    "estimates": "data/calibration/ngsim_i80/idm_per_event_fixed_v0_b.parquet",
+    "n_estimates": 7651,
+    "n_interior": 2840,
+    "n_used": 7651,
+    "selection": "all",
+    "spread": "data/calibration/ngsim_i80/idm_spread_fixed_v0_b.json",
+    "support_from": "idm_global",
+    "support_runs": [
+      "runs/e3_reference/ngsim_i80/idm/driver_fold0_seed0",
+      "runs/e3_reference/ngsim_i80/idm/driver_fold1_seed0",
+      "runs/e3_reference/ngsim_i80/idm/driver_fold2_seed0",
+      "runs/e3_reference/ngsim_i80/idm/driver_fold3_seed0",
+      "runs/e3_reference/ngsim_i80/idm/driver_fold4_seed0"
+    ]
+  },
+  "support_v": [
+    0.0,
+    18.050324854227018
+  ],
+  "table": "idm_heterogeneous_all.npz",
+  "window": 1
+}

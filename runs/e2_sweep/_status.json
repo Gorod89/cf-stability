@@ -1,0 +1,3508 @@
+{
+  "name": "e2_sweep",
+  "queue_file": "configs\\queue\\e2_sweep.yaml",
+  "pid": 10712,
+  "workers": 2,
+  "updated": "2026-09-30T07:31:37",
+  "totals": {
+    "n_jobs": 120,
+    "done": 2,
+    "failed": 0,
+    "timeout": 0,
+    "skipped": 118,
+    "blocked": 0,
+    "running": 0,
+    "pending": 0,
+    "interrupted": 0
+  },
+  "jobs": [
+    {
+      "index": 1,
+      "label": "e2_gain_w0.01/follownet_highd/gru/fold0_seed0",
+      "experiment": "e2_gain_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.01\\follownet_highd\\gru\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.01__follownet_highd__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 2,
+      "label": "e2_gain_w0.1/follownet_highd/gru/fold0_seed0",
+      "experiment": "e2_gain_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.1\\follownet_highd\\gru\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.1__follownet_highd__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 3,
+      "label": "e2_gain_w1/follownet_highd/gru/fold0_seed0",
+      "experiment": "e2_gain_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w1\\follownet_highd\\gru\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w1__follownet_highd__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 4,
+      "label": "e2_gain_w10/follownet_highd/gru/fold0_seed0",
+      "experiment": "e2_gain_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w10\\follownet_highd\\gru\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w10__follownet_highd__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 5,
+      "label": "e2_gain_w0.01/follownet_highd/lstm/fold0_seed0",
+      "experiment": "e2_gain_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.01\\follownet_highd\\lstm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.01__follownet_highd__lstm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 6,
+      "label": "e2_gain_w0.1/follownet_highd/lstm/fold0_seed0",
+      "experiment": "e2_gain_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.1\\follownet_highd\\lstm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.1__follownet_highd__lstm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 7,
+      "label": "e2_gain_w1/follownet_highd/lstm/fold0_seed0",
+      "experiment": "e2_gain_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w1\\follownet_highd\\lstm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w1__follownet_highd__lstm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 8,
+      "label": "e2_gain_w10/follownet_highd/lstm/fold0_seed0",
+      "experiment": "e2_gain_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w10\\follownet_highd\\lstm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w10__follownet_highd__lstm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 9,
+      "label": "e2_jacobian_w0.01/follownet_highd/mlp/fold0_seed0",
+      "experiment": "e2_jacobian_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.01\\follownet_highd\\mlp\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.01__follownet_highd__mlp__driver_fold0_seed0.log"
+    },
+    {
+      "index": 10,
+      "label": "e2_jacobian_w0.1/follownet_highd/mlp/fold0_seed0",
+      "experiment": "e2_jacobian_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.1\\follownet_highd\\mlp\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.1__follownet_highd__mlp__driver_fold0_seed0.log"
+    },
+    {
+      "index": 11,
+      "label": "e2_jacobian_w1/follownet_highd/mlp/fold0_seed0",
+      "experiment": "e2_jacobian_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w1\\follownet_highd\\mlp\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w1__follownet_highd__mlp__driver_fold0_seed0.log"
+    },
+    {
+      "index": 12,
+      "label": "e2_jacobian_w10/follownet_highd/mlp/fold0_seed0",
+      "experiment": "e2_jacobian_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w10\\follownet_highd\\mlp\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w10__follownet_highd__mlp__driver_fold0_seed0.log"
+    },
+    {
+      "index": 13,
+      "label": "e2_gain_w0.01/follownet_highd/perl/fold0_seed0",
+      "experiment": "e2_gain_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.01\\follownet_highd\\perl\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.01__follownet_highd__perl__driver_fold0_seed0.log"
+    },
+    {
+      "index": 14,
+      "label": "e2_gain_w0.1/follownet_highd/perl/fold0_seed0",
+      "experiment": "e2_gain_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.1\\follownet_highd\\perl\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.1__follownet_highd__perl__driver_fold0_seed0.log"
+    },
+    {
+      "index": 15,
+      "label": "e2_gain_w1/follownet_highd/perl/fold0_seed0",
+      "experiment": "e2_gain_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w1\\follownet_highd\\perl\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w1__follownet_highd__perl__driver_fold0_seed0.log"
+    },
+    {
+      "index": 16,
+      "label": "e2_gain_w10/follownet_highd/perl/fold0_seed0",
+      "experiment": "e2_gain_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w10\\follownet_highd\\perl\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 1171.398406799999,
+      "started": "2026-09-30T07:12:06",
+      "ended": "2026-09-30T07:31:37",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w10__follownet_highd__perl__driver_fold0_seed0.log"
+    },
+    {
+      "index": 17,
+      "label": "e2_jacobian_w0.01/follownet_highd/pidl/fold0_seed0",
+      "experiment": "e2_jacobian_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.01\\follownet_highd\\pidl\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.01__follownet_highd__pidl__driver_fold0_seed0.log"
+    },
+    {
+      "index": 18,
+      "label": "e2_jacobian_w0.1/follownet_highd/pidl/fold0_seed0",
+      "experiment": "e2_jacobian_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.1\\follownet_highd\\pidl\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.1__follownet_highd__pidl__driver_fold0_seed0.log"
+    },
+    {
+      "index": 19,
+      "label": "e2_jacobian_w1/follownet_highd/pidl/fold0_seed0",
+      "experiment": "e2_jacobian_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w1\\follownet_highd\\pidl\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w1__follownet_highd__pidl__driver_fold0_seed0.log"
+    },
+    {
+      "index": 20,
+      "label": "e2_jacobian_w10/follownet_highd/pidl/fold0_seed0",
+      "experiment": "e2_jacobian_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w10\\follownet_highd\\pidl\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w10__follownet_highd__pidl__driver_fold0_seed0.log"
+    },
+    {
+      "index": 21,
+      "label": "e2_jacobian_w0.01/follownet_highd/residual_idm/fold0_seed0",
+      "experiment": "e2_jacobian_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.01\\follownet_highd\\residual_idm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.01__follownet_highd__residual_idm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 22,
+      "label": "e2_jacobian_w0.1/follownet_highd/residual_idm/fold0_seed0",
+      "experiment": "e2_jacobian_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.1\\follownet_highd\\residual_idm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.1__follownet_highd__residual_idm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 23,
+      "label": "e2_jacobian_w1/follownet_highd/residual_idm/fold0_seed0",
+      "experiment": "e2_jacobian_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w1\\follownet_highd\\residual_idm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w1__follownet_highd__residual_idm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 24,
+      "label": "e2_jacobian_w10/follownet_highd/residual_idm/fold0_seed0",
+      "experiment": "e2_jacobian_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w10\\follownet_highd\\residual_idm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w10__follownet_highd__residual_idm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 25,
+      "label": "e2_gain_w0.01/follownet_highd/gru/fold1_seed0",
+      "experiment": "e2_gain_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.01\\follownet_highd\\gru\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.01__follownet_highd__gru__driver_fold1_seed0.log"
+    },
+    {
+      "index": 26,
+      "label": "e2_gain_w0.1/follownet_highd/gru/fold1_seed0",
+      "experiment": "e2_gain_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.1\\follownet_highd\\gru\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.1__follownet_highd__gru__driver_fold1_seed0.log"
+    },
+    {
+      "index": 27,
+      "label": "e2_gain_w1/follownet_highd/gru/fold1_seed0",
+      "experiment": "e2_gain_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w1\\follownet_highd\\gru\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w1__follownet_highd__gru__driver_fold1_seed0.log"
+    },
+    {
+      "index": 28,
+      "label": "e2_gain_w10/follownet_highd/gru/fold1_seed0",
+      "experiment": "e2_gain_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w10\\follownet_highd\\gru\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w10__follownet_highd__gru__driver_fold1_seed0.log"
+    },
+    {
+      "index": 29,
+      "label": "e2_gain_w0.01/follownet_highd/lstm/fold1_seed0",
+      "experiment": "e2_gain_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.01\\follownet_highd\\lstm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.01__follownet_highd__lstm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 30,
+      "label": "e2_gain_w0.1/follownet_highd/lstm/fold1_seed0",
+      "experiment": "e2_gain_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.1\\follownet_highd\\lstm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.1__follownet_highd__lstm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 31,
+      "label": "e2_gain_w1/follownet_highd/lstm/fold1_seed0",
+      "experiment": "e2_gain_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w1\\follownet_highd\\lstm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w1__follownet_highd__lstm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 32,
+      "label": "e2_gain_w10/follownet_highd/lstm/fold1_seed0",
+      "experiment": "e2_gain_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w10\\follownet_highd\\lstm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w10__follownet_highd__lstm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 33,
+      "label": "e2_jacobian_w0.01/follownet_highd/mlp/fold1_seed0",
+      "experiment": "e2_jacobian_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.01\\follownet_highd\\mlp\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.01__follownet_highd__mlp__driver_fold1_seed0.log"
+    },
+    {
+      "index": 34,
+      "label": "e2_jacobian_w0.1/follownet_highd/mlp/fold1_seed0",
+      "experiment": "e2_jacobian_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.1\\follownet_highd\\mlp\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.1__follownet_highd__mlp__driver_fold1_seed0.log"
+    },
+    {
+      "index": 35,
+      "label": "e2_jacobian_w1/follownet_highd/mlp/fold1_seed0",
+      "experiment": "e2_jacobian_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w1\\follownet_highd\\mlp\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w1__follownet_highd__mlp__driver_fold1_seed0.log"
+    },
+    {
+      "index": 36,
+      "label": "e2_jacobian_w10/follownet_highd/mlp/fold1_seed0",
+      "experiment": "e2_jacobian_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w10\\follownet_highd\\mlp\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w10__follownet_highd__mlp__driver_fold1_seed0.log"
+    },
+    {
+      "index": 37,
+      "label": "e2_gain_w0.01/follownet_highd/perl/fold1_seed0",
+      "experiment": "e2_gain_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.01\\follownet_highd\\perl\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.01__follownet_highd__perl__driver_fold1_seed0.log"
+    },
+    {
+      "index": 38,
+      "label": "e2_gain_w0.1/follownet_highd/perl/fold1_seed0",
+      "experiment": "e2_gain_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.1\\follownet_highd\\perl\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.1__follownet_highd__perl__driver_fold1_seed0.log"
+    },
+    {
+      "index": 39,
+      "label": "e2_gain_w1/follownet_highd/perl/fold1_seed0",
+      "experiment": "e2_gain_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w1\\follownet_highd\\perl\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w1__follownet_highd__perl__driver_fold1_seed0.log"
+    },
+    {
+      "index": 40,
+      "label": "e2_gain_w10/follownet_highd/perl/fold1_seed0",
+      "experiment": "e2_gain_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w10\\follownet_highd\\perl\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w10__follownet_highd__perl__driver_fold1_seed0.log"
+    },
+    {
+      "index": 41,
+      "label": "e2_jacobian_w0.01/follownet_highd/pidl/fold1_seed0",
+      "experiment": "e2_jacobian_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.01\\follownet_highd\\pidl\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.01__follownet_highd__pidl__driver_fold1_seed0.log"
+    },
+    {
+      "index": 42,
+      "label": "e2_jacobian_w0.1/follownet_highd/pidl/fold1_seed0",
+      "experiment": "e2_jacobian_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.1\\follownet_highd\\pidl\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.1__follownet_highd__pidl__driver_fold1_seed0.log"
+    },
+    {
+      "index": 43,
+      "label": "e2_jacobian_w1/follownet_highd/pidl/fold1_seed0",
+      "experiment": "e2_jacobian_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w1\\follownet_highd\\pidl\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w1__follownet_highd__pidl__driver_fold1_seed0.log"
+    },
+    {
+      "index": 44,
+      "label": "e2_jacobian_w10/follownet_highd/pidl/fold1_seed0",
+      "experiment": "e2_jacobian_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w10\\follownet_highd\\pidl\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w10__follownet_highd__pidl__driver_fold1_seed0.log"
+    },
+    {
+      "index": 45,
+      "label": "e2_jacobian_w0.01/follownet_highd/residual_idm/fold1_seed0",
+      "experiment": "e2_jacobian_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.01\\follownet_highd\\residual_idm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.01__follownet_highd__residual_idm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 46,
+      "label": "e2_jacobian_w0.1/follownet_highd/residual_idm/fold1_seed0",
+      "experiment": "e2_jacobian_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.1\\follownet_highd\\residual_idm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.1__follownet_highd__residual_idm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 47,
+      "label": "e2_jacobian_w1/follownet_highd/residual_idm/fold1_seed0",
+      "experiment": "e2_jacobian_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w1\\follownet_highd\\residual_idm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w1__follownet_highd__residual_idm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 48,
+      "label": "e2_jacobian_w10/follownet_highd/residual_idm/fold1_seed0",
+      "experiment": "e2_jacobian_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w10\\follownet_highd\\residual_idm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w10__follownet_highd__residual_idm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 49,
+      "label": "e2_gain_w0.01/follownet_highd/gru/fold2_seed0",
+      "experiment": "e2_gain_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.01\\follownet_highd\\gru\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.01__follownet_highd__gru__driver_fold2_seed0.log"
+    },
+    {
+      "index": 50,
+      "label": "e2_gain_w0.1/follownet_highd/gru/fold2_seed0",
+      "experiment": "e2_gain_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.1\\follownet_highd\\gru\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.1__follownet_highd__gru__driver_fold2_seed0.log"
+    },
+    {
+      "index": 51,
+      "label": "e2_gain_w1/follownet_highd/gru/fold2_seed0",
+      "experiment": "e2_gain_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w1\\follownet_highd\\gru\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w1__follownet_highd__gru__driver_fold2_seed0.log"
+    },
+    {
+      "index": 52,
+      "label": "e2_gain_w10/follownet_highd/gru/fold2_seed0",
+      "experiment": "e2_gain_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w10\\follownet_highd\\gru\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w10__follownet_highd__gru__driver_fold2_seed0.log"
+    },
+    {
+      "index": 53,
+      "label": "e2_gain_w0.01/follownet_highd/lstm/fold2_seed0",
+      "experiment": "e2_gain_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.01\\follownet_highd\\lstm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.01__follownet_highd__lstm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 54,
+      "label": "e2_gain_w0.1/follownet_highd/lstm/fold2_seed0",
+      "experiment": "e2_gain_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.1\\follownet_highd\\lstm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.1__follownet_highd__lstm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 55,
+      "label": "e2_gain_w1/follownet_highd/lstm/fold2_seed0",
+      "experiment": "e2_gain_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w1\\follownet_highd\\lstm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w1__follownet_highd__lstm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 56,
+      "label": "e2_gain_w10/follownet_highd/lstm/fold2_seed0",
+      "experiment": "e2_gain_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w10\\follownet_highd\\lstm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w10__follownet_highd__lstm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 57,
+      "label": "e2_jacobian_w0.01/follownet_highd/mlp/fold2_seed0",
+      "experiment": "e2_jacobian_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.01\\follownet_highd\\mlp\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.01__follownet_highd__mlp__driver_fold2_seed0.log"
+    },
+    {
+      "index": 58,
+      "label": "e2_jacobian_w0.1/follownet_highd/mlp/fold2_seed0",
+      "experiment": "e2_jacobian_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.1\\follownet_highd\\mlp\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.1__follownet_highd__mlp__driver_fold2_seed0.log"
+    },
+    {
+      "index": 59,
+      "label": "e2_jacobian_w1/follownet_highd/mlp/fold2_seed0",
+      "experiment": "e2_jacobian_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w1\\follownet_highd\\mlp\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w1__follownet_highd__mlp__driver_fold2_seed0.log"
+    },
+    {
+      "index": 60,
+      "label": "e2_jacobian_w10/follownet_highd/mlp/fold2_seed0",
+      "experiment": "e2_jacobian_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w10\\follownet_highd\\mlp\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w10__follownet_highd__mlp__driver_fold2_seed0.log"
+    },
+    {
+      "index": 61,
+      "label": "e2_gain_w0.01/follownet_highd/perl/fold2_seed0",
+      "experiment": "e2_gain_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.01\\follownet_highd\\perl\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.01__follownet_highd__perl__driver_fold2_seed0.log"
+    },
+    {
+      "index": 62,
+      "label": "e2_gain_w0.1/follownet_highd/perl/fold2_seed0",
+      "experiment": "e2_gain_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.1\\follownet_highd\\perl\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.1__follownet_highd__perl__driver_fold2_seed0.log"
+    },
+    {
+      "index": 63,
+      "label": "e2_gain_w1/follownet_highd/perl/fold2_seed0",
+      "experiment": "e2_gain_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w1\\follownet_highd\\perl\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w1__follownet_highd__perl__driver_fold2_seed0.log"
+    },
+    {
+      "index": 64,
+      "label": "e2_gain_w10/follownet_highd/perl/fold2_seed0",
+      "experiment": "e2_gain_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w10\\follownet_highd\\perl\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w10__follownet_highd__perl__driver_fold2_seed0.log"
+    },
+    {
+      "index": 65,
+      "label": "e2_jacobian_w0.01/follownet_highd/pidl/fold2_seed0",
+      "experiment": "e2_jacobian_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.01\\follownet_highd\\pidl\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.01__follownet_highd__pidl__driver_fold2_seed0.log"
+    },
+    {
+      "index": 66,
+      "label": "e2_jacobian_w0.1/follownet_highd/pidl/fold2_seed0",
+      "experiment": "e2_jacobian_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.1\\follownet_highd\\pidl\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.1__follownet_highd__pidl__driver_fold2_seed0.log"
+    },
+    {
+      "index": 67,
+      "label": "e2_jacobian_w1/follownet_highd/pidl/fold2_seed0",
+      "experiment": "e2_jacobian_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w1\\follownet_highd\\pidl\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w1__follownet_highd__pidl__driver_fold2_seed0.log"
+    },
+    {
+      "index": 68,
+      "label": "e2_jacobian_w10/follownet_highd/pidl/fold2_seed0",
+      "experiment": "e2_jacobian_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w10\\follownet_highd\\pidl\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w10__follownet_highd__pidl__driver_fold2_seed0.log"
+    },
+    {
+      "index": 69,
+      "label": "e2_jacobian_w0.01/follownet_highd/residual_idm/fold2_seed0",
+      "experiment": "e2_jacobian_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.01\\follownet_highd\\residual_idm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.01__follownet_highd__residual_idm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 70,
+      "label": "e2_jacobian_w0.1/follownet_highd/residual_idm/fold2_seed0",
+      "experiment": "e2_jacobian_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.1\\follownet_highd\\residual_idm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.1__follownet_highd__residual_idm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 71,
+      "label": "e2_jacobian_w1/follownet_highd/residual_idm/fold2_seed0",
+      "experiment": "e2_jacobian_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w1\\follownet_highd\\residual_idm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w1__follownet_highd__residual_idm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 72,
+      "label": "e2_jacobian_w10/follownet_highd/residual_idm/fold2_seed0",
+      "experiment": "e2_jacobian_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w10\\follownet_highd\\residual_idm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w10__follownet_highd__residual_idm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 73,
+      "label": "e2_gain_w0.01/follownet_highd/gru/fold3_seed0",
+      "experiment": "e2_gain_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.01\\follownet_highd\\gru\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.01__follownet_highd__gru__driver_fold3_seed0.log"
+    },
+    {
+      "index": 74,
+      "label": "e2_gain_w0.1/follownet_highd/gru/fold3_seed0",
+      "experiment": "e2_gain_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.1\\follownet_highd\\gru\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.1__follownet_highd__gru__driver_fold3_seed0.log"
+    },
+    {
+      "index": 75,
+      "label": "e2_gain_w1/follownet_highd/gru/fold3_seed0",
+      "experiment": "e2_gain_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w1\\follownet_highd\\gru\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w1__follownet_highd__gru__driver_fold3_seed0.log"
+    },
+    {
+      "index": 76,
+      "label": "e2_gain_w10/follownet_highd/gru/fold3_seed0",
+      "experiment": "e2_gain_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w10\\follownet_highd\\gru\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w10__follownet_highd__gru__driver_fold3_seed0.log"
+    },
+    {
+      "index": 77,
+      "label": "e2_gain_w0.01/follownet_highd/lstm/fold3_seed0",
+      "experiment": "e2_gain_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.01\\follownet_highd\\lstm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.01__follownet_highd__lstm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 78,
+      "label": "e2_gain_w0.1/follownet_highd/lstm/fold3_seed0",
+      "experiment": "e2_gain_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.1\\follownet_highd\\lstm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.1__follownet_highd__lstm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 79,
+      "label": "e2_gain_w1/follownet_highd/lstm/fold3_seed0",
+      "experiment": "e2_gain_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w1\\follownet_highd\\lstm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w1__follownet_highd__lstm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 80,
+      "label": "e2_gain_w10/follownet_highd/lstm/fold3_seed0",
+      "experiment": "e2_gain_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w10\\follownet_highd\\lstm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w10__follownet_highd__lstm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 81,
+      "label": "e2_jacobian_w0.01/follownet_highd/mlp/fold3_seed0",
+      "experiment": "e2_jacobian_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.01\\follownet_highd\\mlp\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.01__follownet_highd__mlp__driver_fold3_seed0.log"
+    },
+    {
+      "index": 82,
+      "label": "e2_jacobian_w0.1/follownet_highd/mlp/fold3_seed0",
+      "experiment": "e2_jacobian_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.1\\follownet_highd\\mlp\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.1__follownet_highd__mlp__driver_fold3_seed0.log"
+    },
+    {
+      "index": 83,
+      "label": "e2_jacobian_w1/follownet_highd/mlp/fold3_seed0",
+      "experiment": "e2_jacobian_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w1\\follownet_highd\\mlp\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w1__follownet_highd__mlp__driver_fold3_seed0.log"
+    },
+    {
+      "index": 84,
+      "label": "e2_jacobian_w10/follownet_highd/mlp/fold3_seed0",
+      "experiment": "e2_jacobian_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w10\\follownet_highd\\mlp\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w10__follownet_highd__mlp__driver_fold3_seed0.log"
+    },
+    {
+      "index": 85,
+      "label": "e2_gain_w0.01/follownet_highd/perl/fold3_seed0",
+      "experiment": "e2_gain_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.01\\follownet_highd\\perl\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.01__follownet_highd__perl__driver_fold3_seed0.log"
+    },
+    {
+      "index": 86,
+      "label": "e2_gain_w0.1/follownet_highd/perl/fold3_seed0",
+      "experiment": "e2_gain_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.1\\follownet_highd\\perl\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.1__follownet_highd__perl__driver_fold3_seed0.log"
+    },
+    {
+      "index": 87,
+      "label": "e2_gain_w1/follownet_highd/perl/fold3_seed0",
+      "experiment": "e2_gain_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w1\\follownet_highd\\perl\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w1__follownet_highd__perl__driver_fold3_seed0.log"
+    },
+    {
+      "index": 88,
+      "label": "e2_gain_w10/follownet_highd/perl/fold3_seed0",
+      "experiment": "e2_gain_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w10\\follownet_highd\\perl\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w10__follownet_highd__perl__driver_fold3_seed0.log"
+    },
+    {
+      "index": 89,
+      "label": "e2_jacobian_w0.01/follownet_highd/pidl/fold3_seed0",
+      "experiment": "e2_jacobian_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.01\\follownet_highd\\pidl\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.01__follownet_highd__pidl__driver_fold3_seed0.log"
+    },
+    {
+      "index": 90,
+      "label": "e2_jacobian_w0.1/follownet_highd/pidl/fold3_seed0",
+      "experiment": "e2_jacobian_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.1\\follownet_highd\\pidl\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.1__follownet_highd__pidl__driver_fold3_seed0.log"
+    },
+    {
+      "index": 91,
+      "label": "e2_jacobian_w1/follownet_highd/pidl/fold3_seed0",
+      "experiment": "e2_jacobian_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w1\\follownet_highd\\pidl\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w1__follownet_highd__pidl__driver_fold3_seed0.log"
+    },
+    {
+      "index": 92,
+      "label": "e2_jacobian_w10/follownet_highd/pidl/fold3_seed0",
+      "experiment": "e2_jacobian_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w10\\follownet_highd\\pidl\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w10__follownet_highd__pidl__driver_fold3_seed0.log"
+    },
+    {
+      "index": 93,
+      "label": "e2_jacobian_w0.01/follownet_highd/residual_idm/fold3_seed0",
+      "experiment": "e2_jacobian_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.01\\follownet_highd\\residual_idm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.01__follownet_highd__residual_idm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 94,
+      "label": "e2_jacobian_w0.1/follownet_highd/residual_idm/fold3_seed0",
+      "experiment": "e2_jacobian_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.1\\follownet_highd\\residual_idm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.1__follownet_highd__residual_idm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 95,
+      "label": "e2_jacobian_w1/follownet_highd/residual_idm/fold3_seed0",
+      "experiment": "e2_jacobian_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w1\\follownet_highd\\residual_idm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w1__follownet_highd__residual_idm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 96,
+      "label": "e2_jacobian_w10/follownet_highd/residual_idm/fold3_seed0",
+      "experiment": "e2_jacobian_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w10\\follownet_highd\\residual_idm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w10__follownet_highd__residual_idm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 97,
+      "label": "e2_gain_w0.01/follownet_highd/gru/fold4_seed0",
+      "experiment": "e2_gain_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.01\\follownet_highd\\gru\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.01__follownet_highd__gru__driver_fold4_seed0.log"
+    },
+    {
+      "index": 98,
+      "label": "e2_gain_w0.1/follownet_highd/gru/fold4_seed0",
+      "experiment": "e2_gain_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.1\\follownet_highd\\gru\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.1__follownet_highd__gru__driver_fold4_seed0.log"
+    },
+    {
+      "index": 99,
+      "label": "e2_gain_w1/follownet_highd/gru/fold4_seed0",
+      "experiment": "e2_gain_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w1\\follownet_highd\\gru\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w1__follownet_highd__gru__driver_fold4_seed0.log"
+    },
+    {
+      "index": 100,
+      "label": "e2_gain_w10/follownet_highd/gru/fold4_seed0",
+      "experiment": "e2_gain_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w10\\follownet_highd\\gru\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w10__follownet_highd__gru__driver_fold4_seed0.log"
+    },
+    {
+      "index": 101,
+      "label": "e2_gain_w0.01/follownet_highd/lstm/fold4_seed0",
+      "experiment": "e2_gain_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.01\\follownet_highd\\lstm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.01__follownet_highd__lstm__driver_fold4_seed0.log"
+    },
+    {
+      "index": 102,
+      "label": "e2_gain_w0.1/follownet_highd/lstm/fold4_seed0",
+      "experiment": "e2_gain_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.1\\follownet_highd\\lstm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.1__follownet_highd__lstm__driver_fold4_seed0.log"
+    },
+    {
+      "index": 103,
+      "label": "e2_gain_w1/follownet_highd/lstm/fold4_seed0",
+      "experiment": "e2_gain_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w1\\follownet_highd\\lstm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 853.2447079999984,
+      "started": "2026-09-30T07:12:07",
+      "ended": "2026-09-30T07:26:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w1__follownet_highd__lstm__driver_fold4_seed0.log"
+    },
+    {
+      "index": 104,
+      "label": "e2_gain_w10/follownet_highd/lstm/fold4_seed0",
+      "experiment": "e2_gain_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w10\\follownet_highd\\lstm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:26:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w10__follownet_highd__lstm__driver_fold4_seed0.log"
+    },
+    {
+      "index": 105,
+      "label": "e2_jacobian_w0.01/follownet_highd/mlp/fold4_seed0",
+      "experiment": "e2_jacobian_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.01\\follownet_highd\\mlp\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:26:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.01__follownet_highd__mlp__driver_fold4_seed0.log"
+    },
+    {
+      "index": 106,
+      "label": "e2_jacobian_w0.1/follownet_highd/mlp/fold4_seed0",
+      "experiment": "e2_jacobian_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.1\\follownet_highd\\mlp\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:26:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.1__follownet_highd__mlp__driver_fold4_seed0.log"
+    },
+    {
+      "index": 107,
+      "label": "e2_jacobian_w1/follownet_highd/mlp/fold4_seed0",
+      "experiment": "e2_jacobian_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w1\\follownet_highd\\mlp\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:26:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w1__follownet_highd__mlp__driver_fold4_seed0.log"
+    },
+    {
+      "index": 108,
+      "label": "e2_jacobian_w10/follownet_highd/mlp/fold4_seed0",
+      "experiment": "e2_jacobian_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w10\\follownet_highd\\mlp\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:26:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w10__follownet_highd__mlp__driver_fold4_seed0.log"
+    },
+    {
+      "index": 109,
+      "label": "e2_gain_w0.01/follownet_highd/perl/fold4_seed0",
+      "experiment": "e2_gain_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.01\\follownet_highd\\perl\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:26:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.01__follownet_highd__perl__driver_fold4_seed0.log"
+    },
+    {
+      "index": 110,
+      "label": "e2_gain_w0.1/follownet_highd/perl/fold4_seed0",
+      "experiment": "e2_gain_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w0.1\\follownet_highd\\perl\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:26:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w0.1__follownet_highd__perl__driver_fold4_seed0.log"
+    },
+    {
+      "index": 111,
+      "label": "e2_gain_w1/follownet_highd/perl/fold4_seed0",
+      "experiment": "e2_gain_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w1\\follownet_highd\\perl\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:26:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w1__follownet_highd__perl__driver_fold4_seed0.log"
+    },
+    {
+      "index": 112,
+      "label": "e2_gain_w10/follownet_highd/perl/fold4_seed0",
+      "experiment": "e2_gain_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_w10\\follownet_highd\\perl\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:26:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_gain_w10__follownet_highd__perl__driver_fold4_seed0.log"
+    },
+    {
+      "index": 113,
+      "label": "e2_jacobian_w0.01/follownet_highd/pidl/fold4_seed0",
+      "experiment": "e2_jacobian_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.01\\follownet_highd\\pidl\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:26:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.01__follownet_highd__pidl__driver_fold4_seed0.log"
+    },
+    {
+      "index": 114,
+      "label": "e2_jacobian_w0.1/follownet_highd/pidl/fold4_seed0",
+      "experiment": "e2_jacobian_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.1\\follownet_highd\\pidl\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:26:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.1__follownet_highd__pidl__driver_fold4_seed0.log"
+    },
+    {
+      "index": 115,
+      "label": "e2_jacobian_w1/follownet_highd/pidl/fold4_seed0",
+      "experiment": "e2_jacobian_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w1\\follownet_highd\\pidl\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:26:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w1__follownet_highd__pidl__driver_fold4_seed0.log"
+    },
+    {
+      "index": 116,
+      "label": "e2_jacobian_w10/follownet_highd/pidl/fold4_seed0",
+      "experiment": "e2_jacobian_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w10\\follownet_highd\\pidl\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:26:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w10__follownet_highd__pidl__driver_fold4_seed0.log"
+    },
+    {
+      "index": 117,
+      "label": "e2_jacobian_w0.01/follownet_highd/residual_idm/fold4_seed0",
+      "experiment": "e2_jacobian_w0.01",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.01
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.01\\follownet_highd\\residual_idm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:26:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.01__follownet_highd__residual_idm__driver_fold4_seed0.log"
+    },
+    {
+      "index": 118,
+      "label": "e2_jacobian_w0.1/follownet_highd/residual_idm/fold4_seed0",
+      "experiment": "e2_jacobian_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w0.1\\follownet_highd\\residual_idm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:26:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w0.1__follownet_highd__residual_idm__driver_fold4_seed0.log"
+    },
+    {
+      "index": 119,
+      "label": "e2_jacobian_w1/follownet_highd/residual_idm/fold4_seed0",
+      "experiment": "e2_jacobian_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w1\\follownet_highd\\residual_idm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:26:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w1__follownet_highd__residual_idm__driver_fold4_seed0.log"
+    },
+    {
+      "index": 120,
+      "label": "e2_jacobian_w10/follownet_highd/residual_idm/fold4_seed0",
+      "experiment": "e2_jacobian_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_jacobian_w10\\follownet_highd\\residual_idm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T07:26:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_sweep\\_logs\\e2_jacobian_w10__follownet_highd__residual_idm__driver_fold4_seed0.log"
+    }
+  ]
+}

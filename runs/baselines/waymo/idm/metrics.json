@@ -1,0 +1,94 @@
+{
+  "config": {
+    "calibration": {
+      "atol": 0.0001,
+      "batch_events": 4096,
+      "bounds": {
+        "T": [
+          0.3,
+          3.0
+        ],
+        "a": [
+          0.2,
+          4.0
+        ],
+        "b": [
+          0.5,
+          6.0
+        ],
+        "s0": [
+          0.5,
+          10.0
+        ],
+        "v0": [
+          10.0,
+          45.0
+        ]
+      },
+      "collision_penalty": 10.0,
+      "device": "auto",
+      "fixed": null,
+      "global_tol": 0.0001,
+      "maxiter": 300,
+      "mutation": [
+        0.5,
+        1.0
+      ],
+      "popsize": 15,
+      "recombination": 0.7,
+      "restarts": 3,
+      "seed": 0,
+      "tol": 0.001
+    },
+    "dataset": "waymo",
+    "global_fit": true,
+    "max_events": null,
+    "paths": {
+      "calibration_root": "data/calibration",
+      "events_root": "data/events",
+      "runs_root": "runs"
+    },
+    "per_event": true,
+    "variant": "full"
+  },
+  "config_hash": "cb62f7ebd4b3",
+  "dataset": "waymo",
+  "device": "cuda",
+  "global": {
+    "collision_rate": 0.0,
+    "n_events": 967,
+    "objective": 0.3824531251528826,
+    "params": {
+      "T": 1.6048436533754111,
+      "a": 1.3746198107644705,
+      "b": 0.5000733306352301,
+      "s0": 1.6409347369508025,
+      "v0": 44.99694598818959
+    },
+    "rmse_s_mean": 4.9055619986387935,
+    "rmse_s_median": 3.2876402395567728,
+    "rmse_s_pooled": 6.71480112830442,
+    "rmse_v_mean": 0.8364235570686757,
+    "rmse_v_median": 0.7043613240855834,
+    "rmse_v_pooled": 0.9877137550470365,
+    "wall_time_s": 11.970518999999967
+  },
+  "n_events": 967,
+  "per_event": {
+    "at_bound_share": 0.8934850051706308,
+    "collision_rate": 0.0,
+    "converged_share": 1.0,
+    "fixed": {},
+    "n_events": 967,
+    "objective_median": 0.07383199842777265,
+    "rmse_s_mean": 0.6254503540171817,
+    "rmse_s_median": 0.4306666197302053,
+    "rmse_s_pooled": 0.9022417983223618,
+    "rmse_v_mean": 0.36765460761545254,
+    "rmse_v_median": 0.30635993335014017,
+    "rmse_v_pooled": 0.44880112825184926,
+    "wall_time_s": 40.80094989999998
+  },
+  "variant": "full",
+  "wall_time_s": 52.97457889999998
+}

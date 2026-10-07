@@ -1,0 +1,87 @@
+{
+  "config": {
+    "calibration": {
+      "atol": 0.0001,
+      "batch_events": 4096,
+      "bounds": {
+        "T": [
+          0.3,
+          3.0
+        ],
+        "a": [
+          0.2,
+          4.0
+        ],
+        "b": [
+          0.5,
+          6.0
+        ],
+        "s0": [
+          0.5,
+          10.0
+        ],
+        "v0": [
+          10.0,
+          45.0
+        ]
+      },
+      "collision_penalty": 10.0,
+      "device": "auto",
+      "fixed": null,
+      "global_tol": 0.0001,
+      "maxiter": 300,
+      "mutation": [
+        0.5,
+        1.0
+      ],
+      "popsize": 15,
+      "recombination": 0.7,
+      "restarts": 3,
+      "seed": 0,
+      "stability_margin": null,
+      "stability_weight": 10.0,
+      "tol": 0.001
+    },
+    "dataset": "ngsim_i80",
+    "global_fit": false,
+    "max_events": null,
+    "paths": {
+      "calibration_root": "data/calibration",
+      "events_root": "data/events",
+      "runs_root": "runs"
+    },
+    "per_event": true,
+    "per_event_margin": 0.2,
+    "variant": "full"
+  },
+  "config_hash": "4ebeb463a2c3",
+  "dataset": "ngsim_i80",
+  "device": "cuda",
+  "n_events": 7651,
+  "per_event": {
+    "at_bound_share": 0.8491700431316168,
+    "collision_rate": 0.0,
+    "converged_share": 1.0,
+    "fit_objective_median": 0.2934155332653595,
+    "fixed": {},
+    "margin_min": {
+      "median": 0.20037055899377576,
+      "min": 0.1999936582314391,
+      "q05": 0.2000157587885475
+    },
+    "n_events": 7651,
+    "n_margin_holds": 7651,
+    "objective_median": 0.2934155332653595,
+    "rmse_s_mean": 2.3258486930452804,
+    "rmse_s_median": 1.8792945344974337,
+    "rmse_s_pooled": 2.857051968293174,
+    "rmse_v_mean": 0.8665480897160036,
+    "rmse_v_median": 0.8135288026164366,
+    "rmse_v_pooled": 0.8579237808374566,
+    "seconds_per_event": 0.09364491525290425,
+    "share_margin_holds": 1.0,
+    "wall_time_s": 716.4772465999704
+  },
+  "variant": "full",
+  "wall_time_s": 717.7721969000995
+}

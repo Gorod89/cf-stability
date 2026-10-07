@@ -1,0 +1,231 @@
+{
+  "best_epoch": null,
+  "config": {
+    "data": {
+      "file": "data/raw/follownet/HighD_car_fol_event_set.npy",
+      "loader": "follownet",
+      "name": "follownet_highd",
+      "site": "highd",
+      "source_dt": 0.04,
+      "spacing_offset": 0.0
+    },
+    "experiment": "m3_linear_gain",
+    "fold": 0,
+    "max_train_events": null,
+    "model": {
+      "hidden_size": 64,
+      "name": "lstm",
+      "window": 30
+    },
+    "paths": {
+      "calibration_root": "data/calibration",
+      "events_root": "data/events",
+      "runs_root": "runs",
+      "splits_root": "data/splits"
+    },
+    "seed": 0,
+    "split": "driver",
+    "train": {
+      "acc_weight": 1.0,
+      "batch_size": 4096,
+      "cuda_graph": true,
+      "device": "auto",
+      "dtype": "float32",
+      "grad_clip": 10.0,
+      "lr": 0.001,
+      "max_epochs": 100,
+      "patience": 10,
+      "penalty": {
+        "amplitude": 0.2,
+        "exist_v_max": null,
+        "exist_v_min": null,
+        "existence_margin": 0.1,
+        "existence_weight": 1.0,
+        "gain_margin": 0.05,
+        "gain_margin_ref": 0.1,
+        "horizon_s": 40.0,
+        "kind": "linear_gain",
+        "linear_n_omega": 25,
+        "linear_omega_max": 2.0,
+        "linear_omega_min": 0.02,
+        "margin": 0.5,
+        "measure_s": 20.0,
+        "n_equilibria": null,
+        "omegas": [
+          0.05,
+          0.1,
+          0.2,
+          0.4,
+          0.8
+        ],
+        "v_max": 30.0,
+        "v_min": 5.0,
+        "weight": 1.0
+      },
+      "rollout": {
+        "horizon": 50,
+        "segments": 256,
+        "weight": 1.0
+      },
+      "steps_per_epoch": 300,
+      "warmup": 30
+    }
+  },
+  "config_hash": "0fdecc003e6b",
+  "context": {
+    "box_high": [
+      72.92000000000002,
+      3.3526008898865207,
+      26.768846825645582
+    ],
+    "box_low": [
+      6.884999999999998,
+      -2.567904868233301,
+      4.72542871783439
+    ],
+    "center": [
+      28.89431270095025,
+      0.07527432380615144,
+      20.586616963537832
+    ],
+    "idm_params": {},
+    "n_samples": 1125900,
+    "newell_params": {},
+    "ovm_params": {},
+    "scale": [
+      14.409334623901525,
+      1.0613387694197627,
+      5.1384446463886855
+    ],
+    "var_s": 207.62892430362146,
+    "var_v": 26.40361338400043
+  },
+  "data": "follownet_highd",
+  "device": "cuda",
+  "fit": {},
+  "fold": 0,
+  "git_revision": null,
+  "idm_calibration": null,
+  "model": "lstm",
+  "n_parameters": 17729,
+  "n_trainable_parameters": 17729,
+  "newell_calibration": null,
+  "ovm_calibration": null,
+  "parts": {
+    "test": {
+      "n_events": 2503,
+      "n_samples": 375450
+    },
+    "train": {
+      "n_events": 7506,
+      "n_samples": 1125900
+    },
+    "val": {
+      "n_events": 2503,
+      "n_samples": 375450
+    }
+  },
+  "recovered": {
+    "lost": [
+      "training history",
+      "best epoch",
+      "wall time"
+    ],
+    "max_abs_difference_to_stored_test_frame": {
+      "rmse_s": 0.0,
+      "rmse_v": 0.0
+    },
+    "penalty_of_saved_weights": {
+      "existence": 0.0,
+      "max_gain": 1.0042024787191874,
+      "n_no_equilibrium": 0.0,
+      "value": 0.00033156792051158845
+    },
+    "reason": "the training process hung in the child process `git rev-parse` after writing model.pt and test_events.parquet (2026-09-28 19:20); metrics.json is rebuilt from the saved weights",
+    "recovery_time_s": 4.2711899999994785,
+    "same_collisions_as_stored_test_frame": true,
+    "stored_test_summary": {
+      "collision_rate": 0.0,
+      "n_events": 2503,
+      "rmse_s_mean": 2.567676724375628,
+      "rmse_s_median": 2.0055768489837646,
+      "rmse_s_pooled": 3.32919886548357,
+      "rmse_v_mean": 0.5553740702191449,
+      "rmse_v_median": 0.46365413069725037,
+      "rmse_v_pooled": 0.6730652954088552
+    },
+    "training_started": "2026-09-28 18:53:58",
+    "weights_written": "2026-09-28 19:20:45"
+  },
+  "seed": 0,
+  "split": "driver",
+  "test": {
+    "collision_rate": 0.0,
+    "n_events": 2503,
+    "open_loop_rmse_a": 0.15646149721072236,
+    "rmse_s_mean": 2.567676724375628,
+    "rmse_s_median": 2.0055768489837646,
+    "rmse_s_pooled": 3.32919886548357,
+    "rmse_v_mean": 0.5553740702191449,
+    "rmse_v_median": 0.46365413069725037,
+    "rmse_v_pooled": 0.6730652954088552
+  },
+  "train_config": {
+    "acc_weight": 1.0,
+    "batch_size": 4096,
+    "cuda_graph": true,
+    "device": "auto",
+    "dtype": "float32",
+    "grad_clip": 10.0,
+    "lr": 0.001,
+    "max_epochs": 100,
+    "patience": 10,
+    "penalty": {
+      "amplitude": 0.2,
+      "exist_v_max": null,
+      "exist_v_min": null,
+      "existence_margin": 0.1,
+      "existence_weight": 1.0,
+      "gain_margin": 0.05,
+      "gain_margin_ref": 0.1,
+      "horizon_s": 40.0,
+      "kind": "linear_gain",
+      "linear_n_omega": 25,
+      "linear_omega_max": 2.0,
+      "linear_omega_min": 0.02,
+      "margin": 0.5,
+      "measure_s": 20.0,
+      "n_equilibria": 16,
+      "omegas": [
+        0.05,
+        0.1,
+        0.2,
+        0.4,
+        0.8
+      ],
+      "v_max": 30.0,
+      "v_min": 5.0,
+      "weight": 1.0
+    },
+    "rollout": {
+      "horizon": 50,
+      "segments": 256,
+      "weight": 1.0
+    },
+    "steps_per_epoch": 300,
+    "warmup": 30
+  },
+  "training": null,
+  "val": {
+    "collision_rate": 0.0043947263284059125,
+    "n_events": 2503,
+    "open_loop_rmse_a": 0.16442267760328483,
+    "rmse_s_mean": 2.5925862697145483,
+    "rmse_s_median": 2.066946029663086,
+    "rmse_s_pooled": 3.3343093446892986,
+    "rmse_v_mean": 0.558570131272542,
+    "rmse_v_median": 0.47156715393066406,
+    "rmse_v_pooled": 0.6730164733127246
+  },
+  "wall_time_s": null
+}

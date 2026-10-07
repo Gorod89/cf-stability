@@ -1,0 +1,108 @@
+{
+  "acceleration": {
+    "accelerating_share": 0.05164614289943441,
+    "acceleration_p90": 1.3927675843238843,
+    "asymmetry_index": 0.8069261119693423,
+    "cruising_share": 0.8920905157862481,
+    "decelerating_share": 0.05626334131431747,
+    "deceleration_p90": 1.6875131607055673,
+    "mean_acceleration": 0.5878338213842869,
+    "mean_deceleration": 0.7284853131715492,
+    "n_samples": 192541,
+    "threshold": 0.1
+  },
+  "config": {
+    "boundary_max_gap_s": 10,
+    "boundary_points": true,
+    "detectors": [
+      100.0,
+      200.0,
+      300.0,
+      400.0,
+      500.0,
+      590.0
+    ],
+    "f_max": 0.05,
+    "f_min": 0.002,
+    "lanes": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "max_gap_s": 1.5,
+    "min_coverage": 0.5,
+    "sample_s": 2.0,
+    "threshold": 0.1,
+    "version": 1,
+    "window_s": 128.0
+  },
+  "config_hash": "e3dddad7c18d",
+  "kind": "run",
+  "lanes": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "law": "lstm_penalty",
+  "scenario": "us101_p2",
+  "seed": 4,
+  "spectrum": {
+    "band_hz": [
+      0.002,
+      0.05
+    ],
+    "band_power": null,
+    "band_rms": null,
+    "centroid": null,
+    "detectors": {
+      "100": {
+        "coverage": 0.24871794871794872,
+        "passages": 207,
+        "used": false
+      },
+      "200": {
+        "coverage": 0.20256410256410257,
+        "passages": 161,
+        "used": false
+      },
+      "300": {
+        "coverage": 0.13846153846153847,
+        "passages": 102,
+        "used": false
+      },
+      "400": {
+        "coverage": 0.08461538461538462,
+        "passages": 54,
+        "used": false
+      },
+      "500": {
+        "coverage": 0.09743589743589744,
+        "passages": 56,
+        "used": false
+      },
+      "590": {
+        "coverage": 0.10512820512820513,
+        "passages": 62,
+        "used": false
+      }
+    },
+    "frequency": null,
+    "n_detectors": 0,
+    "n_lines": 0,
+    "n_samples": 390,
+    "n_segments": 0,
+    "peak_frequency": null,
+    "peak_period_s": null,
+    "psd": null,
+    "sample_s": 2.0,
+    "window_s": 128.0
+  },
+  "window": [
+    90.0,
+    870.0
+  ]
+}

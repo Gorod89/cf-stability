@@ -1,0 +1,108 @@
+{
+  "acceleration": {
+    "accelerating_share": 0.061260005310875915,
+    "acceleration_p90": 1.1011383533477785,
+    "asymmetry_index": 0.7428439679198687,
+    "cruising_share": 0.8775890520086491,
+    "decelerating_share": 0.06115094268047495,
+    "deceleration_p90": 1.539642721414566,
+    "mean_acceleration": 0.506422259510796,
+    "mean_deceleration": 0.6817343633130561,
+    "n_samples": 210888,
+    "threshold": 0.1
+  },
+  "config": {
+    "boundary_max_gap_s": 10,
+    "boundary_points": true,
+    "detectors": [
+      100.0,
+      200.0,
+      300.0,
+      400.0,
+      500.0,
+      590.0
+    ],
+    "f_max": 0.05,
+    "f_min": 0.002,
+    "lanes": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "max_gap_s": 1.5,
+    "min_coverage": 0.5,
+    "sample_s": 2.0,
+    "threshold": 0.1,
+    "version": 1,
+    "window_s": 128.0
+  },
+  "config_hash": "e3dddad7c18d",
+  "kind": "run",
+  "lanes": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "law": "lstm_penalty",
+  "scenario": "us101_p2",
+  "seed": 2,
+  "spectrum": {
+    "band_hz": [
+      0.002,
+      0.05
+    ],
+    "band_power": null,
+    "band_rms": null,
+    "centroid": null,
+    "detectors": {
+      "100": {
+        "coverage": 0.2743589743589744,
+        "passages": 220,
+        "used": false
+      },
+      "200": {
+        "coverage": 0.23333333333333334,
+        "passages": 173,
+        "used": false
+      },
+      "300": {
+        "coverage": 0.18205128205128204,
+        "passages": 113,
+        "used": false
+      },
+      "400": {
+        "coverage": 0.13076923076923078,
+        "passages": 52,
+        "used": false
+      },
+      "500": {
+        "coverage": 0.12051282051282051,
+        "passages": 47,
+        "used": false
+      },
+      "590": {
+        "coverage": 0.10512820512820513,
+        "passages": 46,
+        "used": false
+      }
+    },
+    "frequency": null,
+    "n_detectors": 0,
+    "n_lines": 0,
+    "n_samples": 390,
+    "n_segments": 0,
+    "peak_frequency": null,
+    "peak_period_s": null,
+    "psd": null,
+    "sample_s": 2.0,
+    "window_s": 128.0
+  },
+  "window": [
+    90.0,
+    870.0
+  ]
+}

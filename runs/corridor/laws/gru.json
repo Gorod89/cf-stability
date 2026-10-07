@@ -1,0 +1,32 @@
+{
+  "device": "cuda",
+  "kind": "models",
+  "law": "gru",
+  "members": [
+    {
+      "model": "runs/m5_ft/ngsim_i80/gru/driver_fold0_seed0/model.pt",
+      "run": "runs/m5_ft/ngsim_i80/gru/driver_fold0_seed0"
+    },
+    {
+      "model": "runs/m5_ft/ngsim_i80/gru/driver_fold1_seed0/model.pt",
+      "run": "runs/m5_ft/ngsim_i80/gru/driver_fold1_seed0"
+    },
+    {
+      "model": "runs/m5_ft/ngsim_i80/gru/driver_fold2_seed0/model.pt",
+      "run": "runs/m5_ft/ngsim_i80/gru/driver_fold2_seed0"
+    },
+    {
+      "model": "runs/m5_ft/ngsim_i80/gru/driver_fold3_seed0/model.pt",
+      "run": "runs/m5_ft/ngsim_i80/gru/driver_fold3_seed0"
+    },
+    {
+      "model": "runs/m5_ft/ngsim_i80/gru/driver_fold4_seed0/model.pt",
+      "run": "runs/m5_ft/ngsim_i80/gru/driver_fold4_seed0"
+    }
+  ],
+  "support_v": [
+    0.0,
+    18.050324854227018
+  ],
+  "window": 30
+}

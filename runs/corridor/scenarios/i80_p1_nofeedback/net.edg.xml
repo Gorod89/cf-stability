@@ -1,0 +1,12 @@
+<edges>
+    <edge id="main_a" from="x20" to="x100" numLanes="6" speed="29.00" width="3.66" length="80.00">
+        <lane index="5" allow="hov"/>
+    </edge>
+    <edge id="main_b" from="x100" to="x204" numLanes="7" speed="29.00" width="3.66" length="104.00">
+        <lane index="6" allow="hov"/>
+    </edge>
+    <edge id="main_c" from="x204" to="x500" numLanes="6" speed="29.00" width="3.66" length="296.00">
+        <lane index="5" allow="hov"/>
+    </edge>
+    <edge id="out" from="x500" to="x650" numLanes="6" speed="29.00" width="3.66" length="150.00"/>
+</edges>

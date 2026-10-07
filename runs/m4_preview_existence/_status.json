@@ -1,0 +1,86 @@
+{
+  "name": "m4_preview_existence",
+  "queue_file": "configs\\queue\\preview_existence.yaml",
+  "pid": 12280,
+  "workers": 2,
+  "updated": "2026-09-29T20:54:08",
+  "totals": {
+    "n_jobs": 2,
+    "done": 2,
+    "failed": 0,
+    "timeout": 0,
+    "skipped": 0,
+    "blocked": 0,
+    "running": 0,
+    "pending": 0,
+    "interrupted": 0
+  },
+  "jobs": [
+    {
+      "index": 1,
+      "label": "m4_preview_existence/follownet_highd/gru/fold0_seed0",
+      "experiment": "m4_preview_existence",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "linear_gain",
+        "train.penalty.weight": 1.0,
+        "train.penalty.gain_margin": -10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m4_preview_existence\\follownet_highd\\gru\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 1085.7966115000017,
+      "started": "2026-09-29T20:34:52",
+      "ended": "2026-09-29T20:52:58",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m4_preview_existence\\_logs\\m4_preview_existence__follownet_highd__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 2,
+      "label": "m4_preview_existence/follownet_highd/lstm/fold0_seed0",
+      "experiment": "m4_preview_existence",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "linear_gain",
+        "train.penalty.weight": 1.0,
+        "train.penalty.gain_margin": -10.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m4_preview_existence\\follownet_highd\\lstm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 1156.2956619999968,
+      "started": "2026-09-29T20:34:52",
+      "ended": "2026-09-29T20:54:08",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m4_preview_existence\\_logs\\m4_preview_existence__follownet_highd__lstm__driver_fold0_seed0.log"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "closed_loop": {
+    "collision_rate": 0.4012409513960703,
+    "n_samples": 185744,
+    "nrmse_s_median": 1.2657507500575316,
+    "nrmse_v_median": 0.43266310069023234,
+    "rmse_s_mean": 23.37290247056619,
+    "rmse_s_median": 17.925975325027803,
+    "rmse_s_pooled": 29.989581459226347,
+    "rmse_v_mean": 3.4341344849243116,
+    "rmse_v_median": 2.7234382766244254,
+    "rmse_v_pooled": 4.213345396246694,
+    "start_index": 1
+  },
+  "config": {
+    "batch_events": 4096,
+    "dataset": "waymo",
+    "device": "auto",
+    "paths": {
+      "events_root": "data/events",
+      "runs_root": "runs"
+    }
+  },
+  "config_hash": "edd108f37f0d",
+  "dataset": "waymo",
+  "device": "cuda",
+  "n_events": 967,
+  "open_loop": {
+    "persistence_model": {
+      "n_samples": 185744,
+      "rmse_a_mean": 0.02729747266596605,
+      "rmse_a_median": 0.0235329412613657,
+      "rmse_a_pooled": 0.030712135205603747
+    },
+    "stored_acceleration": {
+      "n_samples": 185744,
+      "rmse_a_mean": 0.05010726948241414,
+      "rmse_a_median": 0.044462298975907366,
+      "rmse_a_pooled": 0.05608463619327524
+    }
+  },
+  "wall_time_s": 0.6297978000000057
+}

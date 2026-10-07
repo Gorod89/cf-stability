@@ -1,0 +1,261 @@
+{
+  "analysis_window": [
+    90.0,
+    870.0
+  ],
+  "boundary": {
+    "feedback": true,
+    "g_max": 1.5,
+    "g_min": 0.2,
+    "gain": 0.02,
+    "half_window_s": 2.5,
+    "lane_changes": false,
+    "lanes": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "max_accel": 2.0,
+    "max_decel": 3.0,
+    "min_gap": 1.0,
+    "n_seconds": 1000,
+    "x_range": [
+      610.0,
+      640.0
+    ]
+  },
+  "config": {
+    "analysis_window": [
+      90.0,
+      870.0
+    ],
+    "aux_class": "custom1",
+    "aux_lane": 6,
+    "boundary": {
+      "feedback": true,
+      "g_max": 1.5,
+      "g_min": 0.2,
+      "gain": 0.02,
+      "half_window_s": 2.5,
+      "lane_changes": false,
+      "max_accel": 2.0,
+      "max_decel": 3.0,
+      "min_gap": 1.0,
+      "x_range": [
+        610.0,
+        640.0
+      ]
+    },
+    "class_vtype": {
+      "custom1": {
+        "lcAssertive": 2.5
+      }
+    },
+    "classes": {
+      "1": "motorcycle",
+      "2": "passenger",
+      "3": "truck"
+    },
+    "edges": [
+      {
+        "id": "main_a",
+        "lanes": 5,
+        "x0": 25.0,
+        "x1": 110.0
+      },
+      {
+        "id": "main_b",
+        "lanes": 6,
+        "x0": 110.0,
+        "x1": 412.0
+      },
+      {
+        "id": "main_c",
+        "lanes": 5,
+        "x0": 412.0,
+        "x1": 640.0
+      },
+      {
+        "id": "out",
+        "lanes": 5,
+        "x0": 640.0,
+        "x1": 790.0
+      }
+    ],
+    "exit_extrapolation_m": 1.0,
+    "hov_lane": null,
+    "insertion_checks": null,
+    "lane_aliases": {
+      "7": 6,
+      "8": 6
+    },
+    "lane_width": 3.66,
+    "name": "us101",
+    "netconvert_options": [
+      "--no-internal-links",
+      "true",
+      "--no-turnarounds",
+      "true",
+      "--offset.disable-normalization",
+      "true"
+    ],
+    "offramp": {
+      "early_end": 30.0,
+      "id": "offramp",
+      "lane": 8,
+      "length": 80.0
+    },
+    "period": 1,
+    "source": "data/raw/ngsim/cache/ngsim_us-101_reconstructed.parquet",
+    "speed": 29.0,
+    "vtype": {
+      "decel": 8.0,
+      "emergencyDecel": 8.0,
+      "laneChangeModel": "LC2013",
+      "lcKeepRight": 0.0,
+      "minGap": 0.0,
+      "sigma": 0.0,
+      "tau": 1.0
+    },
+    "x_in": 25.0,
+    "x_out": 640.0
+  },
+  "config_hash": "001e05932235",
+  "counts": {
+    "aux_users": 209,
+    "entered_downstream_of_x_in": 143,
+    "entry_edge": {
+      "main_a": 1889,
+      "main_b": 128
+    },
+    "entry_lane": {
+      "1": 373,
+      "2": 381,
+      "3": 364,
+      "4": 384,
+      "5": 388,
+      "7": 127
+    },
+    "exited": 1938,
+    "exits_extrapolated": 0,
+    "hov": 0,
+    "offramp": 79,
+    "offramp_unreachable": 0,
+    "tracks": 2017,
+    "tracks_off_network": 0,
+    "truth_rows": 135063,
+    "v_class": {
+      "1": 10,
+      "2": 1963,
+      "3": 44
+    },
+    "vehicle_types": 86,
+    "vehicles": 2017
+  },
+  "files": [
+    "boundary.npz",
+    "ground_truth.npz",
+    "net.con.xml",
+    "net.edg.xml",
+    "net.net.xml",
+    "net.nod.xml",
+    "routes.rou.xml",
+    "vehicles_truth.npz"
+  ],
+  "frame_origin": 10,
+  "geometry": {
+    "aux_edge": "main_b",
+    "aux_end": 412.0,
+    "aux_index": 0,
+    "aux_lane": 6,
+    "buffer_edges": [
+      "out"
+    ],
+    "controlled_edges": [
+      "main_a",
+      "main_b",
+      "main_c",
+      "offramp"
+    ],
+    "edges": [
+      {
+        "id": "main_a",
+        "lanes": 5,
+        "x0": 25.0,
+        "x1": 110.0
+      },
+      {
+        "id": "main_b",
+        "lanes": 6,
+        "x0": 110.0,
+        "x1": 412.0
+      },
+      {
+        "id": "main_c",
+        "lanes": 5,
+        "x0": 412.0,
+        "x1": 640.0
+      },
+      {
+        "id": "out",
+        "lanes": 5,
+        "x0": 640.0,
+        "x1": 790.0
+      },
+      {
+        "id": "offramp",
+        "lanes": 1,
+        "x0": 412.0,
+        "x1": 492.0
+      }
+    ],
+    "lane_width": 3.66,
+    "main_lanes": 5,
+    "offramp_early_end": 30.0,
+    "offramp_edge": "offramp",
+    "offramp_lane": 8,
+    "section_edges": [
+      "main_a",
+      "main_b",
+      "main_c"
+    ],
+    "speed": 29.0,
+    "x_in": 25.0,
+    "x_out": 640.0
+  },
+  "git_revision": "47ceac037d95b9f556eb5b48dfe8172b53a5a7d3",
+  "lane_permissions": {
+    "main_b_0": "custom1"
+  },
+  "metrics": {
+    "detectors": [
+      100,
+      200,
+      300,
+      400,
+      500,
+      590
+    ],
+    "queue_x": 100,
+    "throughput_x": 590,
+    "waves": {
+      "lanes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    }
+  },
+  "netconvert": "Success.",
+  "period": 1,
+  "scenario": "us101_p1",
+  "site": "us101",
+  "source": "data/raw/ngsim/cache/ngsim_us-101_reconstructed.parquet",
+  "t_data_end": 999.0,
+  "t_first_depart": 5.0,
+  "t_last_depart": 948.4
+}

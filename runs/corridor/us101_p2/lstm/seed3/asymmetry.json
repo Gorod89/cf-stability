@@ -1,0 +1,108 @@
+{
+  "acceleration": {
+    "accelerating_share": 0.08687323108106437,
+    "acceleration_p90": 0.7911207199096686,
+    "asymmetry_index": 0.7231608694217339,
+    "cruising_share": 0.8316112765878558,
+    "decelerating_share": 0.08151549233107983,
+    "deceleration_p90": 1.134474515914917,
+    "mean_acceleration": 0.38784086423524494,
+    "mean_deceleration": 0.5363133994589293,
+    "n_samples": 161822,
+    "threshold": 0.1
+  },
+  "config": {
+    "boundary_max_gap_s": 10,
+    "boundary_points": true,
+    "detectors": [
+      100.0,
+      200.0,
+      300.0,
+      400.0,
+      500.0,
+      590.0
+    ],
+    "f_max": 0.05,
+    "f_min": 0.002,
+    "lanes": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "max_gap_s": 1.5,
+    "min_coverage": 0.5,
+    "sample_s": 2.0,
+    "threshold": 0.1,
+    "version": 1,
+    "window_s": 128.0
+  },
+  "config_hash": "e3dddad7c18d",
+  "kind": "run",
+  "lanes": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "law": "lstm",
+  "scenario": "us101_p2",
+  "seed": 3,
+  "spectrum": {
+    "band_hz": [
+      0.002,
+      0.05
+    ],
+    "band_power": null,
+    "band_rms": null,
+    "centroid": null,
+    "detectors": {
+      "100": {
+        "coverage": 0.31794871794871793,
+        "passages": 200,
+        "used": false
+      },
+      "200": {
+        "coverage": 0.2948717948717949,
+        "passages": 171,
+        "used": false
+      },
+      "300": {
+        "coverage": 0.25384615384615383,
+        "passages": 145,
+        "used": false
+      },
+      "400": {
+        "coverage": 0.15128205128205127,
+        "passages": 98,
+        "used": false
+      },
+      "500": {
+        "coverage": 0.15128205128205127,
+        "passages": 97,
+        "used": false
+      },
+      "590": {
+        "coverage": 0.1641025641025641,
+        "passages": 102,
+        "used": false
+      }
+    },
+    "frequency": null,
+    "n_detectors": 0,
+    "n_lines": 0,
+    "n_samples": 390,
+    "n_segments": 0,
+    "peak_frequency": null,
+    "peak_period_s": null,
+    "psd": null,
+    "sample_s": 2.0,
+    "window_s": 128.0
+  },
+  "window": [
+    90.0,
+    870.0
+  ]
+}

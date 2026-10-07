@@ -1,0 +1,34 @@
+{
+  "device": "cpu",
+  "kind": "idm",
+  "law": "idm_global_p0",
+  "members": [],
+  "params": [
+    {
+      "T": 1.5745963486972516,
+      "a": 0.8421854134424478,
+      "b": 0.5226602745553834,
+      "s0": 1.2105042317230477,
+      "v0": 29.678425849298343
+    }
+  ],
+  "source": {
+    "calibration": [
+      "data/calibration/ngsim_i80_p0/idm_global.json"
+    ],
+    "pattern": "data/calibration/ngsim_i80_p0/idm_global.json",
+    "support_from": "idm_global",
+    "support_runs": [
+      "runs/e3_reference/ngsim_i80/idm/driver_fold0_seed0",
+      "runs/e3_reference/ngsim_i80/idm/driver_fold1_seed0",
+      "runs/e3_reference/ngsim_i80/idm/driver_fold2_seed0",
+      "runs/e3_reference/ngsim_i80/idm/driver_fold3_seed0",
+      "runs/e3_reference/ngsim_i80/idm/driver_fold4_seed0"
+    ]
+  },
+  "support_v": [
+    0.0,
+    18.050324854227018
+  ],
+  "window": 1
+}

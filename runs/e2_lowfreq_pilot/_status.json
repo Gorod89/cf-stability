@@ -1,0 +1,236 @@
+{
+  "name": "e2_lowfreq_pilot",
+  "queue_file": "configs\\queue\\e2_lowfreq_pilot.yaml",
+  "pid": 26432,
+  "workers": 2,
+  "updated": "2026-10-05T12:23:37",
+  "totals": {
+    "n_jobs": 6,
+    "done": 6,
+    "failed": 0,
+    "timeout": 0,
+    "skipped": 0,
+    "blocked": 0,
+    "running": 0,
+    "pending": 0,
+    "interrupted": 0
+  },
+  "jobs": [
+    {
+      "index": 1,
+      "label": "e2_combined_j0.1/follownet_highd/gru/fold0_seed0",
+      "experiment": "e2_combined_j0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "combined",
+        "train.penalty.weight": 0.1,
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.jacobian_weight": 0.1,
+        "train.penalty.guard": 3.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_combined_j0.1\\follownet_highd\\gru\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 4246.6058302000165,
+      "started": "2026-10-05T09:49:44",
+      "ended": "2026-10-05T11:00:32",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_lowfreq_pilot\\_logs\\e2_combined_j0.1__follownet_highd__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 2,
+      "label": "e2_combined_j1/follownet_highd/gru/fold0_seed0",
+      "experiment": "e2_combined_j1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "combined",
+        "train.penalty.weight": 0.1,
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.jacobian_weight": 1.0,
+        "train.penalty.guard": 3.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_combined_j1\\follownet_highd\\gru\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 2494.656512400019,
+      "started": "2026-10-05T09:49:44",
+      "ended": "2026-10-05T10:31:19",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_lowfreq_pilot\\_logs\\e2_combined_j1__follownet_highd__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 3,
+      "label": "e2_combined_j0.1/follownet_highd/lstm/fold0_seed0",
+      "experiment": "e2_combined_j0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "combined",
+        "train.penalty.weight": 0.1,
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.jacobian_weight": 0.1,
+        "train.penalty.guard": 3.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_combined_j0.1\\follownet_highd\\lstm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 1196.6648739000666,
+      "started": "2026-10-05T10:31:19",
+      "ended": "2026-10-05T10:51:17",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_lowfreq_pilot\\_logs\\e2_combined_j0.1__follownet_highd__lstm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 4,
+      "label": "e2_combined_j1/follownet_highd/lstm/fold0_seed0",
+      "experiment": "e2_combined_j1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "combined",
+        "train.penalty.weight": 0.1,
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.jacobian_weight": 1.0,
+        "train.penalty.guard": 3.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_combined_j1\\follownet_highd\\lstm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 2437.7405003999593,
+      "started": "2026-10-05T10:51:17",
+      "ended": "2026-10-05T11:31:55",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_lowfreq_pilot\\_logs\\e2_combined_j1__follownet_highd__lstm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 5,
+      "label": "e2_combined_j0.1/follownet_highd/perl/fold0_seed0",
+      "experiment": "e2_combined_j0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "combined",
+        "train.penalty.weight": 0.1,
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.jacobian_weight": 0.1,
+        "train.penalty.guard": 3.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_combined_j0.1\\follownet_highd\\perl\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 4714.431500400067,
+      "started": "2026-10-05T11:05:02",
+      "ended": "2026-10-05T12:23:37",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_lowfreq_pilot\\_logs\\e2_combined_j0.1__follownet_highd__perl__driver_fold0_seed0.log"
+    },
+    {
+      "index": 6,
+      "label": "e2_combined_j1/follownet_highd/perl/fold0_seed0",
+      "experiment": "e2_combined_j1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "combined",
+        "train.penalty.weight": 0.1,
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.jacobian_weight": 1.0,
+        "train.penalty.guard": 3.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_combined_j1\\follownet_highd\\perl\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 2144.6570044999244,
+      "started": "2026-10-05T11:35:25",
+      "ended": "2026-10-05T12:11:09",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_lowfreq_pilot\\_logs\\e2_combined_j1__follownet_highd__perl__driver_fold0_seed0.log"
+    }
+  ]
+}

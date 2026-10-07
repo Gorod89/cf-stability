@@ -1,0 +1,94 @@
+{
+  "config": {
+    "calibration": {
+      "atol": 0.0001,
+      "batch_events": 4096,
+      "bounds": {
+        "T": [
+          0.3,
+          3.0
+        ],
+        "a": [
+          0.2,
+          4.0
+        ],
+        "b": [
+          0.5,
+          6.0
+        ],
+        "s0": [
+          0.5,
+          10.0
+        ],
+        "v0": [
+          10.0,
+          45.0
+        ]
+      },
+      "collision_penalty": 10.0,
+      "device": "auto",
+      "fixed": null,
+      "global_tol": 0.0001,
+      "maxiter": 300,
+      "mutation": [
+        0.5,
+        1.0
+      ],
+      "popsize": 15,
+      "recombination": 0.7,
+      "restarts": 3,
+      "seed": 0,
+      "tol": 0.001
+    },
+    "dataset": "follownet_ngsim_i80",
+    "global_fit": true,
+    "max_events": null,
+    "paths": {
+      "calibration_root": "data/calibration",
+      "events_root": "data/events",
+      "runs_root": "runs"
+    },
+    "per_event": true,
+    "variant": "full"
+  },
+  "config_hash": "d5e53df40cfe",
+  "dataset": "follownet_ngsim_i80",
+  "device": "cuda",
+  "global": {
+    "collision_rate": 0.0,
+    "n_events": 1937,
+    "objective": 0.4410269802774966,
+    "params": {
+      "T": 1.6810075586485318,
+      "a": 0.7730029459681524,
+      "b": 0.5002515027319049,
+      "s0": 0.6897542082547612,
+      "v0": 26.907369812783713
+    },
+    "rmse_s_mean": 5.404173429588543,
+    "rmse_s_median": 4.293528522906118,
+    "rmse_s_pooled": 6.377646979182331,
+    "rmse_v_mean": 0.8986844515622203,
+    "rmse_v_median": 0.8171436910012027,
+    "rmse_v_pooled": 0.9117728479974688,
+    "wall_time_s": 36.906094199977815
+  },
+  "n_events": 1937,
+  "per_event": {
+    "at_bound_share": 0.8368611254517295,
+    "collision_rate": 0.0,
+    "converged_share": 1.0,
+    "fixed": {},
+    "n_events": 1937,
+    "objective_median": 0.1587307123555411,
+    "rmse_s_mean": 1.2950100709548593,
+    "rmse_s_median": 1.107421203152175,
+    "rmse_s_pooled": 1.6498811990888054,
+    "rmse_v_mean": 0.6306725759590662,
+    "rmse_v_median": 0.6054185030624837,
+    "rmse_v_pooled": 0.6567395655635295,
+    "wall_time_s": 313.49043289991096
+  },
+  "variant": "full",
+  "wall_time_s": 350.72759199980646
+}

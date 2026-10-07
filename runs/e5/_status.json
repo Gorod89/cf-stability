@@ -1,0 +1,1220 @@
+{
+  "name": "e5",
+  "queue_file": "configs\\queue\\e5.yaml",
+  "pid": 8712,
+  "workers": 2,
+  "updated": "2026-09-30T16:12:31",
+  "totals": {
+    "n_jobs": 40,
+    "done": 40,
+    "failed": 0,
+    "timeout": 0,
+    "skipped": 0,
+    "blocked": 0,
+    "running": 0,
+    "pending": 0,
+    "interrupted": 0
+  },
+  "jobs": [
+    {
+      "index": 1,
+      "label": "e5/openacc_acc/gru/fold0_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_acc\\gru\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 391.0061347999872,
+      "started": "2026-09-30T15:17:52",
+      "ended": "2026-09-30T15:24:23",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_acc__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 2,
+      "label": "e5/openacc_human/gru/fold0_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_human\\gru\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 142.8569887999911,
+      "started": "2026-09-30T15:17:52",
+      "ended": "2026-09-30T15:20:15",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_human__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 3,
+      "label": "e5/openacc_acc/idm/fold0_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "idm",
+        "fold": 0,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_acc\\idm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 163.8278677999915,
+      "started": "2026-09-30T15:20:15",
+      "ended": "2026-09-30T15:22:59",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_acc__idm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 4,
+      "label": "e5/openacc_human/idm/fold0_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "idm",
+        "fold": 0,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_human\\idm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 107.51101660000859,
+      "started": "2026-09-30T15:22:59",
+      "ended": "2026-09-30T15:24:47",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_human__idm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 5,
+      "label": "e5/openacc_acc/lstm/fold0_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_acc\\lstm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 258.5264739000122,
+      "started": "2026-09-30T15:24:23",
+      "ended": "2026-09-30T15:28:42",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_acc__lstm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 6,
+      "label": "e5/openacc_human/lstm/fold0_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_human\\lstm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 135.82793090000632,
+      "started": "2026-09-30T15:24:47",
+      "ended": "2026-09-30T15:27:02",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_human__lstm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 7,
+      "label": "e5/openacc_acc/mlp/fold0_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "mlp",
+        "fold": 0,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_acc\\mlp\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 108.52875100000529,
+      "started": "2026-09-30T15:27:02",
+      "ended": "2026-09-30T15:28:51",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_acc__mlp__driver_fold0_seed0.log"
+    },
+    {
+      "index": 8,
+      "label": "e5/openacc_human/mlp/fold0_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "mlp",
+        "fold": 0,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_human\\mlp\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 40.104512899997644,
+      "started": "2026-09-30T15:28:42",
+      "ended": "2026-09-30T15:29:22",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_human__mlp__driver_fold0_seed0.log"
+    },
+    {
+      "index": 9,
+      "label": "e5/openacc_acc/gru/fold1_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "gru",
+        "fold": 1,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_acc\\gru\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 268.4774679999973,
+      "started": "2026-09-30T15:28:51",
+      "ended": "2026-09-30T15:33:19",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_acc__gru__driver_fold1_seed0.log"
+    },
+    {
+      "index": 10,
+      "label": "e5/openacc_human/gru/fold1_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "gru",
+        "fold": 1,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_human\\gru\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 211.5494738999987,
+      "started": "2026-09-30T15:29:22",
+      "ended": "2026-09-30T15:32:54",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_human__gru__driver_fold1_seed0.log"
+    },
+    {
+      "index": 11,
+      "label": "e5/openacc_acc/idm/fold1_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "idm",
+        "fold": 1,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_acc\\idm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 114.8480494999967,
+      "started": "2026-09-30T15:32:54",
+      "ended": "2026-09-30T15:34:48",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_acc__idm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 12,
+      "label": "e5/openacc_human/idm/fold1_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "idm",
+        "fold": 1,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_human\\idm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 100.28511280000384,
+      "started": "2026-09-30T15:33:19",
+      "ended": "2026-09-30T15:35:00",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_human__idm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 13,
+      "label": "e5/openacc_acc/lstm/fold1_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "lstm",
+        "fold": 1,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_acc\\lstm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 285.1483443000034,
+      "started": "2026-09-30T15:34:48",
+      "ended": "2026-09-30T15:39:34",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_acc__lstm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 14,
+      "label": "e5/openacc_human/lstm/fold1_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "lstm",
+        "fold": 1,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_human\\lstm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 149.5701931999938,
+      "started": "2026-09-30T15:35:00",
+      "ended": "2026-09-30T15:37:29",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_human__lstm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 15,
+      "label": "e5/openacc_acc/mlp/fold1_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "mlp",
+        "fold": 1,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_acc\\mlp\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 128.04154140000173,
+      "started": "2026-09-30T15:37:59",
+      "ended": "2026-09-30T15:40:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_acc__mlp__driver_fold1_seed0.log"
+    },
+    {
+      "index": 16,
+      "label": "e5/openacc_human/mlp/fold1_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "mlp",
+        "fold": 1,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_human\\mlp\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 36.49101729999529,
+      "started": "2026-09-30T15:39:34",
+      "ended": "2026-09-30T15:40:10",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_human__mlp__driver_fold1_seed0.log"
+    },
+    {
+      "index": 17,
+      "label": "e5/openacc_acc/gru/fold2_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "gru",
+        "fold": 2,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_acc\\gru\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 294.29313320000074,
+      "started": "2026-09-30T15:40:07",
+      "ended": "2026-09-30T15:45:02",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_acc__gru__driver_fold2_seed0.log"
+    },
+    {
+      "index": 18,
+      "label": "e5/openacc_human/gru/fold2_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "gru",
+        "fold": 2,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_human\\gru\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 166.08434359999956,
+      "started": "2026-09-30T15:40:10",
+      "ended": "2026-09-30T15:42:56",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_human__gru__driver_fold2_seed0.log"
+    },
+    {
+      "index": 19,
+      "label": "e5/openacc_acc/idm/fold2_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "idm",
+        "fold": 2,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_acc\\idm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 138.74717970000347,
+      "started": "2026-09-30T15:42:56",
+      "ended": "2026-09-30T15:45:15",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_acc__idm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 20,
+      "label": "e5/openacc_human/idm/fold2_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "idm",
+        "fold": 2,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_human\\idm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 118.76292720000492,
+      "started": "2026-09-30T15:45:02",
+      "ended": "2026-09-30T15:47:00",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_human__idm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 21,
+      "label": "e5/openacc_acc/lstm/fold2_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "lstm",
+        "fold": 2,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_acc\\lstm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 312.9346960999974,
+      "started": "2026-09-30T15:45:15",
+      "ended": "2026-09-30T15:50:28",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_acc__lstm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 22,
+      "label": "e5/openacc_human/lstm/fold2_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "lstm",
+        "fold": 2,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_human\\lstm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 155.00647249999747,
+      "started": "2026-09-30T15:47:00",
+      "ended": "2026-09-30T15:49:35",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_human__lstm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 23,
+      "label": "e5/openacc_acc/mlp/fold2_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "mlp",
+        "fold": 2,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_acc\\mlp\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 181.7569305999932,
+      "started": "2026-09-30T15:49:35",
+      "ended": "2026-09-30T15:52:37",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_acc__mlp__driver_fold2_seed0.log"
+    },
+    {
+      "index": 24,
+      "label": "e5/openacc_human/mlp/fold2_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "mlp",
+        "fold": 2,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_human\\mlp\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 41.37107949999336,
+      "started": "2026-09-30T15:50:28",
+      "ended": "2026-09-30T15:51:09",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_human__mlp__driver_fold2_seed0.log"
+    },
+    {
+      "index": 25,
+      "label": "e5/openacc_acc/gru/fold3_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "gru",
+        "fold": 3,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_acc\\gru\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 233.42810380000446,
+      "started": "2026-09-30T15:51:09",
+      "ended": "2026-09-30T15:55:03",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_acc__gru__driver_fold3_seed0.log"
+    },
+    {
+      "index": 26,
+      "label": "e5/openacc_human/gru/fold3_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "gru",
+        "fold": 3,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_human\\gru\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 149.64518010000756,
+      "started": "2026-09-30T15:52:37",
+      "ended": "2026-09-30T15:55:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_human__gru__driver_fold3_seed0.log"
+    },
+    {
+      "index": 27,
+      "label": "e5/openacc_acc/idm/fold3_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "idm",
+        "fold": 3,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_acc\\idm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 115.57070280000335,
+      "started": "2026-09-30T15:55:03",
+      "ended": "2026-09-30T15:56:58",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_acc__idm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 28,
+      "label": "e5/openacc_human/idm/fold3_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "idm",
+        "fold": 3,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_human\\idm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 106.57656820000557,
+      "started": "2026-09-30T15:55:07",
+      "ended": "2026-09-30T15:56:53",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_human__idm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 29,
+      "label": "e5/openacc_acc/lstm/fold3_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "lstm",
+        "fold": 3,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_acc\\lstm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 231.35654550000618,
+      "started": "2026-09-30T15:56:53",
+      "ended": "2026-09-30T16:00:45",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_acc__lstm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 30,
+      "label": "e5/openacc_human/lstm/fold3_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "lstm",
+        "fold": 3,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_human\\lstm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 182.9089638000005,
+      "started": "2026-09-30T15:56:58",
+      "ended": "2026-09-30T16:00:01",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_human__lstm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 31,
+      "label": "e5/openacc_acc/mlp/fold3_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "mlp",
+        "fold": 3,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_acc\\mlp\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 122.78254869999364,
+      "started": "2026-09-30T16:00:01",
+      "ended": "2026-09-30T16:02:04",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_acc__mlp__driver_fold3_seed0.log"
+    },
+    {
+      "index": 32,
+      "label": "e5/openacc_human/mlp/fold3_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "mlp",
+        "fold": 3,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_human\\mlp\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 81.30708290000621,
+      "started": "2026-09-30T16:00:45",
+      "ended": "2026-09-30T16:02:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_human__mlp__driver_fold3_seed0.log"
+    },
+    {
+      "index": 33,
+      "label": "e5/openacc_acc/gru/fold4_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "gru",
+        "fold": 4,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_acc\\gru\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 238.66034040000523,
+      "started": "2026-09-30T16:02:04",
+      "ended": "2026-09-30T16:06:03",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_acc__gru__driver_fold4_seed0.log"
+    },
+    {
+      "index": 34,
+      "label": "e5/openacc_human/gru/fold4_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "gru",
+        "fold": 4,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_human\\gru\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 118.80058799999824,
+      "started": "2026-09-30T16:02:06",
+      "ended": "2026-09-30T16:04:05",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_human__gru__driver_fold4_seed0.log"
+    },
+    {
+      "index": 35,
+      "label": "e5/openacc_acc/idm/fold4_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "idm",
+        "fold": 4,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_acc\\idm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 126.39575189999596,
+      "started": "2026-09-30T16:04:05",
+      "ended": "2026-09-30T16:06:11",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_acc__idm__driver_fold4_seed0.log"
+    },
+    {
+      "index": 36,
+      "label": "e5/openacc_human/idm/fold4_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "idm",
+        "fold": 4,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_human\\idm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 116.10984499999904,
+      "started": "2026-09-30T16:06:03",
+      "ended": "2026-09-30T16:07:59",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_human__idm__driver_fold4_seed0.log"
+    },
+    {
+      "index": 37,
+      "label": "e5/openacc_acc/lstm/fold4_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "lstm",
+        "fold": 4,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_acc\\lstm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 256.8578611999983,
+      "started": "2026-09-30T16:06:11",
+      "ended": "2026-09-30T16:10:28",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_acc__lstm__driver_fold4_seed0.log"
+    },
+    {
+      "index": 38,
+      "label": "e5/openacc_human/lstm/fold4_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "lstm",
+        "fold": 4,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_human\\lstm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 144.01980040001217,
+      "started": "2026-09-30T16:07:59",
+      "ended": "2026-09-30T16:10:23",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_human__lstm__driver_fold4_seed0.log"
+    },
+    {
+      "index": 39,
+      "label": "e5/openacc_acc/mlp/fold4_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "mlp",
+        "fold": 4,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_acc\\mlp\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 128.49595679999038,
+      "started": "2026-09-30T16:10:23",
+      "ended": "2026-09-30T16:12:31",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_acc__mlp__driver_fold4_seed0.log"
+    },
+    {
+      "index": 40,
+      "label": "e5/openacc_human/mlp/fold4_seed0",
+      "experiment": "e5",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "mlp",
+        "fold": 4,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\openacc_human\\mlp\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 44.20503979999921,
+      "started": "2026-09-30T16:10:28",
+      "ended": "2026-09-30T16:11:12",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5\\_logs\\e5__openacc_human__mlp__driver_fold4_seed0.log"
+    }
+  ]
+}

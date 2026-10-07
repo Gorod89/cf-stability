@@ -1,0 +1,4220 @@
+{
+  "name": "audit_bands",
+  "queue_file": "configs\\queue\\audit_bands.yaml",
+  "pid": 11088,
+  "workers": 2,
+  "updated": "2026-10-07T11:34:27",
+  "totals": {
+    "n_jobs": 150,
+    "done": 150,
+    "failed": 0,
+    "timeout": 0,
+    "skipped": 0,
+    "blocked": 0,
+    "running": 0,
+    "pending": 0,
+    "interrupted": 0
+  },
+  "jobs": [
+    {
+      "index": 1,
+      "label": "e1/follownet_highd/gru/fold0_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold0_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 89.81402709998656,
+      "started": "2026-10-07T10:53:07",
+      "ended": "2026-10-07T10:54:37",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 2,
+      "label": "e1/follownet_highd/lstm/fold0_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold0_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 95.16024559992366,
+      "started": "2026-10-07T10:53:07",
+      "ended": "2026-10-07T10:54:42",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 3,
+      "label": "e1/follownet_highd/mlp/fold0_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 0,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold0_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 15.363743199966848,
+      "started": "2026-10-07T10:54:37",
+      "ended": "2026-10-07T10:54:52",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold0_seed0.log"
+    },
+    {
+      "index": 4,
+      "label": "e1/follownet_highd/perl/fold0_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 0,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold0_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 58.79838500008918,
+      "started": "2026-10-07T10:54:42",
+      "ended": "2026-10-07T10:55:41",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold0_seed0.log"
+    },
+    {
+      "index": 5,
+      "label": "e1/follownet_highd/pidl/fold0_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 0,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold0_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 15.260962400003336,
+      "started": "2026-10-07T10:54:52",
+      "ended": "2026-10-07T10:55:08",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold0_seed0.log"
+    },
+    {
+      "index": 6,
+      "label": "e1/follownet_highd/residual_idm/fold0_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold0_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 24.08246499998495,
+      "started": "2026-10-07T10:55:08",
+      "ended": "2026-10-07T10:55:32",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 7,
+      "label": "e1/follownet_highd/gru/fold1_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 1,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold1_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 56.83985989994835,
+      "started": "2026-10-07T10:55:32",
+      "ended": "2026-10-07T10:56:28",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold1_seed0.log"
+    },
+    {
+      "index": 8,
+      "label": "e1/follownet_highd/lstm/fold1_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 1,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold1_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 59.58305969997309,
+      "started": "2026-10-07T10:55:41",
+      "ended": "2026-10-07T10:56:41",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 9,
+      "label": "e1/follownet_highd/mlp/fold1_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 1,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold1_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 16.625063200015575,
+      "started": "2026-10-07T10:56:28",
+      "ended": "2026-10-07T10:56:45",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold1_seed0.log"
+    },
+    {
+      "index": 10,
+      "label": "e1/follownet_highd/perl/fold1_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 1,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold1_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 48.84607359999791,
+      "started": "2026-10-07T10:56:41",
+      "ended": "2026-10-07T10:57:30",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold1_seed0.log"
+    },
+    {
+      "index": 11,
+      "label": "e1/follownet_highd/pidl/fold1_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 1,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold1_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 17.143584799952805,
+      "started": "2026-10-07T10:56:45",
+      "ended": "2026-10-07T10:57:02",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold1_seed0.log"
+    },
+    {
+      "index": 12,
+      "label": "e1/follownet_highd/residual_idm/fold1_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold1_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 28.785598299931735,
+      "started": "2026-10-07T10:57:02",
+      "ended": "2026-10-07T10:57:31",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 13,
+      "label": "e1/follownet_highd/gru/fold2_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 2,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold2_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 53.572781799943186,
+      "started": "2026-10-07T10:57:30",
+      "ended": "2026-10-07T10:58:23",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold2_seed0.log"
+    },
+    {
+      "index": 14,
+      "label": "e1/follownet_highd/lstm/fold2_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 2,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold2_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 55.624350500060245,
+      "started": "2026-10-07T10:57:31",
+      "ended": "2026-10-07T10:58:27",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 15,
+      "label": "e1/follownet_highd/mlp/fold2_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 2,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold2_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 17.263158099958673,
+      "started": "2026-10-07T10:58:23",
+      "ended": "2026-10-07T10:58:40",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold2_seed0.log"
+    },
+    {
+      "index": 16,
+      "label": "e1/follownet_highd/perl/fold2_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 2,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold2_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 46.24675739998929,
+      "started": "2026-10-07T10:58:27",
+      "ended": "2026-10-07T10:59:13",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold2_seed0.log"
+    },
+    {
+      "index": 17,
+      "label": "e1/follownet_highd/pidl/fold2_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 2,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold2_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 15.832344900001772,
+      "started": "2026-10-07T10:58:40",
+      "ended": "2026-10-07T10:58:56",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold2_seed0.log"
+    },
+    {
+      "index": 18,
+      "label": "e1/follownet_highd/residual_idm/fold2_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold2_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 27.384221700020134,
+      "started": "2026-10-07T10:58:56",
+      "ended": "2026-10-07T10:59:24",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 19,
+      "label": "e1/follownet_highd/gru/fold3_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 3,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold3_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 46.643085499992594,
+      "started": "2026-10-07T10:59:13",
+      "ended": "2026-10-07T11:00:00",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold3_seed0.log"
+    },
+    {
+      "index": 20,
+      "label": "e1/follownet_highd/lstm/fold3_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 3,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold3_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 48.06408999999985,
+      "started": "2026-10-07T10:59:24",
+      "ended": "2026-10-07T11:00:12",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 21,
+      "label": "e1/follownet_highd/mlp/fold3_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 3,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold3_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 17.355351299978793,
+      "started": "2026-10-07T11:00:00",
+      "ended": "2026-10-07T11:00:17",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold3_seed0.log"
+    },
+    {
+      "index": 22,
+      "label": "e1/follownet_highd/perl/fold3_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 3,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold3_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 47.088752800016664,
+      "started": "2026-10-07T11:00:12",
+      "ended": "2026-10-07T11:00:59",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold3_seed0.log"
+    },
+    {
+      "index": 23,
+      "label": "e1/follownet_highd/pidl/fold3_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 3,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold3_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 16.590335500077344,
+      "started": "2026-10-07T11:00:17",
+      "ended": "2026-10-07T11:00:34",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold3_seed0.log"
+    },
+    {
+      "index": 24,
+      "label": "e1/follownet_highd/residual_idm/fold3_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold3_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 28.754378400044516,
+      "started": "2026-10-07T11:00:34",
+      "ended": "2026-10-07T11:01:02",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 25,
+      "label": "e1/follownet_highd/gru/fold4_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 4,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold4_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 48.66433869989123,
+      "started": "2026-10-07T11:00:59",
+      "ended": "2026-10-07T11:01:47",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold4_seed0.log"
+    },
+    {
+      "index": 26,
+      "label": "e1/follownet_highd/lstm/fold4_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 4,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold4_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 52.92125130002387,
+      "started": "2026-10-07T11:01:02",
+      "ended": "2026-10-07T11:01:55",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold4_seed0.log"
+    },
+    {
+      "index": 27,
+      "label": "e1/follownet_highd/mlp/fold4_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 4,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold4_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 15.558259300072677,
+      "started": "2026-10-07T11:01:47",
+      "ended": "2026-10-07T11:02:03",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold4_seed0.log"
+    },
+    {
+      "index": 28,
+      "label": "e1/follownet_highd/perl/fold4_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 4,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold4_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 47.89332819997799,
+      "started": "2026-10-07T11:01:55",
+      "ended": "2026-10-07T11:02:43",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold4_seed0.log"
+    },
+    {
+      "index": 29,
+      "label": "e1/follownet_highd/pidl/fold4_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 4,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold4_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 16.08753160003107,
+      "started": "2026-10-07T11:02:03",
+      "ended": "2026-10-07T11:02:19",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold4_seed0.log"
+    },
+    {
+      "index": 30,
+      "label": "e1/follownet_highd/residual_idm/fold4_seed0",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold4_seed0",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 28.541624800069258,
+      "started": "2026-10-07T11:02:19",
+      "ended": "2026-10-07T11:02:48",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold4_seed0.log"
+    },
+    {
+      "index": 31,
+      "label": "e1/follownet_highd/gru/fold0_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 0,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold0_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 47.86645380000118,
+      "started": "2026-10-07T11:02:43",
+      "ended": "2026-10-07T11:03:31",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold0_seed1.log"
+    },
+    {
+      "index": 32,
+      "label": "e1/follownet_highd/lstm/fold0_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold0_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 51.43122370005585,
+      "started": "2026-10-07T11:02:48",
+      "ended": "2026-10-07T11:03:39",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold0_seed1.log"
+    },
+    {
+      "index": 33,
+      "label": "e1/follownet_highd/mlp/fold0_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 0,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold0_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 16.707808200037107,
+      "started": "2026-10-07T11:03:31",
+      "ended": "2026-10-07T11:03:48",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold0_seed1.log"
+    },
+    {
+      "index": 34,
+      "label": "e1/follownet_highd/perl/fold0_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 0,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold0_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 47.191631700028665,
+      "started": "2026-10-07T11:03:39",
+      "ended": "2026-10-07T11:04:26",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold0_seed1.log"
+    },
+    {
+      "index": 35,
+      "label": "e1/follownet_highd/pidl/fold0_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 0,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold0_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 16.551995599991642,
+      "started": "2026-10-07T11:03:48",
+      "ended": "2026-10-07T11:04:04",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold0_seed1.log"
+    },
+    {
+      "index": 36,
+      "label": "e1/follownet_highd/residual_idm/fold0_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold0_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 28.276310299988836,
+      "started": "2026-10-07T11:04:04",
+      "ended": "2026-10-07T11:04:33",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold0_seed1.log"
+    },
+    {
+      "index": 37,
+      "label": "e1/follownet_highd/gru/fold1_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 1,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold1_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 46.32724390004296,
+      "started": "2026-10-07T11:04:26",
+      "ended": "2026-10-07T11:05:13",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold1_seed1.log"
+    },
+    {
+      "index": 38,
+      "label": "e1/follownet_highd/lstm/fold1_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 1,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold1_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 49.42894999997225,
+      "started": "2026-10-07T11:04:33",
+      "ended": "2026-10-07T11:05:22",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold1_seed1.log"
+    },
+    {
+      "index": 39,
+      "label": "e1/follownet_highd/mlp/fold1_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 1,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold1_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 13.816404200042598,
+      "started": "2026-10-07T11:05:13",
+      "ended": "2026-10-07T11:05:26",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold1_seed1.log"
+    },
+    {
+      "index": 40,
+      "label": "e1/follownet_highd/perl/fold1_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 1,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold1_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 44.460028500063345,
+      "started": "2026-10-07T11:05:22",
+      "ended": "2026-10-07T11:06:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold1_seed1.log"
+    },
+    {
+      "index": 41,
+      "label": "e1/follownet_highd/pidl/fold1_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 1,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold1_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 13.322757999994792,
+      "started": "2026-10-07T11:05:26",
+      "ended": "2026-10-07T11:05:40",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold1_seed1.log"
+    },
+    {
+      "index": 42,
+      "label": "e1/follownet_highd/residual_idm/fold1_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold1_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 22.92761769995559,
+      "started": "2026-10-07T11:05:40",
+      "ended": "2026-10-07T11:06:03",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold1_seed1.log"
+    },
+    {
+      "index": 43,
+      "label": "e1/follownet_highd/gru/fold2_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 2,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold2_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 47.567708599963225,
+      "started": "2026-10-07T11:06:03",
+      "ended": "2026-10-07T11:06:50",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold2_seed1.log"
+    },
+    {
+      "index": 44,
+      "label": "e1/follownet_highd/lstm/fold2_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 2,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold2_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 51.412133599980734,
+      "started": "2026-10-07T11:06:06",
+      "ended": "2026-10-07T11:06:58",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold2_seed1.log"
+    },
+    {
+      "index": 45,
+      "label": "e1/follownet_highd/mlp/fold2_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 2,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold2_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 14.240573200047947,
+      "started": "2026-10-07T11:06:50",
+      "ended": "2026-10-07T11:07:05",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold2_seed1.log"
+    },
+    {
+      "index": 46,
+      "label": "e1/follownet_highd/perl/fold2_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 2,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold2_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 46.52799400000367,
+      "started": "2026-10-07T11:06:58",
+      "ended": "2026-10-07T11:07:44",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold2_seed1.log"
+    },
+    {
+      "index": 47,
+      "label": "e1/follownet_highd/pidl/fold2_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 2,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold2_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 14.053598499973305,
+      "started": "2026-10-07T11:07:05",
+      "ended": "2026-10-07T11:07:19",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold2_seed1.log"
+    },
+    {
+      "index": 48,
+      "label": "e1/follownet_highd/residual_idm/fold2_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold2_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 23.096236099954695,
+      "started": "2026-10-07T11:07:19",
+      "ended": "2026-10-07T11:07:42",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold2_seed1.log"
+    },
+    {
+      "index": 49,
+      "label": "e1/follownet_highd/gru/fold3_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 3,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold3_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 49.26890529994853,
+      "started": "2026-10-07T11:07:42",
+      "ended": "2026-10-07T11:08:31",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold3_seed1.log"
+    },
+    {
+      "index": 50,
+      "label": "e1/follownet_highd/lstm/fold3_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 3,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold3_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 52.88279479998164,
+      "started": "2026-10-07T11:07:44",
+      "ended": "2026-10-07T11:08:37",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold3_seed1.log"
+    },
+    {
+      "index": 51,
+      "label": "e1/follownet_highd/mlp/fold3_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 3,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold3_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.842090800055303,
+      "started": "2026-10-07T11:08:31",
+      "ended": "2026-10-07T11:08:44",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold3_seed1.log"
+    },
+    {
+      "index": 52,
+      "label": "e1/follownet_highd/perl/fold3_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 3,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold3_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 45.39723550004419,
+      "started": "2026-10-07T11:08:37",
+      "ended": "2026-10-07T11:09:23",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold3_seed1.log"
+    },
+    {
+      "index": 53,
+      "label": "e1/follownet_highd/pidl/fold3_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 3,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold3_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.99832059990149,
+      "started": "2026-10-07T11:08:44",
+      "ended": "2026-10-07T11:08:57",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold3_seed1.log"
+    },
+    {
+      "index": 54,
+      "label": "e1/follownet_highd/residual_idm/fold3_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold3_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 21.860596199985594,
+      "started": "2026-10-07T11:08:57",
+      "ended": "2026-10-07T11:09:19",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold3_seed1.log"
+    },
+    {
+      "index": 55,
+      "label": "e1/follownet_highd/gru/fold4_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 4,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold4_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 47.08070710010361,
+      "started": "2026-10-07T11:09:19",
+      "ended": "2026-10-07T11:10:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold4_seed1.log"
+    },
+    {
+      "index": 56,
+      "label": "e1/follownet_highd/lstm/fold4_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 4,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold4_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 50.70847730000969,
+      "started": "2026-10-07T11:09:23",
+      "ended": "2026-10-07T11:10:13",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold4_seed1.log"
+    },
+    {
+      "index": 57,
+      "label": "e1/follownet_highd/mlp/fold4_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 4,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold4_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.74935950001236,
+      "started": "2026-10-07T11:10:06",
+      "ended": "2026-10-07T11:10:19",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold4_seed1.log"
+    },
+    {
+      "index": 58,
+      "label": "e1/follownet_highd/perl/fold4_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 4,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold4_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 44.81354600004852,
+      "started": "2026-10-07T11:10:13",
+      "ended": "2026-10-07T11:10:58",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold4_seed1.log"
+    },
+    {
+      "index": 59,
+      "label": "e1/follownet_highd/pidl/fold4_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 4,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold4_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.485954300034791,
+      "started": "2026-10-07T11:10:19",
+      "ended": "2026-10-07T11:10:31",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold4_seed1.log"
+    },
+    {
+      "index": 60,
+      "label": "e1/follownet_highd/residual_idm/fold4_seed1",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold4_seed1",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 21.799844300025143,
+      "started": "2026-10-07T11:10:31",
+      "ended": "2026-10-07T11:10:53",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold4_seed1.log"
+    },
+    {
+      "index": 61,
+      "label": "e1/follownet_highd/gru/fold0_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 0,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold0_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 47.20020459999796,
+      "started": "2026-10-07T11:10:53",
+      "ended": "2026-10-07T11:11:40",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold0_seed2.log"
+    },
+    {
+      "index": 62,
+      "label": "e1/follownet_highd/lstm/fold0_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold0_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 49.8533947999822,
+      "started": "2026-10-07T11:10:58",
+      "ended": "2026-10-07T11:11:48",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold0_seed2.log"
+    },
+    {
+      "index": 63,
+      "label": "e1/follownet_highd/mlp/fold0_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 0,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold0_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.520854500005953,
+      "started": "2026-10-07T11:11:40",
+      "ended": "2026-10-07T11:11:53",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold0_seed2.log"
+    },
+    {
+      "index": 64,
+      "label": "e1/follownet_highd/perl/fold0_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 0,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold0_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 45.18648479995318,
+      "started": "2026-10-07T11:11:48",
+      "ended": "2026-10-07T11:12:33",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold0_seed2.log"
+    },
+    {
+      "index": 65,
+      "label": "e1/follownet_highd/pidl/fold0_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 0,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold0_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.361321399919689,
+      "started": "2026-10-07T11:11:53",
+      "ended": "2026-10-07T11:12:05",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold0_seed2.log"
+    },
+    {
+      "index": 66,
+      "label": "e1/follownet_highd/residual_idm/fold0_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold0_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 21.63411059998907,
+      "started": "2026-10-07T11:12:05",
+      "ended": "2026-10-07T11:12:27",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold0_seed2.log"
+    },
+    {
+      "index": 67,
+      "label": "e1/follownet_highd/gru/fold1_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 1,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold1_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 47.24574589997064,
+      "started": "2026-10-07T11:12:27",
+      "ended": "2026-10-07T11:13:14",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold1_seed2.log"
+    },
+    {
+      "index": 68,
+      "label": "e1/follownet_highd/lstm/fold1_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 1,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold1_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 49.32468299998436,
+      "started": "2026-10-07T11:12:33",
+      "ended": "2026-10-07T11:13:23",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold1_seed2.log"
+    },
+    {
+      "index": 69,
+      "label": "e1/follownet_highd/mlp/fold1_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 1,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold1_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.72913089999929,
+      "started": "2026-10-07T11:13:14",
+      "ended": "2026-10-07T11:13:27",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold1_seed2.log"
+    },
+    {
+      "index": 70,
+      "label": "e1/follownet_highd/perl/fold1_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 1,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold1_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 44.52487249998376,
+      "started": "2026-10-07T11:13:23",
+      "ended": "2026-10-07T11:14:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold1_seed2.log"
+    },
+    {
+      "index": 71,
+      "label": "e1/follownet_highd/pidl/fold1_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 1,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold1_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.633191199973226,
+      "started": "2026-10-07T11:13:27",
+      "ended": "2026-10-07T11:13:39",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold1_seed2.log"
+    },
+    {
+      "index": 72,
+      "label": "e1/follownet_highd/residual_idm/fold1_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold1_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 21.684671000111848,
+      "started": "2026-10-07T11:13:39",
+      "ended": "2026-10-07T11:14:01",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold1_seed2.log"
+    },
+    {
+      "index": 73,
+      "label": "e1/follownet_highd/gru/fold2_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 2,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold2_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 46.789362099952996,
+      "started": "2026-10-07T11:14:01",
+      "ended": "2026-10-07T11:14:48",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold2_seed2.log"
+    },
+    {
+      "index": 74,
+      "label": "e1/follownet_highd/lstm/fold2_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 2,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold2_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 49.366875499952585,
+      "started": "2026-10-07T11:14:07",
+      "ended": "2026-10-07T11:14:57",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold2_seed2.log"
+    },
+    {
+      "index": 75,
+      "label": "e1/follownet_highd/mlp/fold2_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 2,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold2_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.612417199998163,
+      "started": "2026-10-07T11:14:48",
+      "ended": "2026-10-07T11:15:00",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold2_seed2.log"
+    },
+    {
+      "index": 76,
+      "label": "e1/follownet_highd/perl/fold2_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 2,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold2_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 44.15468619996682,
+      "started": "2026-10-07T11:14:57",
+      "ended": "2026-10-07T11:15:41",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold2_seed2.log"
+    },
+    {
+      "index": 77,
+      "label": "e1/follownet_highd/pidl/fold2_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 2,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold2_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.440108100068755,
+      "started": "2026-10-07T11:15:00",
+      "ended": "2026-10-07T11:15:13",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold2_seed2.log"
+    },
+    {
+      "index": 78,
+      "label": "e1/follownet_highd/residual_idm/fold2_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold2_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 21.7037655999884,
+      "started": "2026-10-07T11:15:13",
+      "ended": "2026-10-07T11:15:34",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold2_seed2.log"
+    },
+    {
+      "index": 79,
+      "label": "e1/follownet_highd/gru/fold3_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 3,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold3_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 47.19633950002026,
+      "started": "2026-10-07T11:15:34",
+      "ended": "2026-10-07T11:16:22",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold3_seed2.log"
+    },
+    {
+      "index": 80,
+      "label": "e1/follownet_highd/lstm/fold3_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 3,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold3_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 49.700350799947046,
+      "started": "2026-10-07T11:15:41",
+      "ended": "2026-10-07T11:16:30",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold3_seed2.log"
+    },
+    {
+      "index": 81,
+      "label": "e1/follownet_highd/mlp/fold3_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 3,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold3_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.704912299988791,
+      "started": "2026-10-07T11:16:22",
+      "ended": "2026-10-07T11:16:34",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold3_seed2.log"
+    },
+    {
+      "index": 82,
+      "label": "e1/follownet_highd/perl/fold3_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 3,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold3_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 44.79383739992045,
+      "started": "2026-10-07T11:16:30",
+      "ended": "2026-10-07T11:17:15",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold3_seed2.log"
+    },
+    {
+      "index": 83,
+      "label": "e1/follownet_highd/pidl/fold3_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 3,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold3_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.611735199927352,
+      "started": "2026-10-07T11:16:34",
+      "ended": "2026-10-07T11:16:47",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold3_seed2.log"
+    },
+    {
+      "index": 84,
+      "label": "e1/follownet_highd/residual_idm/fold3_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold3_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 21.770269599976018,
+      "started": "2026-10-07T11:16:47",
+      "ended": "2026-10-07T11:17:09",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold3_seed2.log"
+    },
+    {
+      "index": 85,
+      "label": "e1/follownet_highd/gru/fold4_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 4,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold4_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 46.899842599988915,
+      "started": "2026-10-07T11:17:09",
+      "ended": "2026-10-07T11:17:56",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold4_seed2.log"
+    },
+    {
+      "index": 86,
+      "label": "e1/follownet_highd/lstm/fold4_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 4,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold4_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 49.11716250004247,
+      "started": "2026-10-07T11:17:15",
+      "ended": "2026-10-07T11:18:04",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold4_seed2.log"
+    },
+    {
+      "index": 87,
+      "label": "e1/follownet_highd/mlp/fold4_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 4,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold4_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.866574199986644,
+      "started": "2026-10-07T11:17:56",
+      "ended": "2026-10-07T11:18:09",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold4_seed2.log"
+    },
+    {
+      "index": 88,
+      "label": "e1/follownet_highd/perl/fold4_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 4,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold4_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 43.87411600002088,
+      "started": "2026-10-07T11:18:04",
+      "ended": "2026-10-07T11:18:48",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold4_seed2.log"
+    },
+    {
+      "index": 89,
+      "label": "e1/follownet_highd/pidl/fold4_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 4,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold4_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.685744400019757,
+      "started": "2026-10-07T11:18:09",
+      "ended": "2026-10-07T11:18:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold4_seed2.log"
+    },
+    {
+      "index": 90,
+      "label": "e1/follownet_highd/residual_idm/fold4_seed2",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold4_seed2",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 21.971839700010605,
+      "started": "2026-10-07T11:18:21",
+      "ended": "2026-10-07T11:18:43",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold4_seed2.log"
+    },
+    {
+      "index": 91,
+      "label": "e1/follownet_highd/gru/fold0_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 0,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold0_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 46.97189719998278,
+      "started": "2026-10-07T11:18:43",
+      "ended": "2026-10-07T11:19:30",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold0_seed3.log"
+    },
+    {
+      "index": 92,
+      "label": "e1/follownet_highd/lstm/fold0_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold0_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 50.10539200005587,
+      "started": "2026-10-07T11:18:48",
+      "ended": "2026-10-07T11:19:38",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold0_seed3.log"
+    },
+    {
+      "index": 93,
+      "label": "e1/follownet_highd/mlp/fold0_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 0,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold0_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.591570399934426,
+      "started": "2026-10-07T11:19:30",
+      "ended": "2026-10-07T11:19:43",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold0_seed3.log"
+    },
+    {
+      "index": 94,
+      "label": "e1/follownet_highd/perl/fold0_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 0,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold0_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 45.09861190000083,
+      "started": "2026-10-07T11:19:38",
+      "ended": "2026-10-07T11:20:23",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold0_seed3.log"
+    },
+    {
+      "index": 95,
+      "label": "e1/follownet_highd/pidl/fold0_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 0,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold0_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.416827999986708,
+      "started": "2026-10-07T11:19:43",
+      "ended": "2026-10-07T11:19:55",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold0_seed3.log"
+    },
+    {
+      "index": 96,
+      "label": "e1/follownet_highd/residual_idm/fold0_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold0_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 21.501597599941306,
+      "started": "2026-10-07T11:19:55",
+      "ended": "2026-10-07T11:20:17",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold0_seed3.log"
+    },
+    {
+      "index": 97,
+      "label": "e1/follownet_highd/gru/fold1_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 1,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold1_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 46.6279848999111,
+      "started": "2026-10-07T11:20:17",
+      "ended": "2026-10-07T11:21:03",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold1_seed3.log"
+    },
+    {
+      "index": 98,
+      "label": "e1/follownet_highd/lstm/fold1_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 1,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold1_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 49.02960040001199,
+      "started": "2026-10-07T11:20:23",
+      "ended": "2026-10-07T11:21:12",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold1_seed3.log"
+    },
+    {
+      "index": 99,
+      "label": "e1/follownet_highd/mlp/fold1_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 1,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold1_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.592176599893719,
+      "started": "2026-10-07T11:21:03",
+      "ended": "2026-10-07T11:21:16",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold1_seed3.log"
+    },
+    {
+      "index": 100,
+      "label": "e1/follownet_highd/perl/fold1_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 1,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold1_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 45.11436200002208,
+      "started": "2026-10-07T11:21:12",
+      "ended": "2026-10-07T11:21:58",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold1_seed3.log"
+    },
+    {
+      "index": 101,
+      "label": "e1/follownet_highd/pidl/fold1_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 1,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold1_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.472594600054435,
+      "started": "2026-10-07T11:21:16",
+      "ended": "2026-10-07T11:21:28",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold1_seed3.log"
+    },
+    {
+      "index": 102,
+      "label": "e1/follownet_highd/residual_idm/fold1_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold1_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 21.668542300001718,
+      "started": "2026-10-07T11:21:28",
+      "ended": "2026-10-07T11:21:50",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold1_seed3.log"
+    },
+    {
+      "index": 103,
+      "label": "e1/follownet_highd/gru/fold2_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 2,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold2_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 47.33281120005995,
+      "started": "2026-10-07T11:21:50",
+      "ended": "2026-10-07T11:22:37",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold2_seed3.log"
+    },
+    {
+      "index": 104,
+      "label": "e1/follownet_highd/lstm/fold2_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 2,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold2_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 48.99884029990062,
+      "started": "2026-10-07T11:21:58",
+      "ended": "2026-10-07T11:22:47",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold2_seed3.log"
+    },
+    {
+      "index": 105,
+      "label": "e1/follownet_highd/mlp/fold2_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 2,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold2_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.625170399900526,
+      "started": "2026-10-07T11:22:37",
+      "ended": "2026-10-07T11:22:50",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold2_seed3.log"
+    },
+    {
+      "index": 106,
+      "label": "e1/follownet_highd/perl/fold2_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 2,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold2_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 44.96814400004223,
+      "started": "2026-10-07T11:22:47",
+      "ended": "2026-10-07T11:23:32",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold2_seed3.log"
+    },
+    {
+      "index": 107,
+      "label": "e1/follownet_highd/pidl/fold2_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 2,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold2_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.481030000024475,
+      "started": "2026-10-07T11:22:50",
+      "ended": "2026-10-07T11:23:03",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold2_seed3.log"
+    },
+    {
+      "index": 108,
+      "label": "e1/follownet_highd/residual_idm/fold2_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold2_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 21.717964600073174,
+      "started": "2026-10-07T11:23:03",
+      "ended": "2026-10-07T11:23:24",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold2_seed3.log"
+    },
+    {
+      "index": 109,
+      "label": "e1/follownet_highd/gru/fold3_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 3,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold3_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 47.35744340007659,
+      "started": "2026-10-07T11:23:24",
+      "ended": "2026-10-07T11:24:12",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold3_seed3.log"
+    },
+    {
+      "index": 110,
+      "label": "e1/follownet_highd/lstm/fold3_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 3,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold3_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 49.2257055999944,
+      "started": "2026-10-07T11:23:32",
+      "ended": "2026-10-07T11:24:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold3_seed3.log"
+    },
+    {
+      "index": 111,
+      "label": "e1/follownet_highd/mlp/fold3_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 3,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold3_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.681235700030811,
+      "started": "2026-10-07T11:24:12",
+      "ended": "2026-10-07T11:24:24",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold3_seed3.log"
+    },
+    {
+      "index": 112,
+      "label": "e1/follownet_highd/perl/fold3_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 3,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold3_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 44.90248749998864,
+      "started": "2026-10-07T11:24:21",
+      "ended": "2026-10-07T11:25:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold3_seed3.log"
+    },
+    {
+      "index": 113,
+      "label": "e1/follownet_highd/pidl/fold3_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 3,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold3_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.617539200000465,
+      "started": "2026-10-07T11:24:24",
+      "ended": "2026-10-07T11:24:37",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold3_seed3.log"
+    },
+    {
+      "index": 114,
+      "label": "e1/follownet_highd/residual_idm/fold3_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold3_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 21.676004700013436,
+      "started": "2026-10-07T11:24:37",
+      "ended": "2026-10-07T11:24:59",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold3_seed3.log"
+    },
+    {
+      "index": 115,
+      "label": "e1/follownet_highd/gru/fold4_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 4,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold4_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 47.176883900072426,
+      "started": "2026-10-07T11:24:59",
+      "ended": "2026-10-07T11:25:46",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold4_seed3.log"
+    },
+    {
+      "index": 116,
+      "label": "e1/follownet_highd/lstm/fold4_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 4,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold4_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 49.21297270001378,
+      "started": "2026-10-07T11:25:06",
+      "ended": "2026-10-07T11:25:55",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold4_seed3.log"
+    },
+    {
+      "index": 117,
+      "label": "e1/follownet_highd/mlp/fold4_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 4,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold4_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.612056299927644,
+      "started": "2026-10-07T11:25:46",
+      "ended": "2026-10-07T11:25:58",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold4_seed3.log"
+    },
+    {
+      "index": 118,
+      "label": "e1/follownet_highd/perl/fold4_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 4,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold4_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 45.482509800000116,
+      "started": "2026-10-07T11:25:55",
+      "ended": "2026-10-07T11:26:40",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold4_seed3.log"
+    },
+    {
+      "index": 119,
+      "label": "e1/follownet_highd/pidl/fold4_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 4,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold4_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.30554840003606,
+      "started": "2026-10-07T11:25:58",
+      "ended": "2026-10-07T11:26:11",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold4_seed3.log"
+    },
+    {
+      "index": 120,
+      "label": "e1/follownet_highd/residual_idm/fold4_seed3",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold4_seed3",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 21.505083499941975,
+      "started": "2026-10-07T11:26:11",
+      "ended": "2026-10-07T11:26:32",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold4_seed3.log"
+    },
+    {
+      "index": 121,
+      "label": "e1/follownet_highd/gru/fold0_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 0,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold0_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 46.69059889996424,
+      "started": "2026-10-07T11:26:32",
+      "ended": "2026-10-07T11:27:19",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold0_seed4.log"
+    },
+    {
+      "index": 122,
+      "label": "e1/follownet_highd/lstm/fold0_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold0_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 47.92059759993572,
+      "started": "2026-10-07T11:26:40",
+      "ended": "2026-10-07T11:27:28",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold0_seed4.log"
+    },
+    {
+      "index": 123,
+      "label": "e1/follownet_highd/mlp/fold0_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 0,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold0_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.537309300038032,
+      "started": "2026-10-07T11:27:19",
+      "ended": "2026-10-07T11:27:32",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold0_seed4.log"
+    },
+    {
+      "index": 124,
+      "label": "e1/follownet_highd/perl/fold0_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 0,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold0_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 45.11175619997084,
+      "started": "2026-10-07T11:27:28",
+      "ended": "2026-10-07T11:28:13",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold0_seed4.log"
+    },
+    {
+      "index": 125,
+      "label": "e1/follownet_highd/pidl/fold0_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 0,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold0_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.650169100030325,
+      "started": "2026-10-07T11:27:32",
+      "ended": "2026-10-07T11:27:44",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold0_seed4.log"
+    },
+    {
+      "index": 126,
+      "label": "e1/follownet_highd/residual_idm/fold0_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold0_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 21.72377089993097,
+      "started": "2026-10-07T11:27:44",
+      "ended": "2026-10-07T11:28:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold0_seed4.log"
+    },
+    {
+      "index": 127,
+      "label": "e1/follownet_highd/gru/fold1_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 1,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold1_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 47.06279859994538,
+      "started": "2026-10-07T11:28:06",
+      "ended": "2026-10-07T11:28:53",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold1_seed4.log"
+    },
+    {
+      "index": 128,
+      "label": "e1/follownet_highd/lstm/fold1_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 1,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold1_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 48.776006900006905,
+      "started": "2026-10-07T11:28:13",
+      "ended": "2026-10-07T11:29:02",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold1_seed4.log"
+    },
+    {
+      "index": 129,
+      "label": "e1/follownet_highd/mlp/fold1_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 1,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold1_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.686744299950078,
+      "started": "2026-10-07T11:28:53",
+      "ended": "2026-10-07T11:29:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold1_seed4.log"
+    },
+    {
+      "index": 130,
+      "label": "e1/follownet_highd/perl/fold1_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 1,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold1_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 44.90607609995641,
+      "started": "2026-10-07T11:29:02",
+      "ended": "2026-10-07T11:29:47",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold1_seed4.log"
+    },
+    {
+      "index": 131,
+      "label": "e1/follownet_highd/pidl/fold1_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 1,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold1_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.385691199917346,
+      "started": "2026-10-07T11:29:06",
+      "ended": "2026-10-07T11:29:18",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold1_seed4.log"
+    },
+    {
+      "index": 132,
+      "label": "e1/follownet_highd/residual_idm/fold1_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold1_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 21.810320499935187,
+      "started": "2026-10-07T11:29:18",
+      "ended": "2026-10-07T11:29:40",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold1_seed4.log"
+    },
+    {
+      "index": 133,
+      "label": "e1/follownet_highd/gru/fold2_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 2,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold2_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 46.863817899953574,
+      "started": "2026-10-07T11:29:40",
+      "ended": "2026-10-07T11:30:27",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold2_seed4.log"
+    },
+    {
+      "index": 134,
+      "label": "e1/follownet_highd/lstm/fold2_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 2,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold2_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 48.88295120000839,
+      "started": "2026-10-07T11:29:47",
+      "ended": "2026-10-07T11:30:36",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold2_seed4.log"
+    },
+    {
+      "index": 135,
+      "label": "e1/follownet_highd/mlp/fold2_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 2,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold2_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.73373099998571,
+      "started": "2026-10-07T11:30:27",
+      "ended": "2026-10-07T11:30:39",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold2_seed4.log"
+    },
+    {
+      "index": 136,
+      "label": "e1/follownet_highd/perl/fold2_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 2,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold2_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 45.04488159995526,
+      "started": "2026-10-07T11:30:36",
+      "ended": "2026-10-07T11:31:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold2_seed4.log"
+    },
+    {
+      "index": 137,
+      "label": "e1/follownet_highd/pidl/fold2_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 2,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold2_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.52902679995168,
+      "started": "2026-10-07T11:30:39",
+      "ended": "2026-10-07T11:30:52",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold2_seed4.log"
+    },
+    {
+      "index": 138,
+      "label": "e1/follownet_highd/residual_idm/fold2_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold2_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 21.817794000031427,
+      "started": "2026-10-07T11:30:52",
+      "ended": "2026-10-07T11:31:14",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold2_seed4.log"
+    },
+    {
+      "index": 139,
+      "label": "e1/follownet_highd/gru/fold3_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 3,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold3_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 47.37063970009331,
+      "started": "2026-10-07T11:31:14",
+      "ended": "2026-10-07T11:32:01",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold3_seed4.log"
+    },
+    {
+      "index": 140,
+      "label": "e1/follownet_highd/lstm/fold3_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 3,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold3_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 49.18996590003371,
+      "started": "2026-10-07T11:31:21",
+      "ended": "2026-10-07T11:32:10",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold3_seed4.log"
+    },
+    {
+      "index": 141,
+      "label": "e1/follownet_highd/mlp/fold3_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 3,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold3_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.819509899942204,
+      "started": "2026-10-07T11:32:01",
+      "ended": "2026-10-07T11:32:14",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold3_seed4.log"
+    },
+    {
+      "index": 142,
+      "label": "e1/follownet_highd/perl/fold3_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 3,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold3_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 44.22171519999392,
+      "started": "2026-10-07T11:32:10",
+      "ended": "2026-10-07T11:32:55",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold3_seed4.log"
+    },
+    {
+      "index": 143,
+      "label": "e1/follownet_highd/pidl/fold3_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 3,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold3_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.778701000032015,
+      "started": "2026-10-07T11:32:14",
+      "ended": "2026-10-07T11:32:27",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold3_seed4.log"
+    },
+    {
+      "index": 144,
+      "label": "e1/follownet_highd/residual_idm/fold3_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold3_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 22.199603299959563,
+      "started": "2026-10-07T11:32:27",
+      "ended": "2026-10-07T11:32:49",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold3_seed4.log"
+    },
+    {
+      "index": 145,
+      "label": "e1/follownet_highd/gru/fold4_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 4,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\gru\\driver_fold4_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 47.25869650009554,
+      "started": "2026-10-07T11:32:49",
+      "ended": "2026-10-07T11:33:36",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__gru__driver_fold4_seed4.log"
+    },
+    {
+      "index": 146,
+      "label": "e1/follownet_highd/lstm/fold4_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 4,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\lstm\\driver_fold4_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 49.731055499985814,
+      "started": "2026-10-07T11:32:55",
+      "ended": "2026-10-07T11:33:44",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__lstm__driver_fold4_seed4.log"
+    },
+    {
+      "index": 147,
+      "label": "e1/follownet_highd/mlp/fold4_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 4,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\mlp\\driver_fold4_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.6566826000344,
+      "started": "2026-10-07T11:33:36",
+      "ended": "2026-10-07T11:33:49",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__mlp__driver_fold4_seed4.log"
+    },
+    {
+      "index": 148,
+      "label": "e1/follownet_highd/perl/fold4_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 4,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\perl\\driver_fold4_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 43.07051300001331,
+      "started": "2026-10-07T11:33:44",
+      "ended": "2026-10-07T11:34:27",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__perl__driver_fold4_seed4.log"
+    },
+    {
+      "index": 149,
+      "label": "e1/follownet_highd/pidl/fold4_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 4,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\pidl\\driver_fold4_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 12.498797600041144,
+      "started": "2026-10-07T11:33:49",
+      "ended": "2026-10-07T11:34:01",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__pidl__driver_fold4_seed4.log"
+    },
+    {
+      "index": 150,
+      "label": "e1/follownet_highd/residual_idm/fold4_seed4",
+      "experiment": "e1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 4
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e1\\follownet_highd\\residual_idm\\driver_fold4_seed4",
+      "steps": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "audit_q01_99",
+        "audit_q10_90"
+      ],
+      "wall_time_s": 21.749576000031084,
+      "started": "2026-10-07T11:34:01",
+      "ended": "2026-10-07T11:34:23",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\audit_bands\\_logs\\e1__follownet_highd__residual_idm__driver_fold4_seed4.log"
+    }
+  ]
+}

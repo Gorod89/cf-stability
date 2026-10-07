@@ -1,0 +1,116 @@
+{
+  "name": "e2_monotone",
+  "queue_file": "configs\\queue\\e2_monotone.yaml",
+  "pid": 9964,
+  "workers": 2,
+  "updated": "2026-10-07T10:08:18",
+  "totals": {
+    "n_jobs": 3,
+    "done": 3,
+    "failed": 0,
+    "timeout": 0,
+    "skipped": 0,
+    "blocked": 0,
+    "running": 0,
+    "pending": 0,
+    "interrupted": 0
+  },
+  "jobs": [
+    {
+      "index": 1,
+      "label": "e2_monotone_w1/follownet_highd/mlp/fold0_seed0",
+      "experiment": "e2_monotone_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "mlp",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "monotone",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_monotone_w1\\follownet_highd\\mlp\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 99.5376702999929,
+      "started": "2026-10-07T09:59:21",
+      "ended": "2026-10-07T10:01:00",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_monotone\\_logs\\e2_monotone_w1__follownet_highd__mlp__driver_fold0_seed0.log"
+    },
+    {
+      "index": 2,
+      "label": "e2_monotone_w1/follownet_highd/pidl/fold0_seed0",
+      "experiment": "e2_monotone_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "pidl",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "monotone",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_monotone_w1\\follownet_highd\\pidl\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 109.76104169990867,
+      "started": "2026-10-07T09:59:21",
+      "ended": "2026-10-07T10:01:11",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_monotone\\_logs\\e2_monotone_w1__follownet_highd__pidl__driver_fold0_seed0.log"
+    },
+    {
+      "index": 3,
+      "label": "e2_monotone_w1/follownet_highd/residual_idm/fold0_seed0",
+      "experiment": "e2_monotone_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "monotone",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_monotone_w1\\follownet_highd\\residual_idm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 437.5433460000204,
+      "started": "2026-10-07T10:01:00",
+      "ended": "2026-10-07T10:08:18",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_monotone\\_logs\\e2_monotone_w1__follownet_highd__residual_idm__driver_fold0_seed0.log"
+    }
+  ]
+}

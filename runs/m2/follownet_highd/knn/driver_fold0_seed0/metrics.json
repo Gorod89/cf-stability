@@ -1,0 +1,128 @@
+{
+  "best_epoch": null,
+  "config": {
+    "data": {
+      "file": "data/raw/follownet/HighD_car_fol_event_set.npy",
+      "loader": "follownet",
+      "name": "follownet_highd",
+      "site": "highd",
+      "source_dt": 0.04,
+      "spacing_offset": 0.0
+    },
+    "experiment": "m2",
+    "fold": 0,
+    "max_train_events": null,
+    "model": {
+      "chunk": 1024,
+      "k": 10,
+      "max_points": 200000,
+      "name": "knn"
+    },
+    "paths": {
+      "calibration_root": "data/calibration",
+      "events_root": "data/events",
+      "runs_root": "runs",
+      "splits_root": "data/splits"
+    },
+    "seed": 0,
+    "split": "driver",
+    "train": {
+      "batch_size": 4096,
+      "cuda_graph": true,
+      "device": "auto",
+      "dtype": "float32",
+      "grad_clip": 10.0,
+      "lr": 0.001,
+      "max_epochs": 100,
+      "patience": 10,
+      "rollout": {
+        "horizon": 50,
+        "segments": 256,
+        "weight": 1.0
+      },
+      "steps_per_epoch": 300,
+      "warmup": 30
+    }
+  },
+  "config_hash": "aad3765fbcd1",
+  "context": {
+    "box_high": [
+      72.92000000000002,
+      3.3526008898865207,
+      26.768846825645582
+    ],
+    "box_low": [
+      6.884999999999998,
+      -2.567904868233301,
+      4.72542871783439
+    ],
+    "center": [
+      28.89431270095025,
+      0.07527432380615144,
+      20.586616963537832
+    ],
+    "idm_params": {},
+    "n_samples": 1125900,
+    "newell_params": {},
+    "scale": [
+      14.409334623901525,
+      1.0613387694197627,
+      5.1384446463886855
+    ],
+    "var_s": 207.62892430362146,
+    "var_v": 26.40361338400043
+  },
+  "data": "follownet_highd",
+  "device": "cuda",
+  "fit": {
+    "n_points": 200000,
+    "n_samples": 1125900
+  },
+  "fold": 0,
+  "git_revision": null,
+  "idm_calibration": null,
+  "model": "knn",
+  "n_parameters": 0,
+  "n_trainable_parameters": 0,
+  "newell_calibration": null,
+  "parts": {
+    "test": {
+      "n_events": 2503,
+      "n_samples": 375450
+    },
+    "train": {
+      "n_events": 7506,
+      "n_samples": 1125900
+    },
+    "val": {
+      "n_events": 2503,
+      "n_samples": 375450
+    }
+  },
+  "seed": 0,
+  "split": "driver",
+  "test": {
+    "collision_rate": 0.004794246903715541,
+    "n_events": 2503,
+    "open_loop_rmse_a": 0.3130142640686024,
+    "rmse_s_mean": 3.0775946033058097,
+    "rmse_s_median": 2.3523998260498047,
+    "rmse_s_pooled": 4.144133425298606,
+    "rmse_v_mean": 0.63599199306516,
+    "rmse_v_median": 0.5083513855934143,
+    "rmse_v_pooled": 0.8005151432863724
+  },
+  "training": null,
+  "val": {
+    "collision_rate": 0.009188973232121454,
+    "n_events": 2503,
+    "open_loop_rmse_a": 0.31841827449285237,
+    "rmse_s_mean": 3.1173045707764597,
+    "rmse_s_median": 2.434504270553589,
+    "rmse_s_pooled": 4.0564164160580125,
+    "rmse_v_mean": 0.6347600244941161,
+    "rmse_v_median": 0.5257521867752075,
+    "rmse_v_pooled": 0.7771080607554086
+  },
+  "wall_time_s": 41.96457759999976
+}

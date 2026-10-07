@@ -1,0 +1,43 @@
+{
+  "config": {
+    "data": {
+      "file": "data/raw/follownet/HighD_car_fol_event_set.npy",
+      "loader": "follownet",
+      "name": "follownet_highd",
+      "site": "highd",
+      "source_dt": 0.04,
+      "spacing_offset": 0.0
+    },
+    "experiment": "m2",
+    "force": false,
+    "paths": {
+      "runs_root": "runs"
+    },
+    "run": null,
+    "stability": {
+      "device": "auto",
+      "frequency": {
+        "amplitude": 0.2,
+        "discard_periods": 1.0,
+        "max_batch": 4096,
+        "measure_periods": 2,
+        "min_discard_s": 60.0,
+        "min_measure_s": 60.0,
+        "n_groups": 3,
+        "n_omega": 25,
+        "omega_max": 2.0,
+        "omega_min": 0.02,
+        "threshold": 1.02
+      },
+      "marginal_tol": 0.02,
+      "speeds": null
+    }
+  },
+  "config_hash": "c22db7e20ff6",
+  "error": "RuntimeError: Error(s) in loading state_dict for Newell:\n\tsize mismatch for theta: copying a param with shape torch.Size([3]) from checkpoint, the shape in current model is torch.Size([1]).",
+  "git_revision": null,
+  "model": null,
+  "run": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m2\\follownet_highd\\newell_relaxation_form_superseded\\driver_fold0_seed0",
+  "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\scripts\\audit_stability.py\", line 75, in main\n    model = load_model(run_dir / \"model.pt\")\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\cf_stability\\models\\__init__.py\", line 69, in load_model\n    model.load_state_dict(checkpoint[\"state_dict\"])\n  File \"C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\.venv\\Lib\\site-packages\\torch\\nn\\modules\\module.py\", line 2639, in load_state_dict\n    raise RuntimeError(\nRuntimeError: Error(s) in loading state_dict for Newell:\n\tsize mismatch for theta: copying a param with shape torch.Size([3]) from checkpoint, the shape in current model is torch.Size([1]).\n",
+  "wall_time_s": 0.028217400002176873
+}
