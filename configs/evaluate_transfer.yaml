@@ -1,0 +1,30 @@
+# Transfer of trained models to other event sets (E3, D84; docs/m4_contract.md 3.2).
+# python scripts/evaluate_transfer.py run=<run directory>
+# python scripts/evaluate_transfer.py experiment=<name> data=<event set> [force=true]
+
+# `data` selects the event set of the runs through the config group data/ (as in train.yaml); only its
+# `name` is used: the runs <runs_root>/<experiment>/<data.name>/*/*/ with a model.pt are evaluated.
+defaults:
+  - data: null
+  - _self_
+
+run: null               # one run directory (with model.pt and metrics.json); relative paths from the repository root
+experiment: null
+force: false            # experiment mode: also evaluate runs whose transfer.json is newer than model.pt
+
+targets: [ngsim_i80, ngsim_us101, waymo]   # event sets under paths.events_root; every event is evaluated
+horizon_s: 15.0         # second evaluation on the first horizon_s of every event (round(horizon_s / 0.1) samples:
+                        # 150, the length of a HighD event)
+min_scored_s: 1.0       # events with fewer than warm-up + min_scored_s after the cut are dropped (and counted)
+device: auto            # cuda when available
+batch_events: 2048      # events per closed-loop rollout
+
+paths:
+  runs_root: runs
+  events_root: data/events
+
+hydra:
+  run:
+    dir: outputs/${hydra.job.name}/${now:%Y-%m-%d_%H-%M-%S}
+  job:
+    chdir: false

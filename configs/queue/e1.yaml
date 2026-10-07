@@ -1,0 +1,24 @@
+# E1 (docs/m4_contract.md, section 4): models without penalty on HighD. Learned models (MLP, PIDL,
+# GRU, LSTM, PERL, ResidualIDM) five folds x five seeds, baselines (persistence, Newell, OVM, IDM, kNN)
+# five folds; the transfer of E3 (D84) for seed 0.
+# python scripts/run_experiment.py configs/queue/e1.yaml
+name: e1
+workers: 2
+timeout_h: 4.0
+min_free_ram_gb: 6.0
+order: [seed, fold, model]   # seed 0 first: the runs of the transfer and of E4's free fine-tuning
+steps: [train, audit, platoon]
+groups:
+  - experiment: e1
+    steps: [train, audit, platoon, transfer]
+    overrides:
+      data: [follownet_highd]
+      model: [mlp, pidl, gru, lstm, perl, residual_idm, persistence, newell, ovm, idm, knn]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+  - experiment: e1
+    overrides:
+      data: [follownet_highd]
+      model: [mlp, pidl, gru, lstm, perl, residual_idm]
+      fold: [0, 1, 2, 3, 4]
+      seed: [1, 2, 3, 4]

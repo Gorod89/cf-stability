@@ -1,0 +1,19 @@
+# E5 (docs/m4_contract.md, section 4; D87): models of the OpenACC views openacc_acc and openacc_human,
+# five folds, seed 0: IDM, MLP, GRU and LSTM without penalty (experiment e5), MLP, GRU and LSTM with the
+# weight chosen on HighD (e5_<kind>_w<weight>).
+# python scripts/run_experiment.py configs/queue/e5.yaml
+#
+# >>> CHOSEN WEIGHTS: the values 1.0 below are PLACEHOLDERS, the same weights as in e2_chosen.yaml.
+name: e5
+workers: 2
+timeout_h: 4.0
+min_free_ram_gb: 6.0
+order: [seed, fold, model]
+steps: [train, audit, platoon]
+groups:
+  - experiment: e5
+    overrides:
+      data: [openacc_acc, openacc_human]
+      model: [idm, mlp, gru, lstm]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]

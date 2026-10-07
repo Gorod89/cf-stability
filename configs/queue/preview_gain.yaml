@@ -1,0 +1,19 @@
+# Preview of the rollout gain penalty for the recurrent models (D90), reference fold, before E2.
+# python scripts/run_experiment.py configs/queue/preview_gain.yaml
+name: m4_preview_gain
+workers: 2
+timeout_h: 4.0
+min_free_ram_gb: 6.0
+order: [seed, fold, model]
+steps: [train, audit, platoon]
+groups:
+  - experiment: m4_preview_gain
+    overrides:
+      data: [follownet_highd]
+      model: [gru, lstm, perl]
+      fold: [0]
+      seed: [0]
+      train.penalty.kind: [gain]
+      train.penalty.weight: [1.0]
+      train.penalty.every: [8]
+      train.penalty.n_equilibria: [16]

@@ -1,0 +1,36 @@
+# Temporal hold-out on I-80 (docs/m8_contract.md, section 7; D120): the HighD models of fold k, seed 0,
+# fine-tuned on the drivers of period 0 of NGSIM I-80 (view ngsim_i80_p0: the driver folds of ngsim_i80
+# restricted to the follower ids ngsim_i80/i80/p0_*, in all three parts), five folds, seed 0, 15 runs:
+#   m8_temporal_stable_ft  the certified hybrid of e4_stable (IDM core with margin 0.2, certified budget, r_max
+#                          0.3), as e4_stable_ft: the core, the scaler and the certified residual come from the
+#                          checkpoint (certificate.enforce cannot be combined with init_from, and the a priori
+#                          certificate survives the fine-tuning, D86); steps train, audit, certificate
+#   m8_temporal_ft         the MLP and the GRU of E1, as e4_free_ft / m5_ft; steps train, audit
+# The corridor laws of these runs are simulated on the periods 1 and 2 (work package C2). The init_from paths
+# assume paths.runs_root=runs.
+# python scripts/run_experiment.py configs/queue/m8_temporal.yaml
+name: m8_temporal
+workers: 2
+timeout_h: 4.0
+min_free_ram_gb: 6.0
+order: [fold, model]
+steps: [train, audit]
+groups:
+  - experiment: m8_temporal_stable_ft
+    steps: [train, audit, certificate]
+    overrides:
+      data: [ngsim_i80_p0]
+      model: [residual_idm]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+    fixed:
+      init_from: "runs/e4_stable/follownet_highd/residual_idm/driver_fold{fold}_seed{seed}"
+      model.r_max: 0.3        # as the checkpoint (the checkpoint decides; the config records it)
+  - experiment: m8_temporal_ft
+    overrides:
+      data: [ngsim_i80_p0]
+      model: [mlp, gru]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+    fixed:
+      init_from: "runs/e1/follownet_highd/{model}/driver_fold{fold}_seed{seed}"

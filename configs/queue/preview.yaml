@@ -1,0 +1,29 @@
+# Preview of M4 (docs/m4_contract.md, section 4): the penalties with the spacing band (D78-D81) on the
+# reference fold, before E2.
+# python scripts/run_experiment.py configs/queue/preview.yaml
+#
+# Queue files live in configs/queue/, not configs/experiment/: a directory configs/experiment/ makes
+# `experiment` a hydra config group, and `experiment=<name>` of train.py and the step scripts fails.
+name: m4_preview
+workers: 2
+timeout_h: 4.0
+min_free_ram_gb: 6.0
+order: [seed, fold, model]
+steps: [train, audit, platoon]
+groups:
+  - experiment: m4_preview_jacobian
+    overrides:
+      data: [follownet_highd]
+      model: [mlp, residual_idm]
+      fold: [0]
+      seed: [0]
+      train.penalty.kind: [jacobian]
+      train.penalty.weight: [1.0]
+  - experiment: m4_preview_linear_gain
+    overrides:
+      data: [follownet_highd]
+      model: [mlp, gru, lstm]
+      fold: [0]
+      seed: [0]
+      train.penalty.kind: [linear_gain]
+      train.penalty.weight: [1.0]

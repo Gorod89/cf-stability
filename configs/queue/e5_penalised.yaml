@@ -1,0 +1,37 @@
+# E5, penalised models (D87): the weights chosen on HighD (D85), lines marked CHOSEN WEIGHT.
+# python scripts/run_experiment.py configs/queue/e5_penalised.yaml
+name: e5_penalised
+workers: 2
+timeout_h: 4.0
+min_free_ram_gb: 6.0
+order: [seed, fold, model]
+steps: [train, audit, platoon]
+groups:
+  - experiment: "e5_jacobian_w{train.penalty.weight:g}"
+    overrides:
+      data: [openacc_acc, openacc_human]
+      model: [mlp]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [jacobian]
+      train.penalty.weight: [1]   # CHOSEN WEIGHT (D85): sweep of 2026-09-30
+  - experiment: "e5_gain_w{train.penalty.weight:g}"
+    overrides:
+      data: [openacc_acc, openacc_human]
+      model: [gru]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [gain]
+      train.penalty.every: [8]            # D90: the rollout penalty on every 8th step, multiplied by 8
+      train.penalty.n_equilibria: [16]    # D90: 16 speeds per epoch instead of 3, at the same cost
+      train.penalty.weight: [0.1]   # CHOSEN WEIGHT (D85): sweep of 2026-09-30
+  - experiment: "e5_gain_w{train.penalty.weight:g}"
+    overrides:
+      data: [openacc_acc, openacc_human]
+      model: [lstm]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [gain]
+      train.penalty.every: [8]            # D90: the rollout penalty on every 8th step, multiplied by 8
+      train.penalty.n_equilibria: [16]    # D90: 16 speeds per epoch instead of 3, at the same cost
+      train.penalty.weight: [0.1]   # CHOSEN WEIGHT (D85): sweep of 2026-09-30

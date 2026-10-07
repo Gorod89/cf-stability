@@ -1,0 +1,47 @@
+# Laws of the I-80 corridor (M5, accepted at the M4 review): the HighD models of seed 0 fine-tuned on the
+# driver folds of NGSIM I-80 (same fold number), as E4 did for the MLP and the two ResidualIDM, and kNN
+# fitted on NGSIM I-80. The penalised models continue with their penalty (band of the NGSIM data).
+# python scripts/run_experiment.py configs/queue/m5_laws.yaml
+name: m5_laws
+workers: 2
+timeout_h: 6.0
+min_free_ram_gb: 6.0
+order: [experiment, fold, model]
+steps: [train, audit]
+groups:
+  - experiment: m5_ft
+    overrides:
+      data: [ngsim_i80]
+      model: [gru, lstm, pidl, perl]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+    fixed:
+      init_from: "runs/e1/follownet_highd/{model}/driver_fold{fold}_seed{seed}"
+  - experiment: m5_ft
+    overrides:
+      data: [ngsim_i80]
+      model: [knn]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+  - experiment: "m5_ft_jacobian_w{train.penalty.weight:g}"
+    overrides:
+      data: [ngsim_i80]
+      model: [mlp]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [jacobian]
+      train.penalty.weight: [1]            # the weight chosen on HighD (D85)
+    fixed:
+      init_from: "runs/e2_jacobian_w1/follownet_highd/{model}/driver_fold{fold}_seed{seed}"
+  - experiment: "m5_ft_gain_w{train.penalty.weight:g}"
+    overrides:
+      data: [ngsim_i80]
+      model: [gru, lstm]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [gain]
+      train.penalty.every: [8]
+      train.penalty.n_equilibria: [16]
+      train.penalty.weight: [0.1]          # the weight chosen on HighD (D85)
+    fixed:
+      init_from: "runs/e2_gain_w0.1/follownet_highd/{model}/driver_fold{fold}_seed{seed}"

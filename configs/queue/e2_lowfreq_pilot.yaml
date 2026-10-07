@@ -1,0 +1,26 @@
+# Pilot of the low-frequency arm of E2 (docs/m7_contract.md, section 3; D110): GRU, LSTM and PERL with the
+# penalty `combined` = the rollout gain penalty of E2 (5 frequencies, 16 speeds, on every 8th step,
+# weight 0.1 as chosen in e2_chosen) plus the Jacobian part of the memoryless view of the model (margin
+# 0.5, local terms, needle guard at 3 1/s, every step) with weight jacobian_weight in {0.1, 1}; fold 0,
+# seed 0, 6 runs. The weight of every architecture is then chosen by the rule of D85 and written into
+# configs/queue/e2_lowfreq.yaml (same experiment names: its fold-0 jobs are these runs).
+# python scripts/run_experiment.py configs/queue/e2_lowfreq_pilot.yaml
+name: e2_lowfreq_pilot
+workers: 2
+timeout_h: 4.0
+min_free_ram_gb: 6.0
+order: [seed, fold, model]
+steps: [train, audit, platoon]
+groups:
+  - experiment: "e2_combined_j{train.penalty.jacobian_weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [gru, lstm, perl]
+      fold: [0]
+      seed: [0]
+      train.penalty.kind: [combined]
+      train.penalty.weight: [0.1]               # the rollout part: the chosen weight of E2 (e2_chosen)
+      train.penalty.every: [8]                  # D90: the rollout part on every 8th step, multiplied by 8
+      train.penalty.n_equilibria: [16]          # D90: 16 speeds per epoch
+      train.penalty.jacobian_weight: [0.1, 1.0] # D110: weight of the Jacobian part (every step)
+      train.penalty.guard: [3.0]                # D110: needle guard relu(|f_dv| - 3) + relu(|f_v| - 3), 1/s

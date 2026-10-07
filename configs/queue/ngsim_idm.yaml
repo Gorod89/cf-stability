@@ -1,0 +1,17 @@
+# Global IDM of every driver fold of NGSIM I-80 (reconstructed): in-domain reference of the transfer (E3),
+# law of the corridor (M5, D49), and the fold calibrations that the identifiability project reads
+# (data/calibration/ngsim_i80/idm_global_driver_fold<k>_<hash>.json).
+# python scripts/run_experiment.py configs/queue/ngsim_idm.yaml
+name: ngsim_idm
+workers: 1
+timeout_h: 6.0
+min_free_ram_gb: 6.0
+order: [seed, fold, model]
+steps: [train, audit]
+groups:
+  - experiment: e3_reference
+    overrides:
+      data: [ngsim_i80]
+      model: [idm]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]

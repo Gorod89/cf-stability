@@ -1,0 +1,52 @@
+# Low-frequency arm of E2 (docs/m7_contract.md, section 3; D110): GRU, LSTM and PERL with the penalty
+# `combined` and the weight of the Jacobian part chosen per architecture from the pilot
+# (configs/queue/e2_lowfreq_pilot.yaml, fold 0) by the rule of D85; five folds, seed 0. The jobs of fold 0
+# are the runs of the pilot with the chosen weight (same experiment names, complete: skipped), so the
+# queue trains 12 further runs.
+#
+# Chosen weights filled in on 2026-10-06 (D85 on e2_lowfreq_pilot): gru 0.1, lstm 0.1, perl 1.0. Originally:
+# !!! the weights chosen from the pilot (0.1 or 1.0), and remove "(PLACEHOLDER)" from the comment.
+# python scripts/run_experiment.py configs/queue/e2_lowfreq.yaml
+name: e2_lowfreq
+workers: 2
+timeout_h: 4.0
+min_free_ram_gb: 6.0
+order: [seed, fold, model]
+steps: [train, audit, platoon]
+groups:
+  - experiment: "e2_combined_j{train.penalty.jacobian_weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [gru]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [combined]
+      train.penalty.weight: [0.1]               # the rollout part: the chosen weight of E2 (e2_chosen)
+      train.penalty.every: [8]                  # D90: the rollout part on every 8th step, multiplied by 8
+      train.penalty.n_equilibria: [16]          # D90: 16 speeds per epoch
+      train.penalty.guard: [3.0]                # D110: needle guard, 1/s
+      train.penalty.jacobian_weight: [0.1]      # CHOSEN WEIGHT (D85 on e2_lowfreq_pilot, 2026-10-06): gru 0.1, lstm 0.1, perl 1.0
+  - experiment: "e2_combined_j{train.penalty.jacobian_weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [lstm]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [combined]
+      train.penalty.weight: [0.1]
+      train.penalty.every: [8]
+      train.penalty.n_equilibria: [16]
+      train.penalty.guard: [3.0]
+      train.penalty.jacobian_weight: [0.1]      # CHOSEN WEIGHT (D85 on e2_lowfreq_pilot, 2026-10-06): gru 0.1, lstm 0.1, perl 1.0
+  - experiment: "e2_combined_j{train.penalty.jacobian_weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [perl]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [combined]
+      train.penalty.weight: [0.1]
+      train.penalty.every: [8]
+      train.penalty.n_equilibria: [16]
+      train.penalty.guard: [3.0]
+      train.penalty.jacobian_weight: [1.0]      # CHOSEN WEIGHT (D85 on e2_lowfreq_pilot, 2026-10-06): gru 0.1, lstm 0.1, perl 1.0

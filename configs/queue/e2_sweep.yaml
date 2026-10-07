@@ -1,0 +1,29 @@
+# E2 sweep (docs/m4_contract.md, section 4; D85): penalty weights 0.01, 0.1, 1 and 10 on HighD, five
+# folds, seed 0. Jacobian penalty for MLP, PIDL and ResidualIDM, rollout gain penalty (D90) for GRU, LSTM
+# and PERL. Experiments e2_<kind>_w<weight>.
+# python scripts/run_experiment.py configs/queue/e2_sweep.yaml
+name: e2_sweep
+workers: 2
+timeout_h: 4.0
+min_free_ram_gb: 6.0
+order: [seed, fold, model]   # fold 0 (the reference fold) of every architecture and weight first
+steps: [train, audit, platoon]
+groups:
+  - experiment: "e2_jacobian_w{train.penalty.weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [mlp, pidl, residual_idm]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [jacobian]
+      train.penalty.weight: [0.01, 0.1, 1.0, 10.0]
+  - experiment: "e2_gain_w{train.penalty.weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [gru, lstm, perl]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [gain]
+      train.penalty.every: [8]            # D90: the rollout penalty on every 8th step, multiplied by 8
+      train.penalty.n_equilibria: [16]    # D90: 16 speeds per epoch instead of 3, at the same cost
+      train.penalty.weight: [0.01, 0.1, 1.0, 10.0]

@@ -1,0 +1,25 @@
+# Expected outcome of E5, the control experiment on OpenACC (D87, docs/m4_contract.md 3.4): plain YAML, read by
+# tests/test_e5_expected.py, which compares it with the stability.json files (scripts/audit_stability.py) of
+# <runs_root>/<experiment>/<data>/<model>/*/ and is skipped while the runs or the values are missing.
+# The values are filled in by the lead after the runs; null = not decided yet.
+#
+# min_share_unstable[<model>]: the smallest share of the grid speeds in support that must be flagged string
+# unstable by the numerical rule (largest measured gain > 1.02, D65), i.e.
+#   stability.json -> audit.summary.<share>.support.unstable >= value
+# for every run of the model (rule: each) or for the mean over its runs (rule: mean). <share>:
+#   band_numerical  equilibrium inside the spacing band and unstable, over the speeds in support that have a band
+#                   (the primary number of H1.1 and H1.2, D79)
+#   grid_numerical  any unstable equilibrium, over all grid speeds in support (D75)
+experiment: e5
+data: openacc_acc
+share: grid_numerical   # any unstable equilibrium: the LSTM of fold 2 keeps its equilibria outside the band (band share 0.04, grid share 0.85)
+rule: each
+# Outcome recorded on 2026-09-30 (5 driver folds, seed 0, runs/e5/openacc_acc): grid share unstable per fold
+#   mlp 1.00 / 1.00 / 1.00 / 1.00 / 1.00, gru 0.92 / 0.96 / 1.00 / 0.85 / 0.96, lstm 1.00 / 0.96 / 0.85 / 0.81 / 0.85,
+#   idm 0.08 / 0.00 / 0.00 / 0.04 / 0.12 (the calibrated IDM of ACC data is not flagged: an IDM cannot follow the
+#   delayed response of the controller; its threshold is 0, that is no requirement).
+min_share_unstable:     # model directories of runs/e5/openacc_acc (E5 without penalty)
+  idm: 0.0
+  mlp: 0.9
+  gru: 0.8
+  lstm: 0.8

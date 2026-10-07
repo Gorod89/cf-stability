@@ -1,0 +1,25 @@
+# Band sensitivity of the audit (docs/m8_contract.md, section 6; D119): every E1 run of the learned models
+# (mlp, pidl, residual_idm, gru, lstm, perl; five folds x five seeds, 150 runs) audited again with the spacing
+# band of the near-steady training samples at the quantiles 1/99 and 10/90 instead of 5/95 (D78). The
+# anchored search of D79 makes the equilibrium itself depend on the band (the first upward crossing inside the
+# band, else the first one of [1, 200] m), so the stored audits cannot be reclassified offline. The steps
+# audit_q01_99 and audit_q10_90 (registered by scripts/run_experiment.py) run scripts/audit_stability.py with
+# the quantiles below and write stability_q01_99.json and stability_q10_90.json next to stability.json, which
+# stays as it is: 300 audits, no training. Then: python scripts/analysis/band_sensitivity.py
+# python scripts/run_experiment.py configs/queue/audit_bands.yaml
+name: audit_bands
+workers: 2
+timeout_h: 2.0
+min_free_ram_gb: 6.0
+order: [seed, fold, model]
+steps: [audit_q01_99, audit_q10_90]
+step_overrides:
+  audit_q01_99: ["band_quantiles=[0.01,0.5,0.99]"]
+  audit_q10_90: ["band_quantiles=[0.1,0.5,0.9]"]
+groups:
+  - experiment: e1
+    overrides:
+      data: [follownet_highd]
+      model: [mlp, pidl, residual_idm, gru, lstm, perl]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0, 1, 2, 3, 4]

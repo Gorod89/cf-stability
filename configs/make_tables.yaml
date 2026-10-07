@@ -1,0 +1,76 @@
+# Tables of the M4 report from the runs of E1-E5 (docs/m4_contract.md, section 4; cf_stability/eval/tables.py).
+# python scripts/make_tables.py                        # every table, into <runs_root>/_tables/m4/
+# python scripts/make_tables.py tables=[e1,e2_sweep]
+# python scripts/make_tables.py +chosen_weights.gru=0.1   # use another weight than the one chosen on the sweep
+
+tables: [e1, e2_sweep, e2, e2_lowfreq, e3, e4, e5, e2_monotone]   # e2_monotone: into paths.out_dir_m8
+n_resamples: 1000         # percentile bootstrap (D88)
+level: 0.95
+seed: 0
+
+# design of the experiments (docs/m4_contract.md, section 4)
+data: follownet_highd
+folds: [0, 1, 2, 3, 4]
+seeds: [0, 1, 2, 3, 4]    # the first one is the seed of the sweep, of the transfer and of E5
+learned: [mlp, pidl, gru, lstm, perl, residual_idm]   # all folds and seeds
+baselines: [persistence, newell, ovm, idm, knn]       # all folds, first seed
+reference: idm            # E1: spacing RMSE relative to this model
+h1_1_models: [mlp, gru, lstm]
+penalties: {mlp: jacobian, pidl: jacobian, residual_idm: jacobian, gru: gain, lstm: gain, perl: gain}  # D90
+weights: [0.01, 0.1, 1.0, 10.0]
+stable_min: 0.9           # D85: weights whose mean share "stable" reaches it are eligible
+chosen_weights: {}        # per architecture, replaces the weight chosen on the sweep in e2, e3 and e5
+targets: [ngsim_i80, ngsim_us101, waymo]              # E3 (D84)
+fine_tune_data: ngsim_i80                             # E4 (D86)
+views: {openacc_acc: acc, openacc_human: human}       # E5: view -> driving mode of its growth error (D87)
+e5_models: [idm, mlp, gru, lstm]
+e5_penalised: [mlp, gru, lstm]
+# low-frequency arm of E2 (D110, docs/m7_contract.md, section 3): rollout gain penalty + Jacobian penalty of the
+# memoryless view + needle guard; the pilot runs every weight on fold 0, the chosen weight (rule of D85 on the
+# pilot, or lowfreq_chosen) runs on every fold; seed: the first of seeds
+lowfreq_architectures: [gru, lstm, perl]
+lowfreq_weights: [0.1, 1.0]           # train.penalty.jacobian_weight
+lowfreq_experiment: "e2_combined_j{weight:g}"
+lowfreq_pilot_folds: [0]
+lowfreq_chosen: {}                    # per architecture, replaces the weight chosen on the pilot
+# control of M8 (D117, docs/m8_contract.md section 4): the monotonicity terms of RACER only, next to E1 and the
+# chosen E2 weight of the same fold and the first seed (table e2_monotone in paths.out_dir_m8)
+monotone_experiment: e2_monotone_w1
+monotone_architectures: [mlp, pidl, residual_idm]
+monotone_folds: [0]
+
+bases:                    # the share behind every verdict (a column of its table, with an interval)
+  h1_1: unstable_eq       # e1: string-unstable equilibria among the equilibria the audit analysed, inside the
+                          #     band or outside it (audit share_unstable_numerical, speeds in support), and the
+                          #     RMSE against the reference
+  h1_1_information: not_stable   # e1: the verdict this band share would give, shown next to H1.1 for information
+  h1_2: not_stable        # e2: band share "not stable" (1 - stable) with the penalty, and the RMSE change
+  h1_5: unstable          # e4: band share "unstable" after fine-tuning
+                          # H1.3 (e5): the relative reduction of the growth error of the driving mode of the view,
+                          #     on the collision-free prefix of the platoons (D109)
+                          # possible shares: unstable_eq, unstable_eq_sign (h1_1 only), unstable, not_stable
+
+verdicts:                 # thresholds of the hypotheses (docs/m4_contract.md, section 4)
+  h1_1_unstable_min: 0.5
+  h1_1_unstable_low_min: 0.3
+  h1_1_min_models: 2
+  h1_2_not_stable_high_max: 0.10
+  h1_2_rmse_change_high_max: 0.10
+  h1_2_rmse_change_low_refute: 0.20
+  h1_2_not_stable_low_refute: 0.25
+  h1_3_confirm_min: 0.30
+  h1_3_refute_below: 0.10
+  h1_3_min_pairs: 3        # fewer pairs of runs that both have a growth error (no collision): open
+  h1_5_certified_unstable_high_max: 0.10
+  h1_5_mlp_unstable_low_min: 0.30
+
+paths:
+  runs_root: runs
+  out_dir: null           # null: <runs_root>/_tables/m4
+  out_dir_m8: null        # null: <runs_root>/_tables/m8 (e2_monotone)
+
+hydra:
+  run:
+    dir: outputs/${hydra.job.name}/${now:%Y-%m-%d_%H-%M-%S}
+  job:
+    chdir: false

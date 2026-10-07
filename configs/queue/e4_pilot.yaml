@@ -1,0 +1,18 @@
+# Pilot of E4 (D86): amplitude of the residual of the certified hybrid, core with margin 0.2, reference fold.
+# python scripts/run_experiment.py configs/queue/e4_pilot.yaml
+name: m4_e4pilot
+workers: 2
+timeout_h: 4.0
+min_free_ram_gb: 6.0
+order: [seed, fold, model]
+steps: [train, audit, certificate, platoon]
+groups:
+  - experiment: "m4_e4pilot_r{model.r_max:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [residual_idm]
+      fold: [0]
+      seed: [0]
+      calibration.stability_margin: [0.2]
+      certificate.enforce: [true]
+      model.r_max: [0.1, 0.2, 0.3, 0.5]

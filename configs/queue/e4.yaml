@@ -1,0 +1,42 @@
+# E4 (docs/m4_contract.md, section 4; D86): certified hybrid on HighD and fine-tuning on NGSIM I-80,
+# five folds x five seeds each.
+#   e4_stable     ResidualIDM, IDM core with string-stability margin 0.2, residual budget certified a priori
+#   e4_stable_ft  e4_stable fine-tuned on ngsim_i80 (core, scaler and certified residual kept)
+#   e4_free_ft    ResidualIDM (free core) and MLP of E1 fine-tuned on ngsim_i80
+# A fine-tuning job whose init_from run has no model.pt yet waits for it at the end of the queue; the
+# e1 runs come from configs/queue/e1.yaml. The init_from paths assume paths.runs_root=runs.
+# python scripts/run_experiment.py configs/queue/e4.yaml
+name: e4
+workers: 2
+timeout_h: 4.0
+min_free_ram_gb: 6.0
+order: [experiment, seed, fold, model]   # e4_free_ft, e4_stable, then e4_stable_ft (needs e4_stable)
+steps: [train, audit, certificate]
+groups:
+  - experiment: e4_stable
+    overrides:
+      data: [follownet_highd]
+      model: [residual_idm]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0, 1, 2, 3, 4]
+    fixed:
+      calibration.stability_margin: 0.2
+      certificate.enforce: true
+      model.r_max: 0.3        # pilot on fold 0 (queue e4_pilot): smallest validation RMSE of 0.1, 0.2, 0.3, 0.5
+  - experiment: e4_stable_ft
+    overrides:
+      data: [ngsim_i80]
+      model: [residual_idm]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0, 1, 2, 3, 4]
+    fixed:
+      init_from: "runs/e4_stable/follownet_highd/residual_idm/driver_fold{fold}_seed{seed}"
+      model.r_max: 0.3        # as the checkpoint (the checkpoint decides; the config records it)
+  - experiment: e4_free_ft
+    overrides:
+      data: [ngsim_i80]
+      model: [residual_idm, mlp]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0, 1, 2, 3, 4]
+    fixed:
+      init_from: "runs/e1/follownet_highd/{model}/driver_fold{fold}_seed{seed}"

@@ -1,0 +1,18 @@
+# E2, arm "existence" (D93): the recurrent models with the existence term alone (an equilibrium inside the
+# spacing band of the data at every speed, no stability term). What does a steady state cost them?
+# python scripts/run_experiment.py configs/queue/e2_existence.yaml
+name: e2_existence
+workers: 2
+timeout_h: 4.0
+min_free_ram_gb: 6.0
+order: [seed, fold, model]
+steps: [train, audit, platoon]
+groups:
+  - experiment: e2_existence
+    overrides:
+      data: [follownet_highd]
+      model: [gru, lstm, perl]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [existence]
+      train.penalty.weight: [1.0]

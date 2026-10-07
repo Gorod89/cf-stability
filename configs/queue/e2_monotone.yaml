@@ -1,0 +1,20 @@
+# RACER-type control of E2 (docs/m8_contract.md, section 4; D117): the monotonicity terms alone,
+# relu(-f_s) + relu(f_dv) + relu(f_v) at the anchored equilibria (16 speeds per epoch, the band of the
+# data, the existence term of every penalty), no string term and no margin; MLP, PIDL and ResidualIDM,
+# fold 0, seed 0, weight 1: 3 runs next to e1 and e2_jacobian_w* of the same fold.
+# python scripts/run_experiment.py configs/queue/e2_monotone.yaml
+name: e2_monotone
+workers: 2
+timeout_h: 4.0
+min_free_ram_gb: 6.0
+order: [seed, fold, model]
+steps: [train, audit, platoon]
+groups:
+  - experiment: "e2_monotone_w{train.penalty.weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [mlp, pidl, residual_idm]
+      fold: [0]
+      seed: [0]
+      train.penalty.kind: [monotone]
+      train.penalty.weight: [1.0]

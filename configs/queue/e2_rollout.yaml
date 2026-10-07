@@ -1,0 +1,21 @@
+# E2 with the rollout gain penalty of the specification (docs/m4_contract.md, section 4; accepted
+# proposal 2 of docs/m3_report.md): GRU, penalty `gain` with the chosen weight, fold 0, seed 0.
+# About 13 hours of training, hence the long timeout. Experiment e2_gain_w<weight>.
+# python scripts/run_experiment.py configs/queue/e2_rollout.yaml
+name: e2_rollout
+workers: 1
+timeout_h: 30.0
+min_free_ram_gb: 6.0
+steps: [train, audit, platoon]
+groups:
+  - experiment: "e2_gain_spec_w{train.penalty.weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [gru]
+      fold: [0]
+      seed: [0]
+      train.penalty.kind: [gain]
+      train.penalty.every: [1]            # as in the specification: every step, 3 speeds, mean over the frequencies
+      train.penalty.n_equilibria: [3]
+      train.penalty.aggregate: [mean]
+      train.penalty.weight: [1.0]   # CHOSEN WEIGHT (D85) of the GRU: PLACEHOLDER, as in e2_chosen.yaml

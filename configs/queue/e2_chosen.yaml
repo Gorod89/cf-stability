@@ -1,0 +1,126 @@
+# E2 with the chosen weight of every architecture (D85): five folds, seeds 0-4; transfer for seed 0 (E3).
+# The runs of seed 0 exist already when the chosen weight is one of the sweep (queue e2_sweep): only
+# their transfer step is added. Fill in the chosen weights (runs/_tables/m4/chosen_weights.json of
+# `python scripts/make_tables.py tables=[e2_sweep]`) at the lines marked CHOSEN WEIGHT.
+# python scripts/run_experiment.py configs/queue/e2_chosen.yaml
+name: e2_chosen
+workers: 2
+timeout_h: 4.0
+min_free_ram_gb: 6.0
+order: [seed, fold, model]
+steps: [train, audit, platoon]
+groups:
+  - experiment: "e2_jacobian_w{train.penalty.weight:g}"
+    steps: [train, audit, platoon, transfer]
+    overrides:
+      data: [follownet_highd]
+      model: [mlp]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [jacobian]
+      train.penalty.weight: &w_mlp [1]   # CHOSEN WEIGHT (D85): sweep of 2026-09-30
+  - experiment: "e2_jacobian_w{train.penalty.weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [mlp]
+      fold: [0, 1, 2, 3, 4]
+      seed: [1, 2, 3, 4]
+      train.penalty.kind: [jacobian]
+      train.penalty.weight: *w_mlp
+  - experiment: "e2_jacobian_w{train.penalty.weight:g}"
+    steps: [train, audit, platoon, transfer]
+    overrides:
+      data: [follownet_highd]
+      model: [pidl]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [jacobian]
+      train.penalty.weight: &w_pidl [10]   # CHOSEN WEIGHT (D85): sweep of 2026-09-30
+  - experiment: "e2_jacobian_w{train.penalty.weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [pidl]
+      fold: [0, 1, 2, 3, 4]
+      seed: [1, 2, 3, 4]
+      train.penalty.kind: [jacobian]
+      train.penalty.weight: *w_pidl
+  - experiment: "e2_jacobian_w{train.penalty.weight:g}"
+    steps: [train, audit, platoon, transfer]
+    overrides:
+      data: [follownet_highd]
+      model: [residual_idm]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [jacobian]
+      train.penalty.weight: &w_residual_idm [0.1]   # CHOSEN WEIGHT (D85): sweep of 2026-09-30
+  - experiment: "e2_jacobian_w{train.penalty.weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [residual_idm]
+      fold: [0, 1, 2, 3, 4]
+      seed: [1, 2, 3, 4]
+      train.penalty.kind: [jacobian]
+      train.penalty.weight: *w_residual_idm
+  - experiment: "e2_gain_w{train.penalty.weight:g}"
+    steps: [train, audit, platoon, transfer]
+    overrides:
+      data: [follownet_highd]
+      model: [gru]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [gain]
+      train.penalty.every: [8]            # D90: the rollout penalty on every 8th step, multiplied by 8
+      train.penalty.n_equilibria: [16]    # D90: 16 speeds per epoch instead of 3, at the same cost
+      train.penalty.weight: &w_gru [0.1]   # CHOSEN WEIGHT (D85): sweep of 2026-09-30
+  - experiment: "e2_gain_w{train.penalty.weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [gru]
+      fold: [0, 1, 2, 3, 4]
+      seed: [1, 2, 3, 4]
+      train.penalty.kind: [gain]
+      train.penalty.every: [8]            # D90: the rollout penalty on every 8th step, multiplied by 8
+      train.penalty.n_equilibria: [16]    # D90: 16 speeds per epoch instead of 3, at the same cost
+      train.penalty.weight: *w_gru
+  - experiment: "e2_gain_w{train.penalty.weight:g}"
+    steps: [train, audit, platoon, transfer]
+    overrides:
+      data: [follownet_highd]
+      model: [lstm]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [gain]
+      train.penalty.every: [8]            # D90: the rollout penalty on every 8th step, multiplied by 8
+      train.penalty.n_equilibria: [16]    # D90: 16 speeds per epoch instead of 3, at the same cost
+      train.penalty.weight: &w_lstm [0.1]   # CHOSEN WEIGHT (D85): sweep of 2026-09-30
+  - experiment: "e2_gain_w{train.penalty.weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [lstm]
+      fold: [0, 1, 2, 3, 4]
+      seed: [1, 2, 3, 4]
+      train.penalty.kind: [gain]
+      train.penalty.every: [8]            # D90: the rollout penalty on every 8th step, multiplied by 8
+      train.penalty.n_equilibria: [16]    # D90: 16 speeds per epoch instead of 3, at the same cost
+      train.penalty.weight: *w_lstm
+  - experiment: "e2_gain_w{train.penalty.weight:g}"
+    steps: [train, audit, platoon, transfer]
+    overrides:
+      data: [follownet_highd]
+      model: [perl]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [gain]
+      train.penalty.every: [8]            # D90: the rollout penalty on every 8th step, multiplied by 8
+      train.penalty.n_equilibria: [16]    # D90: 16 speeds per epoch instead of 3, at the same cost
+      train.penalty.weight: &w_perl [0.1]   # CHOSEN WEIGHT (D85): sweep of 2026-09-30
+  - experiment: "e2_gain_w{train.penalty.weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [perl]
+      fold: [0, 1, 2, 3, 4]
+      seed: [1, 2, 3, 4]
+      train.penalty.kind: [gain]
+      train.penalty.every: [8]            # D90: the rollout penalty on every 8th step, multiplied by 8
+      train.penalty.n_equilibria: [16]    # D90: 16 speeds per epoch instead of 3, at the same cost
+      train.penalty.weight: *w_perl

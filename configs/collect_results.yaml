@@ -1,0 +1,16 @@
+# One table of the results of runs (docs/m4_contract.md, section 2.3; cf_stability/eval/collect.py).
+# python scripts/collect_results.py experiments=[e1,e2_jacobian_w0.1] name=<table>
+# python scripts/collect_results.py 'experiments=[e2_*]' name=e2_sweep     # glob patterns of experiments
+# Writes <runs_root>/_tables/<name>.parquet and <name>.csv.
+
+experiments: []   # names or glob patterns of experiment directories under paths.runs_root
+name: null        # name of the table
+
+paths:
+  runs_root: runs
+
+hydra:
+  run:
+    dir: outputs/${hydra.job.name}/${now:%Y-%m-%d_%H-%M-%S}
+  job:
+    chdir: false

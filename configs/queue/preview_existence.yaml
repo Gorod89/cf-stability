@@ -1,0 +1,19 @@
+# Diagnostic of the preview: the existence term alone (the margin of the linearised gain penalty is set so
+# low that its stability term is always zero). Does a steady state inside the band cost accuracy by itself?
+# python scripts/run_experiment.py configs/queue/preview_existence.yaml
+name: m4_preview_existence
+workers: 2
+timeout_h: 4.0
+min_free_ram_gb: 6.0
+order: [seed, fold, model]
+steps: [train, audit, platoon]
+groups:
+  - experiment: m4_preview_existence
+    overrides:
+      data: [follownet_highd]
+      model: [gru, lstm]
+      fold: [0]
+      seed: [0]
+      train.penalty.kind: [linear_gain]
+      train.penalty.weight: [1.0]
+      train.penalty.gain_margin: [-10.0]
