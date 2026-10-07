@@ -1,0 +1,4 @@
+# Newell's model in the adapted form of PERL: the leader's acceleration D / w seconds ago;
+# wave speed w from the global calibration of the training part (fit).
+name: newell
+window: 30   # history steps; the delay D / w is clamped to (window - 1) * dt

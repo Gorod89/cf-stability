@@ -1,0 +1,4 @@
+# Intelligent Driver Model; parameters from the global calibration of the training part (fit).
+name: idm
+learnable: false   # gradient training of the parameters (then trainable)
+bounded: false     # parameters as logits mapped into IDM_BOUNDS (use with learnable)

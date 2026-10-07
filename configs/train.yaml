@@ -1,0 +1,94 @@
+# Training and closed-loop evaluation of one model on one fold (docs/m2_contract.md, sections 3-5).
+# python scripts/train.py data=<event set> model=<name> fold=<k> seed=<s> [split=driver|site]
+
+# The event set is chosen through the config group data/ of the extraction (a plain `data` key
+# would clash with that group on the command line); its `name` is the directory under
+# paths.events_root and the prefix of the split files.
+defaults:
+  - data: follownet_highd
+  - model: mlp
+  - _self_
+
+split: driver             # driver | site
+fold: 0
+seed: 0
+experiment: dev
+max_train_events: null    # seeded sub-sample of the training events (smoke runs, data-volume ablation)
+init_from: null           # run directory whose model.pt gives the initial model (fine-tuning, docs/m4_contract.md, 3.1)
+
+calibration:
+  stability_margin: null  # lower bound of the string-stability margin of the global IDM fit (stable core, D72); null: free fit
+
+certificate:              # model=residual_idm only (docs/m4_contract.md, 3.1)
+  enforce: false          # true: lipschitz = safety * admissible budget of the a priori certificate / r_max
+  safety: 0.9
+
+train:
+  lr: 1.0e-3
+  batch_size: 4096
+  max_epochs: 100
+  steps_per_epoch: 300
+  patience: 10
+  acc_weight: 1.0         # weight of the one-step acceleration MSE
+  rollout:
+    weight: 1.0           # 0 disables the rollout loss
+    horizon: 50           # teacher-free steps per segment (5 s)
+    segments: 256         # segments per training step
+  dtype: float32
+  device: auto            # cuda when available
+  warmup: 30              # observed samples before the closed-loop scoring
+  grad_clip: 10.0
+  cuda_graph: true        # replay the training step from a CUDA graph (GPU only; not with the gain penalty)
+  band:                   # spacing band of the near-steady training samples per grid speed (D78)
+    dv_max: 0.5           # m/s
+    a_max: 0.3            # m/s^2
+    half_width: 0.5       # m/s around the grid speed
+    quantiles: [0.05, 0.5, 0.95]   # lower edge, median, upper edge
+    min_samples: 200      # a grid speed with fewer samples has no band
+  penalty:                # stability penalty (docs/m3_contract.md, section 7): loss += weight * penalty
+    kind: none            # none | jacobian | gain | linear_gain | existence | combined (D110: gain + Jacobian part)
+                          # | monotone (D117: relu(-f_s) + relu(f_dv) + relu(f_v), the local terms of RACER alone)
+    weight: 1.0           # lambda
+    margin: 0.5           # m of the Jacobian penalty: relu(m - margin) + sign terms
+    gain_margin: 0.05     # m_g of the gain penalties: relu(gain - 1 + m_g)
+    n_equilibria: null    # speeds per epoch; null: 16 (jacobian, linear_gain, existence, combined, monotone), 3 (gain)
+    v_min: 5.0            # speeds drawn uniformly from [v_min, v_max] m/s, redrawn every epoch
+    v_max: 30.0
+    omegas: [0.05, 0.1, 0.2, 0.4, 0.8]   # rad/s (gain, linear_gain)
+    horizon_s: 40.0       # rollout of the gain penalty after the warm-up
+    measure_s: 20.0       # last part of the rollout that gives the gain
+    amplitude: 0.2        # m/s, leader speed oscillation of the gain penalty
+    existence_weight: 1.0 # term that demands an equilibrium (0 = off, as in the specification)
+    existence: band       # band: brake at the lower edge of the spacing band, accelerate at the upper edge (D80);
+                          # fixed: brake at 1 m, accelerate at 200 m where there is no equilibrium (D74)
+    existence_margin: 0.1 # m/s^2: by at least this much
+    exist_v_min: null     # fixed: speeds where an equilibrium is demanded; null: the speed range of the training data
+    exist_v_max: null
+    linear_omega_min: 0.02   # linear_gain: frequencies of the audit, log-spaced
+    linear_omega_max: 2.0
+    linear_n_omega: 25
+    gain_margin_ref: 0.1     # rad/s: below it the margin of linear_gain shrinks as (w / ref)^2
+    aggregate: max           # linear_gain: max | mean over the frequencies (D81)
+    tolerance: 0.01          # an epoch is feasible when the penalty at the grid speeds is at most this (D89)
+    progress: 0.05           # before the first feasible epoch a fall of that penalty by this share restarts the patience
+    every: 1                 # the penalty enters every n-th training step, multiplied by n (D90); the rollout penalty is costly
+                             # (combined: its rollout part; the Jacobian part enters every step)
+    # combined only (D110). Added in M7: the config hash leaves both out while they hold these defaults
+    # (cf_stability/utils.py, LATE_KEYS), so the hashes of the earlier runs stay valid
+    jacobian_weight: 0.0     # weight of the Jacobian part (memoryless view of the model, every step); 0 = off
+    guard: 0.0               # needle guard relu(|f_dv| - guard) + relu(|f_v| - guard) in the Jacobian part, 1/s; 0 = off
+
+paths:
+  events_root: data/events
+  splits_root: data/splits
+  calibration_root: data/calibration   # cache of the global IDM calibration per fold
+  runs_root: runs
+
+hydra:
+  run:
+    dir: outputs/${hydra.job.name}/${now:%Y-%m-%d_%H-%M-%S}
+  sweep:
+    dir: outputs/${hydra.job.name}/multirun/${now:%Y-%m-%d_%H-%M-%S}
+    subdir: ${hydra.job.num}
+  job:
+    chdir: false

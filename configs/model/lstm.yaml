@@ -1,0 +1,4 @@
+# One-layer LSTM over the last window states, linear head on the last hidden state.
+name: lstm
+hidden_size: 64
+window: 30

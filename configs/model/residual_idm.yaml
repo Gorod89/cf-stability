@@ -1,0 +1,11 @@
+# IDM plus r_max * tanh(lipschitz * g(x / physical scale)), g spectrally normalised.
+name: residual_idm
+hidden_sizes: [64, 64]
+r_max: 1.0         # m/s^2
+lipschitz: 1.0
+idm_learnable: false   # IDM parameters learnable (bounded) instead of fixed
+# Replace keys of `train` for this model (D63: rollout loss only). They win over `train.<key>=...`
+# on the command line, which hydra cannot tell from the default: change them with
+# `model.train_overrides.acc_weight=1.0` or drop them with `~model.train_overrides`.
+train_overrides:
+  acc_weight: 0.0

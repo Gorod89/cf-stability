@@ -1,0 +1,5 @@
+# k nearest training samples in the standardised (s, dv, v) space.
+name: knn
+k: 10
+max_points: 200000   # training samples kept, drawn with the run seed
+chunk: 1024          # queries per distance block

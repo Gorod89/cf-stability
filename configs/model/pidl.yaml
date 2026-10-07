@@ -1,0 +1,6 @@
+# MLP plus alpha * MSE(mlp - idm) on collocation states of the training box.
+name: pidl
+hidden_sizes: [64, 64]
+alpha: 1.0
+idm_learnable: false   # IDM parameters learnable (bounded) instead of fixed
+physics_clip: [-8.0, 4.0]   # range of the IDM acceleration in the physics term, m/s^2
