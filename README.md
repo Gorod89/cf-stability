@@ -299,5 +299,9 @@ python scripts/make_tables.py; python scripts/corridor_metrics.py compute=false 
 OpenACC: CC BY 4.0 (JRC). FollowNet event sets: CC0. NGSIM: public domain (US DOT). Waymo
 car-following pairs: CC BY 4.0. highD: non-commercial research licence of levelXdata, no
 redistribution: extracted highD events are never written outside the working copy and `data/raw`,
-`data/events` are excluded from git. The licence of the code will be stated in `LICENSE` before the
-public release of the repository.
+`data/events` are excluded from git.
+
+## Licence
+
+The code, the configurations and the documentation are released under the MIT License (`LICENSE`);
+the data sets keep their own licences as listed above.
