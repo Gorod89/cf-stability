@@ -1,0 +1,26 @@
+# Stability certificate of ResidualIDM runs (D71, D86; docs/m4_contract.md 3.3; cf_stability/stability/certificate.py).
+# python scripts/certificate.py run=<run directory>
+# python scripts/certificate.py experiment=<name> data=<event set> [force=true]
+
+# `data` selects the event set of the runs through the config group data/ (as in train.yaml); only its
+# `name` is used: the runs <runs_root>/<experiment>/<data.name>/*/*/ with a model.pt are certified.
+defaults:
+  - data: null
+  - _self_
+
+run: null               # one run directory (with model.pt); relative paths from the repository root
+experiment: null
+force: false            # experiment mode: also certify runs whose certificate.json is newer than model.pt
+
+certificate:            # hashed into config_hash
+  speeds: null          # m/s; null: V_GRID = 5, 6, ..., 30
+  n_scan: 400           # spacings per speed of the a priori minimum
+
+paths:
+  runs_root: runs
+
+hydra:
+  run:
+    dir: outputs/${hydra.job.name}/${now:%Y-%m-%d_%H-%M-%S}
+  job:
+    chdir: false

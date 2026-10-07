@@ -1,0 +1,9 @@
+# Empirical growth of the speed standard deviation along a platoon (docs/m3_contract.md, section 6).
+# The OpenACC curves are computed from the raw files (platoon.openacc_profile) and need no entry here.
+# Format of an entry, compared by platoon_test with the model curve of a profile of
+# configs/stability/platoon.yaml (an OpenACC file of its list or "pulse"):
+#   <name>: {profile: <profile name>, std: [m/s per platoon position, leader first]}
+# Jiang et al. (2014, 2015), 25-car experiment on a test track: the values are not public in
+# tabular form and have to be entered by hand (read from the published figure), together with the
+# profile that drives the model platoon.
+jiang2015: null

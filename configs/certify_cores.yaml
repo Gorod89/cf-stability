@@ -1,0 +1,23 @@
+# A priori certificate of the per-event IDM cores with a stability margin (D118) under the shared certified
+# residual of E4 (cf_stability/stability/certificate.py, as certificate.json["a_priori"] of the E4 runs).
+# python scripts/certify_cores.py [cores=<margin-core file>] [folds=[0,1,2,3,4]]
+
+dataset: ngsim_i80       # cores: null takes the only data/calibration/<dataset>/idm_event_margin<margin>_<key>.json
+margin: 0.2
+cores: null              # the margin-core file of `calibrate_idm.py per_event_margin=<m>` (relative: repository root)
+residual: runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold{fold}_seed0   # the run whose residual certifies
+folds: [0]               # a core is certified when the certificate holds with the residual of every fold listed
+output: null             # null: <cores file stem>_certified.json next to the cores file
+
+certificate:             # hashed into config_hash
+  speeds: null           # m/s; null: V_GRID = 5, 6, ..., 30
+  n_scan: 400            # spacings per speed of the a priori minimum
+
+paths:
+  calibration_root: data/calibration
+
+hydra:
+  run:
+    dir: outputs/${hydra.job.name}/${now:%Y-%m-%d_%H-%M-%S}
+  job:
+    chdir: false

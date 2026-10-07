@@ -1,0 +1,26 @@
+# Stability audit of trained models (docs/m3_contract.md, section 5).
+# python scripts/audit_stability.py run=<run directory>
+# python scripts/audit_stability.py experiment=<name> data=<event set> [force=true]
+
+# `data` selects the event set through the config group data/ (as in train.yaml); only its `name`
+# is used: the runs <runs_root>/<experiment>/<data.name>/*/*/ with a model.pt are audited.
+defaults:
+  - data: null
+  - stability: default
+  - _self_
+
+run: null               # one run directory (with model.pt); relative paths from the repository root
+experiment: null
+force: false            # experiment mode: also audit runs whose output is newer than model.pt
+band_quantiles: null    # D119: [low, median, high] recomputes the spacing band of the training events of the run with
+                        # these quantiles and writes stability_q<low>_<high>.json; null: the band of metrics.json
+output: null            # name of the output file in the run directory; null: stability.json (or the name above)
+
+paths:
+  runs_root: runs
+
+hydra:
+  run:
+    dir: outputs/${hydra.job.name}/${now:%Y-%m-%d_%H-%M-%S}
+  job:
+    chdir: false

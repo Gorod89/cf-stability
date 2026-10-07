@@ -1,0 +1,25 @@
+# Platoon growth test of trained models (docs/m4_contract.md, section 2.2; D83).
+# python scripts/platoon_test.py run=<run directory>
+# python scripts/platoon_test.py experiment=<name> data=<event set> [force=true]
+
+# `data` selects the event set through the config group data/ (as in train.yaml); only its `name`
+# is used: the runs <runs_root>/<experiment>/<data.name>/*/*/ with a model.pt are tested.
+# `stability` holds the options of the test (configs/stability/platoon.yaml), e.g.
+# stability.start_gap=equilibrium or stability.device=cpu.
+defaults:
+  - data: null
+  - stability: platoon
+  - _self_
+
+run: null               # one run directory (with model.pt); relative paths from the repository root
+experiment: null
+force: false            # experiment mode: also test runs whose platoon.json is newer than model.pt
+
+paths:
+  runs_root: runs
+
+hydra:
+  run:
+    dir: outputs/${hydra.job.name}/${now:%Y-%m-%d_%H-%M-%S}
+  job:
+    chdir: false

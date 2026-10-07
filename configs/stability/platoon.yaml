@@ -1,0 +1,38 @@
+# Platoon growth test (docs/m3_contract.md, section 6; cf_stability/stability/platoon.py, platoon_test).
+n_vehicles: 51        # simulated vehicles including the leader: 50 identical followers
+dt: 0.1
+device: auto          # all vehicles of all profiles are advanced together (float64); cuda when available
+# Start gap of every vehicle at the leader's first speed: anchored | equilibrium | time_gap.
+#   anchored     the model's equilibrium inside the spacing band of its training data (D78, D79; the band
+#                of metrics.json of the run); the time gap where that speed has no band, where the model
+#                has no equilibrium inside the band there, or when the run has no band.
+#   equilibrium  the model's first equilibrium on [1, 200] m: it can be unphysical (reference GRU: 1.4 m
+#                at 20 m/s), and a platoon started there collides at once (D73).
+#   time_gap     gap_s0 + gap_T * v (D73).
+# A platoon must start in steady state: a vehicle that starts away from the equilibrium of the law closes
+# its gap first, vehicle 50 makes up 50 gaps, and the speed std grows along the platoon because of the
+# start, not because of the law (a certified string-stable model started at the time gap behind the
+# braking pulse: 0.9 / 0.5 / 0.4 / 1.1 / 1.4 m/s at the positions 1 / 5 / 10 / 25 / 50).
+start_gap: anchored
+gap_s0: 2.0           # m
+gap_T: 1.5            # s
+raw_dir: data/raw/openacc
+# OpenACC runs (relative to raw_dir): the leader speed drives the platoon, the speed standard deviation
+# per platoon position is the empirical curve. Both come from the longest stretch where every vehicle
+# with a speed column has a speed; the leader is the first vehicle of Vehicle_order with a speed
+# (ZalaZone: the target car has no speed column, the leader is vehicle 2).
+# Selection: header flag ACC 0 (humans) or 1 (ACC), stretch >= 3 min, leader speed std > 1 m/s,
+# as many vehicles as possible (no ZalaZone "dynamic" part passes the leader criterion: std <= 0.7 m/s).
+profiles:
+  - ZalaZone/handling_part30.csv              # humans, 8 of 10 positions with speed, 206 s, leader std 1.38 m/s
+  - Vicolungo/JRC-VC_280219_part4_highway.csv # humans, 5 vehicles, 556 s, 5.17 m/s
+  - Vicolungo/JRC-VC_280219_part2.csv         # humans, 5 vehicles, 374 s, 4.13 m/s
+  - ZalaZone/handling_part32.csv              # ACC, 10 vehicles, 510 s, 2.23 m/s
+  - ZalaZone/handling_part13.csv              # ACC, 10 vehicles, 519 s, 2.41 m/s
+pulse:                # synthetic braking pulse of the leader (braking_pulse)
+  v0: 20.0            # m/s
+  dv_pulse: 5.0       # m/s
+  b_pulse: 2.0        # m/s^2, braking and re-acceleration
+  hold_s: 5.0
+  duration_s: 150.0
+empirical_growth: configs/empirical_growth.yaml   # hand-entered curves, compared when present

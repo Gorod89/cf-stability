@@ -1,0 +1,19 @@
+# Options of the stability audit (docs/m3_contract.md, sections 2, 4 and 5; cf_stability/stability/audit.py).
+# The equilibria are anchored to the spacing band of the training data, metrics.json["context"]["band"]
+# (docs/m4_contract.md, 1.4); a run without band gets the equilibria of M3 and band shares of None.
+device: auto            # cuda when available; every computation runs in float64
+speeds: null            # equilibrium speeds in m/s; null: V_GRID = 5, 6, ..., 30
+marginal_tol: 0.02      # marginal equilibrium: analytic maximum gain within this distance of 1
+
+frequency:              # numerical frequency response (cf_stability/stability/frequency.py)
+  amplitude: 0.2        # leader speed amplitude, m/s
+  omega_min: 0.02       # rad/s
+  omega_max: 2.0
+  n_omega: 25           # log-spaced
+  min_discard_s: 60.0   # discarded time = max(min_discard_s, discard_periods periods)
+  discard_periods: 1.0
+  min_measure_s: 60.0   # measured time = smallest whole number of periods >= max(min_measure_s, measure_periods periods)
+  measure_periods: 2
+  threshold: 1.02       # numerical flag: maximum gain > threshold
+  n_groups: 3           # frequencies are rolled out in groups of similar length
+  max_batch: 4096       # sequences per rollout
