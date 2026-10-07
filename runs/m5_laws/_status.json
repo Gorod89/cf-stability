@@ -1,0 +1,1225 @@
+{
+  "name": "m5_laws",
+  "queue_file": "configs\\queue\\m5_laws.yaml",
+  "pid": 25700,
+  "workers": 2,
+  "updated": "2026-09-30T20:17:34",
+  "totals": {
+    "n_jobs": 40,
+    "done": 40,
+    "failed": 0,
+    "timeout": 0,
+    "skipped": 0,
+    "blocked": 0,
+    "running": 0,
+    "pending": 0,
+    "interrupted": 0
+  },
+  "jobs": [
+    {
+      "index": 1,
+      "label": "m5_ft/ngsim_i80/gru/fold0_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/gru/driver_fold0_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\gru\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 417.64419990000897,
+      "started": "2026-09-30T18:52:26",
+      "ended": "2026-09-30T18:59:23",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 2,
+      "label": "m5_ft/ngsim_i80/knn/fold0_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "knn",
+        "fold": 0,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\knn\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 287.50846979999915,
+      "started": "2026-09-30T18:52:26",
+      "ended": "2026-09-30T18:57:13",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__knn__driver_fold0_seed0.log"
+    },
+    {
+      "index": 3,
+      "label": "m5_ft/ngsim_i80/lstm/fold0_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/lstm/driver_fold0_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\lstm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 140.78262769999856,
+      "started": "2026-09-30T18:57:13",
+      "ended": "2026-09-30T18:59:34",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__lstm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 4,
+      "label": "m5_ft/ngsim_i80/perl/fold0_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "perl",
+        "fold": 0,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/perl/driver_fold0_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\perl\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 220.76667529999395,
+      "started": "2026-09-30T18:59:23",
+      "ended": "2026-09-30T19:03:04",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__perl__driver_fold0_seed0.log"
+    },
+    {
+      "index": 5,
+      "label": "m5_ft/ngsim_i80/pidl/fold0_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "pidl",
+        "fold": 0,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/pidl/driver_fold0_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\pidl\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 145.7680485000019,
+      "started": "2026-09-30T18:59:34",
+      "ended": "2026-09-30T19:02:00",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__pidl__driver_fold0_seed0.log"
+    },
+    {
+      "index": 6,
+      "label": "m5_ft/ngsim_i80/gru/fold1_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "gru",
+        "fold": 1,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/gru/driver_fold1_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\gru\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 211.9543554999982,
+      "started": "2026-09-30T19:02:00",
+      "ended": "2026-09-30T19:05:32",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__gru__driver_fold1_seed0.log"
+    },
+    {
+      "index": 7,
+      "label": "m5_ft/ngsim_i80/knn/fold1_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "knn",
+        "fold": 1,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\knn\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 284.26971800001047,
+      "started": "2026-09-30T19:03:04",
+      "ended": "2026-09-30T19:07:48",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__knn__driver_fold1_seed0.log"
+    },
+    {
+      "index": 8,
+      "label": "m5_ft/ngsim_i80/lstm/fold1_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "lstm",
+        "fold": 1,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/lstm/driver_fold1_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\lstm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 182.18052690000331,
+      "started": "2026-09-30T19:05:32",
+      "ended": "2026-09-30T19:08:34",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__lstm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 9,
+      "label": "m5_ft/ngsim_i80/perl/fold1_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "perl",
+        "fold": 1,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/perl/driver_fold1_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\perl\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 149.30418449999706,
+      "started": "2026-09-30T19:07:48",
+      "ended": "2026-09-30T19:10:18",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__perl__driver_fold1_seed0.log"
+    },
+    {
+      "index": 10,
+      "label": "m5_ft/ngsim_i80/pidl/fold1_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "pidl",
+        "fold": 1,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/pidl/driver_fold1_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\pidl\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 78.21744529998978,
+      "started": "2026-09-30T19:08:34",
+      "ended": "2026-09-30T19:09:52",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__pidl__driver_fold1_seed0.log"
+    },
+    {
+      "index": 11,
+      "label": "m5_ft/ngsim_i80/gru/fold2_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "gru",
+        "fold": 2,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/gru/driver_fold2_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\gru\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 220.7621027999994,
+      "started": "2026-09-30T19:09:52",
+      "ended": "2026-09-30T19:13:33",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__gru__driver_fold2_seed0.log"
+    },
+    {
+      "index": 12,
+      "label": "m5_ft/ngsim_i80/knn/fold2_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "knn",
+        "fold": 2,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\knn\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 280.07544380000036,
+      "started": "2026-09-30T19:10:18",
+      "ended": "2026-09-30T19:14:58",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__knn__driver_fold2_seed0.log"
+    },
+    {
+      "index": 13,
+      "label": "m5_ft/ngsim_i80/lstm/fold2_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "lstm",
+        "fold": 2,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/lstm/driver_fold2_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\lstm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 164.28062100001262,
+      "started": "2026-09-30T19:13:33",
+      "ended": "2026-09-30T19:16:17",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__lstm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 14,
+      "label": "m5_ft/ngsim_i80/perl/fold2_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "perl",
+        "fold": 2,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/perl/driver_fold2_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\perl\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 297.7888258000021,
+      "started": "2026-09-30T19:14:58",
+      "ended": "2026-09-30T19:19:55",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__perl__driver_fold2_seed0.log"
+    },
+    {
+      "index": 15,
+      "label": "m5_ft/ngsim_i80/pidl/fold2_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "pidl",
+        "fold": 2,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/pidl/driver_fold2_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\pidl\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 129.21356060000835,
+      "started": "2026-09-30T19:16:17",
+      "ended": "2026-09-30T19:18:26",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__pidl__driver_fold2_seed0.log"
+    },
+    {
+      "index": 16,
+      "label": "m5_ft/ngsim_i80/gru/fold3_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "gru",
+        "fold": 3,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/gru/driver_fold3_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\gru\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 190.2060511000018,
+      "started": "2026-09-30T19:18:26",
+      "ended": "2026-09-30T19:21:37",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__gru__driver_fold3_seed0.log"
+    },
+    {
+      "index": 17,
+      "label": "m5_ft/ngsim_i80/knn/fold3_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "knn",
+        "fold": 3,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\knn\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 276.90124110000033,
+      "started": "2026-09-30T19:19:55",
+      "ended": "2026-09-30T19:24:32",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__knn__driver_fold3_seed0.log"
+    },
+    {
+      "index": 18,
+      "label": "m5_ft/ngsim_i80/lstm/fold3_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "lstm",
+        "fold": 3,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/lstm/driver_fold3_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\lstm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 237.71050630000536,
+      "started": "2026-09-30T19:21:37",
+      "ended": "2026-09-30T19:25:34",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__lstm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 19,
+      "label": "m5_ft/ngsim_i80/perl/fold3_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "perl",
+        "fold": 3,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/perl/driver_fold3_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\perl\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 356.8626121999987,
+      "started": "2026-09-30T19:24:32",
+      "ended": "2026-09-30T19:30:29",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__perl__driver_fold3_seed0.log"
+    },
+    {
+      "index": 20,
+      "label": "m5_ft/ngsim_i80/pidl/fold3_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "pidl",
+        "fold": 3,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/pidl/driver_fold3_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\pidl\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 97.45690900000045,
+      "started": "2026-09-30T19:25:34",
+      "ended": "2026-09-30T19:27:12",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__pidl__driver_fold3_seed0.log"
+    },
+    {
+      "index": 21,
+      "label": "m5_ft/ngsim_i80/gru/fold4_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "gru",
+        "fold": 4,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/gru/driver_fold4_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\gru\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 188.78536549999262,
+      "started": "2026-09-30T19:27:12",
+      "ended": "2026-09-30T19:30:20",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__gru__driver_fold4_seed0.log"
+    },
+    {
+      "index": 22,
+      "label": "m5_ft/ngsim_i80/knn/fold4_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "knn",
+        "fold": 4,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\knn\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 268.78131349998876,
+      "started": "2026-09-30T19:30:20",
+      "ended": "2026-09-30T19:34:49",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__knn__driver_fold4_seed0.log"
+    },
+    {
+      "index": 23,
+      "label": "m5_ft/ngsim_i80/lstm/fold4_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "lstm",
+        "fold": 4,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/lstm/driver_fold4_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\lstm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 150.246484400006,
+      "started": "2026-09-30T19:30:29",
+      "ended": "2026-09-30T19:33:00",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__lstm__driver_fold4_seed0.log"
+    },
+    {
+      "index": 24,
+      "label": "m5_ft/ngsim_i80/perl/fold4_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "perl",
+        "fold": 4,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/perl/driver_fold4_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\perl\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 189.0465821000107,
+      "started": "2026-09-30T19:33:00",
+      "ended": "2026-09-30T19:36:09",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__perl__driver_fold4_seed0.log"
+    },
+    {
+      "index": 25,
+      "label": "m5_ft/ngsim_i80/pidl/fold4_seed0",
+      "experiment": "m5_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "pidl",
+        "fold": 4,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/pidl/driver_fold4_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft\\ngsim_i80\\pidl\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 109.19318750000093,
+      "started": "2026-09-30T19:34:49",
+      "ended": "2026-09-30T19:36:38",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft__ngsim_i80__pidl__driver_fold4_seed0.log"
+    },
+    {
+      "index": 26,
+      "label": "m5_ft_gain_w0.1/ngsim_i80/gru/fold0_seed0",
+      "experiment": "m5_ft_gain_w0.1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1,
+        "init_from": "runs/e2_gain_w0.1/follownet_highd/gru/driver_fold0_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft_gain_w0.1\\ngsim_i80\\gru\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 250.084480599995,
+      "started": "2026-09-30T19:36:09",
+      "ended": "2026-09-30T19:40:19",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft_gain_w0.1__ngsim_i80__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 27,
+      "label": "m5_ft_gain_w0.1/ngsim_i80/lstm/fold0_seed0",
+      "experiment": "m5_ft_gain_w0.1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1,
+        "init_from": "runs/e2_gain_w0.1/follownet_highd/lstm/driver_fold0_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft_gain_w0.1\\ngsim_i80\\lstm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 452.0324346999987,
+      "started": "2026-09-30T19:36:38",
+      "ended": "2026-09-30T19:44:11",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft_gain_w0.1__ngsim_i80__lstm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 28,
+      "label": "m5_ft_gain_w0.1/ngsim_i80/gru/fold1_seed0",
+      "experiment": "m5_ft_gain_w0.1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "gru",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1,
+        "init_from": "runs/e2_gain_w0.1/follownet_highd/gru/driver_fold1_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft_gain_w0.1\\ngsim_i80\\gru\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 430.28761230000237,
+      "started": "2026-09-30T19:40:19",
+      "ended": "2026-09-30T19:47:29",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft_gain_w0.1__ngsim_i80__gru__driver_fold1_seed0.log"
+    },
+    {
+      "index": 29,
+      "label": "m5_ft_gain_w0.1/ngsim_i80/lstm/fold1_seed0",
+      "experiment": "m5_ft_gain_w0.1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "lstm",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1,
+        "init_from": "runs/e2_gain_w0.1/follownet_highd/lstm/driver_fold1_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft_gain_w0.1\\ngsim_i80\\lstm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 355.5450984000054,
+      "started": "2026-09-30T19:44:11",
+      "ended": "2026-09-30T19:50:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft_gain_w0.1__ngsim_i80__lstm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 30,
+      "label": "m5_ft_gain_w0.1/ngsim_i80/gru/fold2_seed0",
+      "experiment": "m5_ft_gain_w0.1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "gru",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1,
+        "init_from": "runs/e2_gain_w0.1/follownet_highd/gru/driver_fold2_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft_gain_w0.1\\ngsim_i80\\gru\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 601.5748643999978,
+      "started": "2026-09-30T19:47:29",
+      "ended": "2026-09-30T19:57:31",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft_gain_w0.1__ngsim_i80__gru__driver_fold2_seed0.log"
+    },
+    {
+      "index": 31,
+      "label": "m5_ft_gain_w0.1/ngsim_i80/lstm/fold2_seed0",
+      "experiment": "m5_ft_gain_w0.1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "lstm",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1,
+        "init_from": "runs/e2_gain_w0.1/follownet_highd/lstm/driver_fold2_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft_gain_w0.1\\ngsim_i80\\lstm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 550.3260567000107,
+      "started": "2026-09-30T19:50:06",
+      "ended": "2026-09-30T19:59:16",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft_gain_w0.1__ngsim_i80__lstm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 32,
+      "label": "m5_ft_gain_w0.1/ngsim_i80/gru/fold3_seed0",
+      "experiment": "m5_ft_gain_w0.1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "gru",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1,
+        "init_from": "runs/e2_gain_w0.1/follownet_highd/gru/driver_fold3_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft_gain_w0.1\\ngsim_i80\\gru\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 663.7241225000034,
+      "started": "2026-09-30T19:57:31",
+      "ended": "2026-09-30T20:08:34",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft_gain_w0.1__ngsim_i80__gru__driver_fold3_seed0.log"
+    },
+    {
+      "index": 33,
+      "label": "m5_ft_gain_w0.1/ngsim_i80/lstm/fold3_seed0",
+      "experiment": "m5_ft_gain_w0.1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "lstm",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1,
+        "init_from": "runs/e2_gain_w0.1/follownet_highd/lstm/driver_fold3_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft_gain_w0.1\\ngsim_i80\\lstm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 509.5751280999975,
+      "started": "2026-09-30T19:59:16",
+      "ended": "2026-09-30T20:07:46",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft_gain_w0.1__ngsim_i80__lstm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 34,
+      "label": "m5_ft_gain_w0.1/ngsim_i80/gru/fold4_seed0",
+      "experiment": "m5_ft_gain_w0.1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "gru",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1,
+        "init_from": "runs/e2_gain_w0.1/follownet_highd/gru/driver_fold4_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft_gain_w0.1\\ngsim_i80\\gru\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 415.7813928999967,
+      "started": "2026-09-30T20:07:46",
+      "ended": "2026-09-30T20:14:42",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft_gain_w0.1__ngsim_i80__gru__driver_fold4_seed0.log"
+    },
+    {
+      "index": 35,
+      "label": "m5_ft_gain_w0.1/ngsim_i80/lstm/fold4_seed0",
+      "experiment": "m5_ft_gain_w0.1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "lstm",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1,
+        "init_from": "runs/e2_gain_w0.1/follownet_highd/lstm/driver_fold4_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft_gain_w0.1\\ngsim_i80\\lstm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 275.17648549999285,
+      "started": "2026-09-30T20:08:34",
+      "ended": "2026-09-30T20:13:09",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft_gain_w0.1__ngsim_i80__lstm__driver_fold4_seed0.log"
+    },
+    {
+      "index": 36,
+      "label": "m5_ft_jacobian_w1/ngsim_i80/mlp/fold0_seed0",
+      "experiment": "m5_ft_jacobian_w1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1,
+        "init_from": "runs/e2_jacobian_w1/follownet_highd/mlp/driver_fold0_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft_jacobian_w1\\ngsim_i80\\mlp\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 136.86678769999708,
+      "started": "2026-09-30T20:13:09",
+      "ended": "2026-09-30T20:15:26",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft_jacobian_w1__ngsim_i80__mlp__driver_fold0_seed0.log"
+    },
+    {
+      "index": 37,
+      "label": "m5_ft_jacobian_w1/ngsim_i80/mlp/fold1_seed0",
+      "experiment": "m5_ft_jacobian_w1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1,
+        "init_from": "runs/e2_jacobian_w1/follownet_highd/mlp/driver_fold1_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft_jacobian_w1\\ngsim_i80\\mlp\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 96.18510010000318,
+      "started": "2026-09-30T20:14:42",
+      "ended": "2026-09-30T20:16:18",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft_jacobian_w1__ngsim_i80__mlp__driver_fold1_seed0.log"
+    },
+    {
+      "index": 38,
+      "label": "m5_ft_jacobian_w1/ngsim_i80/mlp/fold2_seed0",
+      "experiment": "m5_ft_jacobian_w1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1,
+        "init_from": "runs/e2_jacobian_w1/follownet_highd/mlp/driver_fold2_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft_jacobian_w1\\ngsim_i80\\mlp\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 81.1577341999946,
+      "started": "2026-09-30T20:15:26",
+      "ended": "2026-09-30T20:16:47",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft_jacobian_w1__ngsim_i80__mlp__driver_fold2_seed0.log"
+    },
+    {
+      "index": 39,
+      "label": "m5_ft_jacobian_w1/ngsim_i80/mlp/fold3_seed0",
+      "experiment": "m5_ft_jacobian_w1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1,
+        "init_from": "runs/e2_jacobian_w1/follownet_highd/mlp/driver_fold3_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft_jacobian_w1\\ngsim_i80\\mlp\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 55.97988840000471,
+      "started": "2026-09-30T20:16:18",
+      "ended": "2026-09-30T20:17:14",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft_jacobian_w1__ngsim_i80__mlp__driver_fold3_seed0.log"
+    },
+    {
+      "index": 40,
+      "label": "m5_ft_jacobian_w1/ngsim_i80/mlp/fold4_seed0",
+      "experiment": "m5_ft_jacobian_w1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1,
+        "init_from": "runs/e2_jacobian_w1/follownet_highd/mlp/driver_fold4_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_ft_jacobian_w1\\ngsim_i80\\mlp\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 46.384682900010375,
+      "started": "2026-09-30T20:16:47",
+      "ended": "2026-09-30T20:17:34",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m5_laws\\_logs\\m5_ft_jacobian_w1__ngsim_i80__mlp__driver_fold4_seed0.log"
+    }
+  ]
+}

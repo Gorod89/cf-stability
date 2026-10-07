@@ -1,0 +1,1020 @@
+{
+  "name": "e5_penalised",
+  "queue_file": "configs\\queue\\e5_penalised.yaml",
+  "pid": 26564,
+  "workers": 2,
+  "updated": "2026-09-30T18:24:11",
+  "totals": {
+    "n_jobs": 30,
+    "done": 30,
+    "failed": 0,
+    "timeout": 0,
+    "skipped": 0,
+    "blocked": 0,
+    "running": 0,
+    "pending": 0,
+    "interrupted": 0
+  },
+  "jobs": [
+    {
+      "index": 1,
+      "label": "e5_gain_w0.1/openacc_acc/gru/fold0_seed0",
+      "experiment": "e5_gain_w0.1",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_gain_w0.1\\openacc_acc\\gru\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 1160.488809100003,
+      "started": "2026-09-30T17:14:51",
+      "ended": "2026-09-30T17:34:12",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_gain_w0.1__openacc_acc__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 2,
+      "label": "e5_gain_w0.1/openacc_human/gru/fold0_seed0",
+      "experiment": "e5_gain_w0.1",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_gain_w0.1\\openacc_human\\gru\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 162.25751350000792,
+      "started": "2026-09-30T17:14:51",
+      "ended": "2026-09-30T17:17:34",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_gain_w0.1__openacc_human__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 3,
+      "label": "e5_gain_w0.1/openacc_acc/lstm/fold0_seed0",
+      "experiment": "e5_gain_w0.1",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_gain_w0.1\\openacc_acc\\lstm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 858.7123417999974,
+      "started": "2026-09-30T17:17:34",
+      "ended": "2026-09-30T17:31:52",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_gain_w0.1__openacc_acc__lstm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 4,
+      "label": "e5_gain_w0.1/openacc_human/lstm/fold0_seed0",
+      "experiment": "e5_gain_w0.1",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_gain_w0.1\\openacc_human\\lstm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 158.52533970000513,
+      "started": "2026-09-30T17:31:52",
+      "ended": "2026-09-30T17:34:31",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_gain_w0.1__openacc_human__lstm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 5,
+      "label": "e5_jacobian_w1/openacc_acc/mlp/fold0_seed0",
+      "experiment": "e5_jacobian_w1",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "mlp",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_jacobian_w1\\openacc_acc\\mlp\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 292.7598222000088,
+      "started": "2026-09-30T17:34:12",
+      "ended": "2026-09-30T17:39:05",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_jacobian_w1__openacc_acc__mlp__driver_fold0_seed0.log"
+    },
+    {
+      "index": 6,
+      "label": "e5_jacobian_w1/openacc_human/mlp/fold0_seed0",
+      "experiment": "e5_jacobian_w1",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "mlp",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_jacobian_w1\\openacc_human\\mlp\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 42.21095599999535,
+      "started": "2026-09-30T17:34:31",
+      "ended": "2026-09-30T17:35:13",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_jacobian_w1__openacc_human__mlp__driver_fold0_seed0.log"
+    },
+    {
+      "index": 7,
+      "label": "e5_gain_w0.1/openacc_acc/gru/fold1_seed0",
+      "experiment": "e5_gain_w0.1",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "gru",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_gain_w0.1\\openacc_acc\\gru\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 484.83095059999323,
+      "started": "2026-09-30T17:35:13",
+      "ended": "2026-09-30T17:43:18",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_gain_w0.1__openacc_acc__gru__driver_fold1_seed0.log"
+    },
+    {
+      "index": 8,
+      "label": "e5_gain_w0.1/openacc_human/gru/fold1_seed0",
+      "experiment": "e5_gain_w0.1",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "gru",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_gain_w0.1\\openacc_human\\gru\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 196.80545699999493,
+      "started": "2026-09-30T17:39:05",
+      "ended": "2026-09-30T17:42:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_gain_w0.1__openacc_human__gru__driver_fold1_seed0.log"
+    },
+    {
+      "index": 9,
+      "label": "e5_gain_w0.1/openacc_acc/lstm/fold1_seed0",
+      "experiment": "e5_gain_w0.1",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "lstm",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_gain_w0.1\\openacc_acc\\lstm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 444.4039028999978,
+      "started": "2026-09-30T17:42:21",
+      "ended": "2026-09-30T17:49:46",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_gain_w0.1__openacc_acc__lstm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 10,
+      "label": "e5_gain_w0.1/openacc_human/lstm/fold1_seed0",
+      "experiment": "e5_gain_w0.1",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "lstm",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_gain_w0.1\\openacc_human\\lstm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 190.91811109999253,
+      "started": "2026-09-30T17:43:18",
+      "ended": "2026-09-30T17:46:29",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_gain_w0.1__openacc_human__lstm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 11,
+      "label": "e5_jacobian_w1/openacc_acc/mlp/fold1_seed0",
+      "experiment": "e5_jacobian_w1",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "mlp",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_jacobian_w1\\openacc_acc\\mlp\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 220.85641960000794,
+      "started": "2026-09-30T17:46:29",
+      "ended": "2026-09-30T17:50:10",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_jacobian_w1__openacc_acc__mlp__driver_fold1_seed0.log"
+    },
+    {
+      "index": 12,
+      "label": "e5_jacobian_w1/openacc_human/mlp/fold1_seed0",
+      "experiment": "e5_jacobian_w1",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "mlp",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_jacobian_w1\\openacc_human\\mlp\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 24.408777999997255,
+      "started": "2026-09-30T17:49:46",
+      "ended": "2026-09-30T17:50:10",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_jacobian_w1__openacc_human__mlp__driver_fold1_seed0.log"
+    },
+    {
+      "index": 13,
+      "label": "e5_gain_w0.1/openacc_acc/gru/fold2_seed0",
+      "experiment": "e5_gain_w0.1",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "gru",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_gain_w0.1\\openacc_acc\\gru\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 762.4592631999985,
+      "started": "2026-09-30T17:50:10",
+      "ended": "2026-09-30T18:02:52",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_gain_w0.1__openacc_acc__gru__driver_fold2_seed0.log"
+    },
+    {
+      "index": 14,
+      "label": "e5_gain_w0.1/openacc_human/gru/fold2_seed0",
+      "experiment": "e5_gain_w0.1",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "gru",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_gain_w0.1\\openacc_human\\gru\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 228.17840209999122,
+      "started": "2026-09-30T17:50:10",
+      "ended": "2026-09-30T17:53:58",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_gain_w0.1__openacc_human__gru__driver_fold2_seed0.log"
+    },
+    {
+      "index": 15,
+      "label": "e5_gain_w0.1/openacc_acc/lstm/fold2_seed0",
+      "experiment": "e5_gain_w0.1",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "lstm",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_gain_w0.1\\openacc_acc\\lstm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 583.2952840999933,
+      "started": "2026-09-30T17:53:58",
+      "ended": "2026-09-30T18:03:42",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_gain_w0.1__openacc_acc__lstm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 16,
+      "label": "e5_gain_w0.1/openacc_human/lstm/fold2_seed0",
+      "experiment": "e5_gain_w0.1",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "lstm",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_gain_w0.1\\openacc_human\\lstm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 115.13189140000031,
+      "started": "2026-09-30T18:02:52",
+      "ended": "2026-09-30T18:04:47",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_gain_w0.1__openacc_human__lstm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 17,
+      "label": "e5_jacobian_w1/openacc_acc/mlp/fold2_seed0",
+      "experiment": "e5_jacobian_w1",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "mlp",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_jacobian_w1\\openacc_acc\\mlp\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 76.84699330000149,
+      "started": "2026-09-30T18:03:42",
+      "ended": "2026-09-30T18:04:59",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_jacobian_w1__openacc_acc__mlp__driver_fold2_seed0.log"
+    },
+    {
+      "index": 18,
+      "label": "e5_jacobian_w1/openacc_human/mlp/fold2_seed0",
+      "experiment": "e5_jacobian_w1",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "mlp",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_jacobian_w1\\openacc_human\\mlp\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 23.921208800005843,
+      "started": "2026-09-30T18:04:47",
+      "ended": "2026-09-30T18:05:11",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_jacobian_w1__openacc_human__mlp__driver_fold2_seed0.log"
+    },
+    {
+      "index": 19,
+      "label": "e5_gain_w0.1/openacc_acc/gru/fold3_seed0",
+      "experiment": "e5_gain_w0.1",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "gru",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_gain_w0.1\\openacc_acc\\gru\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 463.6138556000078,
+      "started": "2026-09-30T18:04:59",
+      "ended": "2026-09-30T18:12:42",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_gain_w0.1__openacc_acc__gru__driver_fold3_seed0.log"
+    },
+    {
+      "index": 20,
+      "label": "e5_gain_w0.1/openacc_human/gru/fold3_seed0",
+      "experiment": "e5_gain_w0.1",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "gru",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_gain_w0.1\\openacc_human\\gru\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 113.1886930000037,
+      "started": "2026-09-30T18:05:11",
+      "ended": "2026-09-30T18:07:04",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_gain_w0.1__openacc_human__gru__driver_fold3_seed0.log"
+    },
+    {
+      "index": 21,
+      "label": "e5_gain_w0.1/openacc_acc/lstm/fold3_seed0",
+      "experiment": "e5_gain_w0.1",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "lstm",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_gain_w0.1\\openacc_acc\\lstm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 387.16893730001175,
+      "started": "2026-09-30T18:07:04",
+      "ended": "2026-09-30T18:13:32",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_gain_w0.1__openacc_acc__lstm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 22,
+      "label": "e5_gain_w0.1/openacc_human/lstm/fold3_seed0",
+      "experiment": "e5_gain_w0.1",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "lstm",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_gain_w0.1\\openacc_human\\lstm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 107.86236929999723,
+      "started": "2026-09-30T18:12:42",
+      "ended": "2026-09-30T18:14:30",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_gain_w0.1__openacc_human__lstm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 23,
+      "label": "e5_jacobian_w1/openacc_acc/mlp/fold3_seed0",
+      "experiment": "e5_jacobian_w1",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "mlp",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_jacobian_w1\\openacc_acc\\mlp\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 71.44217370000842,
+      "started": "2026-09-30T18:13:32",
+      "ended": "2026-09-30T18:14:43",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_jacobian_w1__openacc_acc__mlp__driver_fold3_seed0.log"
+    },
+    {
+      "index": 24,
+      "label": "e5_jacobian_w1/openacc_human/mlp/fold3_seed0",
+      "experiment": "e5_jacobian_w1",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "mlp",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_jacobian_w1\\openacc_human\\mlp\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 47.3903025000036,
+      "started": "2026-09-30T18:14:30",
+      "ended": "2026-09-30T18:15:17",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_jacobian_w1__openacc_human__mlp__driver_fold3_seed0.log"
+    },
+    {
+      "index": 25,
+      "label": "e5_gain_w0.1/openacc_acc/gru/fold4_seed0",
+      "experiment": "e5_gain_w0.1",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "gru",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_gain_w0.1\\openacc_acc\\gru\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 464.22352069999033,
+      "started": "2026-09-30T18:14:43",
+      "ended": "2026-09-30T18:22:27",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_gain_w0.1__openacc_acc__gru__driver_fold4_seed0.log"
+    },
+    {
+      "index": 26,
+      "label": "e5_gain_w0.1/openacc_human/gru/fold4_seed0",
+      "experiment": "e5_gain_w0.1",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "gru",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_gain_w0.1\\openacc_human\\gru\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 88.9726926000003,
+      "started": "2026-09-30T18:15:17",
+      "ended": "2026-09-30T18:16:46",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_gain_w0.1__openacc_human__gru__driver_fold4_seed0.log"
+    },
+    {
+      "index": 27,
+      "label": "e5_gain_w0.1/openacc_acc/lstm/fold4_seed0",
+      "experiment": "e5_gain_w0.1",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "lstm",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_gain_w0.1\\openacc_acc\\lstm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 334.27829740000016,
+      "started": "2026-09-30T18:16:46",
+      "ended": "2026-09-30T18:22:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_gain_w0.1__openacc_acc__lstm__driver_fold4_seed0.log"
+    },
+    {
+      "index": 28,
+      "label": "e5_gain_w0.1/openacc_human/lstm/fold4_seed0",
+      "experiment": "e5_gain_w0.1",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "lstm",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.weight": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_gain_w0.1\\openacc_human\\lstm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 82.00572760000068,
+      "started": "2026-09-30T18:22:21",
+      "ended": "2026-09-30T18:23:43",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_gain_w0.1__openacc_human__lstm__driver_fold4_seed0.log"
+    },
+    {
+      "index": 29,
+      "label": "e5_jacobian_w1/openacc_acc/mlp/fold4_seed0",
+      "experiment": "e5_jacobian_w1",
+      "overrides": {
+        "data": "openacc_acc",
+        "model": "mlp",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_jacobian_w1\\openacc_acc\\mlp\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 93.42991690000053,
+      "started": "2026-09-30T18:22:27",
+      "ended": "2026-09-30T18:24:01",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_jacobian_w1__openacc_acc__mlp__driver_fold4_seed0.log"
+    },
+    {
+      "index": 30,
+      "label": "e5_jacobian_w1/openacc_human/mlp/fold4_seed0",
+      "experiment": "e5_jacobian_w1",
+      "overrides": {
+        "data": "openacc_human",
+        "model": "mlp",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "jacobian",
+        "train.penalty.weight": 1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_jacobian_w1\\openacc_human\\mlp\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 28.493231000000378,
+      "started": "2026-09-30T18:23:43",
+      "ended": "2026-09-30T18:24:11",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e5_penalised\\_logs\\e5_jacobian_w1__openacc_human__mlp__driver_fold4_seed0.log"
+    }
+  ]
+}

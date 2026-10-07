@@ -1,0 +1,122 @@
+{
+  "name": "m4_preview_gain",
+  "queue_file": "configs\\queue\\preview_gain.yaml",
+  "pid": 20812,
+  "workers": 2,
+  "updated": "2026-09-29T23:08:56",
+  "totals": {
+    "n_jobs": 3,
+    "done": 3,
+    "failed": 0,
+    "timeout": 0,
+    "skipped": 0,
+    "blocked": 0,
+    "running": 0,
+    "pending": 0,
+    "interrupted": 0
+  },
+  "jobs": [
+    {
+      "index": 1,
+      "label": "m4_preview_gain/follownet_highd/gru/fold0_seed0",
+      "experiment": "m4_preview_gain",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.weight": 1.0,
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m4_preview_gain\\follownet_highd\\gru\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 3958.0292788000006,
+      "started": "2026-09-29T19:27:30",
+      "ended": "2026-09-29T20:33:28",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m4_preview_gain\\_logs\\m4_preview_gain__follownet_highd__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 2,
+      "label": "m4_preview_gain/follownet_highd/lstm/fold0_seed0",
+      "experiment": "m4_preview_gain",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.weight": 1.0,
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m4_preview_gain\\follownet_highd\\lstm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 5344.021266899996,
+      "started": "2026-09-29T19:27:30",
+      "ended": "2026-09-29T20:56:34",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m4_preview_gain\\_logs\\m4_preview_gain__follownet_highd__lstm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 3,
+      "label": "m4_preview_gain/follownet_highd/perl/fold0_seed0",
+      "experiment": "m4_preview_gain",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.weight": 1.0,
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m4_preview_gain\\follownet_highd\\perl\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 9328.8996051,
+      "started": "2026-09-29T20:33:28",
+      "ended": "2026-09-29T23:08:56",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m4_preview_gain\\_logs\\m4_preview_gain__follownet_highd__perl__driver_fold0_seed0.log"
+    }
+  ]
+}

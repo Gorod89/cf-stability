@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-10-05T10:06:43.752212+03:00 by Eclipse SUMO netconvert 1.27.1
+<netconvertConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <node-files value="C:\Users\FFFC~1\DOWNLO~1\RESEAR~2\CF-STA~1\runs\corridor\SCENAR~1\us101_p1\NETNOD~1.XML"/>
+        <edge-files value="C:\Users\FFFC~1\DOWNLO~1\RESEAR~2\CF-STA~1\runs\corridor\SCENAR~1\us101_p1\NETEDG~1.XML"/>
+        <connection-files value="C:\Users\FFFC~1\DOWNLO~1\RESEAR~2\CF-STA~1\runs\corridor\SCENAR~1\us101_p1\NETCON~1.XML"/>
+    </input>
+
+    <output>
+        <output-file value="C:\Users\FFFC~1\DOWNLO~1\RESEAR~2\CF-STA~1\runs\corridor\SCENAR~1\us101_p1\net.net.xml"/>
+    </output>
+
+    <processing>
+        <offset.disable-normalization value="true"/>
+    </processing>
+
+    <junctions>
+        <no-internal-links value="true"/>
+        <no-turnarounds value="true"/>
+    </junctions>
+
+</netconvertConfiguration>
+-->
+
+<net version="1.20" junctionCornerDetail="5" limitTurnSpeed="5.50" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+
+    <location netOffset="0.00,0.00" convBoundary="25.00,-10.00,790.00,0.00" origBoundary="25.00,-10.00,790.00,0.00" projParameter="!"/>
+
+    <edge id="main_a" from="x25" to="x110" priority="-1" length="85.00">
+        <lane id="main_a_0" index="0" speed="29.00" length="85.00" width="3.66" shape="25.00,-16.47 106.00,-16.47"/>
+        <lane id="main_a_1" index="1" speed="29.00" length="85.00" width="3.66" shape="25.00,-12.81 106.00,-12.81"/>
+        <lane id="main_a_2" index="2" speed="29.00" length="85.00" width="3.66" shape="25.00,-9.15 106.00,-9.15"/>
+        <lane id="main_a_3" index="3" speed="29.00" length="85.00" width="3.66" shape="25.00,-5.49 106.00,-5.49"/>
+        <lane id="main_a_4" index="4" speed="29.00" length="85.00" width="3.66" shape="25.00,-1.83 106.00,-1.83"/>
+    </edge>
+    <edge id="main_b" from="x110" to="x412" priority="-1" length="302.00">
+        <lane id="main_b_0" index="0" allow="custom1" speed="29.00" length="302.00" width="3.66" shape="114.00,-20.13 410.58,-20.13"/>
+        <lane id="main_b_1" index="1" speed="29.00" length="302.00" width="3.66" shape="114.00,-16.47 410.58,-16.47"/>
+        <lane id="main_b_2" index="2" speed="29.00" length="302.00" width="3.66" shape="114.00,-12.81 410.58,-12.81"/>
+        <lane id="main_b_3" index="3" speed="29.00" length="302.00" width="3.66" shape="114.00,-9.15 410.58,-9.15"/>
+        <lane id="main_b_4" index="4" speed="29.00" length="302.00" width="3.66" shape="114.00,-5.49 410.58,-5.49"/>
+        <lane id="main_b_5" index="5" speed="29.00" length="302.00" width="3.66" shape="114.00,-1.83 410.58,-1.83"/>
+    </edge>
+    <edge id="main_c" from="x412" to="x640" priority="-1" length="228.00">
+        <lane id="main_c_0" index="0" speed="29.00" length="228.00" width="3.66" shape="411.99,-16.47 640.00,-16.47"/>
+        <lane id="main_c_1" index="1" speed="29.00" length="228.00" width="3.66" shape="412.44,-12.81 640.00,-12.81"/>
+        <lane id="main_c_2" index="2" speed="29.00" length="228.00" width="3.66" shape="412.88,-9.15 640.00,-9.15"/>
+        <lane id="main_c_3" index="3" speed="29.00" length="228.00" width="3.66" shape="413.32,-5.49 640.00,-5.49"/>
+        <lane id="main_c_4" index="4" speed="29.00" length="228.00" width="3.66" shape="413.77,-1.83 640.00,-1.83"/>
+    </edge>
+    <edge id="offramp" from="x412" to="offramp_end" priority="-1" length="80.00">
+        <lane id="offramp_0" index="0" speed="29.00" length="80.00" width="3.66" shape="413.74,-2.06 491.77,-11.82"/>
+    </edge>
+    <edge id="out" from="x640" to="x790" priority="-1" length="150.00">
+        <lane id="out_0" index="0" speed="29.00" length="150.00" width="3.66" shape="640.00,-16.47 790.00,-16.47"/>
+        <lane id="out_1" index="1" speed="29.00" length="150.00" width="3.66" shape="640.00,-12.81 790.00,-12.81"/>
+        <lane id="out_2" index="2" speed="29.00" length="150.00" width="3.66" shape="640.00,-9.15 790.00,-9.15"/>
+        <lane id="out_3" index="3" speed="29.00" length="150.00" width="3.66" shape="640.00,-5.49 790.00,-5.49"/>
+        <lane id="out_4" index="4" speed="29.00" length="150.00" width="3.66" shape="640.00,-1.83 790.00,-1.83"/>
+    </edge>
+
+    <junction id="offramp_end" type="dead_end" x="492.00" y="-10.00" incLanes="offramp_0" intLanes="" shape="491.55,-13.63 492.00,-10.00"/>
+    <junction id="x110" type="priority" x="110.00" y="0.00" incLanes="main_a_0 main_a_1 main_a_2 main_a_3 main_a_4" intLanes="" shape="114.00,0.00 114.00,-21.96 110.95,-21.01 109.05,-19.25 107.81,-18.57 106.00,-18.30 106.00,0.00">
+        <request index="0" response="00000" foes="00000"/>
+        <request index="1" response="00000" foes="00000"/>
+        <request index="2" response="00000" foes="00000"/>
+        <request index="3" response="00000" foes="00000"/>
+        <request index="4" response="00000" foes="00000"/>
+    </junction>
+    <junction id="x25" type="dead_end" x="25.00" y="0.00" incLanes="" intLanes="" shape="25.00,0.00 25.00,-18.30"/>
+    <junction id="x412" type="priority" x="412.00" y="0.00" incLanes="main_b_0 main_b_1 main_b_2 main_b_3 main_b_4 main_b_5" intLanes="" shape="413.99,0.00 413.52,-3.88 410.58,-21.96 410.58,0.00">
+        <request index="0" response="000000" foes="000000"/>
+        <request index="1" response="000000" foes="000000"/>
+        <request index="2" response="000000" foes="000000"/>
+        <request index="3" response="000000" foes="000000"/>
+        <request index="4" response="000000" foes="000000"/>
+        <request index="5" response="000000" foes="000000"/>
+    </junction>
+    <junction id="x640" type="priority" x="640.00" y="0.00" incLanes="main_c_0 main_c_1 main_c_2 main_c_3 main_c_4" intLanes="" shape="640.00,0.00 640.00,-18.30 640.00,0.00">
+        <request index="0" response="00000" foes="00000"/>
+        <request index="1" response="00000" foes="00000"/>
+        <request index="2" response="00000" foes="00000"/>
+        <request index="3" response="00000" foes="00000"/>
+        <request index="4" response="00000" foes="00000"/>
+    </junction>
+    <junction id="x790" type="dead_end" x="790.00" y="0.00" incLanes="out_0 out_1 out_2 out_3 out_4" intLanes="" shape="790.00,-18.30 790.00,0.00"/>
+
+    <connection from="main_a" to="main_b" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from="main_a" to="main_b" fromLane="1" toLane="2" dir="s" state="M"/>
+    <connection from="main_a" to="main_b" fromLane="2" toLane="3" dir="s" state="M"/>
+    <connection from="main_a" to="main_b" fromLane="3" toLane="4" dir="s" state="M"/>
+    <connection from="main_a" to="main_b" fromLane="4" toLane="5" dir="s" state="M"/>
+    <connection from="main_b" to="offramp" fromLane="0" toLane="0" dir="R" state="M"/>
+    <connection from="main_b" to="main_c" fromLane="1" toLane="0" dir="s" state="M"/>
+    <connection from="main_b" to="main_c" fromLane="2" toLane="1" dir="s" state="M"/>
+    <connection from="main_b" to="main_c" fromLane="3" toLane="2" dir="s" state="M"/>
+    <connection from="main_b" to="main_c" fromLane="4" toLane="3" dir="s" state="M"/>
+    <connection from="main_b" to="main_c" fromLane="5" toLane="4" dir="s" state="M"/>
+    <connection from="main_c" to="out" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="main_c" to="out" fromLane="1" toLane="1" dir="s" state="M"/>
+    <connection from="main_c" to="out" fromLane="2" toLane="2" dir="s" state="M"/>
+    <connection from="main_c" to="out" fromLane="3" toLane="3" dir="s" state="M"/>
+    <connection from="main_c" to="out" fromLane="4" toLane="4" dir="s" state="M"/>
+
+</net>

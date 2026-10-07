@@ -1,0 +1,81 @@
+{
+  "config": {
+    "calibration": {
+      "atol": 0.0001,
+      "batch_events": 4096,
+      "bounds": {
+        "T": [
+          0.3,
+          3.0
+        ],
+        "a": [
+          0.2,
+          4.0
+        ],
+        "b": [
+          0.5,
+          6.0
+        ],
+        "s0": [
+          0.5,
+          10.0
+        ],
+        "v0": [
+          10.0,
+          45.0
+        ]
+      },
+      "collision_penalty": 10.0,
+      "device": "auto",
+      "fixed": {
+        "b": "global",
+        "v0": "global"
+      },
+      "global_tol": 0.0001,
+      "maxiter": 300,
+      "mutation": [
+        0.5,
+        1.0
+      ],
+      "popsize": 15,
+      "recombination": 0.7,
+      "restarts": 3,
+      "seed": 0,
+      "tol": 0.001
+    },
+    "dataset": "ngsim_us101",
+    "global_fit": false,
+    "max_events": null,
+    "paths": {
+      "calibration_root": "data/calibration",
+      "events_root": "data/events",
+      "runs_root": "runs"
+    },
+    "per_event": true,
+    "variant": "fixed_v0_b"
+  },
+  "config_hash": "5d026060a7e8",
+  "dataset": "ngsim_us101",
+  "device": "cuda",
+  "n_events": 7353,
+  "per_event": {
+    "at_bound_share": 0.585203318373453,
+    "collision_rate": 0.0,
+    "converged_share": 1.0,
+    "fixed": {
+      "b": 0.500107819291656,
+      "v0": 21.772539086728067
+    },
+    "n_events": 7353,
+    "objective_median": 0.17929531653200723,
+    "rmse_s_mean": 1.8526342186590103,
+    "rmse_s_median": 1.5871484389226385,
+    "rmse_s_pooled": 2.3551570583659998,
+    "rmse_v_mean": 0.7297350065026617,
+    "rmse_v_median": 0.6969483955848054,
+    "rmse_v_pooled": 0.7649280682162564,
+    "wall_time_s": 518.0340753999999
+  },
+  "variant": "fixed_v0_b",
+  "wall_time_s": 519.4440085000006
+}

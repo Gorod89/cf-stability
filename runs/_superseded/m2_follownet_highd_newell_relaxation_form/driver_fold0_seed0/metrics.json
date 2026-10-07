@@ -1,0 +1,190 @@
+{
+  "best_epoch": null,
+  "config": {
+    "data": {
+      "file": "data/raw/follownet/HighD_car_fol_event_set.npy",
+      "loader": "follownet",
+      "name": "follownet_highd",
+      "site": "highd",
+      "source_dt": 0.04,
+      "spacing_offset": 0.0
+    },
+    "experiment": "m2",
+    "fold": 0,
+    "max_train_events": null,
+    "model": {
+      "name": "newell"
+    },
+    "paths": {
+      "calibration_root": "data/calibration",
+      "events_root": "data/events",
+      "runs_root": "runs",
+      "splits_root": "data/splits"
+    },
+    "seed": 0,
+    "split": "driver",
+    "train": {
+      "batch_size": 4096,
+      "cuda_graph": true,
+      "device": "auto",
+      "dtype": "float32",
+      "grad_clip": 10.0,
+      "lr": 0.001,
+      "max_epochs": 100,
+      "patience": 10,
+      "rollout": {
+        "horizon": 50,
+        "segments": 256,
+        "weight": 1.0
+      },
+      "steps_per_epoch": 300,
+      "warmup": 30
+    }
+  },
+  "config_hash": "05ea42dc6d0f",
+  "context": {
+    "box_high": [
+      72.92000000000002,
+      3.3526008898865207,
+      26.768846825645582
+    ],
+    "box_low": [
+      6.884999999999998,
+      -2.567904868233301,
+      4.72542871783439
+    ],
+    "center": [
+      28.89431270095025,
+      0.07527432380615144,
+      20.586616963537832
+    ],
+    "idm_params": {},
+    "n_samples": 1125900,
+    "newell_params": {
+      "s0": 5.904513566174787,
+      "tau": 0.7097871699212877,
+      "v0": 23.876716347599974
+    },
+    "scale": [
+      14.409334623901525,
+      1.0613387694197627,
+      5.1384446463886855
+    ],
+    "var_s": 207.62892430362146,
+    "var_v": 26.40361338400043
+  },
+  "data": "follownet_highd",
+  "device": "cuda",
+  "fit": {
+    "params": {
+      "s0": 5.904513566174787,
+      "tau": 0.7097871699212877,
+      "v0": 23.876716347599974
+    },
+    "source": "context"
+  },
+  "fold": 0,
+  "git_revision": null,
+  "idm_calibration": null,
+  "model": "newell",
+  "n_parameters": 0,
+  "n_trainable_parameters": 0,
+  "newell_calibration": {
+    "collision_rate": 0.0003996802557953637,
+    "converged": true,
+    "data": "follownet_highd",
+    "fold": 0,
+    "n_events": 7506,
+    "n_generations": 37,
+    "nrmse_s": 0.3678174803636869,
+    "nrmse_v": 0.08476212464323317,
+    "objective": 0.45657640750084993,
+    "params": {
+      "s0": 5.904513566174787,
+      "tau": 0.7097871699212877,
+      "v0": 23.876716347599974
+    },
+    "rmse_s": 11.876063959900929,
+    "rmse_v": 1.7985005123561397,
+    "settings": {
+      "atol": 0.0001,
+      "batch_events": 4096,
+      "bounds": {
+        "T": [
+          0.3,
+          3.0
+        ],
+        "a": [
+          0.2,
+          4.0
+        ],
+        "b": [
+          0.5,
+          6.0
+        ],
+        "s0": [
+          0.5,
+          10.0
+        ],
+        "v0": [
+          10.0,
+          45.0
+        ]
+      },
+      "collision_penalty": 10.0,
+      "fixed": {},
+      "global_tol": 0.0001,
+      "maxiter": 300,
+      "mutation": [
+        0.5,
+        1.0
+      ],
+      "popsize": 15,
+      "recombination": 0.7,
+      "restarts": 3,
+      "seed": 0,
+      "tol": 0.001
+    },
+    "split": "driver"
+  },
+  "parts": {
+    "test": {
+      "n_events": 2503,
+      "n_samples": 375450
+    },
+    "train": {
+      "n_events": 7506,
+      "n_samples": 1125900
+    },
+    "val": {
+      "n_events": 2503,
+      "n_samples": 375450
+    }
+  },
+  "seed": 0,
+  "split": "driver",
+  "test": {
+    "collision_rate": 0.00039952057530962844,
+    "n_events": 2503,
+    "open_loop_rmse_a": 8.920098719510678,
+    "rmse_s_mean": 7.991423095647754,
+    "rmse_s_median": 6.1766003791098,
+    "rmse_s_pooled": 10.289341560292002,
+    "rmse_v_mean": 1.5164757544116587,
+    "rmse_v_median": 1.2539492025439019,
+    "rmse_v_pooled": 1.8364751122398009
+  },
+  "training": null,
+  "val": {
+    "collision_rate": 0.0007990411506192569,
+    "n_events": 2503,
+    "open_loop_rmse_a": 9.0356658270061,
+    "rmse_s_mean": 7.969330968251083,
+    "rmse_s_median": 5.922333880443004,
+    "rmse_s_pooled": 10.588254976009463,
+    "rmse_v_mean": 1.5271859026194157,
+    "rmse_v_median": 1.2172489064325578,
+    "rmse_v_pooled": 1.8787100095119302
+  },
+  "wall_time_s": 24.29649840000002
+}

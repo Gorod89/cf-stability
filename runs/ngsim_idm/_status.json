@@ -1,0 +1,160 @@
+{
+  "name": "ngsim_idm",
+  "queue_file": "configs\\queue\\ngsim_idm.yaml",
+  "pid": 20344,
+  "workers": 1,
+  "updated": "2026-09-30T15:17:50",
+  "totals": {
+    "n_jobs": 5,
+    "done": 5,
+    "failed": 0,
+    "timeout": 0,
+    "skipped": 0,
+    "blocked": 0,
+    "running": 0,
+    "pending": 0,
+    "interrupted": 0
+  },
+  "jobs": [
+    {
+      "index": 1,
+      "label": "e3_reference/ngsim_i80/idm/fold0_seed0",
+      "experiment": "e3_reference",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "idm",
+        "fold": 0,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e3_reference\\ngsim_i80\\idm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 266.296517499999,
+      "started": "2026-09-30T14:55:06",
+      "ended": "2026-09-30T14:59:32",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\ngsim_idm\\_logs\\e3_reference__ngsim_i80__idm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 2,
+      "label": "e3_reference/ngsim_i80/idm/fold1_seed0",
+      "experiment": "e3_reference",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "idm",
+        "fold": 1,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e3_reference\\ngsim_i80\\idm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 334.7092699999921,
+      "started": "2026-09-30T14:59:32",
+      "ended": "2026-09-30T15:05:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\ngsim_idm\\_logs\\e3_reference__ngsim_i80__idm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 3,
+      "label": "e3_reference/ngsim_i80/idm/fold2_seed0",
+      "experiment": "e3_reference",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "idm",
+        "fold": 2,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e3_reference\\ngsim_i80\\idm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 276.42431809999107,
+      "started": "2026-09-30T15:05:07",
+      "ended": "2026-09-30T15:09:43",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\ngsim_idm\\_logs\\e3_reference__ngsim_i80__idm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 4,
+      "label": "e3_reference/ngsim_i80/idm/fold3_seed0",
+      "experiment": "e3_reference",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "idm",
+        "fold": 3,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e3_reference\\ngsim_i80\\idm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 235.3806700999994,
+      "started": "2026-09-30T15:09:43",
+      "ended": "2026-09-30T15:13:38",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\ngsim_idm\\_logs\\e3_reference__ngsim_i80__idm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 5,
+      "label": "e3_reference/ngsim_i80/idm/fold4_seed0",
+      "experiment": "e3_reference",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "idm",
+        "fold": 4,
+        "seed": 0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e3_reference\\ngsim_i80\\idm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 251.87642600000254,
+      "started": "2026-09-30T15:13:38",
+      "ended": "2026-09-30T15:17:50",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\ngsim_idm\\_logs\\e3_reference__ngsim_i80__idm__driver_fold4_seed0.log"
+    }
+  ]
+}

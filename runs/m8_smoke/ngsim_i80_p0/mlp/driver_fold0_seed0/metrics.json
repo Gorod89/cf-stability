@@ -1,0 +1,434 @@
+{
+  "best_epoch": 0,
+  "certificate_budget": null,
+  "config": {
+    "calibration": {
+      "stability_margin": null
+    },
+    "certificate": {
+      "enforce": false,
+      "safety": 0.9
+    },
+    "data": {
+      "events": "ngsim_i80",
+      "filter": {
+        "follower_prefix": "ngsim_i80/i80/p0_"
+      },
+      "name": "ngsim_i80_p0",
+      "splits": "ngsim_i80"
+    },
+    "experiment": "m8_smoke",
+    "fold": 0,
+    "init_from": "runs/e1/follownet_highd/mlp/driver_fold0_seed0",
+    "max_train_events": null,
+    "model": {
+      "hidden_sizes": [
+        64,
+        64
+      ],
+      "name": "mlp"
+    },
+    "paths": {
+      "calibration_root": "data/calibration",
+      "events_root": "data/events",
+      "runs_root": "runs",
+      "splits_root": "data/splits"
+    },
+    "seed": 0,
+    "split": "driver",
+    "train": {
+      "acc_weight": 1.0,
+      "band": {
+        "a_max": 0.3,
+        "dv_max": 0.5,
+        "half_width": 0.5,
+        "min_samples": 200,
+        "quantiles": [
+          0.05,
+          0.5,
+          0.95
+        ]
+      },
+      "batch_size": 4096,
+      "cuda_graph": true,
+      "device": "auto",
+      "dtype": "float32",
+      "grad_clip": 10.0,
+      "lr": 0.001,
+      "max_epochs": 2,
+      "patience": 10,
+      "penalty": {
+        "aggregate": "max",
+        "amplitude": 0.2,
+        "every": 1,
+        "exist_v_max": null,
+        "exist_v_min": null,
+        "existence": "band",
+        "existence_margin": 0.1,
+        "existence_weight": 1.0,
+        "gain_margin": 0.05,
+        "gain_margin_ref": 0.1,
+        "guard": 0.0,
+        "horizon_s": 40.0,
+        "jacobian_weight": 0.0,
+        "kind": "none",
+        "linear_n_omega": 25,
+        "linear_omega_max": 2.0,
+        "linear_omega_min": 0.02,
+        "margin": 0.5,
+        "measure_s": 20.0,
+        "n_equilibria": null,
+        "omegas": [
+          0.05,
+          0.1,
+          0.2,
+          0.4,
+          0.8
+        ],
+        "progress": 0.05,
+        "tolerance": 0.01,
+        "v_max": 30.0,
+        "v_min": 5.0,
+        "weight": 1.0
+      },
+      "rollout": {
+        "horizon": 50,
+        "segments": 256,
+        "weight": 1.0
+      },
+      "steps_per_epoch": 300,
+      "warmup": 30
+    }
+  },
+  "config_hash": "f1e4f74f82d4",
+  "context": {
+    "band": {
+      "n": [
+        9363,
+        16270,
+        8699,
+        15621,
+        11853,
+        2877,
+        3893,
+        1225,
+        483,
+        654,
+        633,
+        486,
+        594,
+        416,
+        248,
+        231
+      ],
+      "s_high": [
+        17.78019502265847,
+        19.126640622674422,
+        23.68139467448361,
+        24.921048647573684,
+        28.94651127121197,
+        32.82536699550186,
+        33.58321044567377,
+        30.308120311468564,
+        36.32672227965243,
+        45.47326826127935,
+        53.7088847986288,
+        65.05544217795054,
+        58.76310047884112,
+        63.23377145124921,
+        49.07563720835754,
+        67.14049182347074
+      ],
+      "s_low": [
+        3.49814571135242,
+        4.653296596737841,
+        5.228764711603688,
+        5.73714888449382,
+        6.031556988014592,
+        7.0044986218543155,
+        7.69191593687425,
+        8.987343358376403,
+        9.330198645002081,
+        11.903029392284754,
+        12.552526092279061,
+        13.372287086547399,
+        12.350895882152907,
+        16.401888905792887,
+        15.958496816745427,
+        20.02837686141757
+      ],
+      "s_median": [
+        8.300464086773957,
+        9.80428427624625,
+        11.334286403751378,
+        12.567592702305177,
+        13.468270749007957,
+        14.889957596086788,
+        15.765081359107455,
+        17.20353841565415,
+        19.466896949259876,
+        23.271122177824793,
+        22.358302241973604,
+        27.576964328723847,
+        22.26276082032463,
+        27.035469666007323,
+        26.704000752220594,
+        29.555065926605806
+      ],
+      "settings": {
+        "a_max": 0.3,
+        "dv_max": 0.5,
+        "half_width": 0.5,
+        "min_samples": 200,
+        "quantiles": [
+          0.05,
+          0.5,
+          0.95
+        ]
+      },
+      "v": [
+        5.0,
+        6.0,
+        7.0,
+        8.0,
+        9.0,
+        10.0,
+        11.0,
+        12.0,
+        13.0,
+        14.0,
+        15.0,
+        16.0,
+        17.0,
+        18.0,
+        19.0,
+        20.0
+      ]
+    },
+    "box_high": [
+      59.72107831123626,
+      4.129283601528672,
+      21.097666803589618
+    ],
+    "box_low": [
+      1.832185183729231,
+      -3.5973061079689077,
+      0.1995418826363989
+    ],
+    "center": [
+      15.105648874175825,
+      -0.0006482695204702367,
+      7.685211549948981
+    ],
+    "idm_params": {},
+    "n_samples": 613987,
+    "newell_params": {},
+    "ovm_params": {},
+    "scale": [
+      11.272331885844265,
+      1.4676072606823254,
+      3.988307961824364
+    ],
+    "var_s": 127.06546614462064,
+    "var_v": 15.906600398350529
+  },
+  "data": "ngsim_i80_p0",
+  "data_view": {
+    "events": "ngsim_i80",
+    "filter": {
+      "exclude_files": [],
+      "follower_prefix": "ngsim_i80/i80/p0_",
+      "mode": null
+    },
+    "parts": {
+      "test": {
+        "dropped": 971,
+        "kept": 530
+      },
+      "train": {
+        "dropped": 3052,
+        "kept": 1532
+      },
+      "val": {
+        "dropped": 993,
+        "kept": 573
+      }
+    },
+    "splits": "ngsim_i80"
+  },
+  "device": "cuda",
+  "fit": {
+    "params": {},
+    "source": "checkpoint"
+  },
+  "fold": 0,
+  "git_revision": "bec2d95549365f21698c7e86b54a5888e33c61bf",
+  "idm_calibration": null,
+  "init_config_hash": "4d2835d7c633",
+  "init_from": "runs/e1/follownet_highd/mlp/driver_fold0_seed0",
+  "model": "mlp",
+  "model_config": {
+    "hidden_sizes": [
+      64,
+      64
+    ],
+    "name": "mlp"
+  },
+  "n_parameters": 4481,
+  "n_trainable_parameters": 4481,
+  "newell_calibration": null,
+  "ovm_calibration": null,
+  "parts": {
+    "test": {
+      "n_events": 530,
+      "n_samples": 210096
+    },
+    "train": {
+      "n_events": 1532,
+      "n_samples": 613987
+    },
+    "val": {
+      "n_events": 573,
+      "n_samples": 224443
+    }
+  },
+  "seed": 0,
+  "split": "driver",
+  "test": {
+    "collision_rate": 0.03018867924528302,
+    "n_events": 530,
+    "open_loop_rmse_a": 1.0248645046795706,
+    "rmse_s_mean": 5.7136655891841315,
+    "rmse_s_median": 4.8700852394104,
+    "rmse_s_pooled": 7.0591526794003085,
+    "rmse_v_mean": 0.9504976791030956,
+    "rmse_v_median": 0.9084760546684265,
+    "rmse_v_pooled": 0.9682178232313465
+  },
+  "train_config": {
+    "acc_weight": 1.0,
+    "band": {
+      "a_max": 0.3,
+      "dv_max": 0.5,
+      "half_width": 0.5,
+      "min_samples": 200,
+      "quantiles": [
+        0.05,
+        0.5,
+        0.95
+      ]
+    },
+    "batch_size": 4096,
+    "cuda_graph": true,
+    "device": "auto",
+    "dtype": "float32",
+    "grad_clip": 10.0,
+    "lr": 0.001,
+    "max_epochs": 2,
+    "patience": 10,
+    "penalty": {
+      "aggregate": "max",
+      "amplitude": 0.2,
+      "band": null,
+      "every": 1,
+      "exist_v_max": null,
+      "exist_v_min": null,
+      "existence": "band",
+      "existence_margin": 0.1,
+      "existence_weight": 1.0,
+      "gain_margin": 0.05,
+      "gain_margin_ref": 0.1,
+      "guard": 0.0,
+      "horizon_s": 40.0,
+      "jacobian_weight": 0.0,
+      "kind": "none",
+      "linear_n_omega": 25,
+      "linear_omega_max": 2.0,
+      "linear_omega_min": 0.02,
+      "margin": 0.5,
+      "measure_s": 20.0,
+      "n_equilibria": 0,
+      "omegas": [
+        0.05,
+        0.1,
+        0.2,
+        0.4,
+        0.8
+      ],
+      "progress": 0.05,
+      "tolerance": 0.01,
+      "v_max": 30.0,
+      "v_min": 5.0,
+      "weight": 1.0
+    },
+    "rollout": {
+      "horizon": 50,
+      "segments": 256,
+      "weight": 1.0
+    },
+    "steps_per_epoch": 300,
+    "warmup": 30
+  },
+  "training": {
+    "best_epoch": 0,
+    "best_feasible": null,
+    "best_val_rmse_s": 5.7141397650017165,
+    "cuda_graph": true,
+    "device": "cuda",
+    "dtype": "float32",
+    "epochs": 2,
+    "history": [
+      {
+        "epoch": 1,
+        "loss": 1.1306613490482174,
+        "loss_acc": 1.0553852883974713,
+        "loss_extra": 0.0,
+        "loss_penalty": 0.0,
+        "loss_rollout": 0.07527606065074603,
+        "time_train_s": 1.0798696000128984,
+        "time_val_s": 0.21226299996487796,
+        "val_collision_rate": 0.13612565445026178,
+        "val_rmse_s": 6.659651347531907,
+        "val_rmse_v": 1.0858889071833193
+      },
+      {
+        "epoch": 2,
+        "loss": 1.1267363376667103,
+        "loss_acc": 1.0522876763343811,
+        "loss_extra": 0.0,
+        "loss_penalty": 0.0,
+        "loss_rollout": 0.07444866133232912,
+        "time_train_s": 0.8133745000232011,
+        "time_val_s": 0.2166204999666661,
+        "val_collision_rate": 0.16404886561954624,
+        "val_rmse_s": 5.926908879171908,
+        "val_rmse_v": 1.0360684069247355
+      }
+    ],
+    "initial_val_rmse_s": 5.7141397650017165,
+    "n_feasible": null,
+    "n_window_ends": 613987,
+    "non_finite": null,
+    "penalty_band": false,
+    "penalty_graph": false,
+    "penalty_steps": 0,
+    "plain_graph": true,
+    "steps_per_epoch": 150,
+    "stop_reason": "max_epochs",
+    "var_s": 127.06546614462064,
+    "var_v": 15.906600398350529,
+    "wall_time_s": 3.6572163000237197
+  },
+  "val": {
+    "collision_rate": 0.020942408376963352,
+    "n_events": 573,
+    "open_loop_rmse_a": 1.0086106499284397,
+    "rmse_s_mean": 5.7141397650017165,
+    "rmse_s_median": 4.543734073638916,
+    "rmse_s_pooled": 7.3127251238402655,
+    "rmse_v_mean": 0.9487105993388211,
+    "rmse_v_median": 0.8722164630889893,
+    "rmse_v_pooled": 0.9823284860808336
+  },
+  "wall_time_s": 5.16777890000958
+}

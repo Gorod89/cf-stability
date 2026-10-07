@@ -1,0 +1,9 @@
+<edges>
+    <edge id="main_a" from="x25" to="x110" numLanes="5" speed="29.00" width="3.66" length="85.00"/>
+    <edge id="main_b" from="x110" to="x412" numLanes="6" speed="29.00" width="3.66" length="302.00">
+        <lane index="0" allow="custom1"/>
+    </edge>
+    <edge id="main_c" from="x412" to="x640" numLanes="5" speed="29.00" width="3.66" length="228.00"/>
+    <edge id="out" from="x640" to="x790" numLanes="5" speed="29.00" width="3.66" length="150.00"/>
+    <edge id="offramp" from="x412" to="offramp_end" numLanes="1" speed="29.00" width="3.66" length="80.00"/>
+</edges>

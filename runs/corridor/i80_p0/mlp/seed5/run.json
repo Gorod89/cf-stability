@@ -1,0 +1,51 @@
+{
+  "config": {
+    "device": "cpu",
+    "law": "mlp",
+    "law_hash": "255a85fd2191",
+    "paths": {
+      "laws_root": "runs/corridor/laws",
+      "runs_root": "runs/corridor",
+      "scenarios_root": "runs/corridor/scenarios"
+    },
+    "scenario": "i80_p0",
+    "scenario_hash": "2111a8388b2e",
+    "seed": 5,
+    "sim": {
+      "a_max": 4.0,
+      "a_min": -8.0,
+      "contact_gap": 1.0,
+      "leader_range": 50.0,
+      "step_length": 0.1,
+      "sumo_options": [],
+      "tail_s": 120.0,
+      "time_to_teleport": 300.0
+    }
+  },
+  "config_hash": "05fff1c26c6d",
+  "dN_max": -1.0,
+  "dN_mean": -135.79780303030304,
+  "dN_min": -241.5999999999999,
+  "g_max": 1.5,
+  "g_mean": 1.4856084848484847,
+  "g_min": 1.02,
+  "git_revision": null,
+  "law": "mlp",
+  "mean_depart_delay_s": 70.0398128898129,
+  "n_collisions": 730,
+  "n_exited": 1834,
+  "n_in_network": 90,
+  "n_inserted": 1924,
+  "n_not_inserted": 128,
+  "n_planned": 2052,
+  "n_sumo_collisions": 709,
+  "n_teleports": 0,
+  "scenario": "i80_p0",
+  "seed": 5,
+  "sim_time_s": 1066.4,
+  "steps": 10665,
+  "sumo_version": "SUMO 1.27.1",
+  "vehicle_steps": 1462839,
+  "vehicle_steps_per_second": 76772.37472335348,
+  "wall_time_s": 20.633608000003733
+}

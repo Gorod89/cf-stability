@@ -1,0 +1,104 @@
+{
+  "acceleration": {
+    "accelerating_share": 0.06410718055055441,
+    "acceleration_p90": 0.758898448944092,
+    "asymmetry_index": 0.6641398513974449,
+    "cruising_share": 0.8649192296708346,
+    "decelerating_share": 0.07097358977861107,
+    "deceleration_p90": 1.0114024728536606,
+    "mean_acceleration": 0.385842981467876,
+    "mean_deceleration": 0.5809664646023083,
+    "n_samples": 80537,
+    "threshold": 0.1
+  },
+  "config": {
+    "boundary_max_gap_s": 10,
+    "boundary_points": true,
+    "detectors": [
+      100.0,
+      200.0,
+      300.0,
+      400.0,
+      450.0
+    ],
+    "f_max": 0.05,
+    "f_min": 0.002,
+    "lanes": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "max_gap_s": 1.5,
+    "min_coverage": 0.5,
+    "sample_s": 2.0,
+    "threshold": 0.1,
+    "version": 1,
+    "window_s": 128.0
+  },
+  "config_hash": "f7ed2b66cee3",
+  "kind": "run",
+  "lanes": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "law": "lstm",
+  "scenario": "i80_p2",
+  "seed": 7,
+  "spectrum": {
+    "band_hz": [
+      0.002,
+      0.05
+    ],
+    "band_power": null,
+    "band_rms": null,
+    "centroid": null,
+    "detectors": {
+      "100": {
+        "coverage": 0.3575757575757576,
+        "passages": 165,
+        "used": false
+      },
+      "200": {
+        "coverage": 0.16666666666666666,
+        "passages": 68,
+        "used": false
+      },
+      "300": {
+        "coverage": 0.12424242424242424,
+        "passages": 43,
+        "used": false
+      },
+      "400": {
+        "coverage": 0.1303030303030303,
+        "passages": 44,
+        "used": false
+      },
+      "450": {
+        "coverage": 0.12121212121212122,
+        "passages": 43,
+        "used": false
+      }
+    },
+    "frequency": null,
+    "n_detectors": 0,
+    "n_lines": 0,
+    "n_samples": 330,
+    "n_segments": 0,
+    "peak_frequency": null,
+    "peak_period_s": null,
+    "psd": null,
+    "sample_s": 2.0,
+    "window_s": 128.0
+  },
+  "window": [
+    180.0,
+    840.0
+  ]
+}

@@ -1,0 +1,3195 @@
+{
+  "name": "e4",
+  "queue_file": "configs\\queue\\e4.yaml",
+  "pid": 21924,
+  "workers": 2,
+  "updated": "2026-09-30T14:55:05",
+  "totals": {
+    "n_jobs": 100,
+    "done": 100,
+    "failed": 0,
+    "timeout": 0,
+    "skipped": 0,
+    "blocked": 0,
+    "running": 0,
+    "pending": 0,
+    "interrupted": 0
+  },
+  "jobs": [
+    {
+      "index": 1,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold0_seed0",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 0,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold0_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 147.40487129999383,
+      "started": "2026-09-30T03:37:52",
+      "ended": "2026-09-30T03:40:20",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold0_seed0.log"
+    },
+    {
+      "index": 2,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold0_seed0",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold0_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 582.0213431000011,
+      "started": "2026-09-30T03:37:52",
+      "ended": "2026-09-30T03:47:34",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 3,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold1_seed0",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 1,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold1_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 150.5727639000106,
+      "started": "2026-09-30T03:40:20",
+      "ended": "2026-09-30T03:42:50",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold1_seed0.log"
+    },
+    {
+      "index": 4,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold1_seed0",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold1_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 767.0080030999961,
+      "started": "2026-09-30T03:42:50",
+      "ended": "2026-09-30T03:55:37",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 5,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold2_seed0",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 2,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold2_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 164.0279087999952,
+      "started": "2026-09-30T03:47:34",
+      "ended": "2026-09-30T03:50:18",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold2_seed0.log"
+    },
+    {
+      "index": 6,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold2_seed0",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold2_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 709.7487714000017,
+      "started": "2026-09-30T03:50:18",
+      "ended": "2026-09-30T04:02:08",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 7,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold3_seed0",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 3,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold3_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 128.84900609999022,
+      "started": "2026-09-30T03:55:37",
+      "ended": "2026-09-30T03:57:46",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold3_seed0.log"
+    },
+    {
+      "index": 8,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold3_seed0",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold3_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 522.4181062999996,
+      "started": "2026-09-30T03:57:46",
+      "ended": "2026-09-30T04:06:29",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 9,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold4_seed0",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 4,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold4_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 131.2730106999952,
+      "started": "2026-09-30T04:03:08",
+      "ended": "2026-09-30T04:05:19",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold4_seed0.log"
+    },
+    {
+      "index": 10,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold4_seed0",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold4_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 345.60492990000057,
+      "started": "2026-09-30T04:05:19",
+      "ended": "2026-09-30T04:11:05",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold4_seed0.log"
+    },
+    {
+      "index": 11,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold0_seed1",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 0,
+        "seed": 1,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold0_seed1"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold0_seed1",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 145.536142500001,
+      "started": "2026-09-30T04:06:29",
+      "ended": "2026-09-30T04:08:54",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold0_seed1.log"
+    },
+    {
+      "index": 12,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold0_seed1",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 1,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold0_seed1"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold0_seed1",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 446.0473537999933,
+      "started": "2026-09-30T04:08:54",
+      "ended": "2026-09-30T04:16:20",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold0_seed1.log"
+    },
+    {
+      "index": 13,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold1_seed1",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 1,
+        "seed": 1,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold1_seed1"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold1_seed1",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 109.1272525999957,
+      "started": "2026-09-30T04:11:05",
+      "ended": "2026-09-30T04:12:54",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold1_seed1.log"
+    },
+    {
+      "index": 14,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold1_seed1",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 1,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold1_seed1"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold1_seed1",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 496.6520026999933,
+      "started": "2026-09-30T04:12:54",
+      "ended": "2026-09-30T04:21:11",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold1_seed1.log"
+    },
+    {
+      "index": 15,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold2_seed1",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 2,
+        "seed": 1,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold2_seed1"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold2_seed1",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 202.2190649999975,
+      "started": "2026-09-30T04:16:20",
+      "ended": "2026-09-30T04:19:42",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold2_seed1.log"
+    },
+    {
+      "index": 16,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold2_seed1",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 1,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold2_seed1"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold2_seed1",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 610.9077013999922,
+      "started": "2026-09-30T04:19:42",
+      "ended": "2026-09-30T04:29:53",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold2_seed1.log"
+    },
+    {
+      "index": 17,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold3_seed1",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 3,
+        "seed": 1,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold3_seed1"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold3_seed1",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 115.59330449999834,
+      "started": "2026-09-30T04:21:11",
+      "ended": "2026-09-30T04:23:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold3_seed1.log"
+    },
+    {
+      "index": 18,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold3_seed1",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 1,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold3_seed1"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold3_seed1",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 372.90083620000223,
+      "started": "2026-09-30T04:23:06",
+      "ended": "2026-09-30T04:29:19",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold3_seed1.log"
+    },
+    {
+      "index": 19,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold4_seed1",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 4,
+        "seed": 1,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold4_seed1"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold4_seed1",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 117.8057958999998,
+      "started": "2026-09-30T04:29:53",
+      "ended": "2026-09-30T04:31:51",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold4_seed1.log"
+    },
+    {
+      "index": 20,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold4_seed1",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 1,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold4_seed1"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold4_seed1",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 475.7116360999935,
+      "started": "2026-09-30T04:29:53",
+      "ended": "2026-09-30T04:37:49",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold4_seed1.log"
+    },
+    {
+      "index": 21,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold0_seed2",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 0,
+        "seed": 2,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold0_seed2"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold0_seed2",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 142.72583860000304,
+      "started": "2026-09-30T04:31:51",
+      "ended": "2026-09-30T04:34:14",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold0_seed2.log"
+    },
+    {
+      "index": 22,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold0_seed2",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 2,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold0_seed2"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold0_seed2",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 483.03618299998925,
+      "started": "2026-09-30T04:34:14",
+      "ended": "2026-09-30T04:42:17",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold0_seed2.log"
+    },
+    {
+      "index": 23,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold1_seed2",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 1,
+        "seed": 2,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold1_seed2"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold1_seed2",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 114.54316679999465,
+      "started": "2026-09-30T04:37:49",
+      "ended": "2026-09-30T04:39:44",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold1_seed2.log"
+    },
+    {
+      "index": 24,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold1_seed2",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 2,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold1_seed2"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold1_seed2",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 414.0610635000048,
+      "started": "2026-09-30T04:39:44",
+      "ended": "2026-09-30T04:46:38",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold1_seed2.log"
+    },
+    {
+      "index": 25,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold2_seed2",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 2,
+        "seed": 2,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold2_seed2"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold2_seed2",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 109.140432900007,
+      "started": "2026-09-30T04:42:17",
+      "ended": "2026-09-30T04:44:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold2_seed2.log"
+    },
+    {
+      "index": 26,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold2_seed2",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 2,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold2_seed2"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold2_seed2",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 428.1720376000012,
+      "started": "2026-09-30T04:44:36",
+      "ended": "2026-09-30T04:51:44",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold2_seed2.log"
+    },
+    {
+      "index": 27,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold3_seed2",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 3,
+        "seed": 2,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold3_seed2"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold3_seed2",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 123.39662070000486,
+      "started": "2026-09-30T04:46:38",
+      "ended": "2026-09-30T04:48:41",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold3_seed2.log"
+    },
+    {
+      "index": 28,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold3_seed2",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 2,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold3_seed2"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold3_seed2",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 508.98915470000065,
+      "started": "2026-09-30T04:48:41",
+      "ended": "2026-09-30T04:57:10",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold3_seed2.log"
+    },
+    {
+      "index": 29,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold4_seed2",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 4,
+        "seed": 2,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold4_seed2"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold4_seed2",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 109.89610199999879,
+      "started": "2026-09-30T04:51:44",
+      "ended": "2026-09-30T04:53:34",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold4_seed2.log"
+    },
+    {
+      "index": 30,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold4_seed2",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 2,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold4_seed2"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold4_seed2",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 389.07215569999244,
+      "started": "2026-09-30T04:53:34",
+      "ended": "2026-09-30T05:00:03",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold4_seed2.log"
+    },
+    {
+      "index": 31,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold0_seed3",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 0,
+        "seed": 3,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold0_seed3"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold0_seed3",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 109.1539616999944,
+      "started": "2026-09-30T04:57:10",
+      "ended": "2026-09-30T04:58:59",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold0_seed3.log"
+    },
+    {
+      "index": 32,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold0_seed3",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 3,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold0_seed3"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold0_seed3",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 675.6667048999952,
+      "started": "2026-09-30T04:58:59",
+      "ended": "2026-09-30T05:10:15",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold0_seed3.log"
+    },
+    {
+      "index": 33,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold1_seed3",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 1,
+        "seed": 3,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold1_seed3"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold1_seed3",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 82.31873729999643,
+      "started": "2026-09-30T05:00:03",
+      "ended": "2026-09-30T05:01:26",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold1_seed3.log"
+    },
+    {
+      "index": 34,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold1_seed3",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 3,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold1_seed3"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold1_seed3",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 641.3944468000118,
+      "started": "2026-09-30T05:01:26",
+      "ended": "2026-09-30T05:12:07",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold1_seed3.log"
+    },
+    {
+      "index": 35,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold2_seed3",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 2,
+        "seed": 3,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold2_seed3"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold2_seed3",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 133.9161419000011,
+      "started": "2026-09-30T05:10:15",
+      "ended": "2026-09-30T05:12:29",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold2_seed3.log"
+    },
+    {
+      "index": 36,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold2_seed3",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 3,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold2_seed3"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold2_seed3",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 762.6261651999957,
+      "started": "2026-09-30T05:12:07",
+      "ended": "2026-09-30T05:24:50",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold2_seed3.log"
+    },
+    {
+      "index": 37,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold3_seed3",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 3,
+        "seed": 3,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold3_seed3"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold3_seed3",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 166.70567150000716,
+      "started": "2026-09-30T05:12:29",
+      "ended": "2026-09-30T05:15:16",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold3_seed3.log"
+    },
+    {
+      "index": 38,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold3_seed3",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 3,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold3_seed3"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold3_seed3",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 641.8279331000085,
+      "started": "2026-09-30T05:15:16",
+      "ended": "2026-09-30T05:25:57",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold3_seed3.log"
+    },
+    {
+      "index": 39,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold4_seed3",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 4,
+        "seed": 3,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold4_seed3"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold4_seed3",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 145.05830140000035,
+      "started": "2026-09-30T05:24:50",
+      "ended": "2026-09-30T05:27:15",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold4_seed3.log"
+    },
+    {
+      "index": 40,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold4_seed3",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 3,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold4_seed3"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold4_seed3",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 702.0858565999952,
+      "started": "2026-09-30T05:25:57",
+      "ended": "2026-09-30T05:37:39",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold4_seed3.log"
+    },
+    {
+      "index": 41,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold0_seed4",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 0,
+        "seed": 4,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold0_seed4"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold0_seed4",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 108.73564090000582,
+      "started": "2026-09-30T05:27:15",
+      "ended": "2026-09-30T05:29:03",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold0_seed4.log"
+    },
+    {
+      "index": 42,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold0_seed4",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 4,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold0_seed4"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold0_seed4",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 511.90386969999236,
+      "started": "2026-09-30T05:29:03",
+      "ended": "2026-09-30T05:37:35",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold0_seed4.log"
+    },
+    {
+      "index": 43,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold1_seed4",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 1,
+        "seed": 4,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold1_seed4"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold1_seed4",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 137.85552930000995,
+      "started": "2026-09-30T05:37:35",
+      "ended": "2026-09-30T05:39:53",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold1_seed4.log"
+    },
+    {
+      "index": 44,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold1_seed4",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 4,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold1_seed4"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold1_seed4",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 613.4014380000008,
+      "started": "2026-09-30T05:37:39",
+      "ended": "2026-09-30T05:47:53",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold1_seed4.log"
+    },
+    {
+      "index": 45,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold2_seed4",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 2,
+        "seed": 4,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold2_seed4"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold2_seed4",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 210.8139627000055,
+      "started": "2026-09-30T05:39:53",
+      "ended": "2026-09-30T05:43:24",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold2_seed4.log"
+    },
+    {
+      "index": 46,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold2_seed4",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 4,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold2_seed4"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold2_seed4",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 714.1690277999878,
+      "started": "2026-09-30T05:43:24",
+      "ended": "2026-09-30T05:55:18",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold2_seed4.log"
+    },
+    {
+      "index": 47,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold3_seed4",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 3,
+        "seed": 4,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold3_seed4"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold3_seed4",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 115.58613319999131,
+      "started": "2026-09-30T05:47:53",
+      "ended": "2026-09-30T05:49:48",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold3_seed4.log"
+    },
+    {
+      "index": 48,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold3_seed4",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 4,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold3_seed4"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold3_seed4",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 1491.2640668999957,
+      "started": "2026-09-30T05:49:48",
+      "ended": "2026-09-30T06:14:40",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold3_seed4.log"
+    },
+    {
+      "index": 49,
+      "label": "e4_free_ft/ngsim_i80/mlp/fold4_seed4",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "mlp",
+        "fold": 4,
+        "seed": 4,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold4_seed4"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\mlp\\driver_fold4_seed4",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 157.71841539999878,
+      "started": "2026-09-30T05:55:18",
+      "ended": "2026-09-30T05:57:56",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__mlp__driver_fold4_seed4.log"
+    },
+    {
+      "index": 50,
+      "label": "e4_free_ft/ngsim_i80/residual_idm/fold4_seed4",
+      "experiment": "e4_free_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 4,
+        "init_from": "runs/e1/follownet_highd/residual_idm/driver_fold4_seed4"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_free_ft\\ngsim_i80\\residual_idm\\driver_fold4_seed4",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 497.8234553000075,
+      "started": "2026-09-30T05:57:56",
+      "ended": "2026-09-30T06:06:14",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_free_ft__ngsim_i80__residual_idm__driver_fold4_seed4.log"
+    },
+    {
+      "index": 51,
+      "label": "e4_stable/follownet_highd/residual_idm/fold0_seed0",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 0,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 622.855286799997,
+      "started": "2026-09-30T06:06:14",
+      "ended": "2026-09-30T06:16:37",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 52,
+      "label": "e4_stable/follownet_highd/residual_idm/fold1_seed0",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 0,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 864.203087300004,
+      "started": "2026-09-30T06:14:40",
+      "ended": "2026-09-30T06:29:04",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 53,
+      "label": "e4_stable/follownet_highd/residual_idm/fold2_seed0",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 0,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 677.4311692000047,
+      "started": "2026-09-30T06:17:37",
+      "ended": "2026-09-30T06:28:54",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 54,
+      "label": "e4_stable/follownet_highd/residual_idm/fold3_seed0",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 0,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 700.0995110999938,
+      "started": "2026-09-30T06:28:54",
+      "ended": "2026-09-30T06:40:34",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 55,
+      "label": "e4_stable/follownet_highd/residual_idm/fold4_seed0",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 0,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 750.8751438999898,
+      "started": "2026-09-30T06:29:04",
+      "ended": "2026-09-30T06:41:35",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold4_seed0.log"
+    },
+    {
+      "index": 56,
+      "label": "e4_stable/follownet_highd/residual_idm/fold0_seed1",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 1,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold0_seed1",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 334.0321419000102,
+      "started": "2026-09-30T06:40:34",
+      "ended": "2026-09-30T06:46:08",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold0_seed1.log"
+    },
+    {
+      "index": 57,
+      "label": "e4_stable/follownet_highd/residual_idm/fold1_seed1",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 1,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold1_seed1",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 295.4398882000096,
+      "started": "2026-09-30T06:41:35",
+      "ended": "2026-09-30T06:46:30",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold1_seed1.log"
+    },
+    {
+      "index": 58,
+      "label": "e4_stable/follownet_highd/residual_idm/fold2_seed1",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 1,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold2_seed1",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 395.74201729999913,
+      "started": "2026-09-30T06:46:08",
+      "ended": "2026-09-30T06:52:44",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold2_seed1.log"
+    },
+    {
+      "index": 59,
+      "label": "e4_stable/follownet_highd/residual_idm/fold3_seed1",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 1,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold3_seed1",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 255.1779067000025,
+      "started": "2026-09-30T06:46:30",
+      "ended": "2026-09-30T06:50:45",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold3_seed1.log"
+    },
+    {
+      "index": 60,
+      "label": "e4_stable/follownet_highd/residual_idm/fold4_seed1",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 1,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold4_seed1",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 400.34649419999914,
+      "started": "2026-09-30T06:50:45",
+      "ended": "2026-09-30T06:57:26",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold4_seed1.log"
+    },
+    {
+      "index": 61,
+      "label": "e4_stable/follownet_highd/residual_idm/fold0_seed2",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 2,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold0_seed2",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 399.678201600007,
+      "started": "2026-09-30T06:52:44",
+      "ended": "2026-09-30T06:59:24",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold0_seed2.log"
+    },
+    {
+      "index": 62,
+      "label": "e4_stable/follownet_highd/residual_idm/fold1_seed2",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 2,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold1_seed2",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 621.1542961999949,
+      "started": "2026-09-30T06:57:26",
+      "ended": "2026-09-30T07:07:47",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold1_seed2.log"
+    },
+    {
+      "index": 63,
+      "label": "e4_stable/follownet_highd/residual_idm/fold2_seed2",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 2,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold2_seed2",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 273.7211718000035,
+      "started": "2026-09-30T06:59:24",
+      "ended": "2026-09-30T07:03:57",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold2_seed2.log"
+    },
+    {
+      "index": 64,
+      "label": "e4_stable/follownet_highd/residual_idm/fold3_seed2",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 2,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold3_seed2",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 203.73639180000464,
+      "started": "2026-09-30T07:03:57",
+      "ended": "2026-09-30T07:07:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold3_seed2.log"
+    },
+    {
+      "index": 65,
+      "label": "e4_stable/follownet_highd/residual_idm/fold4_seed2",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 2,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold4_seed2",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 377.26595349999843,
+      "started": "2026-09-30T07:07:21",
+      "ended": "2026-09-30T07:13:38",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold4_seed2.log"
+    },
+    {
+      "index": 66,
+      "label": "e4_stable/follownet_highd/residual_idm/fold0_seed3",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 3,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold0_seed3",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 607.7809531999956,
+      "started": "2026-09-30T07:07:47",
+      "ended": "2026-09-30T07:17:55",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold0_seed3.log"
+    },
+    {
+      "index": 67,
+      "label": "e4_stable/follownet_highd/residual_idm/fold1_seed3",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 3,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold1_seed3",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 800.6054665999982,
+      "started": "2026-09-30T07:13:38",
+      "ended": "2026-09-30T07:26:59",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold1_seed3.log"
+    },
+    {
+      "index": 68,
+      "label": "e4_stable/follownet_highd/residual_idm/fold2_seed3",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 3,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold2_seed3",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 906.1659800000052,
+      "started": "2026-09-30T07:17:55",
+      "ended": "2026-09-30T07:33:01",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold2_seed3.log"
+    },
+    {
+      "index": 69,
+      "label": "e4_stable/follownet_highd/residual_idm/fold3_seed3",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 3,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold3_seed3",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 457.4258513000095,
+      "started": "2026-09-30T07:26:59",
+      "ended": "2026-09-30T07:34:36",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold3_seed3.log"
+    },
+    {
+      "index": 70,
+      "label": "e4_stable/follownet_highd/residual_idm/fold4_seed3",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 3,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold4_seed3",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 331.7172589999973,
+      "started": "2026-09-30T07:33:01",
+      "ended": "2026-09-30T07:38:33",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold4_seed3.log"
+    },
+    {
+      "index": 71,
+      "label": "e4_stable/follownet_highd/residual_idm/fold0_seed4",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 4,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold0_seed4",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 481.77808670001104,
+      "started": "2026-09-30T07:34:36",
+      "ended": "2026-09-30T07:42:38",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold0_seed4.log"
+    },
+    {
+      "index": 72,
+      "label": "e4_stable/follownet_highd/residual_idm/fold1_seed4",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 4,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold1_seed4",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 338.0820190000086,
+      "started": "2026-09-30T07:38:33",
+      "ended": "2026-09-30T07:44:11",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold1_seed4.log"
+    },
+    {
+      "index": 73,
+      "label": "e4_stable/follownet_highd/residual_idm/fold2_seed4",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 4,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold2_seed4",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 556.3859775000019,
+      "started": "2026-09-30T07:42:38",
+      "ended": "2026-09-30T07:51:55",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold2_seed4.log"
+    },
+    {
+      "index": 74,
+      "label": "e4_stable/follownet_highd/residual_idm/fold3_seed4",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 4,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold3_seed4",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 566.0689031999937,
+      "started": "2026-09-30T07:44:11",
+      "ended": "2026-09-30T07:53:37",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold3_seed4.log"
+    },
+    {
+      "index": 75,
+      "label": "e4_stable/follownet_highd/residual_idm/fold4_seed4",
+      "experiment": "e4_stable",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 4,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable\\follownet_highd\\residual_idm\\driver_fold4_seed4",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 542.423682099994,
+      "started": "2026-09-30T07:51:55",
+      "ended": "2026-09-30T08:00:57",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable__follownet_highd__residual_idm__driver_fold4_seed4.log"
+    },
+    {
+      "index": 76,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold0_seed0",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 0,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold0_seed0",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 2152.3231581,
+      "started": "2026-09-30T07:53:37",
+      "ended": "2026-09-30T08:29:29",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 77,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold1_seed0",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 0,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold1_seed0",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 2043.4521782999946,
+      "started": "2026-09-30T08:00:57",
+      "ended": "2026-09-30T08:35:00",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 78,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold2_seed0",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 0,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold2_seed0",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 1632.472520299998,
+      "started": "2026-09-30T08:29:29",
+      "ended": "2026-09-30T08:56:42",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 79,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold3_seed0",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 0,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold3_seed0",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 1743.408274100002,
+      "started": "2026-09-30T08:35:00",
+      "ended": "2026-09-30T09:04:04",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 80,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold4_seed0",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 0,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold4_seed0",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 2012.0007164000126,
+      "started": "2026-09-30T08:56:42",
+      "ended": "2026-09-30T09:30:14",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold4_seed0.log"
+    },
+    {
+      "index": 81,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold0_seed1",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 1,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold0_seed1",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold0_seed1",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 1983.8766212000046,
+      "started": "2026-09-30T09:04:04",
+      "ended": "2026-09-30T09:37:08",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold0_seed1.log"
+    },
+    {
+      "index": 82,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold1_seed1",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 1,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold1_seed1",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold1_seed1",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 1993.227362900012,
+      "started": "2026-09-30T09:30:14",
+      "ended": "2026-09-30T10:03:27",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold1_seed1.log"
+    },
+    {
+      "index": 83,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold2_seed1",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 1,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold2_seed1",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold2_seed1",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 2027.5367562000029,
+      "started": "2026-09-30T09:37:08",
+      "ended": "2026-09-30T10:10:55",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold2_seed1.log"
+    },
+    {
+      "index": 84,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold3_seed1",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 1,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold3_seed1",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold3_seed1",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 1987.3156602999952,
+      "started": "2026-09-30T10:03:27",
+      "ended": "2026-09-30T10:36:34",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold3_seed1.log"
+    },
+    {
+      "index": 85,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold4_seed1",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 1,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold4_seed1",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold4_seed1",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 1980.0562694999971,
+      "started": "2026-09-30T10:10:55",
+      "ended": "2026-09-30T10:43:55",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold4_seed1.log"
+    },
+    {
+      "index": 86,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold0_seed2",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 2,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold0_seed2",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold0_seed2",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 1987.4194910000078,
+      "started": "2026-09-30T10:36:34",
+      "ended": "2026-09-30T11:09:42",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold0_seed2.log"
+    },
+    {
+      "index": 87,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold1_seed2",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 2,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold1_seed2",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold1_seed2",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 1992.3187209999887,
+      "started": "2026-09-30T10:43:55",
+      "ended": "2026-09-30T11:17:08",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold1_seed2.log"
+    },
+    {
+      "index": 88,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold2_seed2",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 2,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold2_seed2",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold2_seed2",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 1991.0260611000122,
+      "started": "2026-09-30T11:09:42",
+      "ended": "2026-09-30T11:42:53",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold2_seed2.log"
+    },
+    {
+      "index": 89,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold3_seed2",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 2,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold3_seed2",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold3_seed2",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 2023.3707278999937,
+      "started": "2026-09-30T11:17:08",
+      "ended": "2026-09-30T11:50:51",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold3_seed2.log"
+    },
+    {
+      "index": 90,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold4_seed2",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 2,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold4_seed2",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold4_seed2",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 2027.705642099987,
+      "started": "2026-09-30T11:42:53",
+      "ended": "2026-09-30T12:16:40",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold4_seed2.log"
+    },
+    {
+      "index": 91,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold0_seed3",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 3,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold0_seed3",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold0_seed3",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 1951.639587400001,
+      "started": "2026-09-30T11:50:51",
+      "ended": "2026-09-30T12:23:23",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold0_seed3.log"
+    },
+    {
+      "index": 92,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold1_seed3",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 3,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold1_seed3",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold1_seed3",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 1997.9261135999986,
+      "started": "2026-09-30T12:16:40",
+      "ended": "2026-09-30T12:49:59",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold1_seed3.log"
+    },
+    {
+      "index": 93,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold2_seed3",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 3,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold2_seed3",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold2_seed3",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 2052.9538221999974,
+      "started": "2026-09-30T12:23:23",
+      "ended": "2026-09-30T12:57:37",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold2_seed3.log"
+    },
+    {
+      "index": 94,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold3_seed3",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 3,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold3_seed3",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold3_seed3",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 1969.356886499998,
+      "started": "2026-09-30T12:49:59",
+      "ended": "2026-09-30T13:22:49",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold3_seed3.log"
+    },
+    {
+      "index": 95,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold4_seed3",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 3,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold4_seed3",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold4_seed3",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 1952.9657531999983,
+      "started": "2026-09-30T12:57:37",
+      "ended": "2026-09-30T13:30:10",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold4_seed3.log"
+    },
+    {
+      "index": 96,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold0_seed4",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 4,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold0_seed4",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold0_seed4",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 1927.1696075000073,
+      "started": "2026-09-30T13:22:49",
+      "ended": "2026-09-30T13:54:56",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold0_seed4.log"
+    },
+    {
+      "index": 97,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold1_seed4",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 4,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold1_seed4",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold1_seed4",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 1915.8035162000015,
+      "started": "2026-09-30T13:30:10",
+      "ended": "2026-09-30T14:02:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold1_seed4.log"
+    },
+    {
+      "index": 98,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold2_seed4",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 4,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold2_seed4",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold2_seed4",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 1930.3156633000035,
+      "started": "2026-09-30T13:54:56",
+      "ended": "2026-09-30T14:27:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold2_seed4.log"
+    },
+    {
+      "index": 99,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold3_seed4",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 4,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold3_seed4",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold3_seed4",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 1931.188647499992,
+      "started": "2026-09-30T14:02:06",
+      "ended": "2026-09-30T14:34:17",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold3_seed4.log"
+    },
+    {
+      "index": 100,
+      "label": "e4_stable_ft/ngsim_i80/residual_idm/fold4_seed4",
+      "experiment": "e4_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 4,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold4_seed4",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_stable_ft\\ngsim_i80\\residual_idm\\driver_fold4_seed4",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 1678.7668153999984,
+      "started": "2026-09-30T14:27:06",
+      "ended": "2026-09-30T14:55:05",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4\\_logs\\e4_stable_ft__ngsim_i80__residual_idm__driver_fold4_seed4.log"
+    }
+  ]
+}

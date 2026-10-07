@@ -1,0 +1,43 @@
+{
+  "closed_loop": {
+    "collision_rate": 0.6251935983479607,
+    "n_samples": 730609,
+    "nrmse_s_median": 5.2700597171593255,
+    "nrmse_v_median": 0.7503612228272236,
+    "rmse_s_mean": 128.9102188936045,
+    "rmse_s_median": 80.831102786101,
+    "rmse_s_pooled": 248.40413612298119,
+    "rmse_v_mean": 7.791334115595805,
+    "rmse_v_median": 5.763073606256545,
+    "rmse_v_pooled": 11.439203426540738,
+    "start_index": 1
+  },
+  "config": {
+    "batch_events": 4096,
+    "dataset": "follownet_ngsim_i80",
+    "device": "auto",
+    "paths": {
+      "events_root": "data/events",
+      "runs_root": "runs"
+    }
+  },
+  "config_hash": "0eebba543b84",
+  "dataset": "follownet_ngsim_i80",
+  "device": "cuda",
+  "n_events": 1937,
+  "open_loop": {
+    "persistence_model": {
+      "n_samples": 730609,
+      "rmse_a_mean": 0.07625461987635132,
+      "rmse_a_median": 0.07397174401913954,
+      "rmse_a_pooled": 0.07577179211015185
+    },
+    "stored_acceleration": {
+      "n_samples": 730609,
+      "rmse_a_mean": 0.13931638253131756,
+      "rmse_a_median": 0.13587136860072271,
+      "rmse_a_pooled": 0.13907121198285924
+    }
+  },
+  "wall_time_s": 0.8879359001293778
+}

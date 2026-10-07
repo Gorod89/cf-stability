@@ -1,0 +1,470 @@
+{
+  "name": "m8_temporal",
+  "queue_file": "configs\\queue\\m8_temporal.yaml",
+  "pid": 19300,
+  "workers": 2,
+  "updated": "2026-10-07T10:37:34",
+  "totals": {
+    "n_jobs": 15,
+    "done": 15,
+    "failed": 0,
+    "timeout": 0,
+    "skipped": 0,
+    "blocked": 0,
+    "running": 0,
+    "pending": 0,
+    "interrupted": 0
+  },
+  "jobs": [
+    {
+      "index": 1,
+      "label": "m8_temporal_ft/ngsim_i80_p0/gru/fold0_seed0",
+      "experiment": "m8_temporal_ft",
+      "overrides": {
+        "data": "ngsim_i80_p0",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/gru/driver_fold0_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal_ft\\ngsim_i80_p0\\gru\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 99.61481400008779,
+      "started": "2026-10-07T10:08:53",
+      "ended": "2026-10-07T10:10:32",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal\\_logs\\m8_temporal_ft__ngsim_i80_p0__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 2,
+      "label": "m8_temporal_ft/ngsim_i80_p0/mlp/fold0_seed0",
+      "experiment": "m8_temporal_ft",
+      "overrides": {
+        "data": "ngsim_i80_p0",
+        "model": "mlp",
+        "fold": 0,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold0_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal_ft\\ngsim_i80_p0\\mlp\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 41.58072939992417,
+      "started": "2026-10-07T10:08:53",
+      "ended": "2026-10-07T10:09:34",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal\\_logs\\m8_temporal_ft__ngsim_i80_p0__mlp__driver_fold0_seed0.log"
+    },
+    {
+      "index": 3,
+      "label": "m8_temporal_stable_ft/ngsim_i80_p0/residual_idm/fold0_seed0",
+      "experiment": "m8_temporal_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80_p0",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 0,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold0_seed0",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal_stable_ft\\ngsim_i80_p0\\residual_idm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 469.48103340005036,
+      "started": "2026-10-07T10:09:34",
+      "ended": "2026-10-07T10:17:24",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal\\_logs\\m8_temporal_stable_ft__ngsim_i80_p0__residual_idm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 4,
+      "label": "m8_temporal_ft/ngsim_i80_p0/gru/fold1_seed0",
+      "experiment": "m8_temporal_ft",
+      "overrides": {
+        "data": "ngsim_i80_p0",
+        "model": "gru",
+        "fold": 1,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/gru/driver_fold1_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal_ft\\ngsim_i80_p0\\gru\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 124.39317830000073,
+      "started": "2026-10-07T10:10:32",
+      "ended": "2026-10-07T10:12:37",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal\\_logs\\m8_temporal_ft__ngsim_i80_p0__gru__driver_fold1_seed0.log"
+    },
+    {
+      "index": 5,
+      "label": "m8_temporal_ft/ngsim_i80_p0/mlp/fold1_seed0",
+      "experiment": "m8_temporal_ft",
+      "overrides": {
+        "data": "ngsim_i80_p0",
+        "model": "mlp",
+        "fold": 1,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold1_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal_ft\\ngsim_i80_p0\\mlp\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 29.409569500014186,
+      "started": "2026-10-07T10:12:37",
+      "ended": "2026-10-07T10:13:06",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal\\_logs\\m8_temporal_ft__ngsim_i80_p0__mlp__driver_fold1_seed0.log"
+    },
+    {
+      "index": 6,
+      "label": "m8_temporal_stable_ft/ngsim_i80_p0/residual_idm/fold1_seed0",
+      "experiment": "m8_temporal_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80_p0",
+        "model": "residual_idm",
+        "fold": 1,
+        "seed": 0,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold1_seed0",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal_stable_ft\\ngsim_i80_p0\\residual_idm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 456.36565209995024,
+      "started": "2026-10-07T10:13:06",
+      "ended": "2026-10-07T10:20:42",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal\\_logs\\m8_temporal_stable_ft__ngsim_i80_p0__residual_idm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 7,
+      "label": "m8_temporal_ft/ngsim_i80_p0/gru/fold2_seed0",
+      "experiment": "m8_temporal_ft",
+      "overrides": {
+        "data": "ngsim_i80_p0",
+        "model": "gru",
+        "fold": 2,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/gru/driver_fold2_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal_ft\\ngsim_i80_p0\\gru\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 99.00488220003899,
+      "started": "2026-10-07T10:17:24",
+      "ended": "2026-10-07T10:19:03",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal\\_logs\\m8_temporal_ft__ngsim_i80_p0__gru__driver_fold2_seed0.log"
+    },
+    {
+      "index": 8,
+      "label": "m8_temporal_ft/ngsim_i80_p0/mlp/fold2_seed0",
+      "experiment": "m8_temporal_ft",
+      "overrides": {
+        "data": "ngsim_i80_p0",
+        "model": "mlp",
+        "fold": 2,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold2_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal_ft\\ngsim_i80_p0\\mlp\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 36.443133499938995,
+      "started": "2026-10-07T10:19:03",
+      "ended": "2026-10-07T10:19:39",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal\\_logs\\m8_temporal_ft__ngsim_i80_p0__mlp__driver_fold2_seed0.log"
+    },
+    {
+      "index": 9,
+      "label": "m8_temporal_stable_ft/ngsim_i80_p0/residual_idm/fold2_seed0",
+      "experiment": "m8_temporal_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80_p0",
+        "model": "residual_idm",
+        "fold": 2,
+        "seed": 0,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold2_seed0",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal_stable_ft\\ngsim_i80_p0\\residual_idm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 503.72996769996826,
+      "started": "2026-10-07T10:19:39",
+      "ended": "2026-10-07T10:28:03",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal\\_logs\\m8_temporal_stable_ft__ngsim_i80_p0__residual_idm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 10,
+      "label": "m8_temporal_ft/ngsim_i80_p0/gru/fold3_seed0",
+      "experiment": "m8_temporal_ft",
+      "overrides": {
+        "data": "ngsim_i80_p0",
+        "model": "gru",
+        "fold": 3,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/gru/driver_fold3_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal_ft\\ngsim_i80_p0\\gru\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 85.35143080004491,
+      "started": "2026-10-07T10:20:42",
+      "ended": "2026-10-07T10:22:08",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal\\_logs\\m8_temporal_ft__ngsim_i80_p0__gru__driver_fold3_seed0.log"
+    },
+    {
+      "index": 11,
+      "label": "m8_temporal_ft/ngsim_i80_p0/mlp/fold3_seed0",
+      "experiment": "m8_temporal_ft",
+      "overrides": {
+        "data": "ngsim_i80_p0",
+        "model": "mlp",
+        "fold": 3,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold3_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal_ft\\ngsim_i80_p0\\mlp\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 31.11745170003269,
+      "started": "2026-10-07T10:22:08",
+      "ended": "2026-10-07T10:22:39",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal\\_logs\\m8_temporal_ft__ngsim_i80_p0__mlp__driver_fold3_seed0.log"
+    },
+    {
+      "index": 12,
+      "label": "m8_temporal_stable_ft/ngsim_i80_p0/residual_idm/fold3_seed0",
+      "experiment": "m8_temporal_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80_p0",
+        "model": "residual_idm",
+        "fold": 3,
+        "seed": 0,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold3_seed0",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal_stable_ft\\ngsim_i80_p0\\residual_idm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 537.9863505000249,
+      "started": "2026-10-07T10:22:39",
+      "ended": "2026-10-07T10:31:37",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal\\_logs\\m8_temporal_stable_ft__ngsim_i80_p0__residual_idm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 13,
+      "label": "m8_temporal_ft/ngsim_i80_p0/gru/fold4_seed0",
+      "experiment": "m8_temporal_ft",
+      "overrides": {
+        "data": "ngsim_i80_p0",
+        "model": "gru",
+        "fold": 4,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/gru/driver_fold4_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal_ft\\ngsim_i80_p0\\gru\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 163.8953380000312,
+      "started": "2026-10-07T10:28:03",
+      "ended": "2026-10-07T10:30:47",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal\\_logs\\m8_temporal_ft__ngsim_i80_p0__gru__driver_fold4_seed0.log"
+    },
+    {
+      "index": 14,
+      "label": "m8_temporal_ft/ngsim_i80_p0/mlp/fold4_seed0",
+      "experiment": "m8_temporal_ft",
+      "overrides": {
+        "data": "ngsim_i80_p0",
+        "model": "mlp",
+        "fold": 4,
+        "seed": 0,
+        "init_from": "runs/e1/follownet_highd/mlp/driver_fold4_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal_ft\\ngsim_i80_p0\\mlp\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 63.737815300002694,
+      "started": "2026-10-07T10:30:47",
+      "ended": "2026-10-07T10:31:50",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal\\_logs\\m8_temporal_ft__ngsim_i80_p0__mlp__driver_fold4_seed0.log"
+    },
+    {
+      "index": 15,
+      "label": "m8_temporal_stable_ft/ngsim_i80_p0/residual_idm/fold4_seed0",
+      "experiment": "m8_temporal_stable_ft",
+      "overrides": {
+        "data": "ngsim_i80_p0",
+        "model": "residual_idm",
+        "fold": 4,
+        "seed": 0,
+        "init_from": "runs/e4_stable/follownet_highd/residual_idm/driver_fold4_seed0",
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal_stable_ft\\ngsim_i80_p0\\residual_idm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate"
+      ],
+      "wall_time_s": 357.0277416999452,
+      "started": "2026-10-07T10:31:37",
+      "ended": "2026-10-07T10:37:34",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m8_temporal\\_logs\\m8_temporal_stable_ft__ngsim_i80_p0__residual_idm__driver_fold4_seed0.log"
+    }
+  ]
+}

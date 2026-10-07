@@ -1,0 +1,93 @@
+{
+  "device": "cpu",
+  "kind": "residual_heterogeneous",
+  "law": "residual_idm_certified_het",
+  "members": [
+    {
+      "model": "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold0_seed0/model.pt",
+      "run": "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold0_seed0"
+    },
+    {
+      "model": "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold1_seed0/model.pt",
+      "run": "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold1_seed0"
+    },
+    {
+      "model": "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold2_seed0/model.pt",
+      "run": "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold2_seed0"
+    },
+    {
+      "model": "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold3_seed0/model.pt",
+      "run": "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold3_seed0"
+    },
+    {
+      "model": "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold4_seed0/model.pt",
+      "run": "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold4_seed0"
+    }
+  ],
+  "source": {
+    "bound_used": [
+      0.005134497381309724,
+      0.05134497381309724,
+      0.010268994762619449
+    ],
+    "certificate_folds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "certificate_runs": [
+      "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold0_seed0",
+      "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold1_seed0",
+      "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold2_seed0",
+      "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold3_seed0",
+      "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold4_seed0"
+    ],
+    "cores": "data/calibration/ngsim_i80/idm_event_margin0.2_1b5493c173f7_certified.json",
+    "members_covered": true,
+    "n_certified": 3337,
+    "n_cores": 7651,
+    "n_hold_all_members": 3337,
+    "n_used": 3337,
+    "pattern": "data/calibration/ngsim_i80/idm_event_margin0.2_*_certified.json",
+    "r_max": [
+      0.3
+    ],
+    "recheck": true,
+    "residual_bounds": [
+      [
+        0.005023677470452067,
+        0.05023677470452067,
+        0.010047354940904134
+      ],
+      [
+        0.005080239397767069,
+        0.05080239397767068,
+        0.010160478795534137
+      ],
+      [
+        0.005089600515764797,
+        0.050896005157647965,
+        0.010179201031529594
+      ],
+      [
+        0.005134497381309724,
+        0.05134497381309724,
+        0.010268994762619449
+      ],
+      [
+        0.005081981457374927,
+        0.05081981457374927,
+        0.010163962914749854
+      ]
+    ],
+    "share_certified": 0.43615213697555877
+  },
+  "support_v": [
+    0.0,
+    18.050324854227018
+  ],
+  "table": "residual_idm_certified_het.npz",
+  "window": 1
+}

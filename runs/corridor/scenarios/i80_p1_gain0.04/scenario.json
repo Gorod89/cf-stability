@@ -1,0 +1,218 @@
+{
+  "analysis_window": [
+    180.0,
+    840.0
+  ],
+  "boundary": {
+    "feedback": true,
+    "g_max": 1.5,
+    "g_min": 0.2,
+    "gain": 0.04,
+    "half_window_s": 2.5,
+    "lane_changes": false,
+    "lanes": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "max_accel": 2.0,
+    "max_decel": 3.0,
+    "min_gap": 1.0,
+    "n_seconds": 980,
+    "x_range": [
+      470.0,
+      500.0
+    ]
+  },
+  "config": {
+    "analysis_window": [
+      180.0,
+      840.0
+    ],
+    "aux_lane": 7,
+    "boundary": {
+      "feedback": true,
+      "g_max": 1.5,
+      "g_min": 0.2,
+      "gain": 0.04,
+      "half_window_s": 2.5,
+      "lane_changes": false,
+      "max_accel": 2.0,
+      "max_decel": 3.0,
+      "min_gap": 1.0,
+      "x_range": [
+        470.0,
+        500.0
+      ]
+    },
+    "classes": {
+      "1": "motorcycle",
+      "2": "passenger",
+      "3": "truck"
+    },
+    "edges": [
+      {
+        "id": "main_a",
+        "lanes": 6,
+        "x0": 20.0,
+        "x1": 100.0
+      },
+      {
+        "id": "main_b",
+        "lanes": 7,
+        "x0": 100.0,
+        "x1": 204.0
+      },
+      {
+        "id": "main_c",
+        "lanes": 6,
+        "x0": 204.0,
+        "x1": 500.0
+      },
+      {
+        "id": "out",
+        "lanes": 6,
+        "x0": 500.0,
+        "x1": 650.0
+      }
+    ],
+    "exit_extrapolation_m": 1.0,
+    "hov_lane": 1,
+    "insertion_checks": null,
+    "lane_width": 3.66,
+    "name": "i80",
+    "netconvert_options": [
+      "--no-internal-links",
+      "true",
+      "--no-turnarounds",
+      "true",
+      "--offset.disable-normalization",
+      "true"
+    ],
+    "period": 1,
+    "source": "data/raw/ngsim/cache/ngsim_i-80_reconstructed.parquet",
+    "speed": 29.0,
+    "variant": "gain0.04",
+    "vtype": {
+      "decel": 8.0,
+      "emergencyDecel": 8.0,
+      "laneChangeModel": "LC2013",
+      "lcKeepRight": 0.0,
+      "minGap": 0.0,
+      "sigma": 0.0,
+      "tau": 1.0
+    },
+    "x_in": 20.0,
+    "x_out": 500.0
+  },
+  "config_hash": "867547e4a488",
+  "counts": {
+    "aux_users": 0,
+    "entered_downstream_of_x_in": 250,
+    "entry_edge": {
+      "main_a": 1630,
+      "main_b": 206
+    },
+    "entry_lane": {
+      "1": 385,
+      "2": 279,
+      "3": 232,
+      "4": 241,
+      "5": 245,
+      "6": 248,
+      "7": 206
+    },
+    "exited": 1826,
+    "exits_extrapolated": 562,
+    "hov": 415,
+    "offramp": 0,
+    "offramp_unreachable": 0,
+    "tracks": 1836,
+    "tracks_off_network": 0,
+    "truth_rows": 153741,
+    "v_class": {
+      "1": 24,
+      "2": 1742,
+      "3": 70
+    },
+    "vehicle_types": 147,
+    "vehicles": 1836
+  },
+  "files": [
+    "boundary.npz",
+    "ground_truth.npz",
+    "net.con.xml",
+    "net.edg.xml",
+    "net.net.xml",
+    "net.nod.xml",
+    "routes.rou.xml",
+    "vehicles_truth.npz"
+  ],
+  "frame_origin": 6,
+  "geometry": {
+    "aux_edge": "main_b",
+    "aux_end": 204.0,
+    "aux_index": 0,
+    "aux_lane": 7,
+    "buffer_edges": [
+      "out"
+    ],
+    "controlled_edges": [
+      "main_a",
+      "main_b",
+      "main_c"
+    ],
+    "edges": [
+      {
+        "id": "main_a",
+        "lanes": 6,
+        "x0": 20.0,
+        "x1": 100.0
+      },
+      {
+        "id": "main_b",
+        "lanes": 7,
+        "x0": 100.0,
+        "x1": 204.0
+      },
+      {
+        "id": "main_c",
+        "lanes": 6,
+        "x0": 204.0,
+        "x1": 500.0
+      },
+      {
+        "id": "out",
+        "lanes": 6,
+        "x0": 500.0,
+        "x1": 650.0
+      }
+    ],
+    "lane_width": 3.66,
+    "main_lanes": 6,
+    "speed": 29.0,
+    "x_in": 20.0,
+    "x_out": 500.0
+  },
+  "git_revision": "47ceac037d95b9f556eb5b48dfe8172b53a5a7d3",
+  "lane_permissions": {
+    "main_a_5": "hov",
+    "main_b_6": "hov",
+    "main_c_5": "hov"
+  },
+  "netconvert": "Success.",
+  "overrides": {
+    "boundary.gain": 0.04
+  },
+  "period": 1,
+  "scenario": "i80_p1_gain0.04",
+  "site": "i80",
+  "source": "data/raw/ngsim/cache/ngsim_i-80_reconstructed.parquet",
+  "t_data_end": 978.6,
+  "t_first_depart": 0.0,
+  "t_last_depart": 908.3,
+  "variant": "gain0.04"
+}

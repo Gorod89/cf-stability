@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-10-05T10:08:08.010797+03:00 by Eclipse SUMO netconvert 1.27.1
+<netconvertConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <node-files value="C:\Users\FFFC~1\DOWNLO~1\RESEAR~2\CF-STA~1\runs\corridor\SCENAR~1\I80_P1~3\NETNOD~1.XML"/>
+        <edge-files value="C:\Users\FFFC~1\DOWNLO~1\RESEAR~2\CF-STA~1\runs\corridor\SCENAR~1\I80_P1~3\NETEDG~1.XML"/>
+        <connection-files value="C:\Users\FFFC~1\DOWNLO~1\RESEAR~2\CF-STA~1\runs\corridor\SCENAR~1\I80_P1~3\NETCON~1.XML"/>
+    </input>
+
+    <output>
+        <output-file value="C:\Users\FFFC~1\DOWNLO~1\RESEAR~2\CF-STA~1\runs\corridor\SCENAR~1\I80_P1~3\net.net.xml"/>
+    </output>
+
+    <processing>
+        <offset.disable-normalization value="true"/>
+    </processing>
+
+    <junctions>
+        <no-internal-links value="true"/>
+        <no-turnarounds value="true"/>
+    </junctions>
+
+</netconvertConfiguration>
+-->
+
+<net version="1.20" junctionCornerDetail="5" limitTurnSpeed="5.50" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+
+    <location netOffset="0.00,0.00" convBoundary="20.00,0.00,650.00,0.00" origBoundary="20.00,0.00,650.00,0.00" projParameter="!"/>
+
+    <edge id="main_a" from="x20" to="x100" priority="-1" length="80.00">
+        <lane id="main_a_0" index="0" speed="29.00" length="80.00" width="3.66" shape="20.00,-20.13 96.00,-20.13"/>
+        <lane id="main_a_1" index="1" speed="29.00" length="80.00" width="3.66" shape="20.00,-16.47 96.00,-16.47"/>
+        <lane id="main_a_2" index="2" speed="29.00" length="80.00" width="3.66" shape="20.00,-12.81 96.00,-12.81"/>
+        <lane id="main_a_3" index="3" speed="29.00" length="80.00" width="3.66" shape="20.00,-9.15 96.00,-9.15"/>
+        <lane id="main_a_4" index="4" speed="29.00" length="80.00" width="3.66" shape="20.00,-5.49 96.00,-5.49"/>
+        <lane id="main_a_5" index="5" allow="hov" speed="29.00" length="80.00" width="3.66" shape="20.00,-1.83 96.00,-1.83"/>
+    </edge>
+    <edge id="main_b" from="x100" to="x204" priority="-1" length="104.00">
+        <lane id="main_b_0" index="0" speed="29.00" length="104.00" width="3.66" shape="104.00,-23.79 200.00,-23.79"/>
+        <lane id="main_b_1" index="1" speed="29.00" length="104.00" width="3.66" shape="104.00,-20.13 200.00,-20.13"/>
+        <lane id="main_b_2" index="2" speed="29.00" length="104.00" width="3.66" shape="104.00,-16.47 200.00,-16.47"/>
+        <lane id="main_b_3" index="3" speed="29.00" length="104.00" width="3.66" shape="104.00,-12.81 200.00,-12.81"/>
+        <lane id="main_b_4" index="4" speed="29.00" length="104.00" width="3.66" shape="104.00,-9.15 200.00,-9.15"/>
+        <lane id="main_b_5" index="5" speed="29.00" length="104.00" width="3.66" shape="104.00,-5.49 200.00,-5.49"/>
+        <lane id="main_b_6" index="6" allow="hov" speed="29.00" length="104.00" width="3.66" shape="104.00,-1.83 200.00,-1.83"/>
+    </edge>
+    <edge id="main_c" from="x204" to="x500" priority="-1" length="296.00">
+        <lane id="main_c_0" index="0" speed="29.00" length="296.00" width="3.66" shape="208.00,-20.13 500.00,-20.13"/>
+        <lane id="main_c_1" index="1" speed="29.00" length="296.00" width="3.66" shape="208.00,-16.47 500.00,-16.47"/>
+        <lane id="main_c_2" index="2" speed="29.00" length="296.00" width="3.66" shape="208.00,-12.81 500.00,-12.81"/>
+        <lane id="main_c_3" index="3" speed="29.00" length="296.00" width="3.66" shape="208.00,-9.15 500.00,-9.15"/>
+        <lane id="main_c_4" index="4" speed="29.00" length="296.00" width="3.66" shape="208.00,-5.49 500.00,-5.49"/>
+        <lane id="main_c_5" index="5" allow="hov" speed="29.00" length="296.00" width="3.66" shape="208.00,-1.83 500.00,-1.83"/>
+    </edge>
+    <edge id="out" from="x500" to="x650" priority="-1" length="150.00">
+        <lane id="out_0" index="0" speed="29.00" length="150.00" width="3.66" shape="500.00,-20.13 650.00,-20.13"/>
+        <lane id="out_1" index="1" speed="29.00" length="150.00" width="3.66" shape="500.00,-16.47 650.00,-16.47"/>
+        <lane id="out_2" index="2" speed="29.00" length="150.00" width="3.66" shape="500.00,-12.81 650.00,-12.81"/>
+        <lane id="out_3" index="3" speed="29.00" length="150.00" width="3.66" shape="500.00,-9.15 650.00,-9.15"/>
+        <lane id="out_4" index="4" speed="29.00" length="150.00" width="3.66" shape="500.00,-5.49 650.00,-5.49"/>
+        <lane id="out_5" index="5" speed="29.00" length="150.00" width="3.66" shape="500.00,-1.83 650.00,-1.83"/>
+    </edge>
+
+    <junction id="x100" type="priority" x="100.00" y="0.00" incLanes="main_a_0 main_a_1 main_a_2 main_a_3 main_a_4 main_a_5" intLanes="" shape="104.00,0.00 104.00,-25.62 100.95,-24.67 99.05,-22.91 97.81,-22.23 96.00,-21.96 96.00,0.00">
+        <request index="0" response="000000" foes="000000"/>
+        <request index="1" response="000000" foes="000000"/>
+        <request index="2" response="000000" foes="000000"/>
+        <request index="3" response="000000" foes="000000"/>
+        <request index="4" response="000000" foes="000000"/>
+        <request index="5" response="000000" foes="000000"/>
+    </junction>
+    <junction id="x20" type="dead_end" x="20.00" y="0.00" incLanes="" intLanes="" shape="20.00,0.00 20.00,-21.96"/>
+    <junction id="x204" type="priority" x="204.00" y="0.00" incLanes="main_b_0 main_b_1 main_b_2 main_b_3 main_b_4 main_b_5 main_b_6" intLanes="" shape="208.00,0.00 208.00,-21.96 204.95,-22.91 203.05,-24.67 201.81,-25.35 200.00,-25.62 200.00,0.00">
+        <request index="0" response="000000" foes="000000"/>
+        <request index="1" response="000000" foes="000000"/>
+        <request index="2" response="000000" foes="000000"/>
+        <request index="3" response="000000" foes="000000"/>
+        <request index="4" response="000000" foes="000000"/>
+        <request index="5" response="000000" foes="000000"/>
+    </junction>
+    <junction id="x500" type="priority" x="500.00" y="0.00" incLanes="main_c_0 main_c_1 main_c_2 main_c_3 main_c_4 main_c_5" intLanes="" shape="500.00,0.00 500.00,-21.96 500.00,0.00">
+        <request index="0" response="000000" foes="000000"/>
+        <request index="1" response="000000" foes="000000"/>
+        <request index="2" response="000000" foes="000000"/>
+        <request index="3" response="000000" foes="000000"/>
+        <request index="4" response="000000" foes="000000"/>
+        <request index="5" response="000000" foes="000000"/>
+    </junction>
+    <junction id="x650" type="dead_end" x="650.00" y="0.00" incLanes="out_0 out_1 out_2 out_3 out_4 out_5" intLanes="" shape="650.00,-21.96 650.00,0.00"/>
+
+    <connection from="main_a" to="main_b" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from="main_a" to="main_b" fromLane="1" toLane="2" dir="s" state="M"/>
+    <connection from="main_a" to="main_b" fromLane="2" toLane="3" dir="s" state="M"/>
+    <connection from="main_a" to="main_b" fromLane="3" toLane="4" dir="s" state="M"/>
+    <connection from="main_a" to="main_b" fromLane="4" toLane="5" dir="s" state="M"/>
+    <connection from="main_a" to="main_b" fromLane="5" toLane="6" dir="s" state="M"/>
+    <connection from="main_b" to="main_c" fromLane="1" toLane="0" dir="s" state="M"/>
+    <connection from="main_b" to="main_c" fromLane="2" toLane="1" dir="s" state="M"/>
+    <connection from="main_b" to="main_c" fromLane="3" toLane="2" dir="s" state="M"/>
+    <connection from="main_b" to="main_c" fromLane="4" toLane="3" dir="s" state="M"/>
+    <connection from="main_b" to="main_c" fromLane="5" toLane="4" dir="s" state="M"/>
+    <connection from="main_b" to="main_c" fromLane="6" toLane="5" dir="s" state="M"/>
+    <connection from="main_c" to="out" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="main_c" to="out" fromLane="1" toLane="1" dir="s" state="M"/>
+    <connection from="main_c" to="out" fromLane="2" toLane="2" dir="s" state="M"/>
+    <connection from="main_c" to="out" fromLane="3" toLane="3" dir="s" state="M"/>
+    <connection from="main_c" to="out" fromLane="4" toLane="4" dir="s" state="M"/>
+    <connection from="main_c" to="out" fromLane="5" toLane="5" dir="s" state="M"/>
+
+</net>

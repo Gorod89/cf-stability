@@ -1,0 +1,32 @@
+{
+  "device": "cpu",
+  "kind": "models",
+  "law": "residual_idm_certified_p0",
+  "members": [
+    {
+      "model": "runs/m8_temporal_stable_ft/ngsim_i80_p0/residual_idm/driver_fold0_seed0/model.pt",
+      "run": "runs/m8_temporal_stable_ft/ngsim_i80_p0/residual_idm/driver_fold0_seed0"
+    },
+    {
+      "model": "runs/m8_temporal_stable_ft/ngsim_i80_p0/residual_idm/driver_fold1_seed0/model.pt",
+      "run": "runs/m8_temporal_stable_ft/ngsim_i80_p0/residual_idm/driver_fold1_seed0"
+    },
+    {
+      "model": "runs/m8_temporal_stable_ft/ngsim_i80_p0/residual_idm/driver_fold2_seed0/model.pt",
+      "run": "runs/m8_temporal_stable_ft/ngsim_i80_p0/residual_idm/driver_fold2_seed0"
+    },
+    {
+      "model": "runs/m8_temporal_stable_ft/ngsim_i80_p0/residual_idm/driver_fold3_seed0/model.pt",
+      "run": "runs/m8_temporal_stable_ft/ngsim_i80_p0/residual_idm/driver_fold3_seed0"
+    },
+    {
+      "model": "runs/m8_temporal_stable_ft/ngsim_i80_p0/residual_idm/driver_fold4_seed0/model.pt",
+      "run": "runs/m8_temporal_stable_ft/ngsim_i80_p0/residual_idm/driver_fold4_seed0"
+    }
+  ],
+  "support_v": [
+    0.10573951709105245,
+    21.121917722926884
+  ],
+  "window": 1
+}

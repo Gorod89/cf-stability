@@ -1,0 +1,43 @@
+{
+  "closed_loop": {
+    "collision_rate": 0.48714810281517745,
+    "n_samples": 3581593,
+    "nrmse_s_median": 6.0177097677625335,
+    "nrmse_v_median": 0.7152961750934793,
+    "rmse_s_mean": 186.0500588659059,
+    "rmse_s_median": 103.88876783275525,
+    "rmse_s_pooled": 460.5572465637246,
+    "rmse_v_mean": 9.053964458366284,
+    "rmse_v_median": 6.386071892923726,
+    "rmse_v_pooled": 16.370638988178904,
+    "start_index": 1
+  },
+  "config": {
+    "batch_events": 4096,
+    "dataset": "ngsim_us101",
+    "device": "auto",
+    "paths": {
+      "events_root": "data/events",
+      "runs_root": "runs"
+    }
+  },
+  "config_hash": "346ced907229",
+  "dataset": "ngsim_us101",
+  "device": "cuda",
+  "n_events": 7353,
+  "open_loop": {
+    "persistence_model": {
+      "n_samples": 3581593,
+      "rmse_a_mean": 0.07932060301750134,
+      "rmse_a_median": 0.07405438549044688,
+      "rmse_a_pooled": 0.080192563557074
+    },
+    "stored_acceleration": {
+      "n_samples": 3581593,
+      "rmse_a_mean": 0.15508434850144617,
+      "rmse_a_median": 0.14453835421656394,
+      "rmse_a_pooled": 0.15677716054269866
+    }
+  },
+  "wall_time_s": 2.9736682000002475
+}

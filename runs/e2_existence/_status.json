@@ -1,0 +1,444 @@
+{
+  "name": "e2_existence",
+  "queue_file": "configs\\queue\\e2_existence.yaml",
+  "pid": 23840,
+  "workers": 2,
+  "updated": "2026-09-30T17:27:35",
+  "totals": {
+    "n_jobs": 15,
+    "done": 1,
+    "failed": 0,
+    "timeout": 0,
+    "skipped": 14,
+    "blocked": 0,
+    "running": 0,
+    "pending": 0,
+    "interrupted": 0
+  },
+  "jobs": [
+    {
+      "index": 1,
+      "label": "e2_existence/follownet_highd/gru/fold0_seed0",
+      "experiment": "e2_existence",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "existence",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\follownet_highd\\gru\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T17:15:09",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\_logs\\e2_existence__follownet_highd__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 2,
+      "label": "e2_existence/follownet_highd/lstm/fold0_seed0",
+      "experiment": "e2_existence",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "existence",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\follownet_highd\\lstm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T17:15:09",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\_logs\\e2_existence__follownet_highd__lstm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 3,
+      "label": "e2_existence/follownet_highd/perl/fold0_seed0",
+      "experiment": "e2_existence",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "existence",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\follownet_highd\\perl\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T17:15:09",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\_logs\\e2_existence__follownet_highd__perl__driver_fold0_seed0.log"
+    },
+    {
+      "index": 4,
+      "label": "e2_existence/follownet_highd/gru/fold1_seed0",
+      "experiment": "e2_existence",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "existence",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\follownet_highd\\gru\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T17:15:09",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\_logs\\e2_existence__follownet_highd__gru__driver_fold1_seed0.log"
+    },
+    {
+      "index": 5,
+      "label": "e2_existence/follownet_highd/lstm/fold1_seed0",
+      "experiment": "e2_existence",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "existence",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\follownet_highd\\lstm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T17:15:09",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\_logs\\e2_existence__follownet_highd__lstm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 6,
+      "label": "e2_existence/follownet_highd/perl/fold1_seed0",
+      "experiment": "e2_existence",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "existence",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\follownet_highd\\perl\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T17:15:09",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\_logs\\e2_existence__follownet_highd__perl__driver_fold1_seed0.log"
+    },
+    {
+      "index": 7,
+      "label": "e2_existence/follownet_highd/gru/fold2_seed0",
+      "experiment": "e2_existence",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "existence",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\follownet_highd\\gru\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T17:15:09",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\_logs\\e2_existence__follownet_highd__gru__driver_fold2_seed0.log"
+    },
+    {
+      "index": 8,
+      "label": "e2_existence/follownet_highd/lstm/fold2_seed0",
+      "experiment": "e2_existence",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "existence",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\follownet_highd\\lstm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T17:15:09",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\_logs\\e2_existence__follownet_highd__lstm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 9,
+      "label": "e2_existence/follownet_highd/perl/fold2_seed0",
+      "experiment": "e2_existence",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "existence",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\follownet_highd\\perl\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T17:15:09",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\_logs\\e2_existence__follownet_highd__perl__driver_fold2_seed0.log"
+    },
+    {
+      "index": 10,
+      "label": "e2_existence/follownet_highd/gru/fold3_seed0",
+      "experiment": "e2_existence",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "existence",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\follownet_highd\\gru\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T17:15:09",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\_logs\\e2_existence__follownet_highd__gru__driver_fold3_seed0.log"
+    },
+    {
+      "index": 11,
+      "label": "e2_existence/follownet_highd/lstm/fold3_seed0",
+      "experiment": "e2_existence",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "existence",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\follownet_highd\\lstm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T17:15:09",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\_logs\\e2_existence__follownet_highd__lstm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 12,
+      "label": "e2_existence/follownet_highd/perl/fold3_seed0",
+      "experiment": "e2_existence",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "existence",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\follownet_highd\\perl\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T17:15:09",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\_logs\\e2_existence__follownet_highd__perl__driver_fold3_seed0.log"
+    },
+    {
+      "index": 13,
+      "label": "e2_existence/follownet_highd/gru/fold4_seed0",
+      "experiment": "e2_existence",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "existence",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\follownet_highd\\gru\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T17:15:09",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\_logs\\e2_existence__follownet_highd__gru__driver_fold4_seed0.log"
+    },
+    {
+      "index": 14,
+      "label": "e2_existence/follownet_highd/lstm/fold4_seed0",
+      "experiment": "e2_existence",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "existence",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\follownet_highd\\lstm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 746.2136200999958,
+      "started": "2026-09-30T17:15:09",
+      "ended": "2026-09-30T17:27:35",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\_logs\\e2_existence__follownet_highd__lstm__driver_fold4_seed0.log"
+    },
+    {
+      "index": 15,
+      "label": "e2_existence/follownet_highd/perl/fold4_seed0",
+      "experiment": "e2_existence",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "existence",
+        "train.penalty.weight": 1.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\follownet_highd\\perl\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-09-30T17:15:09",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_existence\\_logs\\e2_existence__follownet_highd__perl__driver_fold4_seed0.log"
+    }
+  ]
+}

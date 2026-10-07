@@ -1,0 +1,157 @@
+{
+  "name": "m4_e4pilot",
+  "queue_file": "configs\\queue\\e4_pilot.yaml",
+  "pid": 7940,
+  "workers": 2,
+  "updated": "2026-09-29T19:12:21",
+  "totals": {
+    "n_jobs": 4,
+    "done": 3,
+    "failed": 1,
+    "timeout": 0,
+    "skipped": 0,
+    "blocked": 0,
+    "running": 0,
+    "pending": 0,
+    "interrupted": 0
+  },
+  "jobs": [
+    {
+      "index": 1,
+      "label": "m4_e4pilot_r0.1/follownet_highd/residual_idm/fold0_seed0",
+      "experiment": "m4_e4pilot_r0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 0,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.1
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m4_e4pilot_r0.1\\follownet_highd\\residual_idm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate",
+        "platoon"
+      ],
+      "wall_time_s": 321.73238839999976,
+      "started": "2026-09-29T19:01:33",
+      "ended": "2026-09-29T19:06:55",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m4_e4pilot\\_logs\\m4_e4pilot_r0.1__follownet_highd__residual_idm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 2,
+      "label": "m4_e4pilot_r0.2/follownet_highd/residual_idm/fold0_seed0",
+      "experiment": "m4_e4pilot_r0.2",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 0,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.2
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m4_e4pilot_r0.2\\follownet_highd\\residual_idm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate",
+        "platoon"
+      ],
+      "wall_time_s": 247.86280370000168,
+      "started": "2026-09-29T19:01:33",
+      "ended": "2026-09-29T19:05:41",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m4_e4pilot\\_logs\\m4_e4pilot_r0.2__follownet_highd__residual_idm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 3,
+      "label": "m4_e4pilot_r0.3/follownet_highd/residual_idm/fold0_seed0",
+      "experiment": "m4_e4pilot_r0.3",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 0,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m4_e4pilot_r0.3\\follownet_highd\\residual_idm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "certificate",
+        "platoon"
+      ],
+      "wall_time_s": 211.0933354000008,
+      "started": "2026-09-29T19:05:41",
+      "ended": "2026-09-29T19:09:12",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m4_e4pilot\\_logs\\m4_e4pilot_r0.3__follownet_highd__residual_idm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 4,
+      "label": "m4_e4pilot_r0.5/follownet_highd/residual_idm/fold0_seed0",
+      "experiment": "m4_e4pilot_r0.5",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm",
+        "fold": 0,
+        "seed": 0,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.5
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m4_e4pilot_r0.5\\follownet_highd\\residual_idm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "certificate",
+        "platoon"
+      ],
+      "state": "failed",
+      "exit_code": 0,
+      "failed_step": "train",
+      "error": "config hash 20dd7e918490 of metrics.json differs from c8eb6710d535",
+      "steps_run": [
+        "train"
+      ],
+      "wall_time_s": 325.6899159999957,
+      "started": "2026-09-29T19:06:55",
+      "ended": "2026-09-29T19:12:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m4_e4pilot\\_logs\\m4_e4pilot_r0.5__follownet_highd__residual_idm__driver_fold0_seed0.log"
+    }
+  ]
+}

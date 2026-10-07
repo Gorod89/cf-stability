@@ -1,0 +1,18 @@
+<connections>
+    <connection from="main_a" to="main_b" fromLane="4" toLane="5"/>
+    <connection from="main_a" to="main_b" fromLane="3" toLane="4"/>
+    <connection from="main_a" to="main_b" fromLane="2" toLane="3"/>
+    <connection from="main_a" to="main_b" fromLane="1" toLane="2"/>
+    <connection from="main_a" to="main_b" fromLane="0" toLane="1"/>
+    <connection from="main_b" to="main_c" fromLane="5" toLane="4"/>
+    <connection from="main_b" to="main_c" fromLane="4" toLane="3"/>
+    <connection from="main_b" to="main_c" fromLane="3" toLane="2"/>
+    <connection from="main_b" to="main_c" fromLane="2" toLane="1"/>
+    <connection from="main_b" to="main_c" fromLane="1" toLane="0"/>
+    <connection from="main_c" to="out" fromLane="4" toLane="4"/>
+    <connection from="main_c" to="out" fromLane="3" toLane="3"/>
+    <connection from="main_c" to="out" fromLane="2" toLane="2"/>
+    <connection from="main_c" to="out" fromLane="1" toLane="1"/>
+    <connection from="main_c" to="out" fromLane="0" toLane="0"/>
+    <connection from="main_b" to="offramp" fromLane="0" toLane="0"/>
+</connections>
