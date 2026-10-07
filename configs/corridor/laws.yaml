@@ -1,0 +1,85 @@
+# Laws of the corridor (docs/m5_contract.md, section 3; D96, D97; docs/m7_contract.md, sections 4 and 7: D111,
+# D114), exported to runs/corridor/laws/<law>.json by scripts/build_corridor.py. `members` is the run directory of
+# a member, `{fold}` running over `folds`; a law is written only when all its member runs exist (model.pt and
+# metrics.json), else the build names the missing ones and leaves the law out (a file of an earlier export stays).
+#   kind models: the checkpoints (model.pt) drive the vehicles, one member drawn per vehicle
+#   kind idm: the IDM parameters of the member checkpoints
+#   kind idm_heterogeneous: one parameter set per vehicle, drawn from the per-event estimates of `estimates`
+#     (v0 and b fixed, D48): those inside the bounds (`selection: interior`, the default, D63) or all of them
+#     (`selection: all`, D114); support of the speeds from the members of `support_from`
+#   kind idm with `calibration` instead of `members` (M8, D120): the parameters (`params`) of global calibration
+#     files, one member per file (`{fold}`: one per fold; a `*` pattern must match one file); support of the speeds
+#     from the members of `support_from`
+#   kind residual_heterogeneous (M8, D118): the ResidualIDM fold members of `members` give the residual, the
+#     certified per-event cores of `cores` (one drawn per vehicle) the IDM core; `recheck`: a core enters only when
+#     the a priori certificate also holds with the largest residual bound of the members
+# `device` of the inference (decision of the lead on the M5 benchmark): part of the law file, hence of the config
+# hash of every run; the IDM laws are computed on the CPU.
+# Laws by milestone: M5 the thirteen of D97 (I-80 and, unchanged, US-101: D112); M7 idm_heterogeneous_all (D114)
+# and the residual-amplitude sweep of the certified hybrid with its control (D111: runs of configs/queue/e4_rmax.yaml);
+# M8 the heterogeneous certified hybrid (D118) and the temporal hold-out laws fine-tuned on period 0 (D120, runs of
+# configs/queue/m8_temporal.yaml; run on periods 1 and 2 of I-80 only). A law whose inputs do not exist yet is not
+# written: the build names what is missing.
+folds: [0, 1, 2, 3, 4]
+table:
+  idm_global: {kind: idm, device: cpu, members: "runs/e3_reference/ngsim_i80/idm/driver_fold{fold}_seed0"}
+  idm_heterogeneous:
+    kind: idm_heterogeneous
+    device: cpu
+    estimates: data/calibration/ngsim_i80/idm_per_event_fixed_v0_b.parquet
+    spread: data/calibration/ngsim_i80/idm_spread_fixed_v0_b.json
+    support_from: idm_global
+  knn: {kind: models, device: cuda, members: "runs/m5_ft/ngsim_i80/knn/driver_fold{fold}_seed0"}
+  mlp: {kind: models, device: cpu, members: "runs/e4_free_ft/ngsim_i80/mlp/driver_fold{fold}_seed0"}
+  residual_idm: {kind: models, device: cpu, members: "runs/e4_free_ft/ngsim_i80/residual_idm/driver_fold{fold}_seed0"}
+  residual_idm_certified:
+    kind: models
+    device: cpu
+    members: "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold{fold}_seed0"
+  pidl: {kind: models, device: cpu, members: "runs/m5_ft/ngsim_i80/pidl/driver_fold{fold}_seed0"}
+  gru: {kind: models, device: cuda, members: "runs/m5_ft/ngsim_i80/gru/driver_fold{fold}_seed0"}
+  lstm: {kind: models, device: cuda, members: "runs/m5_ft/ngsim_i80/lstm/driver_fold{fold}_seed0"}
+  perl: {kind: models, device: cuda, members: "runs/m5_ft/ngsim_i80/perl/driver_fold{fold}_seed0"}
+  mlp_penalty: {kind: models, device: cpu, members: "runs/m5_ft_jacobian_w1/ngsim_i80/mlp/driver_fold{fold}_seed0"}
+  gru_penalty: {kind: models, device: cuda, members: "runs/m5_ft_gain_w0.1/ngsim_i80/gru/driver_fold{fold}_seed0"}
+  lstm_penalty: {kind: models, device: cuda, members: "runs/m5_ft_gain_w0.1/ngsim_i80/lstm/driver_fold{fold}_seed0"}
+  idm_heterogeneous_all:   # D114: all per-event estimates, bounds-hitting ones included; sampling as idm_heterogeneous
+    kind: idm_heterogeneous
+    device: cpu
+    selection: all
+    estimates: data/calibration/ngsim_i80/idm_per_event_fixed_v0_b.parquet
+    spread: data/calibration/ngsim_i80/idm_spread_fixed_v0_b.json
+    support_from: idm_global
+  residual_idm_certified_r0.1:   # D111: certified hybrid of r_max 0.1 m/s^2 fine-tuned on ngsim_i80
+    kind: models
+    device: cpu
+    members: "runs/e4_stable_ft_r0.1/ngsim_i80/residual_idm/driver_fold{fold}_seed0"
+  residual_idm_certified_r0.2:
+    kind: models
+    device: cpu
+    members: "runs/e4_stable_ft_r0.2/ngsim_i80/residual_idm/driver_fold{fold}_seed0"
+  residual_idm_certified_r0.5:
+    kind: models
+    device: cpu
+    members: "runs/e4_stable_ft_r0.5/ngsim_i80/residual_idm/driver_fold{fold}_seed0"
+  residual_idm_free_r0.3:        # D111: control, free core without certificate at r_max 0.3, fine-tuned on ngsim_i80
+    kind: models
+    device: cpu
+    members: "runs/e4_free_r0.3_ft/ngsim_i80/residual_idm/driver_fold{fold}_seed0"
+  residual_idm_certified_het:    # D118: one certified per-event core (margin 0.2) per vehicle + the residual of a fold
+    kind: residual_heterogeneous #   member of e4_stable_ft, drawn per vehicle as for residual_idm_certified
+    device: cpu
+    members: "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold{fold}_seed0"
+    cores: "data/calibration/ngsim_i80/idm_event_margin0.2_*_certified.json"
+    recheck: true
+  idm_global_p0:                 # D120: global IDM calibrated on the view ngsim_i80_p0 (period 0 of I-80 only)
+    kind: idm
+    device: cpu
+    calibration: "data/calibration/ngsim_i80_p0/idm_global.json"   # scripts/calibrate_idm.py dataset=<view>
+    support_from: idm_global
+  residual_idm_certified_p0:     # D120: certified hybrid of e4_stable fine-tuned on period 0 (certificate enforced)
+    kind: models
+    device: cpu
+    members: "runs/m8_temporal_stable_ft/ngsim_i80_p0/residual_idm/driver_fold{fold}_seed0"
+  mlp_p0: {kind: models, device: cpu, members: "runs/m8_temporal_ft/ngsim_i80_p0/mlp/driver_fold{fold}_seed0"}
+  gru_p0: {kind: models, device: cuda, members: "runs/m8_temporal_ft/ngsim_i80_p0/gru/driver_fold{fold}_seed0"}

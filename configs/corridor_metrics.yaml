@@ -1,0 +1,174 @@
+# Macroscopic metrics of the I-80 corridor and the tables of M5 (docs/m5_contract.md, sections 5-6;
+# cf_stability/corridor/macro.py, cf_stability/corridor/waves.py, cf_stability/eval/corridor_tables.py).
+# python scripts/corridor_metrics.py                                  # every ground truth and run under runs/corridor
+# python scripts/corridor_metrics.py scenario=i80_p1                  # its ground truth and all its runs
+# python scripts/corridor_metrics.py scenario=i80_p1 law=idm_global seed=3
+# python scripts/corridor_metrics.py force=true                       # recompute macro.json files that are up to date
+# python scripts/corridor_metrics.py tables=true                      # the missing metrics, then runs/_tables/m5/
+# python scripts/corridor_metrics.py compute=false tables=true        # the tables from the macro.json files there are
+# A macro.json is up to date when it holds the hash of `macro` and is newer than its inputs (the two npz
+# files, run.json, scenario.json and, for a run, the ground truth's macro.json).
+
+scenario: null            # filters of the selection (null: all); law or seed select runs only
+law: null
+seed: null
+force: false
+compute: true             # write the macro.json files of the selection
+tables: false             # write the tables of `design` (.md, .csv: laws, components, instability, tost, h12_1,
+                          # h12_2, e4_rmax, sensitivity, verdicts) and missing.txt, and those of M8 of the corridor
+                          # (asymmetry, asymmetry_contrasts, correlation_pooled, power, temporal; D120-D122) into
+                          # paths.out_dir_m8 with missing_corridor.txt
+workers: 1                # scripts/corridor_asymmetry.py: processes of the pool (1: in this process)
+
+macro:                    # hashed into config_hash of every macro.json
+  detectors: [100, 200, 300, 400, 450]   # m; vehicles passing per interval, linear between the 1 Hz samples
+  interval_s: 30
+  throughput_x: 450       # m: throughput_vph and the discharge flow
+  queue_x: 100            # m: an interval is congested when the mean speed of the vehicles passing here ...
+  queue_speed: 11.0       # ... is below this (m/s)
+  capacity_window_s: 120  # capacity_drop = 1 - queue_discharge_flow / flow_peak_2min (largest mean flow over this
+                          # many seconds at 450 m); congested_share = share of the intervals congested at 100 m
+  cell_dx: 100            # m, Edie grid (grid lines at multiples of it inside [x_in, x_out]: 20, 100, ..., 500)
+  cell_dt: 30             # s
+  fd_bin: 10              # veh/km, density bins of the fundamental diagram (cells of the grid, lanes together)
+  travel_margin: 10       # m, travel time from x_in + margin to x_out - margin
+  collision_entry_m: 20   # m: collisions_by_zone counts the episodes of collisions.npz that begin in the window at
+  collision_exit_m: 50    #    x < x_in + 20 (entry), x > x_out - 50 (exit) and elsewhere; without collisions.npz the
+                          #    episodes of vehicles.npz (n_collisions, or collided of the first loop) count, no zones
+  max_gap_s: 1.5          # s, samples of a vehicle further apart are not joined (a teleport is no trajectory)
+  boundary_points: true   # add (depart, entry_x) and (exit_t, x_out) of vehicles.npz to the 1 Hz samples: without
+                          # them every vehicle faster than travel_margin per second loses its travel time
+  boundary_max_gap_s: 10  # s, largest gap between such a point and the nearest sample
+  waves:                  # stop waves: the contract names 40 %, 60 m, 6 s on the raw field; on the I-80 data
+                          # that breaks every band into fragments (leading edges of -50 .. +17 m/s), see M5 report
+    dx: 20                # m, cells of the speed field
+    dt: 2                 # s
+    lanes: [1, 2, 3, 4, 5, 6]
+    smooth: 1             # speed of a cell = Edie speed of the (2 smooth + 1)^2 cells around it (0: raw cells)
+    threshold_share: 0.5  # in a wave below this share of the median speed of the window at that x
+    min_length: 100       # m, smallest extent in x
+    min_duration: 10      # s, smallest extent in t
+    connectivity: 8       # 8: cells sharing a corner are connected (a wave is a diagonal band); 4: sides only
+    min_vehicle_seconds: 0.0
+    xcorr:                # wave_speed_xcorr, the wave speed of the macro-error vector (the leading edges above give
+                          # waves.wave_speed, reported beside it): speed series of the 20 m x 2 s cells, lanes 1-6
+      distance: 200       # m: every pair of cells whose centres are 200 m apart (30-230 m, 50-250 m, ..., 290-490 m)
+      min_lag_s: 4        # s: lags 4-120 s of either sign (200 m: 1.7-50 m/s upstream or downstream); lag 0 is a
+      max_lag_s: 120      #    common trend of the whole section, not a wave
+      direction: both     # both | upstream (positive lags only)
+      min_correlation: 0.3  # per pair the largest local maximum of the correlation; below this the pair gives none
+      min_overlap: 0.5    # share of the series with a speed in both cells at a lag
+      smooth: 0           # raw cells (the block smoothing above is for the edges of the regions)
+      refine: true        # lag between two cells by a parabola through the peak and its neighbours
+
+asymmetry:                # D121, scripts/corridor_asymmetry.py -> asymmetry.json next to macro.json (hashed into it);
+                          # detectors and lanes: those of `macro` (detectors with throughput_x and queue_x; waves.lanes)
+                          # with the metrics settings of the scenario over them, inside its analysis window
+  threshold: 0.1          # m/s^2: a = v(t+1) - v(t) over a whole second; accelerating above, decelerating below -0.1;
+                          # asymmetry index = mean a (a > 0.1) / mean |a| (a < -0.1)
+  sample_s: 2.0           # s: speed series of a detector = mean speed of the vehicles passing it per 2 s (gaps
+                          # interpolated in time)
+  window_s: 128.0         # s: Welch segment (Hann, half overlap, mean removed), the PSD averaged over the detectors
+  f_min: 0.002            # Hz: band of the peak frequency, the spectral centroid and the band power
+  f_max: 0.05
+  min_coverage: 0.5       # a detector enters the mean spectrum with a passage in at least this share of the intervals
+
+geometry:                 # used only where scenario.json lacks a value: the window comes from scenario.json
+  x_in: 20                # (analysis_window); a macro.json of another window or geometry is stale
+  x_out: 500
+  window: [180, 840]
+
+design:                   # tables (docs/m5_contract.md, section 6; docs/m7_contract.md, D108-D114)
+  scenarios: [i80_p0, i80_p1, i80_p2, us101_p0, us101_p1, us101_p2]
+  corridors: {i80: I-80, us101: US-101}   # prefix of a scenario name -> corridor (D108, D112); the corridor of the
+                          # first scenario is always in the tables, another one once a ground truth of its scenarios
+                          # has a macro.json ("I-80 only" in the verdicts until then)
+  laws: [idm_global, idm_heterogeneous, knn, mlp, pidl, gru, lstm, perl, residual_idm, residual_idm_certified,
+         mlp_penalty, gru_penalty, lstm_penalty, idm_heterogeneous_all,
+         residual_idm_certified_het]   # D97, D114 and D118: laws, instability, H12
+  rmax_laws: [residual_idm_certified_r0.1, residual_idm_certified_r0.2, residual_idm_certified_r0.5,
+              residual_idm_free_r0.3]   # D111: laws, components and e4_rmax; not in the instability correlation
+  temporal_laws: [idm_global_p0, residual_idm_certified_p0, mlp_p0, gru_p0]   # D120: laws, components and
+                          # instability rows over their scenarios; not in the correlation nor the verdicts
+  optional_laws: [residual_idm_certified_het, idm_global_p0, residual_idm_certified_p0, mlp_p0, gru_p0]   # in the
+                          # tables once a law file or a run exists (one note in missing.txt before)
+  law_corridors: {idm_heterogeneous_all: [I-80], idm_global_p0: [I-80], residual_idm_certified_p0: [I-80],
+                  mlp_p0: [I-80], gru_p0: [I-80]}   # laws that run on some corridors only (default: on every one)
+  law_scenarios: {idm_global_p0: [i80_p1, i80_p2], residual_idm_certified_p0: [i80_p1, i80_p2],
+                  mlp_p0: [i80_p1, i80_p2], gru_p0: [i80_p1, i80_p2]}   # laws that run on some scenarios only
+  # M8 (docs/m8_contract.md, sections 7, 9, 10): the corridor tables of runs/_tables/m8 (paths.out_dir_m8)
+  temporal_pairs: {idm_global_p0: idm_global, residual_idm_certified_p0: residual_idm_certified, mlp_p0: mlp,
+                   gru_p0: gru}   # D120 table temporal: the law of period 0 -> the same law of D97
+  temporal_scenarios: [i80_p1, i80_p2]
+  pooled_laws: null       # D122 correlation_pooled; null: laws and rmax_laws (every law of the design with runs)
+  power_laws: [idm_global, residual_idm_certified]   # D122 table power: the two laws compared, paired by seed
+  power_metrics: [macro_error, throughput_vph, travel_time_mean]
+  power_difference: 0.10  # relative difference to detect (of the mean of the two laws)
+  power_alpha: 0.05       # two-sided
+  power_target: 0.8
+  asymmetry_contrasts:    # D121 table asymmetry_contrasts: [law, the free law it is compared with], paired by seed
+    - [mlp_penalty, mlp]
+    - [gru_penalty, gru]
+    - [lstm_penalty, lstm]
+    - [residual_idm_certified, residual_idm]
+    - [residual_idm_certified, residual_idm_free_r0.3]
+  seeds: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  reference: idm_global   # TOST and H12.1: against this law, paired by scenario and seed
+  candidate: residual_idm_certified
+  margin: 0.10            # relative equivalence margin
+  alpha: 0.05
+  test: t                 # t | wilcoxon (the one-sided tests of the TOST)
+  n_resamples: 1000       # percentile bootstrap: runs for the means of a law, laws for the correlations
+  level: 0.95
+  seed: 0
+  collision_free_max: 0.0 # a law "collides" when its mean collisions per 1000 vehicle-km exceed this
+  gain_threshold: 1.02    # idm_heterogeneous: unstable when the exact discrete-time gain exceeds this
+  omega_min: 0.02         # rad/s, the audit frequencies (log-spaced)
+  omega_max: 2.0
+  n_omega: 25
+  dt: 0.1                 # s, step of the discrete-time transfer function
+  v_grid: [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+  # verdicts of H12.1-H12.3 (D108; tables h12_1, h12_2, verdicts)
+  networks: [mlp, gru, lstm]  # H12.1: the pure networks, against `reference`
+  degradation_min: 0.15   # H12.1: |e_net| - |e_ref| of a metric of the macro triple, "degraded by >= 15 %"
+  metrics_min: 2          # H12.1: confirmed with >= 2 of 3 metrics degraded by >= degradation_min ...
+  networks_min: 2         # ... for >= 2 of 3 networks on every corridor
+  correlation_confirm: 0.6    # H12.3: Spearman r above this, permutation p below correlation_alpha, ...
+  correlation_alpha: 0.05
+  correlation_min_laws: 10    # ... over at least this many laws: confirmed; r below correlation_refute: refuted
+  correlation_refute: 0.3
+  n_permutations: 10000   # H12.3: permutations of the instability over the laws (two-sided p-value)
+  micro_data: ngsim_i80   # H12.2, micro part: spacing RMSE on the test parts, paired over drivers
+  micro_reference: e3_reference/idm          # <experiment>/<model>; the first of run_seeds
+  micro_candidate: e4_stable_ft/residual_idm
+  micro_others: [e4_free_ft/residual_idm, e4_free_ft/mlp]   # reference rows, no verdict
+  run_folds: [0, 1, 2, 3, 4]  # folds and seeds of the training runs (H12.2, e4_rmax)
+  run_seeds: [0, 1, 2, 3, 4]
+  # residual-amplitude sweep (D111; table e4_rmax): r_max -> run on HighD, its fine-tuning, corridor law
+  rmax:
+    - {r_max: 0.1, core: certified, highd: e4_stable_r0.1, ngsim: e4_stable_ft_r0.1, law: residual_idm_certified_r0.1}
+    - {r_max: 0.2, core: certified, highd: e4_stable_r0.2, ngsim: e4_stable_ft_r0.2, law: residual_idm_certified_r0.2}
+    - {r_max: 0.3, core: certified, highd: e4_stable, ngsim: e4_stable_ft, law: residual_idm_certified}
+    - {r_max: 0.5, core: certified, highd: e4_stable_r0.5, ngsim: e4_stable_ft_r0.5, law: residual_idm_certified_r0.5}
+    - {r_max: 0.3, core: free, highd: e4_free_r0.3, ngsim: e4_free_r0.3_ft, law: residual_idm_free_r0.3}
+    - {r_max: 1.0, core: free, highd: e1, ngsim: e4_free_ft, law: residual_idm}
+  rmax_data: follownet_highd
+  rmax_model: residual_idm
+  # sensitivity (D113; table sensitivity): scenarios <sensitivity_scenario>_<variant>, the scenario itself = baseline
+  sensitivity_scenario: i80_p1
+  sensitivity_variants: [gain0.01, gain0.04, nofeedback, lc_low, lc_high]
+  sensitivity_laws: [idm_global, residual_idm_certified, gru]
+  sensitivity_seeds: [0, 1, 2, 3, 4]
+  sensitivity_order: [residual_idm_certified, idm_global, gru]   # the ranking by macro error checked per variant
+
+paths:
+  corridor_root: runs/corridor
+  runs_root: runs         # member runs of the laws: absolute, or relative to runs_root, its parent or the repository
+  out_dir: null           # null: <runs_root>/_tables/m5
+  out_dir_m8: null        # null: <runs_root>/_tables/m8 (the corridor tables of M8)
+
+hydra:
+  run:
+    dir: outputs/${hydra.job.name}/${now:%Y-%m-%d_%H-%M-%S}
+  job:
+    chdir: false

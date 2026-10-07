@@ -1,0 +1,80 @@
+# NGSIM US-101 corridor (docs/m7_contract.md, section 5; D112). One scenario per period: <name>_p<period>.
+# Corridor coordinate x = longitudinal position (front bumper) of the reconstruction; NGSIM lanes 1 (left) .. 5
+# (right) through lanes, 6 = auxiliary lane, 7 = on-ramp (Ventura Boulevard), 8 = off-ramp (Cahuenga Boulevard).
+# Facts of the data (6 101 tracks): main-line tracks begin at 0-27 m (97.7 % by 25 m) and end at 641-681 m; lane 7
+# is occupied at 112-200 m (on-ramp tracks begin at 147.5-168.7 m; main-line vehicles change 5 -> 7 from 112 m on),
+# lane 6 at 184-412 m (7 -> 6 at 184-202 m), lane 8 at 399-489 m (6 -> 8 at 399-414 m; off-ramp tracks end at
+# 430-469 m, the camera's view). The three lanes are one lane beside lane 5: the on-ramp lane becomes the
+# auxiliary lane, which becomes the off-ramp.
+enabled: true
+name: us101
+source: data/raw/ngsim/cache/ngsim_us-101_reconstructed.parquet
+periods: [0, 1, 2]
+x_in: 25.0                 # m, section of the metrics and of the trajectory files
+x_out: 640.0
+edges:                     # lanes = NGSIM lanes 1..lanes on the edge; SUMO index = lanes - NGSIM lane
+  - {id: main_a, x0: 25.0, x1: 110.0, lanes: 5}
+  - {id: main_b, x0: 110.0, x1: 412.0, lanes: 6}   # index 0 = NGSIM 6, the auxiliary lane, from the start of lane 7
+                                                   # (112 m) to the end of lane 6 (411.6 m)
+  - {id: main_c, x0: 412.0, x1: 640.0, lanes: 5}
+  - {id: out, x0: 640.0, x1: 790.0, lanes: 5}      # downstream buffer: speeds prescribed by the data
+aux_lane: 6                # NGSIM number of the auxiliary lane
+lane_aliases: {7: 6, 8: 6} # data lanes that the network models as the auxiliary lane where main_b has it: the on-ramp
+                           # lane upstream of the renumbering 7 -> 6 and the off-ramp lane between its gore and 412 m
+offramp:                   # one-lane edge that leaves the end of the auxiliary lane (no successor on the main line);
+  id: offramp              # vehicles whose track ends on lane 8 get a route that ends on it, their samples beyond the
+  length: 80.0             # end of the auxiliary lane are not in the section (data and runs); 412 + 80 m covers lane 8
+  lane: 8                  # (to 488.8 m); NGSIM number of the vehicles on it
+  early_end: 30.0          # m: an off-ramp vehicle not yet on the auxiliary lane sees the end of its lane 30 m (more than
+                           # the longest vehicle, 23.2 m) before the end of the auxiliary lane: an on-ramp vehicle and an
+                           # off-ramp vehicle that need each other's lane cannot stop side by side at the same end, where
+                           # they blocked each other until SUMO's teleport after 300 s (the laws do not fall back to let
+                           # the other in as SUMO's own model would; D112)
+lane_width: 3.66           # m
+speed: 29.0                # m/s, speed limit of every lane
+classes: {1: motorcycle, 2: passenger, 3: truck}   # NGSIM v_class -> SUMO vClass
+vtype:                     # attributes of every vehicle type (one type per class and length), as I-80 (D94, D104)
+  minGap: 0.0
+  sigma: 0.0
+  laneChangeModel: LC2013
+  lcKeepRight: 0.0         # 1 222 changes to the left against 583 to the right between lanes 1-5: no keep-right
+  tau: 1.0
+  decel: 8.0
+  emergencyDecel: 8.0
+insertion_checks: null     # SUMO's default insertion checks (D104)
+hov_lane: null             # no restricted lane: lane 1 is the slowest lane (8.4 m/s against 9.1-10.1 m/s of lanes 2-5)
+                           # and exchanges vehicles with lane 2 in both directions (219 changes in, 161 out)
+aux_class: custom1         # the auxiliary lane admits only the vehicles that use it in the data (lanes 6-8 inside
+                           # main_b; the off-ramp vehicles), of this SUMO class: 18 of the 5 476 through vehicles use
+                           # it, while LC2013 moves through traffic into it for speed (16 m/s against 10 m/s on lane 5)
+                           # and it then blocks the weaving at the end of the lane (D112)
+class_vtype:               # attributes over `vtype` for the vehicles of a class (D112): the weaving vehicles accept the
+  custom1:                 # gaps of the data. LC2013 with tau 1 s and decel 8 would admit 31 % of the 434 changes from
+    lcAssertive: 2.5       # the auxiliary lane into lane 5 of the data, with 2.5 it admits 89 % (the factor needed:
+                           # median 1.34, 90 % quantile 2.54). With 1.0-2.0 the on-ramp vehicles that miss their merge
+                           # stop at the end of the lane, the off-ramp vehicles stop beside them, and the deadlock holds
+                           # until the teleport after 300 s (idm_global, period 1: 1 773-1 931 of 2 017 inserted)
+boundary:                  # as I-80 (D95): speed of the vehicles on the buffer edge, per NGSIM lane and second
+  x_range: [610.0, 640.0]  # m, samples that enter the mean (the last 30 m of the section)
+  half_window_s: 2.5
+  feedback: true
+  gain: 0.02
+  g_min: 0.2
+  g_max: 1.5
+  max_decel: 3.0
+  max_accel: 2.0
+  min_gap: 1.0
+  lane_changes: false
+analysis_window: [90.0, 870.0]    # s after the start of the period (metrics), D112: from the first multiple of 30 s
+                                  # after the section is loaded in all periods (30-s mean of the vehicles inside at 90 %
+                                  # of its median and the last 100 m occupied: 48, 88, 89 s) to the last multiple of
+                                  # 30 s at least 30 s before its upstream end empties (903, 929, 921 s); the same rule
+                                  # gives 180-840 s on I-80
+exit_extrapolation_m: 1.0  # as I-80 (every main-line track runs beyond x_out: none is extrapolated)
+netconvert_options: [--no-internal-links, "true", --no-turnarounds, "true", --offset.disable-normalization, "true"]
+metrics:                   # settings of the corridor metrics for this geometry (scenario.json["metrics"], over those of
+                           # configs/corridor_metrics.yaml; not part of the scenario hash): as I-80 relative to x_in
+  detectors: [100, 200, 300, 400, 500, 590]   # and x_out (throughput 50 m before x_out; I-80: 450 of 500)
+  throughput_x: 590
+  queue_x: 100
+  waves: {lanes: [1, 2, 3, 4, 5]}             # the through lanes (I-80: 1-6)

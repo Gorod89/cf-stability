@@ -1,0 +1,27 @@
+# Scenarios of the corridor and export of the laws (docs/m5_contract.md, sections 2-3; docs/m7_contract.md, 4-7).
+# python scripts/build_corridor.py [scenarios=true] [laws=true] [force=true] [sites=[us101]] [periods=[1]]
+# python scripts/build_corridor.py laws=false periods=[1] variant=nofeedback corridor.i80.boundary.feedback=false
+defaults:
+  - corridor/i80@corridor.i80
+  - corridor/us101@corridor.us101
+  - corridor/i24@corridor.i24
+  - corridor/laws@corridor.laws
+  - _self_
+
+scenarios: true           # build <name>_p<period> for the periods of corridor.<site> (or `periods`) of every site
+laws: true                # export runs/corridor/laws/<law>.json (+ .npz) for the laws of corridor.laws
+sites: [i80, us101]       # the corridor.<site> configs whose scenarios are built (configs/corridor/<site>.yaml)
+periods: null             # subset of corridor.<site>.periods; null: all
+variant: null             # D113: <name>_p<period>_<variant> with the overrides of corridor.<site>.<key> given on the
+                          # command line, for the sites they change only
+force: false              # rebuild scenarios whose scenario.json holds the current config hash
+
+paths:
+  scenarios_root: runs/corridor/scenarios
+  laws_root: runs/corridor/laws
+
+hydra:
+  run:
+    dir: outputs/${hydra.job.name}/${now:%Y-%m-%d_%H-%M-%S}
+  job:
+    chdir: false

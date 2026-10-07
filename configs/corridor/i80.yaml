@@ -1,0 +1,48 @@
+# NGSIM I-80 corridor (docs/m5_contract.md, section 2; D94, D95). One scenario per period: <name>_p<period>.
+# Corridor coordinate x = longitudinal position (front bumper) of the reconstruction; NGSIM lanes 1 (left) .. 6
+# (right), 7 = auxiliary lane of the on-ramp.
+enabled: true
+name: i80
+source: data/raw/ngsim/cache/ngsim_i-80_reconstructed.parquet
+periods: [0, 1, 2]
+x_in: 20.0                 # m, section of the metrics and of the trajectory files
+x_out: 500.0
+edges:                     # lanes = NGSIM lanes 1..lanes on the edge; SUMO index = lanes - NGSIM lane
+  - {id: main_a, x0: 20.0, x1: 100.0, lanes: 6}
+  - {id: main_b, x0: 100.0, x1: 204.0, lanes: 7}   # index 0 = NGSIM 7, the auxiliary lane (no successor)
+  - {id: main_c, x0: 204.0, x1: 500.0, lanes: 6}
+  - {id: out, x0: 500.0, x1: 650.0, lanes: 6}      # downstream buffer: speeds prescribed by the data
+aux_lane: 7                # NGSIM number of the auxiliary lane; a standing virtual leader sits at its end
+lane_width: 3.66           # m
+speed: 29.0                # m/s, speed limit of every lane
+classes: {1: motorcycle, 2: passenger, 3: truck}   # NGSIM v_class -> SUMO vClass
+vtype:                     # attributes of every vehicle type (one type per class and length); SUMO defaults otherwise
+  minGap: 0.0              # the leader gap of SUMO is then the net gap
+  sigma: 0.0
+  laneChangeModel: LC2013
+  lcKeepRight: 0.0
+  tau: 1.0                 # s: reaction time of SUMO's own model (Krauss, its default), used by its insertion check
+  decel: 8.0               # and by the gaps LC2013 accepts; decel = the braking limit of the laws
+  emergencyDecel: 8.0
+insertion_checks: null     # vehicle attribute insertionChecks; null: SUMO's default set (an insertion waits until
+                           # SUMO's own model finds the gap safe); collision: only overlaps are refused
+hov_lane: 1                # NGSIM lane 1 is an HOV lane: on the edges of the section it allows vClass hov only; the
+                           # vehicles that use it at any time in the data are of vClass hov (null: no restriction)
+boundary:                  # speed of the vehicles on the buffer edge, per NGSIM lane and second
+  x_range: [470.0, 500.0]  # m, samples that enter the mean
+  half_window_s: 2.5       # s, samples within this time of the second
+  feedback: true           # target v_b(lane, t) * g(t), g = clip(1 - gain * dN, g_min, g_max), dN = simulated
+                           # passages of x_out minus those of the data (boundary.npz exits); false: g = 1
+  gain: 0.02               # per vehicle
+  g_min: 0.2
+  g_max: 1.5
+  max_decel: 3.0           # m/s^2: a vehicle on the buffer approaches its target speed at most this fast ...
+  max_accel: 2.0           # ... and this fast upwards (no jump when it enters the buffer)
+  min_gap: 1.0             # m: ... but never comes closer than this to the vehicle ahead on the buffer (the buffer
+                           # vehicles do not follow each other; without it they overlap when the queue there is dense)
+  lane_changes: false      # no lane changes on the buffer: a cut-in there would defeat min_gap
+analysis_window: [180.0, 840.0]   # s after the start of the period (metrics); in period 2 the section beyond
+                                  # 300 m is still empty until about 150 s
+exit_extrapolation_m: 1.0  # ground truth: a track whose last sample lies within this distance before x_out passes
+                           # x_out at its last speed (tracks end at 499.6-499.99 m)
+netconvert_options: [--no-internal-links, "true", --no-turnarounds, "true", --offset.disable-normalization, "true"]

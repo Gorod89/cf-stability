@@ -1,0 +1,39 @@
+# Runs of the corridor simulation (docs/m5_contract.md, section 3).
+# python scripts/run_corridor.py scenario=i80_p1 law=idm_global seed=0
+# python scripts/run_corridor.py scenarios=[i80_p0,i80_p1,i80_p2] laws=[idm_global,mlp] seeds=[0,1,2] workers=4
+
+scenario: i80_p1          # one run
+law: idm_global
+seed: 0                   # SUMO's seed and the generator of the members
+device: null              # inference: null = the device of the law file (configs/corridor/laws.yaml) | cpu | cuda;
+                          # hashed with the run (the two give slightly different trajectories)
+
+scenarios: null           # multi-run mode: lists; the runs without a complete run.json run as child processes
+laws: null
+seeds: null
+workers: 2
+timeout_h: 3.0            # per run; the child is ended after it
+force: false              # multi-run mode: run complete runs again
+
+sim:                      # hashed with the scenario, the law and the seed
+  step_length: 0.1        # s
+  time_to_teleport: 300.0 # s
+  leader_range: 50.0      # m, leader subscription; without a leader (or the end of the auxiliary lane) within
+                          # it s = 50 m, dv = 0: 99 % of the gaps of the NGSIM training data are below 49 m
+  tail_s: 120.0           # s simulated after the last planned departure
+  a_min: -8.0             # m/s^2, clip of the law
+  a_max: 4.0
+  contact_gap: 1.0        # m: a gap <= 0 begins a collision episode (the vehicle stays, its speed is capped so that
+                          # it cannot penetrate further); the episode ends when the gap is above this
+  sumo_options: []        # further options of SUMO, e.g. [--no-warnings, "true"]
+
+paths:
+  scenarios_root: runs/corridor/scenarios
+  laws_root: runs/corridor/laws
+  runs_root: runs/corridor
+
+hydra:
+  run:
+    dir: outputs/${hydra.job.name}/${now:%Y-%m-%d_%H-%M-%S}
+  job:
+    chdir: false
