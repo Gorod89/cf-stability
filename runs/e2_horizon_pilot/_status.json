@@ -1,0 +1,92 @@
+{
+  "name": "e2_horizon_pilot",
+  "queue_file": "configs\\queue\\e2_horizon_pilot.yaml",
+  "pid": 9180,
+  "workers": 1,
+  "updated": "2026-10-08T00:08:04",
+  "totals": {
+    "n_jobs": 2,
+    "done": 2,
+    "failed": 0,
+    "timeout": 0,
+    "skipped": 0,
+    "blocked": 0,
+    "running": 0,
+    "pending": 0,
+    "interrupted": 0
+  },
+  "jobs": [
+    {
+      "index": 1,
+      "label": "e2_gain_long_w0.1/follownet_highd/gru/fold0_seed0",
+      "experiment": "e2_gain_long_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.weight": 0.1,
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.horizon_s": 380.0,
+        "train.penalty.measure_s": 252.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_long_w0.1\\follownet_highd\\gru\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 4828.126996500068,
+      "started": "2026-10-07T20:59:12",
+      "ended": "2026-10-07T22:19:41",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_horizon_pilot\\_logs\\e2_gain_long_w0.1__follownet_highd__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 2,
+      "label": "e2_gain_long_w0.1/follownet_highd/lstm/fold0_seed0",
+      "experiment": "e2_gain_long_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "gain",
+        "train.penalty.weight": 0.1,
+        "train.penalty.every": 8,
+        "train.penalty.n_equilibria": 16,
+        "train.penalty.horizon_s": 380.0,
+        "train.penalty.measure_s": 252.0
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_gain_long_w0.1\\follownet_highd\\lstm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 6503.613024199964,
+      "started": "2026-10-07T22:19:41",
+      "ended": "2026-10-08T00:08:04",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_horizon_pilot\\_logs\\e2_gain_long_w0.1__follownet_highd__lstm__driver_fold0_seed0.log"
+    }
+  ]
+}

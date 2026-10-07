@@ -29,7 +29,7 @@ font_size: 9.0             # pt: readable at column width
 # of paths.supplement_figures (PNG, PDF, caption <name>.txt); an expected one without its file gets a note
 m8_tables: [lowfreq_expansion, certificate_tightness, band_width, e2_monotone, band_sensitivity, temporal, asymmetry,
             asymmetry_contrasts, correlation_pooled, correlation_pooled_laws, power]
-supplement_expected: [lowfreq_expansion, certificate_tightness, band_width, stability_map_*, contours_*, fd_*]
+supplement_expected: [lowfreq_expansion, certificate_tightness, band_width, full_history_gain, stability_map_*, contours_*, fd_*]
 
 paths:
   runs_root: runs

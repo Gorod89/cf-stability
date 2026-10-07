@@ -1,0 +1,37 @@
+# Factorial ablation of the certified hybrid, variant D (M9, revision of 7 October 2026): the IDM core with the
+# string-stability margin 0.2 of the certified hybrid (calibration.stability_margin 0.2) without the certificate
+# (certificate.enforce false: lipschitz 1 of the model config, as e4_free_r0.3) at r_max = 0.3, five folds x five
+# seeds on HighD, then fine-tuned on NGSIM I-80: 50 runs. With e4_stable (margin and certificate, configs/queue/e4.yaml)
+# and e4_free_r0.3 (neither, configs/queue/e4_rmax.yaml) it separates the margin of the core from the certified budget
+# of the residual at the same amplitude.
+#   e4_margin_free_r0.3     ResidualIDM, IDM core with margin 0.2, no certificate, r_max 0.3
+#   e4_margin_free_r0.3_ft  e4_margin_free_r0.3 fine-tuned on ngsim_i80 (core, scaler and residual of the checkpoint)
+# The HighD runs come first, their fine-tuning after them (a job whose init_from has no model.pt yet waits at the end
+# of the queue). The init_from paths assume paths.runs_root=runs.
+# python scripts/run_experiment.py configs/queue/e4_variant_d.yaml
+name: e4_variant_d
+workers: 2
+timeout_h: 4.0
+min_free_ram_gb: 6.0
+order: [data, seed, fold, experiment]   # follownet_highd before ngsim_i80: every source before its fine-tuning
+steps: [train, audit, certificate]
+groups:
+  - experiment: e4_margin_free_r0.3
+    overrides:
+      data: [follownet_highd]
+      model: [residual_idm]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0, 1, 2, 3, 4]
+    fixed:
+      calibration.stability_margin: 0.2   # the core of e4_stable
+      certificate.enforce: false          # the default, stated: no certified budget, lipschitz 1 of the model config
+      model.r_max: 0.3
+  - experiment: e4_margin_free_r0.3_ft
+    overrides:
+      data: [ngsim_i80]
+      model: [residual_idm]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0, 1, 2, 3, 4]
+    fixed:
+      init_from: "runs/e4_margin_free_r0.3/follownet_highd/residual_idm/driver_fold{fold}_seed{seed}"
+      model.r_max: 0.3        # as the checkpoint (the checkpoint decides; the config records it)

@@ -272,15 +272,31 @@ python scripts/corridor_metrics.py; python scripts/corridor_asymmetry.py workers
 python scripts/make_tables.py; python scripts/corridor_metrics.py compute=false tables=true; python scripts/make_report.py
 ```
 
+### M9: revision after the internal review
+
+```bash
+python scripts/analysis/full_history_audit.py       # runs/_tables/m9/full_history: the recurrent laws linearised over their whole window (poles, windowed gain, M_w)
+python scripts/analysis/threshold_sensitivity.py    # runs/_tables/m9/threshold_sensitivity: the audit at the thresholds 1.00, 1.01, 1.02 and 1.05
+python scripts/analysis/equilibrium_roots.py        # runs/_tables/m9/equilibrium_roots: every upward zero crossing of the laws on the gap range
+python scripts/run_experiment.py configs/queue/e4_variant_d.yaml       # 50 runs: the margin core with the bounded residual and no derivative budget (variant D)
+python scripts/run_experiment.py configs/queue/e2_horizon_pilot.yaml   # 2 runs: the rollout gain penalty with a 380 s rollout, gain over the last 252 s (GRU, LSTM, fold 0)
+python scripts/train.py data=ngsim_i80 model=idm fold=0 seed=0 calibration.stability_margin=0.2 experiment=m9_idm_margin_i80   # folds 0-4: the I-80 IDM with the margin (law B')
+python scripts/build_corridor.py scenarios=false     # laws idm_core_margin (B), idm_margin_i80 (B') and residual_idm_margin_free_r0.3 (D)
+python scripts/run_corridor.py scenarios=[i80_p0,i80_p1,i80_p2,us101_p0,us101_p1,us101_p2] laws=[idm_core_margin,idm_margin_i80,residual_idm_margin_free_r0.3] seeds=[0..9] workers=3
+python scripts/corridor_metrics.py; python scripts/corridor_asymmetry.py workers=2
+python scripts/make_tables.py; python scripts/corridor_metrics.py compute=false tables=true; python scripts/make_report.py   # adds the tables e2_horizon (m4), correlation_clustered, contacts_absolute and h12_2_error (m8)
+```
+
 ## Outputs
 
 * `runs/_report/report.md`: the generated report (eleven sections, every number read from the tables),
   `runs/_report/tables/` (33 tables, CSV and LaTeX), `runs/_report/figures/` and
   `runs/_report/supplement/figures/` (28 figures, PNG and PDF), `runs/_report/manifest.json`.
-* `runs/_tables/m4/`, `m5/`, `m8/`: the tables with their Markdown twins and `missing.txt` notes.
+* `runs/_tables/m4/`, `m5/`, `m8/`, `m9/`: the tables with their Markdown twins and `missing.txt` notes.
 * `docs/decisions.md`: the decision log (D1-D124, E1-E10) that records every deviation from the study
-  plan; `docs/m1_report.md` ... `docs/m8_report.md`: the milestone reports with the commands run, the key
-  numbers and the deviations.
+  plan; `docs/study_plan.md`: the pre-specified hypotheses and thresholds and the list of the exploratory
+  branches; `docs/m1_report.md` ... `docs/m8_report.md`: the milestone reports with the commands run, the
+  key numbers and the deviations.
 
 ## Citation
 

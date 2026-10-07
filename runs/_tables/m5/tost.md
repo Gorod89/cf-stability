@@ -1,6 +1,6 @@
 # Equivalence of residual_idm_certified and idm_global (TOST)
 
-- Runs: 1190 of 1190 expected runs have a macro.json (I-80: 19 laws x 3 scenarios x 10 seeds + 4 laws (idm_global_p0, residual_idm_certified_p0, mlp_p0, gru_p0) x 2 scenarios (i80_p1, i80_p2) x 10 seeds; US-101: 18 laws x 3 scenarios x 10 seeds); missing runs, files and values: missing.txt.
+- Runs: 1370 of 1370 expected runs have a macro.json (I-80: 22 laws x 3 scenarios x 10 seeds + 4 laws (idm_global_p0, residual_idm_certified_p0, mlp_p0, gru_p0) x 2 scenarios (i80_p1, i80_p2) x 10 seeds; US-101: 21 laws x 3 scenarios x 10 seeds); missing runs, files and values: missing.txt.
 - Analysis window (scenario.json): 180-840 s, 90-870 s.
 - TOST: residual_idm_certified against idm_global per corridor, paired by scenario and seed (pairs); relative difference mean(residual_idm_certified) / mean(idm_global) - 1 with its interval over the pairs and the Wilcoxon signed-rank test.
 - Two one-sided paired t tests of the margin +-10 % of the mean of idm_global (cf_stability.eval.stats.tost_relative); equivalent when the larger p-value (p TOST) is below 0.05. A metric with a negative reference mean (wave speed) is tested on its magnitude; one whose reference mean is 0 has no relative margin.

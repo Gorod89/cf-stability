@@ -85,26 +85,29 @@
       "lowfreq_expansion",
       "certificate_tightness",
       "band_width",
+      "full_history_gain",
       "stability_map_*",
       "contours_*",
       "fd_*"
     ]
   },
-  "config_hash": "66935219b3b3",
+  "config_hash": "5320ab1c6684",
   "corridor": {
     "macro_config_hashes": [
       "0223978e4c98",
       "33f3a0b2f5d4"
     ],
-    "runs": 1265,
+    "runs": 1445,
     "scenarios": {
       "i80_p0": {
         "laws": [
           "gru",
           "gru_penalty",
+          "idm_core_margin",
           "idm_global",
           "idm_heterogeneous",
           "idm_heterogeneous_all",
+          "idm_margin_i80",
           "knn",
           "lstm",
           "lstm_penalty",
@@ -118,22 +121,25 @@
           "residual_idm_certified_r0.1",
           "residual_idm_certified_r0.2",
           "residual_idm_certified_r0.5",
-          "residual_idm_free_r0.3"
+          "residual_idm_free_r0.3",
+          "residual_idm_margin_free_r0.3"
         ],
-        "runs": 190,
+        "runs": 220,
         "scenario_config_hash": "2111a8388b2e",
-        "with_macro_json": 190,
-        "with_run_json": 190
+        "with_macro_json": 220,
+        "with_run_json": 220
       },
       "i80_p1": {
         "laws": [
           "gru",
           "gru_p0",
           "gru_penalty",
+          "idm_core_margin",
           "idm_global",
           "idm_global_p0",
           "idm_heterogeneous",
           "idm_heterogeneous_all",
+          "idm_margin_i80",
           "knn",
           "lstm",
           "lstm_penalty",
@@ -149,12 +155,13 @@
           "residual_idm_certified_r0.1",
           "residual_idm_certified_r0.2",
           "residual_idm_certified_r0.5",
-          "residual_idm_free_r0.3"
+          "residual_idm_free_r0.3",
+          "residual_idm_margin_free_r0.3"
         ],
-        "runs": 230,
+        "runs": 260,
         "scenario_config_hash": "e6c408fbeff0",
-        "with_macro_json": 230,
-        "with_run_json": 230
+        "with_macro_json": 260,
+        "with_run_json": 260
       },
       "i80_p1_gain0.01": {
         "laws": [
@@ -216,10 +223,12 @@
           "gru",
           "gru_p0",
           "gru_penalty",
+          "idm_core_margin",
           "idm_global",
           "idm_global_p0",
           "idm_heterogeneous",
           "idm_heterogeneous_all",
+          "idm_margin_i80",
           "knn",
           "lstm",
           "lstm_penalty",
@@ -235,19 +244,22 @@
           "residual_idm_certified_r0.1",
           "residual_idm_certified_r0.2",
           "residual_idm_certified_r0.5",
-          "residual_idm_free_r0.3"
+          "residual_idm_free_r0.3",
+          "residual_idm_margin_free_r0.3"
         ],
-        "runs": 230,
+        "runs": 260,
         "scenario_config_hash": "8e825de61fa3",
-        "with_macro_json": 230,
-        "with_run_json": 230
+        "with_macro_json": 260,
+        "with_run_json": 260
       },
       "us101_p0": {
         "laws": [
           "gru",
           "gru_penalty",
+          "idm_core_margin",
           "idm_global",
           "idm_heterogeneous",
+          "idm_margin_i80",
           "knn",
           "lstm",
           "lstm_penalty",
@@ -261,19 +273,22 @@
           "residual_idm_certified_r0.1",
           "residual_idm_certified_r0.2",
           "residual_idm_certified_r0.5",
-          "residual_idm_free_r0.3"
+          "residual_idm_free_r0.3",
+          "residual_idm_margin_free_r0.3"
         ],
-        "runs": 180,
+        "runs": 210,
         "scenario_config_hash": "5757525a5a14",
-        "with_macro_json": 180,
-        "with_run_json": 180
+        "with_macro_json": 210,
+        "with_run_json": 210
       },
       "us101_p1": {
         "laws": [
           "gru",
           "gru_penalty",
+          "idm_core_margin",
           "idm_global",
           "idm_heterogeneous",
+          "idm_margin_i80",
           "knn",
           "lstm",
           "lstm_penalty",
@@ -287,19 +302,22 @@
           "residual_idm_certified_r0.1",
           "residual_idm_certified_r0.2",
           "residual_idm_certified_r0.5",
-          "residual_idm_free_r0.3"
+          "residual_idm_free_r0.3",
+          "residual_idm_margin_free_r0.3"
         ],
-        "runs": 180,
+        "runs": 210,
         "scenario_config_hash": "001e05932235",
-        "with_macro_json": 180,
-        "with_run_json": 180
+        "with_macro_json": 210,
+        "with_run_json": 210
       },
       "us101_p2": {
         "laws": [
           "gru",
           "gru_penalty",
+          "idm_core_margin",
           "idm_global",
           "idm_heterogeneous",
+          "idm_margin_i80",
           "knn",
           "lstm",
           "lstm_penalty",
@@ -313,18 +331,19 @@
           "residual_idm_certified_r0.1",
           "residual_idm_certified_r0.2",
           "residual_idm_certified_r0.5",
-          "residual_idm_free_r0.3"
+          "residual_idm_free_r0.3",
+          "residual_idm_margin_free_r0.3"
         ],
-        "runs": 180,
+        "runs": 210,
         "scenario_config_hash": "2e6be0bf8b37",
-        "with_macro_json": 180,
-        "with_run_json": 180
+        "with_macro_json": 210,
+        "with_run_json": 210
       }
     },
-    "with_macro_json": 1265,
-    "with_run_json": 1265
+    "with_macro_json": 1445,
+    "with_run_json": 1445
   },
-  "date": "2026-10-07T16:54:41",
+  "date": "2026-10-08T00:27:03",
   "inputs": {
     "_report/supplement/figures/band_width.png": {
       "bytes": 72873,
@@ -382,6 +401,10 @@
       "bytes": 263009,
       "sha256": "21ccef28db9e2e9c"
     },
+    "_report/supplement/figures/full_history_gain.png": {
+      "bytes": 87985,
+      "sha256": "9386e68938770674"
+    },
     "_report/supplement/figures/lowfreq_expansion.png": {
       "bytes": 99233,
       "sha256": "3232d1f00f5a36f0"
@@ -422,6 +445,10 @@
       "bytes": 5727,
       "sha256": "7b56934ad13a1305"
     },
+    "_tables/m4/e2_horizon.csv": {
+      "bytes": 3880,
+      "sha256": "47f7f3a79423c33b"
+    },
     "_tables/m4/e2_lowfreq.csv": {
       "bytes": 3417,
       "sha256": "f2af2df87d71c7f0"
@@ -447,12 +474,12 @@
       "sha256": "93c6054aab48564f"
     },
     "_tables/m5/components.csv": {
-      "bytes": 26376,
-      "sha256": "ef37675df237634e"
+      "bytes": 30165,
+      "sha256": "bac67e0c6f15088a"
     },
     "_tables/m5/e4_rmax.csv": {
-      "bytes": 5647,
-      "sha256": "e84cb52d3aaef4ae"
+      "bytes": 7424,
+      "sha256": "4bbeb10669845846"
     },
     "_tables/m5/h12_1.csv": {
       "bytes": 3096,
@@ -463,16 +490,16 @@
       "sha256": "ccd903edba77bb5e"
     },
     "_tables/m5/instability.csv": {
-      "bytes": 7353,
-      "sha256": "444d663607dd4ba4"
+      "bytes": 8613,
+      "sha256": "f100f64efc1d7df5"
     },
     "_tables/m5/instability_correlation.csv": {
       "bytes": 4386,
       "sha256": "40fa6b2070faba24"
     },
     "_tables/m5/laws.csv": {
-      "bytes": 70872,
-      "sha256": "91bb71f4b5bcd2f3"
+      "bytes": 80216,
+      "sha256": "8e71539889c60e5a"
     },
     "_tables/m5/sensitivity.csv": {
       "bytes": 6857,
@@ -487,8 +514,8 @@
       "sha256": "f43cf5fcea23bc57"
     },
     "_tables/m8/asymmetry.csv": {
-      "bytes": 33069,
-      "sha256": "e9daedf766928ea2"
+      "bytes": 37494,
+      "sha256": "28665f63f55629e2"
     },
     "_tables/m8/asymmetry_contrasts.csv": {
       "bytes": 8278,
@@ -506,6 +533,14 @@
       "bytes": 2793,
       "sha256": "56b62f7ca80f1c37"
     },
+    "_tables/m8/contacts_absolute.csv": {
+      "bytes": 33556,
+      "sha256": "9919aeb41a070d60"
+    },
+    "_tables/m8/correlation_clustered.csv": {
+      "bytes": 35527,
+      "sha256": "319c27ec1552d221"
+    },
     "_tables/m8/correlation_pooled.csv": {
       "bytes": 4847,
       "sha256": "5da99c32b095f409"
@@ -517,6 +552,10 @@
     "_tables/m8/e2_monotone.csv": {
       "bytes": 3899,
       "sha256": "dd4417cb9d929340"
+    },
+    "_tables/m8/h12_2_error.csv": {
+      "bytes": 5467,
+      "sha256": "cadb8e33d84635a6"
     },
     "_tables/m8/lowfreq_expansion.csv": {
       "bytes": 5729,
@@ -531,16 +570,16 @@
       "sha256": "3f6a52595a50005c"
     },
     "configs/corridor_metrics.yaml": {
-      "bytes": 13364,
-      "sha256": "a3ad3c52cc1c3b1e"
+      "bytes": 15547,
+      "sha256": "3eda266ccf22de88"
     },
     "configs/make_tables.yaml": {
-      "bytes": 4302,
-      "sha256": "debb71580a239dff"
+      "bytes": 4950,
+      "sha256": "821335dfcdd9341e"
     },
     "docs/decisions.md": {
-      "bytes": 104421,
-      "sha256": "4d1998a49e494f00"
+      "bytes": 104632,
+      "sha256": "abb152705e420abf"
     }
   },
   "notes": [],
@@ -559,6 +598,7 @@
         "lowfreq_expansion",
         "certificate_tightness",
         "band_width",
+        "full_history_gain",
         "stability_map_gru",
         "stability_map_lstm",
         "stability_map_mlp",
@@ -589,7 +629,13 @@
         "asymmetry_contrasts",
         "correlation_pooled",
         "correlation_pooled_laws",
-        "power"
+        "power",
+        "contacts_absolute",
+        "correlation_clustered",
+        "h12_2_error",
+        "equilibrium_roots",
+        "full_history",
+        "threshold_sensitivity"
       ]
     },
     "tables": [
@@ -598,6 +644,8 @@
       "band_sensitivity",
       "band_width",
       "certificate_tightness",
+      "contacts_absolute",
+      "correlation_clustered",
       "correlation_pooled",
       "correlation_pooled_laws",
       "e1",
@@ -610,8 +658,11 @@
       "e4",
       "e4_rmax",
       "e5",
+      "equilibrium_roots",
+      "full_history",
       "h12_1",
       "h12_2",
+      "h12_2_error",
       "instability",
       "instability_correlation",
       "laws",
@@ -623,6 +674,7 @@
       "power",
       "sensitivity",
       "temporal",
+      "threshold_sensitivity",
       "tost",
       "verdicts",
       "verdicts_h12"
@@ -736,6 +788,25 @@
         0
       ],
       "trained": 15
+    },
+    "e2_gain_long_w0.1": {
+      "config_fingerprint": "eb4ed8179e42",
+      "config_hashes": 2,
+      "event_sets": [
+        "follownet_highd"
+      ],
+      "folds": [
+        0
+      ],
+      "models": [
+        "gru",
+        "lstm"
+      ],
+      "runs": 2,
+      "seeds": [
+        0
+      ],
+      "trained": 2
     },
     "e2_gain_w0.01": {
       "config_fingerprint": "8f9f693e0f17",
@@ -1042,6 +1113,58 @@
     },
     "e4_free_r0.3_ft": {
       "config_fingerprint": "8a57e8306f3b",
+      "config_hashes": 25,
+      "event_sets": [
+        "ngsim_i80"
+      ],
+      "folds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "models": [
+        "residual_idm"
+      ],
+      "runs": 25,
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "trained": 25
+    },
+    "e4_margin_free_r0.3": {
+      "config_fingerprint": "efde0c0d1832",
+      "config_hashes": 25,
+      "event_sets": [
+        "follownet_highd"
+      ],
+      "folds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "models": [
+        "residual_idm"
+      ],
+      "runs": 25,
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "trained": 25
+    },
+    "e4_margin_free_r0.3_ft": {
+      "config_fingerprint": "3b77e7670313",
       "config_hashes": 25,
       "event_sets": [
         "ngsim_i80"
@@ -1774,6 +1897,47 @@
         0
       ],
       "trained": 5
+    },
+    "m9_idm_margin_i80": {
+      "config_fingerprint": "8f2c4c3cf563",
+      "config_hashes": 5,
+      "event_sets": [
+        "ngsim_i80"
+      ],
+      "folds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "models": [
+        "idm"
+      ],
+      "runs": 5,
+      "seeds": [
+        0
+      ],
+      "trained": 5
+    },
+    "m9_smoke": {
+      "config_fingerprint": "f3240b8602b4",
+      "config_hashes": 2,
+      "event_sets": [
+        "follownet_highd"
+      ],
+      "folds": [
+        0
+      ],
+      "models": [
+        "gru",
+        "lstm"
+      ],
+      "runs": 2,
+      "seeds": [
+        0
+      ],
+      "trained": 2
     },
     "smoke": {
       "config_fingerprint": "7a63f5b2f8fe",

@@ -142,6 +142,11 @@ def build_tree(root: Path) -> Path:
     # the control of M8 (D117): the monotonicity terms only, fold 0, seed 0
     write_run(root, "e2_monotone_w1", DATA, "mlp", 0, 0, factor=E1["mlp"][0] * 1.1, stable=0.35, unstable=0.6,
               outside=0.05, unstable_eq=0.7)  # fmt: skip
+    # the long-window arm of the revision (e2_horizon): fold 0, seed 0, the GRU stabilised at a cost
+    write_run(root, "e2_gain_long_w0.1", DATA, "gru", 0, 0, factor=E1["gru"][0] * 1.16, stable=0.77, unstable=0.0,
+              outside=0.23, unstable_eq=0.05, collided=("d0",))  # fmt: skip
+    write_run(root, "e2_gain_long_w0.1", DATA, "lstm", 0, 0, factor=E1["lstm"][0] * 1.2, stable=0.5, unstable=0.3,
+              outside=0.2, unstable_eq=0.3)  # fmt: skip
     return root
 
 
@@ -233,6 +238,32 @@ def test_e2_monotone(complete):
     assert "| mlp | monotone (D117) | 1 | 2 | 2.64 [" in md and "+10.0 % [" in md
     assert any(line.startswith("TABLE e2_monotone: 3 rows from 3/3 runs, 0 missing") for line in lines), lines
     assert not (root / "_tables" / "m4" / "e2_monotone.csv").exists()
+
+
+def test_e2_horizon(complete):
+    """The long-window arm of the revision: E1, the chosen E2 weight and the long rollout of fold 0, seed 0, per
+    recurrent architecture, in out_dir (m4)."""
+    root, lines = complete
+    out = root / "_tables" / "m4"
+    frame = pd.read_csv(out / "e2_horizon.csv")
+    assert frame["architecture"].tolist() == ["gru"] * 3 + ["lstm"] * 3
+    gru = frame[frame["architecture"] == "gru"].set_index("arm")
+    assert list(gru.index) == ["E1", "E2 (gain, weight 1, rollout 40 s, last 20 s)",
+                               "long window (rollout 380 s, last 252 s)"]  # fmt: skip
+    assert gru["experiment"].tolist() == ["e1", "e2_gain_w1", "e2_gain_long_w0.1"] and gru["runs"].tolist() == [1, 1, 1]
+    e1, e2, long = (gru.loc[arm] for arm in gru.index)
+    assert e1["rmse_s"] == pytest.approx(2.7) and long["rmse_s"] == pytest.approx(2.7 * 1.16)
+    assert (long["rmse_change"], long["rmse_change_low"], long["rmse_change_high"]) == pytest.approx((0.16,) * 3)
+    assert e2["rmse_change"] == pytest.approx(0.3) and pd.isna(e1["rmse_change"])
+    assert (long["stable"], long["unstable"], long["outside"], long["none"]) == pytest.approx((0.77, 0.0, 0.23, 0.0))
+    assert (long["not_stable"], long["unstable_eq"]) == pytest.approx((0.23, 0.05))
+    assert pd.isna(long["lowfreq_unstable"])  # the synthetic audits carry no frequency responses
+    assert long["max_gain"] == pytest.approx(1.1) and long["epochs"] == 3 and pd.isna(long["best_epoch"])
+    assert bool(long["complete"]) and bool(e1["complete"])
+    md = (out / "e2_horizon.md").read_text(encoding="utf-8")
+    assert "| gru | long window (rollout 380 s, last 252 s) | 1 | 2 | 3.13 [" in md and "+16.0 % [" in md
+    assert "gain above threshold at omega <= 0.1" in md
+    assert any(line.startswith("TABLE e2_horizon: 6 rows from 6/6 runs, 0 missing") for line in lines), lines
 
 
 def test_e2_sweep_and_the_chosen_weights(complete):
@@ -553,9 +584,10 @@ def test_make_tables_script(tmp_path):
     assert proc.returncode == 0, proc.stdout + proc.stderr
     lines = proc.stdout.strip().splitlines()
     tables = ("e1", "e2_sweep", "e2", "e2_lowfreq", "e3", "e4", "e5")
-    assert [line.split(":")[0] for line in lines] == [f"TABLE {name}" for name in (*tables, "e2_monotone")]
+    assert [line.split(":")[0] for line in lines] == [f"TABLE {name}" for name in (*tables, "e2_monotone", "e2_horizon")]
     out = root / "_tables" / "m4"
-    names = {"missing.txt", "chosen_weights.json", *(f"{n}.{s}" for n in (*tables, "verdicts") for s in ("md", "csv"))}
+    names = {"missing.txt", "chosen_weights.json",
+             *(f"{n}.{s}" for n in (*tables, "e2_horizon", "verdicts") for s in ("md", "csv"))}  # fmt: skip
     assert {p.name for p in out.iterdir()} == names
     assert {p.name for p in (root / "_tables" / "m8").iterdir()} == {"e2_monotone.md", "e2_monotone.csv"}  # M8
     mlp = read(out, "e1")["mlp"]

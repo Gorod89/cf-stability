@@ -1,0 +1,62 @@
+{
+  "device": "cpu",
+  "kind": "idm",
+  "law": "idm_core_margin",
+  "members": [],
+  "params": [
+    {
+      "T": 0.9788587093353271,
+      "a": 1.5670632123947144,
+      "b": 0.5000092387199402,
+      "s0": 3.193310499191284,
+      "v0": 35.213199615478516
+    },
+    {
+      "T": 0.9873303771018982,
+      "a": 1.5770609378814697,
+      "b": 0.5000016689300537,
+      "s0": 3.2530648708343506,
+      "v0": 35.14104461669922
+    },
+    {
+      "T": 0.9875276684761047,
+      "a": 1.5769108533859253,
+      "b": 0.5000206232070923,
+      "s0": 3.251380443572998,
+      "v0": 35.151615142822266
+    },
+    {
+      "T": 0.9923809766769409,
+      "a": 1.5805469751358032,
+      "b": 0.5000129342079163,
+      "s0": 3.2756454944610596,
+      "v0": 35.17245101928711
+    },
+    {
+      "T": 0.9886175394058228,
+      "a": 1.573002576828003,
+      "b": 0.5000132322311401,
+      "s0": 3.2418761253356934,
+      "v0": 35.32887268066406
+    }
+  ],
+  "source": {
+    "core_runs": [
+      "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold0_seed0",
+      "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold1_seed0",
+      "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold2_seed0",
+      "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold3_seed0",
+      "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold4_seed0"
+    ],
+    "cores_of": "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold{fold}_seed0",
+    "models": [
+      "ResidualIDM"
+    ],
+    "residual": "off"
+  },
+  "support_v": [
+    0.0,
+    18.050324854227018
+  ],
+  "window": 1
+}

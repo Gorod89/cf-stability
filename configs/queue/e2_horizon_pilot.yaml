@@ -1,0 +1,32 @@
+# Pilot of the long rollout of the gain penalty (M9, revision of 7 October 2026): GRU and LSTM with the rollout gain
+# penalty of E2 (kind gain, weight 0.1 as chosen in e2_chosen, on every 8th step times 8, 16 speeds per epoch, D90),
+# but with a rollout long enough to measure the lowest penalty frequency 0.05 rad/s (period 125.7 s) over two whole
+# periods after a warm-up of one period: train.penalty.horizon_s = 380 (125.7 s + 251.3 s, rounded up) and
+# train.penalty.measure_s = 252 (the last 2520 samples, two periods of 0.05 rad/s; the other frequencies are fitted
+# over the same window by least squares). E2 uses 40 s and the last 20 s, which hold 0.16 of a period at 0.05
+# rad/s. Fold 0, seed 0: 2 runs next to e2_gain_w0.1 of the same fold.
+# Smoke run of 2026-10-07 (runs/m9_smoke, these settings with 2 epochs x 48 steps, gru and lstm at once on the GPU):
+# both penalty steps were captured as CUDA graphs; peak per process 16.5 / 14.2 GiB allocated, 37.5 / 31.7 GiB
+# reserved (gru / lstm), the whole GPU at 48.4 of 49.1 GB: two workers fit, without room for a third job on the GPU.
+# First epoch (eager warm-up and graph capture) 1417 / 1443 s; then about 20 / 15 s per penalty step and 0.04 s per
+# plain step, i.e. about 10 / 7 min per epoch of 222 steps with both runs on the GPU (e2_gain_w0.1: 15.5 / 14 s).
+# python scripts/run_experiment.py configs/queue/e2_horizon_pilot.yaml
+name: e2_horizon_pilot
+workers: 2                # fits the GPU at its limit (smoke run above); 1 if another job uses the GPU
+timeout_h: 48.0           # per step: 100 epochs of the gru at 10 min plus the capture take about 17 h
+min_free_ram_gb: 6.0
+order: [seed, fold, model]
+steps: [train, audit, platoon]
+groups:
+  - experiment: "e2_gain_long_w{train.penalty.weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [gru, lstm]
+      fold: [0]
+      seed: [0]
+      train.penalty.kind: [gain]
+      train.penalty.weight: [0.1]               # the chosen weight of E2 (D85, e2_chosen)
+      train.penalty.every: [8]                  # D90: the rollout penalty on every 8th step, multiplied by 8
+      train.penalty.n_equilibria: [16]          # D90: 16 speeds per epoch
+      train.penalty.horizon_s: [380.0]          # warm-up of one period of 0.05 rad/s plus two measured periods
+      train.penalty.measure_s: [252.0]          # two periods of 0.05 rad/s (251.3 s)

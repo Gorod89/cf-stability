@@ -2,7 +2,7 @@
 % Needs \usepackage{booktabs} and \usepackage{graphicx}.
 \begin{table}[htbp]
 \centering
-\caption{Instability of the members of every law (audits of the member runs; idm\_heterogeneous, idm\_heterogeneous\_all, the cores of residual\_idm\_certified\_het and an IDM of calibrations without member runs: exact gain of their parameter sets) and the macro errors (1190 runs (I-80: 23 of 23 laws with runs, 3 scenarios; US-101: 18 of 18 laws with runs, 3 scenarios; 10 seeds per scenario); unit run; 95 \% percentile bootstrap intervals, 1000 resamples); the residual amplitudes of D111 are in table e4\_rmax; the temporal hold-out laws of D120 run on their scenarios only and are not in the correlations.}
+\caption{Instability of the members of every law (audits of the member runs; idm\_heterogeneous, idm\_heterogeneous\_all, the cores of residual\_idm\_certified\_het and an IDM of calibrations without member runs: exact gain of their parameter sets) and the macro errors (1370 runs (I-80: 26 of 26 laws with runs, 3 scenarios; US-101: 21 of 21 laws with runs, 3 scenarios; 10 seeds per scenario); unit run; 95 \% percentile bootstrap intervals, 1000 resamples); the residual amplitudes of D111 are in table e4\_rmax; the temporal hold-out laws of D120 run on their scenarios only and are not in the correlations.}
 \label{tab:instability}
 \small
 \resizebox{\linewidth}{!}{%
@@ -29,6 +29,9 @@ I-80 & idm\_global\_p0 & 1 & 1 & 0.000 &  & 20 & 0.186 [0.172, 0.199] & 0.322 [0
 I-80 & residual\_idm\_certified\_p0 & 5 & 5 & 0.000 & 0.000 & 20 & 0.173 [0.146, 0.202] & 0.282 [0.223, 0.344] & 0.000 &  & i80\_p1, i80\_p2 &  \\
 I-80 & mlp\_p0 & 5 & 5 & 0.941 & 0.963 & 20 & 0.230 [0.213, 0.249] & 0.338 [0.308, 0.372] & 687.094 & yes & i80\_p1, i80\_p2 &  \\
 I-80 & gru\_p0 & 5 & 5 & 0.791 & 0.812 & 20 & 0.107 [0.092, 0.123] & 0.182 [0.148, 0.216] & 196.277 & yes & i80\_p1, i80\_p2 &  \\
+I-80 & idm\_core\_margin & 5 & 5 & 0.000 &  & 30 & 0.198 [0.174, 0.226] & 0.301 [0.254, 0.356] & 0.000 &  & all &  \\
+I-80 & idm\_margin\_i80 & 5 & 5 & 0.000 &  & 30 & 0.239 [0.188, 0.298] & 0.479 [0.355, 0.624] & 0.000 &  & all &  \\
+I-80 & residual\_idm\_margin\_free\_r0.3 & 5 & 5 & 0.000 & 0.000 & 30 & 0.176 [0.150, 0.202] & 0.281 [0.229, 0.337] & 0.110 & yes & all &  \\
 US-101 & idm\_global & 5 & 5 & 0.000 & 0.000 & 30 & 0.133 [0.110, 0.163] & 0.229 [0.183, 0.288] & 0.030 & yes & all & yes \\
 US-101 & idm\_heterogeneous & 2840 & 2840 & 0.092 &  & 30 & 0.125 [0.100, 0.150] & 0.196 [0.152, 0.243] & 0.155 & yes & all & yes \\
 US-101 & knn & 5 & 5 & 0.924 & 0.924 & 30 & 0.628 [0.574, 0.690] & 0.583 [0.505, 0.682] & 1955.966 & yes & all & yes \\
@@ -43,6 +46,9 @@ US-101 & mlp\_penalty & 5 & 5 & 0.000 & 0.000 & 30 & 0.380 [0.334, 0.428] & 0.51
 US-101 & gru\_penalty & 5 & 5 & 0.359 & 0.359 & 30 & 0.347 [0.278, 0.428] & 0.458 [0.354, 0.581] & 752.931 & yes & all & yes \\
 US-101 & lstm\_penalty & 5 & 5 & 0.499 & 0.499 & 30 & 0.886 [0.785, 1.020] & 0.786 [0.663, 0.938] & 5540.222 & yes & all & yes \\
 US-101 & residual\_idm\_certified\_het & 3337 & 3337 & 0.000 &  & 30 & 0.174 [0.159, 0.189] & 0.266 [0.234, 0.300] & 0.671 & yes & all & yes \\
+US-101 & idm\_core\_margin & 5 & 5 & 0.000 &  & 30 & 0.177 [0.168, 0.185] & 0.222 [0.207, 0.237] & 0.422 & yes & all &  \\
+US-101 & idm\_margin\_i80 & 5 & 5 & 0.000 &  & 30 & 0.132 [0.115, 0.154] & 0.210 [0.179, 0.248] & 0.068 & yes & all &  \\
+US-101 & residual\_idm\_margin\_free\_r0.3 & 5 & 5 & 0.000 & 0.000 & 30 & 0.147 [0.138, 0.155] & 0.189 [0.174, 0.203] & 0.296 & yes & all &  \\
 \bottomrule
 \end{tabular}
 }

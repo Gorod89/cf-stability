@@ -27,6 +27,17 @@ M8 adds two sources (docs/m8_contract.md, sections 5 and 7):
   certified with, D118). ``source`` records the counts, the folds and runs of the file's certificate and the
   bounds.
 
+The review of M8 adds two more (the factorial ablation of the certified hybrid):
+
+* kind ``idm`` with ``calibration`` and ``calibration_settings`` (``idm_margin_i80``): of the files of the pattern only
+  those whose ``settings`` hold these values (e.g. ``stability_margin: 0.2`` among the per-fold calibrations of a data
+  set), one per pattern; none or several: the law is not written and its line says so.
+* kind ``idm`` with ``cores_of`` instead of ``members`` (``idm_core_margin``): the IDM parameters held by the
+  checkpoints of these runs (the core of a ResidualIDM), one parameter set per run, drawn per vehicle as the law of the
+  runs draws its members (``IDMLaw`` and ``ModelLaw`` draw alike from the generator of the seed), the residual switched
+  off; ``members: []`` (the audits of the runs are those of the hybrid: the instability of the law is that of its cores
+  in closed form), the runs in ``source``, ``support_v`` from the runs.
+
 Simulation (:func:`load_law`): an object with ``n_members``, ``window``, ``assign(n, rng)`` (the member of
 every vehicle of the demand, drawn in the order of the planned departures) and
 ``accelerations(rows, history)`` (unclipped accelerations of the vehicles ``rows`` for their histories
@@ -110,6 +121,8 @@ def export_law(
         return _export_heterogeneous(name, spec, table, folds, out_dir)
     if kind == "idm" and spec.get("calibration"):
         return _export_calibrated(name, spec, table, folds, out_dir)
+    if kind == "idm" and spec.get("cores_of"):
+        return _export_cores(name, spec, folds, out_dir)
     if kind == "residual_heterogeneous":
         return _export_residual_heterogeneous(name, spec, folds, out_dir)
     runs = member_runs(spec, folds)
@@ -232,15 +245,56 @@ def calibration_params(path: str | Path) -> dict[str, float]:
     raise ValueError(f"{_relative(path)} holds no IDM parameters ({', '.join(IDM_KEYS)})")
 
 
+def _same_setting(value: Any, wanted: Any) -> bool:
+    """A setting of a calibration file equals the wanted one: numbers within 1e-9, anything else exactly."""
+    numbers = (int, float)
+    if isinstance(value, numbers) and isinstance(wanted, numbers) and not isinstance(value, bool) \
+            and not isinstance(wanted, bool):  # fmt: skip
+        return abs(float(value) - float(wanted)) <= 1e-9
+    return value == wanted
+
+
+def calibration_matches(path: str | Path, settings: Mapping[str, Any]) -> bool:
+    """The ``settings`` of the calibration file hold every key of ``settings`` with its value (a key missing in the
+    file does not match; an unreadable file does not match)."""
+    try:
+        payload = read_json(path)
+    except (OSError, ValueError, UnicodeDecodeError):
+        return False
+    held = payload.get("settings") if isinstance(payload, Mapping) else None
+    if not isinstance(held, Mapping):
+        return False
+    return all(key in held and _same_setting(held[key], value) for key, value in settings.items())
+
+
+def _one_calibration(pattern: str, settings: Mapping[str, Any] | None) -> tuple[Path | None, str | None]:
+    """The single calibration file of ``pattern`` whose settings hold ``settings`` (all of them without), or the
+    reason there is none."""
+    if not settings:
+        return _one_file(pattern)
+    found = match_files(pattern)
+    wanted = ", ".join(f"settings.{key} = {value}" for key, value in settings.items())
+    chosen = [path for path in found if calibration_matches(path, settings)]
+    if not chosen:
+        return None, f"{pattern}: no file with {wanted} (of {len(found)} file{'s' if len(found) != 1 else ''})"
+    if len(chosen) > 1:
+        return None, (f"{pattern}: {len(chosen)} files with {wanted} ({', '.join(_relative(f) for f in chosen)}); "
+                      "name one in the law")  # fmt: skip
+    return chosen[0], None
+
+
 def _export_calibrated(
     name: str, spec: Mapping[str, Any], table: Mapping[str, Mapping[str, Any]], folds: Sequence[int], out_dir: Path
 ) -> tuple[dict[str, Any] | None, str]:
-    """Kind ``idm`` from global calibrations (D120): one member per calibration file of ``calibration``."""
+    """Kind ``idm`` from global calibrations (D120): one member per calibration file of ``calibration``; with
+    ``calibration_settings`` only the files whose ``settings`` hold these values (the margin of D72 of a per-fold
+    calibration, review of M8)."""
     pattern = str(spec["calibration"])
+    settings = dict(spec.get("calibration_settings") or {})
     patterns = [pattern.format(fold=int(k)) for k in folds] if "{fold}" in pattern else [pattern]
     files, problems = [], []
     for item in patterns:
-        found, problem = _one_file(item)
+        found, problem = _one_calibration(item, settings)
         if problem:
             problems.append(problem)
         else:
@@ -259,8 +313,49 @@ def _export_calibrated(
         "source": {"calibration": [_relative(path) for path in files], "pattern": pattern, "support_from": source,
                    "support_runs": support_runs},
     }  # fmt: skip
+    if settings:  # only then: the law files without a selection keep their content (and their fingerprint)
+        payload["source"]["calibration_settings"] = settings
     write_json(out_dir / f"{name}.json", payload)
     what = f"{len(files)} calibration{'s' if len(files) > 1 else ''} ({', '.join(_relative(p) for p in files)})"
+    if settings:
+        what += f" with {', '.join(f'settings.{key} = {value}' for key, value in settings.items())}"
+    return payload, _line(payload, what, out_dir)
+
+
+def _export_cores(
+    name: str, spec: Mapping[str, Any], folds: Sequence[int], out_dir: Path
+) -> tuple[dict[str, Any] | None, str]:
+    """Kind ``idm`` from the IDM cores of member runs (review of M8, ``idm_core_margin``): the IDM parameters held by
+    the checkpoints of ``cores_of`` (the core of a ResidualIDM, the IDM itself), one parameter set per member, drawn per
+    vehicle as the law of these runs draws its members (``IDMLaw`` and ``ModelLaw`` draw alike); the residual is not
+    used. No member runs (``members: []``: the audits of the runs are those of the hybrid, the instability of the law is
+    that of its cores in closed form); the runs are in ``source``; ``support_v`` from the runs."""
+    runs = member_runs({"members": spec["cores_of"]}, folds)
+    present = existing_runs(runs)
+    missing = [run for run in runs if run not in present]
+    if missing:
+        return None, (
+            f"LAW {name:<24} not written: {len(missing)} of {len(runs)} runs of the cores missing (model.pt, "
+            f"metrics.json): {', '.join(missing)}"
+        )
+    from cf_stability.models import IDM, load_model
+
+    params, kinds = [], []
+    for run in present:
+        model = load_model(resolve_path(run) / "model.pt")
+        core = model if isinstance(model, IDM) else getattr(model, "idm", None)
+        if not isinstance(core, IDM) or (core.delta, core.s_eps) != tuple(IDM_DEFAULTS.values()):
+            raise ValueError(f"law {name}: {run} holds no IDM core with {IDM_DEFAULTS}")
+        params.append(core.params_dict())
+        kinds.append(type(model).__name__)
+    payload: dict[str, Any] = {
+        "law": name, "kind": "idm", "device": "cpu", "members": [], "params": params, "support_v": support_of(present),
+        "window": 1,
+        "source": {"cores_of": str(spec["cores_of"]), "core_runs": present, "models": sorted(set(kinds)),
+                   "residual": "off"},
+    }  # fmt: skip
+    write_json(out_dir / f"{name}.json", payload)
+    what = f"the IDM cores of {len(present)}/{len(runs)} runs ({', '.join(sorted(set(kinds)))}; residual off)"
     return payload, _line(payload, what, out_dir)
 
 
