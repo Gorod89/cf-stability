@@ -16,8 +16,9 @@ force: false
 compute: true             # write the macro.json files of the selection
 tables: false             # write the tables of `design` (.md, .csv: laws, components, instability, tost, h12_1,
                           # h12_2, e4_rmax, sensitivity, verdicts) and missing.txt, and those of M8 of the corridor
-                          # (asymmetry, asymmetry_contrasts, correlation_pooled, power, temporal; D120-D122) into
-                          # paths.out_dir_m8 with missing_corridor.txt
+                          # (asymmetry, asymmetry_contrasts, correlation_pooled, power, temporal; D120-D122) and of its
+                          # review (correlation_clustered, contacts_absolute, h12_2_error) into paths.out_dir_m8 with
+                          # missing_corridor.txt
 workers: 1                # scripts/corridor_asymmetry.py: processes of the pool (1: in this process)
 
 macro:                    # hashed into config_hash of every macro.json
@@ -90,8 +91,12 @@ design:                   # tables (docs/m5_contract.md, section 6; docs/m7_cont
               residual_idm_free_r0.3]   # D111: laws, components and e4_rmax; not in the instability correlation
   temporal_laws: [idm_global_p0, residual_idm_certified_p0, mlp_p0, gru_p0]   # D120: laws, components and
                           # instability rows over their scenarios; not in the correlation nor the verdicts
-  optional_laws: [residual_idm_certified_het, idm_global_p0, residual_idm_certified_p0, mlp_p0, gru_p0]   # in the
-                          # tables once a law file or a run exists (one note in missing.txt before)
+  ablation_laws: [idm_core_margin, idm_margin_i80, residual_idm_margin_free_r0.3]   # review of M8: the factorial
+                          # ablation of the certified hybrid; rows of laws, components, instability, asymmetry,
+                          # contacts_absolute and e4_rmax (rmax_ablation); not in the correlations nor the verdicts
+  optional_laws: [residual_idm_certified_het, idm_global_p0, residual_idm_certified_p0, mlp_p0, gru_p0,
+                  idm_core_margin, idm_margin_i80, residual_idm_margin_free_r0.3]   # in the tables once a law file
+                          # or a run exists (one note in missing.txt before)
   law_corridors: {idm_heterogeneous_all: [I-80], idm_global_p0: [I-80], residual_idm_certified_p0: [I-80],
                   mlp_p0: [I-80], gru_p0: [I-80]}   # laws that run on some corridors only (default: on every one)
   law_scenarios: {idm_global_p0: [i80_p1, i80_p2], residual_idm_certified_p0: [i80_p1, i80_p2],
@@ -152,8 +157,30 @@ design:                   # tables (docs/m5_contract.md, section 6; docs/m7_cont
     - {r_max: 0.5, core: certified, highd: e4_stable_r0.5, ngsim: e4_stable_ft_r0.5, law: residual_idm_certified_r0.5}
     - {r_max: 0.3, core: free, highd: e4_free_r0.3, ngsim: e4_free_r0.3_ft, law: residual_idm_free_r0.3}
     - {r_max: 1.0, core: free, highd: e1, ngsim: e4_free_ft, law: residual_idm}
+  rmax_ablation:          # review of M8: extra rows of e4_rmax once the law is in the tables; r_max 0: no residual;
+                          # highd/ngsim null: no training runs of the row (empty cells)
+    - {r_max: 0.0, core: certified core alone, highd: null, ngsim: null, law: idm_core_margin}
+    - {r_max: 0.0, core: I-80 margin core, highd: null, ngsim: null, law: idm_margin_i80}
+    - {r_max: 0.3, core: "margin, no certificate", highd: e4_margin_free_r0.3, ngsim: e4_margin_free_r0.3_ft,
+       law: residual_idm_margin_free_r0.3}
   rmax_data: follownet_highd
   rmax_model: residual_idm
+  # review of M8: H12.3 with clustered inference (table correlation_clustered in paths.out_dir_m8): the rows of
+  # correlation_pooled resampled by law and by architecture family, the instability permuted over whole laws
+  families:               # the clusters of the family bootstrap and of leave-one-family-out (a law of none: its own)
+    IDM: [idm_global, idm_heterogeneous, idm_heterogeneous_all, idm_core_margin, idm_margin_i80]
+    ResidualIDM: [residual_idm, residual_idm_certified, residual_idm_certified_r0.1, residual_idm_certified_r0.2,
+                  residual_idm_certified_r0.5, residual_idm_free_r0.3, residual_idm_certified_het,
+                  residual_idm_margin_free_r0.3]
+    k-NN: [knn]
+    MLP: [mlp, mlp_penalty]
+    PIDL: [pidl]
+    GRU: [gru, gru_penalty]
+    LSTM: [lstm, lstm_penalty]
+    PERL: [perl]
+  physics_families: [IDM, ResidualIDM]   # left out of the subset "learned laws only"
+  cluster_resamples: 5000 # per bootstrap (laws, families, rows within the corridors)
+  cluster_seed: 20261007  # one generator per row of the table: the laws, then the families, then the rows
   # sensitivity (D113; table sensitivity): scenarios <sensitivity_scenario>_<variant>, the scenario itself = baseline
   sensitivity_scenario: i80_p1
   sensitivity_variants: [gain0.01, gain0.04, nofeedback, lc_low, lc_high]

@@ -1045,7 +1045,12 @@ class ReportMaker:
             if name not in names:
                 self.note(f"table {name} (M8)", f"{self.label(folder / (name + '.csv'))} missing: no inputs yet")
         order = {name: k for k, name in enumerate(self.cfg.m8_tables)}
-        for path in sorted(found, key=lambda p: (order.get(p.stem, len(order)), p.stem)):
+        # the tables of the revision (runs/_tables/m9: full-history analysis, threshold sensitivity, equilibrium
+        # roots) follow those of M8 with generic columns
+        folder_m9 = folder.parent / "m9"
+        found_m9 = sorted(folder_m9.glob("*.csv")) if folder_m9.is_dir() else []
+        for path in sorted(found, key=lambda p: (order.get(p.stem, len(order)), p.stem)) + found_m9:
+            folder = path.parent
             frame = self.csv(folder, path.stem, f"table {path.stem} (M8)")
             if frame is None:
                 continue
@@ -1064,7 +1069,7 @@ class ReportMaker:
             else:
                 caption = first if first.startswith(title) else (f"{title}. {first}" if first else title)
                 columns = self.generic_columns(frame)
-            self.add(ReportTable(name, title, caption, frame, columns, f"runs/_tables/m8/{path.name}",
+            self.add(ReportTable(name, title, caption, frame, columns, f"runs/_tables/{folder.name}/{path.name}",
                                  note=None if len(frame) else "no rows"))  # fmt: skip
             self.m8_names.append(name)
 

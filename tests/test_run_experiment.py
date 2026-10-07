@@ -305,6 +305,7 @@ def test_queue_files_of_the_experiments(monkeypatch):
         "e4_pilot": 4, "ngsim_idm": 5, "preview_gain": 3, "preview_existence": 2, "e2_existence": 15, "m5_laws": 40,
         "e2_lowfreq_pilot": 6, "e2_lowfreq": 15, "e4_rmax": 200,  # M7 (D110, D111)
         "e2_monotone": 3, "audit_bands": 150, "m8_temporal": 15,  # M8 (D117, D119, D120)
+        "e2_horizon_pilot": 2, "e4_variant_d": 50,  # M9 (revision of 7 October 2026)
     }  # fmt: skip
     files = sorted((REPO_ROOT / "configs" / "queue").glob("*.yaml"))
     queues = {path.stem: eq.QueueConfig.from_file(path) for path in files}
@@ -384,6 +385,34 @@ def test_queue_files_of_the_experiments(monkeypatch):
         else:
             assert o["model"] in ("mlp", "gru") and spec.steps == ("train", "audit")
             assert o["init_from"] == f"runs/e1/{source}"
+    # M9: the gain penalty of E2 with a rollout that measures two periods of 0.05 rad/s after a warm-up of one, and
+    # the factorial variant D of E4 (core with margin, no certificate)
+    assert experiments["e2_horizon_pilot"] == ["e2_gain_long_w0.1"]
+    assert sorted(spec.overrides["model"] for spec in specs["e2_horizon_pilot"]) == ["gru", "lstm"]
+    period = 2.0 * np.pi / 0.05  # of the lowest frequency of the penalty
+    for spec in specs["e2_horizon_pilot"]:
+        o = spec.overrides
+        assert spec.steps == ("train", "audit", "platoon") and (o["fold"], o["seed"]) == (0, 0)
+        assert o["train.penalty.kind"] == "gain" and o["train.penalty.weight"] == 0.1
+        assert o["train.penalty.every"] == 8 and o["train.penalty.n_equilibria"] == 16
+        horizon, measure = o["train.penalty.horizon_s"], o["train.penalty.measure_s"]
+        assert measure >= 2 * period and horizon - measure >= period  # two measured periods after a warm-up of one
+    assert queues["e2_horizon_pilot"].workers == 2 and queues["e2_horizon_pilot"].timeout_h >= 24.0
+    assert experiments["e4_variant_d"] == ["e4_margin_free_r0.3", "e4_margin_free_r0.3_ft"]
+    assert collections.Counter(spec.experiment for spec in specs["e4_variant_d"]) == {
+        "e4_margin_free_r0.3": 25, "e4_margin_free_r0.3_ft": 25,
+    }  # fmt: skip
+    for spec in specs["e4_variant_d"]:
+        o = spec.overrides
+        run = f"follownet_highd/residual_idm/driver_fold{o['fold']}_seed{o['seed']}"
+        assert spec.steps == ("train", "audit", "certificate")
+        assert o["model"] == "residual_idm" and o["model.r_max"] == 0.3
+        if spec.experiment == "e4_margin_free_r0.3":  # the core of e4_stable, no certified budget
+            assert o["calibration.stability_margin"] == 0.2 and o["certificate.enforce"] is False
+            assert o["data"] == "follownet_highd" and "init_from" not in o
+        else:
+            assert o["data"] == "ngsim_i80" and o["init_from"] == f"runs/e4_margin_free_r0.3/{run}"
+            assert "certificate.enforce" not in o
     for name, queue in queues.items():  # the first value of every list composes
         groups = tuple({**g, "overrides": {k: v[:1] for k, v in g["overrides"].items()}} for g in queue.groups)
         jobs, _ = eq.load_jobs(eq.QueueConfig(**{**queue.__dict__, "groups": groups, "order": ()}))

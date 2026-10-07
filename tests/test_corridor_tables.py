@@ -429,7 +429,8 @@ def test_missing_items_are_listed(tree):
     assert [line.split(":")[0] for line in tree["lines"]] == [
         "TABLE laws", "TABLE components", "TABLE instability", "TABLE tost", "TABLE h12_1", "TABLE h12_2",
         "TABLE e4_rmax", "TABLE sensitivity", "TABLE verdicts", "TABLE asymmetry", "TABLE asymmetry_contrasts",
-        "TABLE correlation_pooled", "TABLE power", "TABLE temporal"]  # fmt: skip  # the corridor tables of M8 last
+        "TABLE correlation_pooled", "TABLE power", "TABLE temporal", "TABLE correlation_clustered",
+        "TABLE contacts_absolute", "TABLE h12_2_error"]  # fmt: skip  # the corridor tables of M8 and its review last
 
 
 def test_a_second_corridor(tmp_path):
@@ -473,8 +474,9 @@ def test_tables_of_an_empty_tree(tmp_path):
     cfg = CorridorTablesConfig.from_mapping({"n_resamples": 20, "n_permutations": 50}, tmp_path / "corridor", tmp_path,
                                             tmp_path / "out")  # fmt: skip
     lines = make_corridor_tables(cfg)
-    assert len(lines) == 14 and (tmp_path / "out" / "tost.md").exists() and (tmp_path / "out" / "verdicts.md").exists()
-    for name in ("asymmetry", "asymmetry_contrasts", "correlation_pooled", "power", "temporal"):  # M8: next to out
+    assert len(lines) == 17 and (tmp_path / "out" / "tost.md").exists() and (tmp_path / "out" / "verdicts.md").exists()
+    for name in ("asymmetry", "asymmetry_contrasts", "correlation_pooled", "power", "temporal", "correlation_clustered",
+                 "contacts_absolute", "h12_2_error"):  # M8 and its review: next to out
         assert (tmp_path / "m8" / f"{name}.md").exists() and (tmp_path / "m8" / f"{name}.csv").exists(), name
     laws = pd.read_csv(tmp_path / "out" / "laws.csv")
     assert len(laws) == 14 + 4 + 3 and laws["macro_error"].isna().all()  # I-80: the laws of D97, D114, D111; 3 truths

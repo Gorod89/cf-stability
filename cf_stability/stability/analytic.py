@@ -113,3 +113,84 @@ def transfer_windowed(jacobian: Tensor, omega: Tensor, dt: float) -> Tensor:
     powers = z[None, :] ** (-lag[:, None].to(ctype))  # [W, n_w]
     F = torch.einsum("nwx,wk->nkx", jacobian.to(ctype), powers)  # [n, n_w, 3]
     return _discrete(F[..., 0], F[..., 1], F[..., 2], z[None, :], dt)
+
+
+def windowed_state_space(jacobian: Tensor, dt: float) -> tuple[Tensor, Tensor, Tensor]:
+    """State-space form ``(A [n, 2W+1, 2W+1], B [n, 2W+1], C [2W+1])`` of the linearised two-vehicle loop of a
+    law with a history window of ``W`` states (M9, the full-history linearisation).
+
+    Deviations from the equilibrium: gap ``e``, follower speed ``u``, leader speed ``w`` (the input); the
+    law reads ``ds = e``, ``ddv = u - w`` (``dv = v - v_lead``) and ``dv_own = u`` at every window position.
+    ``jacobian [n, W, 3]`` comes from :func:`history_jacobian` (entry ``i`` acts on the state ``W - 1 - i``
+    steps ago). The state at step ``k`` is
+
+        X[k] = (e[k], u[k-W+1], ..., u[k], w[k-W+1], ..., w[k]),
+
+    which holds the whole window: the gaps of the earlier positions follow from the integration scheme,
+    ``e[m] = e[k] - dt sum_{l=m+1..k} (w[l] - u[l])``. One step of the semi-implicit Euler of the rollout
+    (``rollout_model``; the leader position by the same scheme) with the leader speed ``w[k+1]`` as input:
+
+        a[k]   = sum_i J_s[i] e[k-W+1+i] + J_dv[i] (u - w)[k-W+1+i] + J_v[i] u[k-W+1+i]
+        u[k+1] = u[k] + dt a[k],    e[k+1] = e[k] + dt (w[k+1] - u[k+1]),    u, w: shift registers,
+
+    i.e. ``X[k+1] = A X[k] + B w[k+1]`` and ``u[k] = C X[k]``. The transfer function from the leader speed to
+    the follower speed is ``G(z) = z C (zI - A)^-1 B``, equal to :func:`transfer_windowed`. The rows of the
+    leader speeds depend on the input only: ``A`` is block upper triangular, its eigenvalues are those of
+    the block of ``(e, u)`` (:func:`closed_loop_poles`) and ``W`` zeros. Float64 throughout.
+    """
+    jac = jacobian.to(torch.float64)
+    n, window = jac.shape[0], jac.shape[1]
+    j_s, j_dv, j_v = jac.unbind(-1)  # [n, W]
+    # the gap at window position i is e[k] - dt sum_{i' > i} (w - u)[i']: its weight moves to the later speeds
+    earlier = torch.cumsum(j_s, dim=1) - j_s  # sum_{i < i'} J_s[i]
+    c_e = j_s.sum(dim=1)  # [n]
+    c_u = j_dv + j_v + dt * earlier  # [n, W]: a[k] = c_e e + c_u . u_window + c_w . w_window
+    c_w = -j_dv - dt * earlier
+    size = 2 * window + 1
+    e, u = 0, 1 + torch.arange(window, device=jac.device)  # indices of the state
+    w, last = 1 + window + torch.arange(window, device=jac.device), window  # u[k] is the entry `window`
+    A = torch.zeros(n, size, size, dtype=torch.float64, device=jac.device)
+    A[:, u[:-1], u[1:]] = 1.0  # shift registers
+    A[:, w[:-1], w[1:]] = 1.0
+    A[:, last, e] = dt * c_e  # u[k+1] = u[k] + dt a[k]
+    A[:, last, u] = dt * c_u
+    A[:, last, last] += 1.0
+    A[:, last, w] = dt * c_w
+    A[:, e, :] = -dt * A[:, last, :]  # e[k+1] = e[k] - dt u[k+1] + dt w[k+1]
+    A[:, e, e] += 1.0
+    B = torch.zeros(n, size, dtype=torch.float64, device=jac.device)
+    B[:, e] = dt  # e[k+1] gains dt w[k+1]
+    B[:, 2 * window] = 1.0  # the newest leader speed of the register
+    C = torch.zeros(size, dtype=torch.float64, device=jac.device)
+    C[last] = 1.0
+    return A, B, C
+
+
+def closed_loop_poles(jacobian: Tensor, dt: float) -> Tensor:
+    """Poles ``[n, W+1]`` (complex128) of the linearised two-vehicle loop of a windowed law: the eigenvalues of
+    the block of ``(e, u)`` of :func:`windowed_state_space` (the other ``W`` eigenvalues, of the shift register of
+    the leader speeds, are 0). They are the roots of ``z^(W-1) ((z - 1)^2 + dt^2 F_s(z) z - dt (F_dv(z) + F_v(z))
+    (z - 1))``, the denominator of :func:`transfer_windowed`. All of them inside the unit circle: the full history
+    model is locally stable at the equilibrium (small deviations die out, with the leader at its equilibrium)."""
+    A, _, _ = windowed_state_space(jacobian, dt)
+    block = jacobian.shape[1] + 1
+    return torch.linalg.eigvals(A[:, :block, :block])
+
+
+def windowed_margin(jacobian: Tensor, dt: float) -> Tensor:
+    """``M_w [n]``, the coefficient of the low-frequency expansion ``|G(e^(i w dt))|^2 = 1 - w^2 M_w / f_s^2 + O(w^4)``
+    of :func:`transfer_windowed` (M9):
+
+        M_w = M + 2 (f_v m_s - f_s m_v) - dt f_s f_v,    m_x = sum_j (j dt) J_x[W - 1 - j],
+
+    with ``f_x = sum_j J_x[j]`` and ``M = f_v^2 + 2 f_v f_dv - 2 f_s`` of the memoryless view and ``m_x`` the first
+    moments of the history Jacobian over the lag (``j`` steps ago). The memoryless ``M`` is the coefficient only
+    when the lag moments satisfy ``f_v m_s = f_s m_v`` (no memory, or a delay common to spacing and speed); the
+    last term is the semi-implicit Euler step (``M - dt f_s f_v`` for a memoryless law)."""
+    jac = jacobian.to(torch.float64)
+    window = jac.shape[1]
+    lag = dt * torch.arange(window - 1, -1, -1, dtype=torch.float64, device=jac.device)  # time ago of entry i
+    f_s, f_dv, f_v = jac.sum(dim=1).unbind(-1)
+    m_s, _, m_v = (jac * lag[None, :, None]).sum(dim=1).unbind(-1)
+    margin = f_v**2 + 2.0 * f_v * f_dv - 2.0 * f_s
+    return margin + 2.0 * (f_v * m_s - f_s * m_v) - dt * f_s * f_v

@@ -349,3 +349,182 @@ def stratified_permutation_p(
     r = (shuffled - u.mean()) @ (w - w.mean()) / (len(u) * u.std() * w.std())
     hits = int(np.sum(np.abs(r) >= abs(observed) - 1e-12))
     return (hits + 1) / (n_permutations + 1)
+
+
+# --------------------------------------------------------------- clustered inference of H12.3 (review of M8)
+#
+# The (law, corridor) rows of the pooled correlation are not independent: a law has a row on each corridor with the
+# same instability, and the variants of one architecture (penalised, certified, amplitudes) are related. The
+# resampling units are therefore clusters of rows: the law, or the architecture family. Everything is vectorised over
+# the resamples: a resample is a vector of multiplicities of the rows (a cluster drawn k times enters with every row k
+# times), and the ranks within the strata of the expanded sample follow from the multiplicities.
+
+
+def first_appearance_codes(labels: ArrayLike) -> tuple[np.ndarray, list[Any]]:
+    """Integer codes of ``labels`` numbered in the order of their first appearance, and the distinct labels in it."""
+    items = np.asarray(labels).reshape(-1).tolist()
+    names = list(dict.fromkeys(items))
+    index = {name: k for k, name in enumerate(names)}
+    return np.array([index[item] for item in items], dtype=np.int64), names
+
+
+def multiplicities(draws: np.ndarray, n_units: int) -> np.ndarray:
+    """``[R, n_units]``: how often every unit occurs in every row of ``draws`` (``[R, k]`` unit indices)."""
+    draws = np.asarray(draws, dtype=np.int64)
+    out = np.zeros((len(draws), n_units))
+    np.add.at(out, (np.repeat(np.arange(len(draws)), draws.shape[1]), draws.reshape(-1)), 1.0)
+    return out
+
+
+def weighted_stratified_ranks(values: ArrayLike, strata: ArrayLike, weights: np.ndarray) -> np.ndarray:
+    """:func:`stratified_ranks` of the expanded samples in which row ``j`` occurs ``weights[r, j]`` times: ``[R, n]``,
+    every occurrence of a row with the average rank of its ties within its stratum, scaled as ``(rank - 0.5) /
+    n_stratum`` with the size of the stratum in the expanded sample. A row of weight 0 gets a value that no sum uses;
+    a stratum absent from a sample gets 0."""
+    v, s = np.asarray(values, dtype=np.float64).reshape(-1), np.asarray(strata).reshape(-1)
+    w = np.atleast_2d(np.asarray(weights, dtype=np.float64))
+    out = np.zeros(w.shape)
+    for label in np.unique(s):
+        idx = np.flatnonzero(s == label)
+        order = idx[np.argsort(v[idx], kind="stable")]
+        ordered = v[order]
+        new = np.r_[True, ordered[1:] != ordered[:-1]]  # the first row of every group of ties
+        starts, group = np.flatnonzero(new), np.cumsum(new) - 1
+        counts = np.add.reduceat(w[:, order], starts, axis=1)  # [R, ties]: occurrences of every group of ties
+        below = np.cumsum(counts, axis=1) - counts  # occurrences of smaller values
+        size = counts.sum(axis=1, keepdims=True)
+        scaled = (below + (counts + 1.0) / 2.0 - 0.5) / np.where(size > 0, size, 1.0)
+        out[:, order] = np.where(size > 0, scaled, 0.0)[:, group]
+    return out
+
+
+def weighted_pearson(x: np.ndarray, y: np.ndarray, weights: np.ndarray) -> np.ndarray:
+    """Pearson correlation per row of ``weights`` (``[R, n]`` multiplicities) of ``x`` and ``y`` (``[R, n]`` or
+    ``[n]``): that of the expanded sample (population moments, as :func:`stratified_spearman`); NaN with fewer than
+    three occurrences or a constant variable."""
+    w = np.atleast_2d(np.asarray(weights, dtype=np.float64))
+    x, y = np.broadcast_to(x, w.shape), np.broadcast_to(y, w.shape)
+    total = w.sum(axis=1)
+    safe = np.where(total > 0, total, 1.0)
+    dx = x - ((w * x).sum(axis=1) / safe)[:, None]
+    dy = y - ((w * y).sum(axis=1) / safe)[:, None]
+    vx, vy = (w * dx * dx).sum(axis=1) / safe, (w * dy * dy).sum(axis=1) / safe
+    with np.errstate(invalid="ignore", divide="ignore"):
+        r = (w * dx * dy).sum(axis=1) / safe / np.sqrt(vx * vy)
+    r[(total < 3) | (vx <= 1e-15) | (vy <= 1e-15)] = np.nan
+    return r
+
+
+def _percentile(values: np.ndarray, level: float) -> tuple[float, float, int]:
+    valid = values[np.isfinite(values)]
+    if not len(valid):
+        return math.nan, math.nan, 0
+    alpha = 1.0 - level
+    low, high = np.quantile(valid, [alpha / 2.0, 1.0 - alpha / 2.0])
+    return float(low), float(high), int(len(valid))
+
+
+def _finite_rows(*columns: ArrayLike) -> tuple[np.ndarray, ...]:
+    """The columns as arrays (x and y as floats) without the rows in which x or y is not finite."""
+    arrays = [np.asarray(c).reshape(-1) for c in columns]
+    x, y = arrays[0].astype(np.float64), arrays[1].astype(np.float64)
+    keep = np.isfinite(x) & np.isfinite(y)
+    return (x[keep], y[keep], *(a[keep] for a in arrays[2:]))
+
+
+def cluster_bootstrap_spearman(
+    x: ArrayLike, y: ArrayLike, strata: ArrayLike, clusters: ArrayLike, rng: np.random.Generator,
+    n_resamples: int = 5000, level: float = 0.95,
+) -> dict[str, Any]:  # fmt: skip
+    """Percentile interval of :func:`stratified_spearman` from a bootstrap of clusters of rows: every resample draws as
+    many clusters as there are with replacement (``rng.integers(0, k, (n_resamples, k))``, the clusters numbered in the
+    order of their first appearance) and takes every row of a drawn cluster as often as it is drawn; the ranks are
+    those within the strata of the resample. ``rng`` is used as given: bootstraps drawn from one generator follow one
+    another in its stream. Resamples with a constant variable in the pooled ranks have no correlation (``n_valid``).
+    ``{estimate, low, high, n_valid, n_clusters}``."""
+    x, y, s, labels = _finite_rows(x, y, strata, clusters)
+    codes, names = first_appearance_codes(labels)
+    out = {"estimate": stratified_spearman(x, y, s), "low": math.nan, "high": math.nan, "n_valid": 0,
+           "n_clusters": len(names)}  # fmt: skip
+    if len(x) < 3 or not names:
+        return out
+    draws = rng.integers(0, len(names), size=(n_resamples, len(names)))
+    weights = multiplicities(draws, len(names))[:, codes]
+    r = weighted_pearson(weighted_stratified_ranks(x, s, weights), weighted_stratified_ranks(y, s, weights), weights)
+    out["low"], out["high"], out["n_valid"] = _percentile(r, level)
+    return out
+
+
+def stratified_bootstrap_spearman(
+    x: ArrayLike, y: ArrayLike, strata: ArrayLike, rng: np.random.Generator, n_resamples: int = 5000,
+    level: float = 0.95,
+) -> dict[str, Any]:  # fmt: skip
+    """The interval of :func:`stratified_spearman_ci` (rows resampled within every stratum, as independent units),
+    vectorised and drawn from ``rng`` (per stratum in sorted order, ``rng.integers(0, n_stratum, (n_resamples,
+    n_stratum))``). ``{estimate, low, high, n_valid}``."""
+    x, y, s = _finite_rows(x, y, strata)
+    out = {"estimate": stratified_spearman(x, y, s), "low": math.nan, "high": math.nan, "n_valid": 0}
+    if len(x) < 3:
+        return out
+    weights = np.zeros((n_resamples, len(x)))
+    for label in np.unique(s):
+        idx = np.flatnonzero(s == label)
+        weights[:, idx] = multiplicities(rng.integers(0, len(idx), size=(n_resamples, len(idx))), len(idx))
+    r = weighted_pearson(weighted_stratified_ranks(x, s, weights), weighted_stratified_ranks(y, s, weights), weights)
+    out["low"], out["high"], out["n_valid"] = _percentile(r, level)
+    return out
+
+
+def linked_permutation_p(
+    x: ArrayLike, y: ArrayLike, strata: ArrayLike, units: ArrayLike, n_permutations: int = 10000, seed: int = 0
+) -> float:
+    """Two-sided permutation p-value of :func:`stratified_spearman` in which the values of ``x`` are permuted over the
+    ``units`` as wholes: every unit (a law) takes the value of ``x`` of the unit it is assigned, on every row it has (a
+    law on both corridors keeps one value on both, a law on one corridor gives its value away as well); ``x`` is one
+    value per unit (its first row counts). The ranks within the strata are recomputed for every permutation;
+    ``(1 + #{|r_perm| >= |r|}) / (1 + n_permutations)``; NaN when the correlation is undefined."""
+    x, y, s, labels = _finite_rows(x, y, strata, units)
+    observed = stratified_spearman(x, y, s)
+    if math.isnan(observed) or n_permutations < 1:
+        return math.nan
+    codes, names = first_appearance_codes(labels)
+    value = np.array([x[np.flatnonzero(codes == k)[0]] for k in range(len(names))])
+    rng = np.random.default_rng(seed)
+    assigned = rng.permuted(np.tile(np.arange(len(names)), (n_permutations, 1)), axis=1)  # unit -> unit it takes
+    permuted = value[assigned][:, codes]  # [P, n]: the value of x of every row under every permutation
+    u = np.empty(permuted.shape)
+    for label in np.unique(s):
+        idx = np.flatnonzero(s == label)
+        u[:, idx] = (sps.rankdata(permuted[:, idx], axis=1) - 0.5) / len(idx)
+    w = stratified_ranks(y, s)
+    du, dw = u - u.mean(axis=1, keepdims=True), w - w.mean()
+    with np.errstate(invalid="ignore", divide="ignore"):
+        r = (du @ dw) / (len(w) * u.std(axis=1) * w.std())
+    hits = int(np.sum(np.abs(r) >= abs(observed) - 1e-12))  # a permutation with a constant x (NaN) is no hit
+    return (hits + 1) / (n_permutations + 1)
+
+
+def clustered_spearman(
+    x: ArrayLike, y: ArrayLike, strata: ArrayLike, laws: ArrayLike, families: ArrayLike, *, n_resamples: int = 5000,
+    n_permutations: int = 10000, level: float = 0.95, seed: int = 20261007,
+) -> dict[str, Any]:  # fmt: skip
+    """:func:`stratified_spearman` of rows that are (law, stratum) pairs with the inference of dependent rows: one
+    generator ``default_rng(seed)`` draws (a) the bootstrap of the laws as clusters, then (b) that of the ``families``
+    as clusters, then (c) for comparison the bootstrap of the rows within every stratum (the rows as independent units,
+    D122), each from where the previous one left the stream (:func:`cluster_bootstrap_spearman`,
+    :func:`stratified_bootstrap_spearman`); (d) the permutation of whole laws (:func:`linked_permutation_p`, its own
+    generator of ``seed``). ``{n, n_laws, n_families, estimate, law_low, law_high, law_valid, family_low, family_high,
+    family_valid, pairs_low, pairs_high, pairs_valid, p_linked}``."""
+    x, y, s, law, family = _finite_rows(x, y, strata, laws, families)
+    rng = np.random.default_rng(seed)
+    by_law = cluster_bootstrap_spearman(x, y, s, law, rng, n_resamples, level)
+    by_family = cluster_bootstrap_spearman(x, y, s, family, rng, n_resamples, level)
+    by_row = stratified_bootstrap_spearman(x, y, s, rng, n_resamples, level)
+    return {
+        "n": int(len(x)), "n_laws": by_law["n_clusters"], "n_families": by_family["n_clusters"],
+        "n_strata": int(len(np.unique(s))), "estimate": by_law["estimate"],
+        "law_low": by_law["low"], "law_high": by_law["high"], "law_valid": by_law["n_valid"],
+        "family_low": by_family["low"], "family_high": by_family["high"], "family_valid": by_family["n_valid"],
+        "pairs_low": by_row["low"], "pairs_high": by_row["high"], "pairs_valid": by_row["n_valid"],
+        "p_linked": linked_permutation_p(x, y, s, law, n_permutations, seed),
+    }  # fmt: skip

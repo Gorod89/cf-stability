@@ -35,7 +35,7 @@ import pandas as pd
 from cf_stability.eval.collect import BASE_COLUMNS, collect_run
 from cf_stability.eval.stats import bootstrap_ci, driver_table, holm, paired_comparison
 
-TABLES = ("e1", "e2_sweep", "e2", "e2_lowfreq", "e3", "e4", "e5", "e2_monotone")
+TABLES = ("e1", "e2_sweep", "e2", "e2_lowfreq", "e3", "e4", "e5", "e2_monotone", "e2_horizon")
 M8_TABLES = ("e2_monotone",)  # written to m8_dir (runs/_tables/m8)
 METRICS, AUDIT, PLATOON, TRANSFER, CERTIFICATE = (
     "metrics.json", "stability.json", "platoon.json", "transfer.json", "certificate.json"
@@ -116,6 +116,10 @@ class TablesConfig:
     monotone_experiment: str = "e2_monotone_w1"  # D117: the monotonicity terms of RACER only, weight 1
     monotone_architectures: tuple[str, ...] = ("mlp", "pidl", "residual_idm")
     monotone_folds: tuple[int, ...] = (0,)  # with the first of seeds; E1 and the chosen E2 weight of the same runs
+    horizon_experiment: str = "e2_gain_long_w0.1"  # revision of 2026-10-07: the rollout gain penalty with a long
+    horizon_architectures: tuple[str, ...] = ("gru", "lstm")  # rollout (380 s, gain over the last 252 s), E2 weight
+    horizon_folds: tuple[int, ...] = (0,)  # with the first of seeds; E1 and the chosen E2 weight of the same runs
+    horizon_omega_max: float = 0.1  # rad/s: the low-frequency band the 20-s window of E2 cannot resolve (<= 0.1)
     verdicts: Mapping[str, float] = dataclasses.field(default_factory=lambda: dict(DEFAULT_VERDICTS))
     bases: Mapping[str, str] = dataclasses.field(default_factory=lambda: dict(DEFAULT_BASES))
     m8_dir: Path | None = None  # the tables of M8_TABLES; None: <out_dir>/../m8
@@ -968,6 +972,116 @@ class TableMaker:
         )
         return Table(t, "E2 control: monotonicity terms only (D117)", notes, frame, columns)
 
+    # ------------------------------------------------------------------------------ E2 long window (M9)
+    def lowfreq_unstable(self, table: str, runs: pd.DataFrame) -> dict[str, Any]:
+        """Share of the audited equilibria (speeds in support with a measured response) whose gain exceeds the
+        threshold of the audit at a frequency at most ``horizon_omega_max`` rad/s, mean over the runs with its
+        interval (the band the 20-s window of the E2 penalty cannot resolve)."""
+        shares = []
+        for run_dir in runs["run_dir"] if len(runs) else []:
+            path = Path(run_dir) / AUDIT
+            if not path.exists():
+                continue
+            try:
+                audit = json.loads(path.read_text(encoding="utf-8")).get("audit") or {}
+            except (OSError, ValueError) as exc:
+                self.note(table, f"{self.label(path)}: unreadable ({type(exc).__name__})")
+                continue
+            if not isinstance(audit.get("omega"), list) or not isinstance(audit.get("equilibria"), list):
+                continue  # an audit without frequency responses (noted by the shares when a value is missing)
+            omega, equilibria = np.asarray(audit["omega"], dtype=float), audit["equilibria"]
+            low = omega <= self.cfg.horizon_omega_max
+            frequency = (audit.get("config") or {}).get("frequency") or {}
+            threshold = float(frequency.get("threshold", 1.02))
+            counted, above = 0, 0
+            for eq in equilibria:
+                if not isinstance(eq, dict) or not eq.get("in_support") or not isinstance(eq.get("gain"), list):
+                    continue
+                gain = np.asarray(eq["gain"], dtype=float)
+                if len(gain) != len(omega) or not np.isfinite(gain[low]).any():
+                    continue
+                counted += 1
+                above += bool(np.nanmax(gain[low]) > threshold)
+            if counted:
+                shares.append(above / counted)
+        return self.ci(shares) if shares else dict(EMPTY)
+
+    def table_e2_horizon(self) -> Table:
+        """Revision of 2026-10-07: the rollout gain penalty with a rollout long enough to measure its lowest
+        frequency (0.05 rad/s) over two whole periods, against E1 and the chosen E2 weight on the same fold(s)."""
+        c, t = self.cfg, "e2_horizon"
+        seeds, folds = c.seeds[:1], c.horizon_folds
+        files = (METRICS, AUDIT, EVENTS, PLATOON)
+        rows = []
+        for arch in c.horizon_architectures:
+            base = self.runs(t, "e1", c.data, arch, seeds, files, folds=folds)
+            arms: list[tuple[str, str, pd.DataFrame]] = [("E1", "e1", base)]
+            kind, weight = c.penalties.get(arch), self.chosen.get(arch)
+            if weight is None:
+                self.note(t, f"{arch}: no chosen weight of E2 (table e2_sweep), no E2 row")
+            else:
+                experiment = experiment_name("e2", kind, weight)
+                arms.append((f"E2 ({kind}, weight {weight:g}, rollout 40 s, last 20 s)", experiment,
+                             self.runs(t, experiment, c.data, arch, seeds, files, folds=folds)))  # fmt: skip
+            arms.append(("long window (rollout 380 s, last 252 s)", c.horizon_experiment,
+                         self.runs(t, c.horizon_experiment, c.data, arch, seeds, files, folds=folds)))  # fmt: skip
+            base_drivers = self.drivers(t, base)
+            for arm, experiment, runs in arms:
+                row: dict[str, Any] = {"architecture": arch, "arm": arm, "experiment": experiment,
+                                       "runs": self.trained(runs), "runs_expected": len(folds) * len(seeds)}  # fmt: skip
+                drivers = base_drivers if experiment == "e1" else self.drivers(t, runs)
+                self.rmse(row, drivers)
+                if experiment != "e1":
+                    self.versus(row, "rmse_change", base_drivers, drivers)
+                self.shares(t, row, runs)
+                _put(row, "lowfreq_unstable", self.lowfreq_unstable(t, runs))
+                row["max_gain"] = self.values(t, runs, "max_gain").max() if len(runs) else np.nan
+                row["max_gain_omega"] = self.values(t, runs, "max_gain_omega").median() if len(runs) else np.nan
+                row["epochs"] = self.values(t, runs, "epochs").mean() if len(runs) else np.nan
+                row["best_epoch"] = self.values(t, runs, "best_epoch").mean() if len(runs) else np.nan
+                row["wall_time_h"] = self.values(t, runs, "wall_time_s").mean() / 3600.0 if len(runs) else np.nan
+                row["collided"], row["profiles"] = self.collided(t, runs, "mean")
+                row["complete"] = row["runs"] == row["audited"] == row["runs_expected"]
+                rows.append(row)
+        frame = pd.DataFrame(rows)
+        for key in ("rmse_change", "rmse_change_low", "rmse_change_high", "rmse_change_p", "rmse_change_pairs"):
+            if key not in frame.columns:
+                frame[key] = np.nan
+        columns = [
+            Column("architecture", "architecture", "text"), Column("arm", "arm", "text"),
+            Column("runs", "runs", "int"), Column("drivers", "drivers", "int"),
+            Column("rmse_s", "RMSE s (m)", ci=True), Column("rmse_change", "RMSE change vs E1", "pct", 1, ci=True),
+            Column("rmse_change_p", "p", "p"), Column("audited", "audited", "int"), Column("stable", "stable"),
+            Column("unstable", "unstable", ci=True), Column("outside", "outside"), Column("none", "none"),
+            Column("not_stable", "not stable", ci=True), Column("unstable_eq", "unstable among equilibria", ci=True),
+            Column("lowfreq_unstable", f"gain above threshold at omega <= {c.horizon_omega_max:g}", ci=True),
+            Column("max_gain", "max gain", digits=3), Column("max_gain_omega", "omega of max gain (rad/s)", digits=3),
+            Column("epochs", "epochs", "int"), Column("best_epoch", "best epoch", "int"),
+            Column("wall_time_h", "training (h)", digits=1), Column("collided", "collided profiles", "int"),
+            Column("profiles", "profiles", "int"), Column("complete", "complete", "flag"),
+        ]  # fmt: skip
+        notes = self.header(
+            t,
+            f"Long-window arm of E2 (revision of 7 October 2026): the rollout gain penalty of E2 at the chosen weight "
+            f"(D85) with a rollout of 380 s whose gain is measured over the last 252 s, two whole periods of the lowest "
+            f"penalty frequency 0.05 rad/s after a warm-up of one period, instead of 40 s and the last 20 s "
+            f"(experiment {c.horizon_experiment}); next to E1 and the chosen weight of E2 of the same runs: "
+            f"{c.data}, fold(s) {', '.join(map(str, folds))}, seed {seeds[0]}.",
+            "RMSE s: spacing RMSE of the test part (m), unit driver, with its interval over the drivers; RMSE change vs "
+            "E1: relative change of the mean RMSE against E1 of the same fold and seed, paired over the drivers; p: "
+            "Wilcoxon signed-rank test.",
+            "Band shares: band_numerical of the grid speeds in support (not stable = 1 - stable); unstable among "
+            "equilibria: share_unstable_numerical; gain above threshold at low frequency: share of the audited "
+            f"equilibria (speeds in support) whose measured gain exceeds the threshold of the audit at a frequency "
+            f"at most {c.horizon_omega_max:g} rad/s, the band a 20-s window cannot resolve; max gain: largest gain "
+            "of the audit, with the frequency at which it occurs; epochs and best epoch: of the training (patience "
+            "10); training: wall time of the training in hours; collided: OpenACC platoon profiles that collided, of "
+            "profiles. Unit run: one run per row, so the intervals of the shares are the values themselves.",
+            "Missing runs and files: runs/_tables/m4/missing.txt.",
+        )
+        return Table(t, "E2, long-window arm: rollout gain penalty measured over two periods of 0.05 rad/s", notes,
+                     frame, columns)  # fmt: skip
+
     # ------------------------------------------------------------------------------------------ E3
     def table_e3(self) -> Table:
         c, t = self.cfg, "e3"
@@ -1287,11 +1401,11 @@ def make_tables(cfg: TablesConfig) -> list[str]:
     builders = {
         "e1": maker.table_e1, "e2_sweep": maker.table_e2_sweep, "e2": maker.table_e2,
         "e2_lowfreq": maker.table_e2_lowfreq, "e3": maker.table_e3, "e4": maker.table_e4, "e5": maker.table_e5,
-        "e2_monotone": maker.table_e2_monotone,
+        "e2_monotone": maker.table_e2_monotone, "e2_horizon": maker.table_e2_horizon,
     }  # fmt: skip
     cfg.out_dir.mkdir(parents=True, exist_ok=True)
     wanted = [name for name in TABLES if name in cfg.tables]
-    if "e2_sweep" not in wanted and any(name in wanted for name in ("e2", "e3", "e5", "e2_monotone")):
+    if "e2_sweep" not in wanted and any(name in wanted for name in ("e2", "e3", "e5", "e2_monotone", "e2_horizon")):
         maker.table_e2_sweep(write_choice=False)  # the chosen weights without the table
         maker.missing = [line for line in maker.missing if not line.startswith("[e2_sweep]")]
         maker.counts.pop("e2_sweep", None)

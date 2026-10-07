@@ -2,7 +2,7 @@
 % Needs \usepackage{booktabs} and \usepackage{graphicx}.
 \begin{table}[htbp]
 \centering
-\caption{Corridor laws: 1190 runs (I-80: 23 of 23 laws with runs, 3 scenarios; US-101: 18 of 18 laws with runs, 3 scenarios; 10 seeds per scenario); unit run; 95 \% percentile bootstrap intervals, 1000 resamples. Macro error: mean of the absolute relative components (dynamic: FD, wave speed, waves, wave amplitude); collisions per 1000 vehicle-km inside the analysis window.}
+\caption{Corridor laws: 1370 runs (I-80: 26 of 26 laws with runs, 3 scenarios; US-101: 21 of 21 laws with runs, 3 scenarios; 10 seeds per scenario); unit run; 95 \% percentile bootstrap intervals, 1000 resamples. Macro error: mean of the absolute relative components (dynamic: FD, wave speed, waves, wave amplitude); collisions per 1000 vehicle-km inside the analysis window.}
 \label{tab:laws}
 \small
 \resizebox{\linewidth}{!}{%
@@ -33,6 +33,9 @@ I-80 & idm\_global\_p0 & 20 & i80\_p1, i80\_p2 & 0.186 [0.172, 0.199] & 0.322 [0
 I-80 & residual\_idm\_certified\_p0 & 20 & i80\_p1, i80\_p2 & 0.173 [0.146, 0.202] & 0.282 [0.223, 0.344] & 8.0 & 0.000 [0.000, 0.000] & 0 & 1.000 \\
 I-80 & mlp\_p0 & 20 & i80\_p1, i80\_p2 & 0.230 [0.213, 0.249] & 0.338 [0.308, 0.372] & 8.0 & 687.094 [611.917, 771.215] & 20 & 1.000 \\
 I-80 & gru\_p0 & 20 & i80\_p1, i80\_p2 & 0.107 [0.092, 0.123] & 0.182 [0.148, 0.216] & 8.0 & 196.277 [185.055, 208.913] & 20 & 1.000 \\
+I-80 & idm\_core\_margin & 30 & all & 0.198 [0.174, 0.226] & 0.301 [0.254, 0.356] & 7.7 & 0.000 [0.000, 0.000] & 0 & 1.000 \\
+I-80 & idm\_margin\_i80 & 30 & all & 0.239 [0.188, 0.298] & 0.479 [0.355, 0.624] & 7.7 & 0.000 [0.000, 0.000] & 0 & 1.000 \\
+I-80 & residual\_idm\_margin\_free\_r0.3 & 30 & all & 0.176 [0.150, 0.202] & 0.281 [0.229, 0.337] & 7.7 & 0.110 [0.000, 0.274] & 2 & 1.000 \\
 US-101 & idm\_global & 30 & all & 0.133 [0.110, 0.163] & 0.229 [0.183, 0.288] & 8.0 & 0.030 [0.000, 0.089] & 1 & 1.000 \\
 US-101 & idm\_heterogeneous & 30 & all & 0.125 [0.100, 0.150] & 0.196 [0.152, 0.243] & 8.0 & 0.155 [0.030, 0.321] & 4 & 0.999 \\
 US-101 & knn & 30 & all & 0.628 [0.574, 0.690] & 0.583 [0.505, 0.682] & 8.0 & 1955.966 [1856.289, 2059.181] & 30 & 0.567 \\
@@ -51,6 +54,9 @@ US-101 & residual\_idm\_certified\_r0.1 & 30 & all & 0.177 [0.166, 0.191] & 0.22
 US-101 & residual\_idm\_certified\_r0.2 & 30 & all & 0.147 [0.139, 0.157] & 0.184 [0.169, 0.199] & 7.1 & 0.059 [0.000, 0.147] & 2 & 1.000 \\
 US-101 & residual\_idm\_certified\_r0.5 & 30 & all & 0.104 [0.096, 0.113] & 0.136 [0.119, 0.152] & 8.0 & 0.161 [0.060, 0.292] & 5 & 1.000 \\
 US-101 & residual\_idm\_free\_r0.3 & 30 & all & 0.194 [0.171, 0.217] & 0.312 [0.261, 0.363] & 8.0 & 0.035 [0.000, 0.104] & 1 & 1.000 \\
+US-101 & idm\_core\_margin & 30 & all & 0.177 [0.168, 0.185] & 0.222 [0.207, 0.237] & 7.0 & 0.422 [0.162, 0.748] & 8 & 1.000 \\
+US-101 & idm\_margin\_i80 & 30 & all & 0.132 [0.115, 0.154] & 0.210 [0.179, 0.248] & 8.0 & 0.068 [0.000, 0.169] & 2 & 1.000 \\
+US-101 & residual\_idm\_margin\_free\_r0.3 & 30 & all & 0.147 [0.138, 0.155] & 0.189 [0.174, 0.203] & 7.3 & 0.296 [0.128, 0.483] & 8 & 1.000 \\
 \bottomrule
 \end{tabular}
 }

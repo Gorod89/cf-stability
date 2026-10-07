@@ -1,9 +1,10 @@
 # Acceleration asymmetry and oscillation spectrum (D121)
 
-- Runs: 1190 runs with an asymmetry.json (scripts/corridor_asymmetry.py; D121); missing runs and files: missing_corridor.txt.
+- Runs: 1370 runs with an asymmetry.json (scripts/corridor_asymmetry.py; D121); missing runs and files: missing_corridor.txt.
 - Acceleration asymmetry (threshold 0.1 m/s^2, detector series of 2 s, Welch segments of 128 s, band 0.002-0.05 Hz, detectors with passages in at least 50 % of the intervals): a = v(t + 1) - v(t) of every vehicle over the whole seconds inside the analysis window, on the lanes of the wave field (main lanes); asymmetry index = mean a over a > threshold divided by the mean |a| over a < -threshold; accelerating / decelerating share: of the vehicle-seconds.
 - Spectrum: Welch PSD of the speed series of the virtual detectors (mean speed of the passing vehicles per 2 s, gaps interpolated; Hann window of 128 s, half overlap), averaged over the detectors; peak frequency and spectral centroid in 0.002-0.05 Hz (the lines k / 128 Hz, k = 1..6); band RMS: root of the power in the band (m/s).
 - Unit: run (scenario and seed); mean over the runs of the law on its scenarios of the corridor with its interval; errors: signed relative errors (run - truth) / |truth| against the ground truth of the run's scenario. Ground truth: per scenario, and their mean.
+- Factorial ablation of the certified hybrid (review of M8; rows only, not in the correlations nor the verdicts of H12): idm_core_margin: the IDM cores of the fold members of residual_idm_certified (margin 0.2, calibrated on follownet_highd) with the residual switched off, one core per member drawn per vehicle as residual_idm_certified draws its members; idm_margin_i80: the global IDM of ngsim_i80 calibrated per fold with the stability margin 0.2; residual_idm_margin_free_r0.3: the margin core with a residual of r_max 0.3 without certificate, fine-tuned on ngsim_i80.
 - Intervals: 95 % percentile bootstrap, 1000 resamples, seed 0.
 
 | corridor | law | scenario | runs | scenarios | asymmetry index | accelerating share | decelerating share | peak frequency (Hz) | spectral centroid (Hz) | band RMS (m/s) | error of the index | error of the peak frequency | error of the centroid |
@@ -31,6 +32,9 @@
 | I-80 | residual_idm_certified_p0 | all | 20 | i80_p1, i80_p2 | 1.338 [1.325, 1.352] | 0.286 [0.283, 0.289] | 0.414 [0.412, 0.417] | 0.0078 [0.0078, 0.0078] | 0.0197 [0.0191, 0.0203] | 1.135 [1.084, 1.188] | +35.8 % [+34.1 %, +37.4 %] | +0.0 % [+0.0 %, +0.0 %] | +1.5 % [-0.5 %, +3.4 %] |
 | I-80 | mlp_p0 | all | 20 | i80_p1, i80_p2 | 0.433 [0.424, 0.441] | 0.541 [0.528, 0.554] | 0.173 [0.170, 0.177] | 0.0078 [0.0078, 0.0078] | 0.0147 [0.0140, 0.0154] | 1.015 [0.945, 1.095] | -56.1 % [-57.0 %, -55.2 %] | +0.0 % [+0.0 %, +0.0 %] | -24.4 % [-27.6 %, -21.0 %] |
 | I-80 | gru_p0 | all | 20 | i80_p1, i80_p2 | 0.429 [0.419, 0.439] | 0.533 [0.528, 0.538] | 0.220 [0.217, 0.224] | 0.0078 [0.0078, 0.0078] | 0.0155 [0.0146, 0.0163] | 0.882 [0.852, 0.912] | -56.5 % [-57.5 %, -55.4 %] | +0.0 % [+0.0 %, +0.0 %] | -20.6 % [-24.2 %, -16.9 %] |
+| I-80 | idm_core_margin | all | 30 | all | 1.284 [1.256, 1.310] | 0.265 [0.263, 0.268] | 0.417 [0.410, 0.424] | 0.0078 [0.0078, 0.0078] | 0.0202 [0.0194, 0.0210] | 1.226 [1.182, 1.271] | +32.3 % [+30.3 %, +34.1 %] | +0.0 % [+0.0 %, +0.0 %] | +2.6 % [-0.5 %, +5.9 %] |
+| I-80 | idm_margin_i80 | all | 30 | all | 1.312 [1.288, 1.338] | 0.222 [0.218, 0.226] | 0.311 [0.297, 0.326] | 0.0078 [0.0078, 0.0078] | 0.0188 [0.0174, 0.0202] | 0.822 [0.795, 0.849] | +35.3 % [+32.6 %, +38.0 %] | +0.0 % [+0.0 %, +0.0 %] | -5.0 % [-11.3 %, +1.5 %] |
+| I-80 | residual_idm_margin_free_r0.3 | all | 30 | all | 1.268 [1.236, 1.296] | 0.276 [0.274, 0.278] | 0.417 [0.408, 0.425] | 0.0078 [0.0078, 0.0078] | 0.0208 [0.0200, 0.0216] | 1.068 [1.036, 1.101] | +30.6 % [+28.2 %, +32.7 %] | +0.0 % [+0.0 %, +0.0 %] | +5.7 % [+2.4 %, +8.9 %] |
 | I-80 | ground truth | i80_p0 |  |  | 0.940 | 0.399 | 0.394 | 0.0078 | 0.0201 | 1.038 |  |  |  |
 | I-80 | ground truth | i80_p1 |  |  | 0.981 | 0.370 | 0.353 | 0.0078 | 0.0200 | 1.027 |  |  |  |
 | I-80 | ground truth | i80_p2 |  |  | 0.990 | 0.375 | 0.358 | 0.0078 | 0.0188 | 0.977 |  |  |  |
@@ -53,6 +57,9 @@
 | US-101 | residual_idm_certified_r0.2 | all | 30 | all | 1.460 [1.450, 1.469] | 0.314 [0.305, 0.324] | 0.506 [0.497, 0.515] | 0.0078 [0.0078, 0.0078] | 0.0120 [0.0119, 0.0122] | 1.570 [1.518, 1.618] | +44.4 % [+43.3 %, +45.5 %] | +0.0 % [+0.0 %, +0.0 %] | +3.7 % [+2.9 %, +4.5 %] |
 | US-101 | residual_idm_certified_r0.5 | all | 30 | all | 1.500 [1.485, 1.515] | 0.330 [0.324, 0.338] | 0.493 [0.490, 0.496] | 0.0078 [0.0078, 0.0078] | 0.0109 [0.0107, 0.0110] | 1.676 [1.601, 1.746] | +48.4 % [+46.9 %, +50.0 %] | +0.0 % [+0.0 %, +0.0 %] | -6.5 % [-7.4 %, -5.3 %] |
 | US-101 | residual_idm_free_r0.3 | all | 30 | all | 0.525 [0.511, 0.538] | 0.579 [0.564, 0.595] | 0.277 [0.267, 0.289] | 0.0078 [0.0078, 0.0078] | 0.0110 [0.0108, 0.0112] | 1.488 [1.437, 1.539] | -48.1 % [-49.4 %, -46.9 %] | +0.0 % [+0.0 %, +0.0 %] | -5.2 % [-7.0 %, -3.4 %] |
+| US-101 | idm_core_margin | all | 30 | all | 1.376 [1.368, 1.383] | 0.317 [0.307, 0.328] | 0.495 [0.481, 0.509] | 0.0078 [0.0078, 0.0078] | 0.0126 [0.0123, 0.0128] | 1.604 [1.555, 1.655] | +36.1 % [+35.0 %, +37.3 %] | +0.0 % [+0.0 %, +0.0 %] | +8.1 % [+6.6 %, +9.6 %] |
+| US-101 | idm_margin_i80 | all | 30 | all | 1.121 [1.060, 1.180] | 0.388 [0.356, 0.425] | 0.287 [0.273, 0.300] | 0.0078 [0.0078, 0.0078] | 0.0107 [0.0105, 0.0108] | 1.255 [1.245, 1.266] | +10.8 % [+4.9 %, +16.5 %] | +0.0 % [+0.0 %, +0.0 %] | -8.1 % [-9.1 %, -7.0 %] |
+| US-101 | residual_idm_margin_free_r0.3 | all | 30 | all | 1.441 [1.432, 1.449] | 0.315 [0.306, 0.324] | 0.493 [0.484, 0.502] | 0.0078 [0.0078, 0.0078] | 0.0117 [0.0116, 0.0119] | 1.534 [1.487, 1.578] | +42.6 % [+41.6 %, +43.6 %] | +0.0 % [+0.0 %, +0.0 %] | +1.1 % [-0.1 %, +2.3 %] |
 | US-101 | ground truth | us101_p0 |  |  | 1.005 | 0.487 | 0.351 | 0.0078 | 0.0118 | 1.420 |  |  |  |
 | US-101 | ground truth | us101_p1 |  |  | 1.000 | 0.420 | 0.375 | 0.0078 | 0.0116 | 1.592 |  |  |  |
 | US-101 | ground truth | us101_p2 |  |  | 1.027 | 0.407 | 0.375 | 0.0078 | 0.0115 | 1.909 |  |  |  |

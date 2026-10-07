@@ -54,6 +54,23 @@ notes of their missing inputs in ``missing_corridor.txt``:
 * ``power.md|csv`` (D122): the spread over seeds within a scenario of the macro error, the throughput and the travel
   time of two laws and the seeds per scenario that detect a relative difference between them (paired by seed).
 * ``temporal.md|csv`` (D120): the laws fine-tuned on period 0 against the same laws of D97 on periods 1-2.
+
+The review of M8 adds three tables to ``m8_dir`` (same notes file) and the rows of a factorial ablation:
+
+* ``correlation_clustered.md|csv``: H12.3 over the rows of correlation_pooled as dependent units: percentile intervals
+  of a cluster bootstrap over the laws (the two corridor rows of a law move together) and over the architecture families
+  (``families``), the permutation of the instability of whole laws (linked across the corridors), leave-one-family-out
+  and the learned laws only (without ``physics_families``); per corridor and pooled, for both macro errors
+  (``cluster_resamples``, ``cluster_seed``; ``cf_stability.eval.stats.clustered_spearman``).
+* ``contacts_absolute.md|csv``: per corridor and law the contact episodes and vehicles in contact per run with their
+  exposure (vehicle-km and vehicles of the window, against the ground truth) and the demand (inserted share, shortfall
+  in the window and over the run, insertion delay; ``run.json``), the rate per 1000 vehicle-km as the mean of the runs
+  and pooled.
+* ``h12_2_error.md|csv``: exploratory, no verdict: |e| of the candidate minus |e| of the reference for every component
+  of the macro-error vector and both macro errors, paired by scenario and seed, with intervals and Wilcoxon p-values.
+* ``ablation_laws`` (``idm_core_margin``, ``idm_margin_i80``, ``residual_idm_margin_free_r0.3``): optional laws with rows
+  in laws, components, instability, asymmetry and contacts_absolute, and rows of ``rmax_ablation`` in e4_rmax; not in
+  the correlations nor the verdicts.
 """
 
 from __future__ import annotations
@@ -71,8 +88,8 @@ from scipy import stats as sps
 from cf_stability.corridor.macro import ANCHORED, COMPONENTS, DYNAMIC, macro_error_dynamic
 from cf_stability.eval.collect import collect_run
 from cf_stability.eval.stats import (
-    bootstrap_ci, minimal_detectable, paired_comparison, paired_t_power, pooled_sd, seeds_needed,
-    stratified_permutation_p, stratified_spearman_ci, tost_relative,
+    bootstrap_ci, clustered_spearman, holm, minimal_detectable, paired_comparison, paired_t_power, pooled_sd,
+    seeds_needed, stratified_permutation_p, stratified_spearman_ci, tost_relative,
 )  # fmt: skip
 from cf_stability.eval.tables import (
     AUDIT, CERTIFICATE, EVENTS, METRICS, Column, Table, TableMaker, TablesConfig, _column, markdown,
@@ -118,6 +135,37 @@ RMAX = (  # D111: one row per r_max: the run of HighD, its fine-tuning on NGSIM 
      "law": "residual_idm_certified_r0.5"},
     {"r_max": 0.3, "core": "free", "highd": "e4_free_r0.3", "ngsim": "e4_free_r0.3_ft", "law": "residual_idm_free_r0.3"},
     {"r_max": 1.0, "core": "free", "highd": "e1", "ngsim": "e4_free_ft", "law": "residual_idm"},
+)  # fmt: skip
+# review of M8: the factorial ablation of the certified hybrid (the core alone, an I-80 core with the margin, the margin
+# core with a residual without certificate): rows of laws, components, instability, asymmetry and e4_rmax, optional
+# (in the tables once a law file or a run exists), not in the correlations nor the verdicts of H12
+ABLATION_LAWS = ("idm_core_margin", "idm_margin_i80", "residual_idm_margin_free_r0.3")
+ABLATION_TEXT = {  # the note of the tables on every law of the ablation
+    "idm_core_margin": "the IDM cores of the fold members of residual_idm_certified (margin 0.2, calibrated on "
+                       "follownet_highd) with the residual switched off, one core per member drawn per vehicle as "
+                       "residual_idm_certified draws its members",
+    "idm_margin_i80": "the global IDM of ngsim_i80 calibrated per fold with the stability margin 0.2",
+    "residual_idm_margin_free_r0.3": "the margin core with a residual of r_max 0.3 without certificate, fine-tuned on "
+                                     "ngsim_i80",
+}  # fmt: skip
+RMAX_ABLATION = (  # extra rows of e4_rmax; r_max 0: no residual; highd/ngsim None: no training runs of the row
+    {"r_max": 0.0, "core": "certified core alone", "highd": None, "ngsim": None, "law": "idm_core_margin"},
+    {"r_max": 0.0, "core": "I-80 margin core", "highd": None, "ngsim": None, "law": "idm_margin_i80"},
+    {"r_max": 0.3, "core": "margin, no certificate", "highd": "e4_margin_free_r0.3", "ngsim": "e4_margin_free_r0.3_ft",
+     "law": "residual_idm_margin_free_r0.3"},
+)  # fmt: skip
+FAMILIES = {  # review of M8: the architecture families, the clusters of correlation_clustered (a law of none: its own)
+    "IDM": ("idm_global", "idm_heterogeneous", "idm_heterogeneous_all", "idm_core_margin", "idm_margin_i80"),
+    "ResidualIDM": ("residual_idm", "residual_idm_certified", "residual_idm_certified_r0.1", "residual_idm_certified_r0.2",
+                    "residual_idm_certified_r0.5", "residual_idm_free_r0.3", HET_LAW, "residual_idm_margin_free_r0.3"),
+    "k-NN": ("knn",), "MLP": ("mlp", "mlp_penalty"), "PIDL": ("pidl",), "GRU": ("gru", "gru_penalty"),
+    "LSTM": ("lstm", "lstm_penalty"), "PERL": ("perl",),
+}  # fmt: skip
+PHYSICS_FAMILIES = ("IDM", "ResidualIDM")  # left out of the subset "learned laws only"
+M9_TABLES = ("correlation_clustered", "contacts_absolute", "h12_2_error")  # review of M8: in m8_dir, after M8_TABLES
+EXPOSURE_KEYS = (  # per run: macro.json (window) and run.json (whole run) values of the exposure and of the demand
+    "vehicle_km", "n_vehicles_window", "n_planned_window", "n_vehicles", "run_n_planned", "run_n_inserted",
+    "run_depart_delay_s",
 )  # fmt: skip
 RAW_METRICS: dict[str, tuple[str, int]] = {  # flat key of a macro.json: (header with unit, digits)
     "throughput_vph": ("throughput (veh/h)", 0),
@@ -177,7 +225,9 @@ class CorridorTablesConfig:
     laws: tuple[str, ...] = LAWS
     rmax_laws: tuple[str, ...] = RMAX_LAWS
     temporal_laws: tuple[str, ...] = TEMPORAL_LAWS  # D120: rows of laws, components, instability; not in H12
-    optional_laws: tuple[str, ...] = (HET_LAW, *TEMPORAL_LAWS)  # in the tables once a law file or a run exists
+    ablation_laws: tuple[str, ...] = ABLATION_LAWS  # review of M8: rows of laws, components, instability, e4_rmax
+    optional_laws: tuple[str, ...] = (HET_LAW, *TEMPORAL_LAWS, *ABLATION_LAWS)  # in the tables once a law file or a
+    # run exists
     law_corridors: Mapping[str, tuple[str, ...]] = dataclasses.field(
         default_factory=lambda: {"idm_heterogeneous_all": ("I-80",), **{law: ("I-80",) for law in TEMPORAL_LAWS}}
     )
@@ -225,10 +275,16 @@ class CorridorTablesConfig:
     micro_others: tuple[str, ...] = ("e4_free_ft/residual_idm", "e4_free_ft/mlp")
     run_folds: tuple[int, ...] = (0, 1, 2, 3, 4)
     run_seeds: tuple[int, ...] = (0, 1, 2, 3, 4)
-    # D111: the residual-amplitude sweep of the certified hybrid
+    # D111: the residual-amplitude sweep of the certified hybrid; extra rows of the ablation (review of M8)
     rmax: tuple[Mapping[str, Any], ...] = RMAX
+    rmax_ablation: tuple[Mapping[str, Any], ...] = RMAX_ABLATION
     rmax_data: str = "follownet_highd"
     rmax_model: str = "residual_idm"
+    # review of M8: clustered inference of H12.3 (correlation_clustered)
+    families: Mapping[str, tuple[str, ...]] = dataclasses.field(default_factory=lambda: dict(FAMILIES))
+    physics_families: tuple[str, ...] = PHYSICS_FAMILIES
+    cluster_resamples: int = 5000
+    cluster_seed: int = 20261007
     # D113: variants of one scenario
     sensitivity_scenario: str = "i80_p1"
     sensitivity_variants: tuple[str, ...] = SENSITIVITY_VARIANTS
@@ -258,8 +314,12 @@ class CorridorTablesConfig:
 
     def table_laws(self) -> tuple[str, ...]:
         """The laws with rows in the laws and components tables: the design, the residual amplitudes, the temporal
-        hold-out (each once, in this order)."""
-        return tuple(dict.fromkeys((*self.laws, *self.rmax_laws, *self.temporal_laws)))
+        hold-out, the ablation of the review (each once, in this order)."""
+        return tuple(dict.fromkeys((*self.laws, *self.rmax_laws, *self.temporal_laws, *self.ablation_laws)))
+
+    def family_of(self, law: str) -> str | None:
+        """The architecture family of a law (``families``); None for a law of none."""
+        return next((family for family, laws in self.families.items() if law in laws), None)
 
     def pooled(self) -> tuple[str, ...]:
         """The laws of correlation_pooled (D122): ``pooled_laws`` or the design and the residual amplitudes."""
@@ -304,6 +364,32 @@ def flatten_macro(macro: Mapping[str, Any]) -> dict[str, float]:
     row["macro_error_dynamic"] = _float(dynamic.get("value"))
     row["n_components_dynamic"] = _float(dynamic.get("n_components"))
     return row
+
+
+def exposure_values(macro: Mapping[str, Any] | None, info: Mapping[str, Any] | None = None) -> dict[str, float]:
+    """The exposure and the demand of a run (review of M8): from ``macro.json`` the vehicle-km inside the section and
+    the analysis window, the vehicles with time or a sample in the window, the vehicles planned to depart inside the
+    window and the vehicles with samples; from ``run.json`` (``info``) the vehicles planned and inserted over the whole
+    run and their mean insertion delay. None -> NaN."""
+    macro, info = macro or {}, info or {}
+    return {
+        "vehicle_km": _float(macro.get("vehicle_km")), "n_vehicles_window": _float(macro.get("n_vehicles_window")),
+        "n_planned_window": _float(macro.get("n_planned")), "n_vehicles": _float(macro.get("n_vehicles")),
+        "run_n_planned": _float(info.get("n_planned")), "run_n_inserted": _float(info.get("n_inserted")),
+        "run_depart_delay_s": _float(info.get("mean_depart_delay_s")),
+    }  # fmt: skip
+
+
+def _rate_per_1000(rows: np.ndarray) -> float:
+    """Contact episodes per 1000 vehicle-km of the runs together: 1000 sum(episodes) / sum(vehicle-km)."""
+    distance = float(rows[:, 1].sum())
+    return 1000.0 * float(rows[:, 0].sum()) / distance if distance > 0 else math.nan
+
+
+def _bracket(low: Any, high: Any, digits: int = 3) -> str:
+    """``[low, high]`` rounded; empty without both ends."""
+    low, high = _float(low), _float(high)
+    return "" if math.isnan(low) or math.isnan(high) else f"[{low:.{digits}f}, {high:.{digits}f}]"
 
 
 def flatten_asymmetry(payload: Mapping[str, Any] | None) -> dict[str, float]:
@@ -516,6 +602,7 @@ class CorridorTableMaker:
         self._asymmetry_truths: dict[str, dict[str, Any]] = {}
         self._asymmetry_hashes: set[Any] = set()
         self._asymmetry_config: dict[str, Any] | None = None
+        self._truth_exposure: dict[str, dict[str, float]] = {}  # the exposure of the ground truths (contacts_absolute)
         self.pooled_laws_frame: pd.DataFrame | None = None  # the values behind correlation_pooled, one row per law
         self.tost_frame: pd.DataFrame | None = None
         self.correlation_frame: pd.DataFrame | None = None
@@ -568,7 +655,8 @@ class CorridorTableMaker:
             found = (root / "laws" / f"{law}.json").exists() or any((root / s / law).is_dir() for s in scenarios)
             self._present[law] = found
             if not found:
-                self.note("runs", f"{law}: no law file and no runs yet (a law of M8): not in the tables")
+                origin = "a law of the review of M8" if law in self.cfg.ablation_laws else "a law of M8"
+                self.note("runs", f"{law}: no law file and no runs yet ({origin}): not in the tables")
         return self._present[law]
 
     def laws_on(self, corridor: str, laws: Sequence[str]) -> list[str]:
@@ -611,6 +699,7 @@ class CorridorTableMaker:
         if scenario not in self._truths:
             macro = self._read(table, self.cfg.corridor_root / "scenarios" / scenario / "macro.json")
             values = {} if macro is None else {**flatten_macro(macro), "window": window_text(macro.get("window"))}
+            self._truth_exposure[scenario] = exposure_values(macro)  # apart: the truth rows of laws.csv stay as they are
             self._truths[scenario] = {"law": "ground truth", "scenario": scenario, "kind": "truth",
                                       "corridor": self.corridor_of(scenario), **values}  # fmt: skip
         return self._truths[scenario]
@@ -644,6 +733,7 @@ class CorridorTableMaker:
             self._hashes.add(macro.get("config_hash"))
             info = self._read(table, run / "run.json") or {}  # the boundary of the loop
             row.update(g_mean=_float(info.get("g_mean")), dN_mean=_float(info.get("dN_mean")))
+            row.update(exposure_values(macro, info))  # contacts_absolute (review of M8)
             truth_window = self.truth(row["scenario"], table).get("window")
             if truth_window is not None and row["window"] != truth_window:  # stale: left out of every table
                 row["present"] = False
@@ -656,7 +746,7 @@ class CorridorTableMaker:
         frame = pd.DataFrame(rows)
         keys = ["corridor", "law", "scenario", "seed", "present", *RAW_METRICS, "macro_error", "n_components",
                 "macro_error_dynamic", "n_components_dynamic", "n_collisions", "window", "g_mean", "dN_mean",
-                *(f"error_{n}" for n in COMPONENTS)]  # fmt: skip
+                *(f"error_{n}" for n in COMPONENTS), *EXPOSURE_KEYS]  # fmt: skip
         absent = {key: np.nan for key in keys if key not in frame.columns}
         frame = pd.concat([frame, pd.DataFrame(absent, index=frame.index)], axis=1) if absent else frame
         frame["present"] = frame["present"].astype(bool)
@@ -719,6 +809,15 @@ class CorridorTableMaker:
         if absent:
             parts.append(f"not in the tables (no ground truth yet): {', '.join(absent)}")
         return "; ".join(parts)
+
+    def ablation_note(self) -> list[str]:
+        """One note line on the laws of the ablation of the review in the tables (none: no line)."""
+        present = [law for law in self.cfg.ablation_laws if any(law in self.laws_on(k, [law]) for k in self.corridors())]
+        if not present:
+            return []
+        laws = "; ".join(f"{law}: {ABLATION_TEXT.get(law, 'configs/corridor/laws.yaml')}" for law in present)
+        return [f"Factorial ablation of the certified hybrid (review of M8; rows only, not in the correlations nor the "
+                f"verdicts of H12): {laws}."]  # fmt: skip
 
     def header(self, *lines: str) -> list[str]:
         c, runs = self.cfg, self.runs()
@@ -788,6 +887,7 @@ class CorridorTableMaker:
             f"({', '.join(c.rmax_laws)}) and the temporal hold-out of D120 ({', '.join(c.temporal_laws)}: fine-tuned on "
             f"period 0, run on {', '.join(c.temporal_scenarios)} only, column scenarios); a law listed in law_corridors "
             "runs on those corridors only; a law of M8 without runs yet is left out (missing.txt).",
+            *self.ablation_note(),
         )
         errors = Table(t, "Laws of the corridor: macro error against the ground truth", notes, frame, error_columns)
         raw_frame = pd.concat([frame.assign(scenario="all"), truths], ignore_index=True)
@@ -898,7 +998,7 @@ class CorridorTableMaker:
         c, t = self.cfg, "instability"
         rows = []
         for corridor in self.corridors():
-            for law in self.laws_on(corridor, tuple(dict.fromkeys((*c.laws, *c.temporal_laws)))):
+            for law in self.laws_on(corridor, tuple(dict.fromkeys((*c.laws, *c.temporal_laws, *c.ablation_laws)))):
                 mine = self.mine(corridor, law)
                 row: dict[str, Any] = {"corridor": corridor, "law": law, **self.instability_of(t, law), "runs": len(mine),
                                        "scenario_set": self.scenario_set(corridor, law),
@@ -958,6 +1058,8 @@ class CorridorTableMaker:
             f"Correlations below: per corridor over the laws, {c.n_resamples} bootstrap resamples of the laws "
             "(resamples with a constant variable have no correlation: valid resamples); p (permutation): two-sided, "
             f"{c.n_permutations} permutations of the instability over the laws, (1 + hits) / (1 + permutations).",
+            *(f"{line} Their instability: the exact gain of the parameter sets for the IDM laws (members: the parameter "
+              "sets), the member audits for the hybrid." for line in self.ablation_note()),
         )
         table = Table(t, "Instability of the members and macro error of the laws", notes, frame, columns)
         corr_columns = [
@@ -1009,6 +1111,7 @@ class CorridorTableMaker:
             "downstream boundary of the data, which every law shares. Dynamic: FD, wave speed, waves and wave "
             "amplitude are what a law decides. macro error: mean of the absolute values of all eight components; "
             "macro error (dynamic): of the four dynamic ones (components that exist).",
+            *self.ablation_note(),
         )
         title = "Components of the macro error: anchored and dynamic"
         return Table("components", title, notes, pd.DataFrame(rows), columns)
@@ -1368,10 +1471,18 @@ class CorridorTableMaker:
         c, t, maker = self.cfg, "e4_rmax", self.micro_maker()
         expected = len(c.run_folds) * len(c.run_seeds)
         training = []
-        for spec in c.rmax:
-            row: dict[str, Any] = {"r_max": float(spec["r_max"]), "core": spec["core"], "highd": spec["highd"],
-                                   "ngsim": spec["ngsim"], "law": spec["law"], "runs_expected": expected}  # fmt: skip
-            for part, experiment, data in (("highd", spec["highd"], c.rmax_data), ("ngsim", spec["ngsim"], c.micro_data)):
+        specs = [*((spec, False) for spec in c.rmax), *((spec, True) for spec in c.rmax_ablation)]
+        for spec, extra in specs:  # the ablation of the review: extra rows once its law is in the tables
+            if extra and not any(spec["law"] in self.laws_on(k, [spec["law"]]) for k in self.corridors()):
+                continue
+            trained = bool(spec.get("highd") or spec.get("ngsim"))
+            row: dict[str, Any] = {"r_max": float(spec["r_max"]), "core": spec["core"], "highd": spec.get("highd"),
+                                   "ngsim": spec.get("ngsim"), "law": spec["law"],
+                                   "runs_expected": expected if trained else None}  # fmt: skip
+            for part, experiment, data in (("highd", spec.get("highd"), c.rmax_data),
+                                           ("ngsim", spec.get("ngsim"), c.micro_data)):  # fmt: skip
+                if not experiment:  # a row without training runs of its own (a law without residual): empty cells
+                    continue
                 certified = experiment != "e1"  # E1 has no certificate step
                 files = (METRICS, AUDIT, EVENTS) + ((CERTIFICATE,) if certified else ())
                 runs = maker.runs(t, experiment, data, c.rmax_model, c.run_seeds, files)
@@ -1396,12 +1507,20 @@ class CorridorTableMaker:
                 if base["law"] not in self.laws_on(corridor, [base["law"]]):
                     continue
                 row = {"corridor": corridor, **base}
-                mine = self.mine(corridor, base["law"]) if base["law"] in (*c.laws, *c.rmax_laws) else self.frame([])
+                known = (*c.laws, *c.rmax_laws, *c.ablation_laws)
+                mine = self.mine(corridor, base["law"]) if base["law"] in known else self.frame([])
                 row["runs_corridor"] = len(mine)
                 for key in ("macro_error", "macro_error_dynamic", "collisions_per_1000_vkm"):
                     self.put(row, key, mine[key] if len(mine) else [])
                 rows.append(row)
         frame = pd.DataFrame(rows)
+        extra = {spec["law"] for spec in c.rmax_ablation} - {spec["law"] for spec in c.rmax}
+        if len(frame) and frame["law"].isin(extra).any():  # counts of the rows without training runs stay empty and
+            regular = ~frame["law"].isin(extra)  # those of the other rows integers, as without these rows
+            for key in [k for k in frame.columns if k == "runs_expected" or k.startswith(("runs_", "certificates_",
+                                                                                         "a_priori_", "drivers_"))]:
+                if frame[key].isna().any() and frame.loc[regular, key].notna().all():
+                    frame[key] = frame[key].astype("Int64")
         columns = [
             Column("corridor", "corridor", "text"), Column("r_max", "r_max", "weight"), Column("core", "core", "text"),
             Column("runs_highd", "runs HighD", "int"), Column("a_priori_highd", "a priori holds", "int"),
@@ -1427,6 +1546,15 @@ class CorridorTableMaker:
             f"Intervals: {100 * c.level:g} % percentile bootstrap, {c.n_resamples} resamples, seed {c.seed}; "
             "missing runs and files: missing.txt.",
         ]
+        shown = [spec for spec in c.rmax_ablation if len(frame) and spec["law"] in set(frame["law"])]
+        if shown:
+            rows_text = "; ".join(
+                f"{spec['law']} (r_max {float(spec['r_max']):g}, {spec['core']}"
+                + (f": {spec.get('highd') or 'no run on ' + c.rmax_data}, {spec.get('ngsim') or 'no fine-tuning'})"
+                   if spec.get("highd") or spec.get("ngsim") else ": no training run of its own, empty cells)")
+                for spec in shown)  # fmt: skip
+            notes.insert(3, f"Extra rows of the factorial ablation of the certified hybrid (review of M8; r_max 0: no "
+                            f"residual; not in the verdicts): {rows_text}.")  # fmt: skip
         return Table(t, "E4: residual amplitude, certificate, accuracy and corridor (D111)", notes, frame, columns)
 
     # ------------------------------------------------------------------------------------ sensitivity
@@ -1602,6 +1730,7 @@ class CorridorTableMaker:
             "Unit: run (scenario and seed); mean over the runs of the law on its scenarios of the corridor with its "
             "interval; errors: signed relative errors (run - truth) / |truth| against the ground truth of the run's "
             "scenario. Ground truth: per scenario, and their mean.",
+            *self.ablation_note(),
             f"Intervals: {100 * c.level:g} % percentile bootstrap, {c.n_resamples} resamples, seed {c.seed}.",
         ]
         table = Table(t, "Acceleration asymmetry and oscillation spectrum (D121)", notes, frame, columns)
@@ -1936,6 +2065,263 @@ class CorridorTableMaker:
         return Table(t, "Temporal hold-out: laws fine-tuned on period 0 against the laws of D97 (D120)", notes, frame,
                      columns)  # fmt: skip
 
+    # --------------------------------------------------- review of M8: clustered inference of H12.3
+    def table_correlation_clustered(self) -> Table:
+        """H12.3 over the (law, corridor) rows of correlation_pooled with the rows as dependent units: cluster bootstraps
+        over the laws and over the architecture families, the permutation of whole laws, leave-one-family-out and the
+        learned laws only; per corridor and pooled, for both macro errors."""
+        c, t = self.cfg, "correlation_clustered"
+        if self.pooled_laws_frame is None:
+            self.table_correlation_pooled()
+        values = self.pooled_laws_frame if self.pooled_laws_frame is not None else pd.DataFrame(
+            columns=["corridor", "law", "unstable_eq", *ERRORS])  # fmt: skip
+        values = values[values["law"].isin(c.pooled()) & values["unstable_eq"].notna()].copy()
+        for law in dict.fromkeys(values["law"]):
+            if c.family_of(law) is None:
+                self.note(t, f"{law}: in no family of `families`: a cluster of its own")
+        values["family"] = [c.family_of(law) or law for law in values["law"]]
+        physics = list(c.physics_families)
+        rows = []
+        for key, error in ERRORS.items():
+            data = values[np.isfinite(values[key].astype(float))]
+            scopes = [(corridor, data[data["corridor"] == corridor]) for corridor in self.corridors()]
+            if len(self.corridors()) > 1:
+                scopes.append(("pooled (corridor as stratum)", data))
+            for scope, part in scopes:
+                subsets = [("all laws with runs", "", part)]
+                subsets += [(f"without {family}", family, part[part["family"] != family])
+                            for family in dict.fromkeys(part["family"])]  # fmt: skip
+                subsets.append((f"learned laws only (without {', '.join(physics)})", ", ".join(physics),
+                                part[~part["family"].isin(physics)]))  # fmt: skip
+                for subset, left_out, mine in subsets:
+                    r = clustered_spearman(mine["unstable_eq"], mine[key], mine["corridor"], mine["law"],
+                                           mine["family"], n_resamples=c.cluster_resamples,
+                                           n_permutations=c.n_permutations, level=c.level, seed=c.cluster_seed)  # fmt: skip
+                    row = {"scope": scope, "error": error, "subset": subset, "left_out": left_out, **r}
+                    row["h12_3_rule"] = verdict_correlation({"estimate": r["estimate"], "p_permutation": r["p_linked"],
+                                                             "n": r["n"]}, c)  # fmt: skip
+                    for name in ("law", "family", "pairs"):
+                        row[f"{name}_interval"] = _bracket(row[f"{name}_low"], row[f"{name}_high"])
+                    row["law_list"] = ", ".join(dict.fromkeys(mine["law"]))
+                    row["family_list"] = ", ".join(dict.fromkeys(mine["family"]))
+                    rows.append(row)
+        names = ["scope", "error", "subset", "left_out", "n", "n_laws", "n_families", "n_strata", "estimate", "law_low",
+                 "law_high", "law_valid", "family_low", "family_high", "family_valid", "pairs_low", "pairs_high",
+                 "pairs_valid", "p_linked", "h12_3_rule", "law_interval", "family_interval", "pairs_interval",
+                 "law_list", "family_list"]  # fmt: skip
+        frame = pd.DataFrame(rows, columns=names)
+        columns = [
+            Column("scope", "corridor", "text"), Column("error", "error", "text"), Column("subset", "laws", "text"),
+            Column("n", "n", "int"), Column("n_laws", "laws (clusters)", "int"),
+            Column("n_families", "families (clusters)", "int"), Column("estimate", "Spearman", digits=3),
+            Column("law_interval", "law clusters", "text"), Column("family_interval", "family clusters", "text"),
+            Column("pairs_interval", "pairs independent (D122)", "text"),
+            Column("p_linked", "p (laws permuted)", "p"), Column("h12_3_rule", "rule of H12.3", "text"),
+        ]  # fmt: skip
+        present = set(values["law"])
+        families = "; ".join(f"{family}: {', '.join(law for law in laws if law in present)}"
+                             for family, laws in c.families.items() if present & set(laws))  # fmt: skip
+        notes = [
+            "Clustered inference of H12.3 (review of M8): the rows of correlation_pooled, one per law and corridor (the "
+            "share of unstable equilibria among the equilibria of the law's members against its mean macro error over "
+            "its runs; correlation_pooled_laws), are not independent: a law has the same instability on both "
+            "corridors, and the variants of one architecture (penalised, certified, residual amplitudes) are related. "
+            "Spearman: as correlation_pooled (ranks within every corridor scaled to (0, 1), Pearson of the pooled "
+            "ranks; per corridor: the Spearman correlation over its laws).",
+            f"law clusters: bootstrap of the laws as clusters (the rows of a law on both corridors move together); "
+            f"family clusters: bootstrap of the architecture families as clusters (families: {families or 'none'}). A "
+            "cluster drawn k times enters with all its rows k times; ranks within the corridors of every resample; "
+            "resamples with a constant variable have no correlation. pairs independent (D122): the rows resampled within "
+            "every corridor as in correlation_pooled, with the seed and the resamples of this table, for comparison. "
+            "Per corridor the law clusters are the laws themselves.",
+            f"Percentile intervals ({100 * c.level:g} %), {c.cluster_resamples} resamples each; one generator "
+            f"numpy default_rng({c.cluster_seed}) per row draws the laws (resamples x laws, the clusters numbered in the "
+            "order of their first appearance: corridor, then the law order of the design), then from the same stream "
+            "the families, then the rows within the corridors.",
+            f"p (laws permuted): two-sided permutation test of {c.n_permutations} permutations (own generator "
+            f"default_rng({c.cluster_seed})) of the instability values over the laws as wholes: a law takes another "
+            "law's value on every corridor it runs on (linked across the corridors), the ranks are recomputed; "
+            "(1 + hits) / (1 + permutations). Per corridor it is the permutation of the instability over its laws.",
+            f"Subsets: all laws with runs (those of correlation_pooled); without <family>: the rows of one family left "
+            f"out, ranks recomputed (leave-one-family-out); learned laws only: without the families "
+            f"{', '.join(physics)}. n: rows (law-corridor pairs).",
+            f"rule of H12.3 (for information; the verdicts of D108 stay as reported): r > {c.correlation_confirm:g}, "
+            f"p (laws permuted) < {c.correlation_alpha:g} and n >= {c.correlation_min_laws}: confirmed; r < "
+            f"{c.correlation_refute:g}: refuted; otherwise open.",
+        ]
+        return Table(t, "H12.3 with clustered inference: laws and architecture families as units (review of M8)", notes,
+                     frame, columns)  # fmt: skip
+
+    # ------------------------------------------------------ review of M8: absolute contact exposure
+    def table_contacts_absolute(self) -> Table:
+        """Per corridor and law the contact episodes and the vehicles in contact per run with the exposure (vehicle-km,
+        vehicles of the window) and the demand (inserted share, shortfall), so that the rate per 1000 vehicle-km is read
+        with its denominator."""
+        c, t = self.cfg, "contacts_absolute"
+        rows = []
+        for corridor in self.corridors():
+            for law in self.laws_on(corridor, c.table_laws()):
+                mine = self.mine(corridor, law)
+                row: dict[str, Any] = {"corridor": corridor, "law": law, "runs": len(mine),
+                                       "runs_expected": len(self.scenarios_for(corridor, law)) * len(c.seeds),
+                                       "scenario_set": self.scenario_set(corridor, law)}  # fmt: skip
+                episodes, distance = mine["n_collisions"].astype(float), mine["vehicle_km"].astype(float)
+                share, window = mine["vehicles_in_contact_share"].astype(float), mine["n_vehicles_window"].astype(float)
+                planned, inserted = mine["n_planned_window"].astype(float), mine["inserted_share"].astype(float)
+                truth = mine["scenario"].map(lambda s: _float(self.truth(s).get("vehicle_km"))).astype(float)
+                self.put(row, "collision_episodes", episodes)
+                row["runs_with_contacts"] = int((episodes > 0).sum())
+                self.put(row, "vehicles_in_contact_share", share)
+                self.put(row, "vehicles_in_contact", share * window)
+                self.put(row, "n_vehicles_window", window)
+                self.put(row, "vehicle_km", distance)
+                self.put(row, "vehicle_km_ratio", distance / truth)
+                self.put(row, "collisions_per_1000_vkm", mine["collisions_per_1000_vkm"])
+                rate = bootstrap_ci(np.column_stack([episodes.to_numpy(), distance.to_numpy()]), None, _rate_per_1000,
+                                    c.n_resamples, c.level, c.seed)  # fmt: skip
+                row["rate_pooled"], row["rate_pooled_low"], row["rate_pooled_high"] = rate["estimate"], rate["low"], \
+                    rate["high"]  # fmt: skip
+                self.put(row, "n_planned_window", planned)
+                self.put(row, "inserted_share", inserted)
+                self.put(row, "shortfall_window", planned * (1.0 - inserted))
+                self.put(row, "n_planned_run", mine["run_n_planned"])
+                self.put(row, "shortfall_run", mine["run_n_planned"] - mine["run_n_inserted"])
+                self.put(row, "depart_delay_window", mine["mean_depart_delay_s"])
+                self.put(row, "depart_delay_run", mine["run_depart_delay_s"])
+                rows.append(row)
+            for scenario in self.scenarios_of(corridor):
+                self.truth(scenario)  # reads the ground truth once (and its exposure)
+            truths = [self._truth_exposure.get(s, {}) for s in self.scenarios_of(corridor)]
+            if truths:
+                row = {"corridor": corridor, "law": "ground truth", "scenario_set": "mean of the scenarios"}
+                for key, source in (("n_vehicles_window", "n_vehicles_window"), ("vehicle_km", "vehicle_km"),
+                                    ("n_planned_window", "n_planned_window"), ("n_planned_run", "n_vehicles")):  # fmt: skip
+                    known = [_float(item.get(source)) for item in truths]
+                    known = [x for x in known if math.isfinite(x)]
+                    row[key] = float(np.mean(known)) if known else np.nan
+                rows.append(row)
+        keys = ["corridor", "law", "runs", "runs_expected", "scenario_set", "runs_with_contacts"]
+        for key in ("collision_episodes", "vehicles_in_contact_share", "vehicles_in_contact", "n_vehicles_window",
+                    "vehicle_km", "vehicle_km_ratio", "collisions_per_1000_vkm", "rate_pooled", "n_planned_window",
+                    "inserted_share", "shortfall_window", "n_planned_run", "shortfall_run", "depart_delay_window",
+                    "depart_delay_run"):  # fmt: skip
+            keys += [key, f"{key}_low", f"{key}_high"]
+        frame = pd.DataFrame(rows, columns=keys)
+        for key in ("runs", "runs_expected", "runs_with_contacts"):
+            frame[key] = frame[key].astype("Int64")
+        columns = [
+            Column("corridor", "corridor", "text"), Column("law", "law", "text"), Column("runs", "runs", "int"),
+            Column("collision_episodes", "contact episodes per run", digits=1, ci=True),
+            Column("runs_with_contacts", "runs with contacts", "int"),
+            Column("vehicles_in_contact", "vehicles in contact per run", digits=1, ci=True),
+            Column("vehicles_in_contact_share", "share of the vehicles", digits=3, ci=True),
+            Column("n_vehicles_window", "vehicles in the window", digits=0, ci=True),
+            Column("vehicle_km", "veh-km per run", digits=1, ci=True),
+            Column("vehicle_km_ratio", "veh-km / ground truth", digits=3, ci=True),
+            Column("collisions_per_1000_vkm", "episodes / 1000 veh-km (mean of runs)", digits=1, ci=True),
+            Column("rate_pooled", "episodes / 1000 veh-km (pooled)", digits=1, ci=True),
+            Column("inserted_share", "inserted share (window)", digits=3, ci=True),
+            Column("shortfall_window", "shortfall (window)", digits=1, ci=True),
+            Column("shortfall_run", "shortfall (run)", digits=1, ci=True),
+            Column("depart_delay_run", "insertion delay (s)", digits=1, ci=True),
+        ]  # fmt: skip
+        notes = self.header(
+            "Absolute contact exposure (review of M8): per corridor and law, unit run (scenario and seed), the mean over "
+            "the runs with its interval; the rate per 1000 vehicle-km of the laws table is read here with its "
+            "numerator and its denominator.",
+            "contact episodes per run: collision_episodes of macro.json, the contact episodes of followers that begin "
+            "inside the analysis window (gap <= 0; run_corridor.yaml, sim.contact_gap); runs with contacts: runs with at "
+            "least one; vehicles in contact per run: vehicles_in_contact_share x n_vehicles_window, the vehicles of the "
+            "window (time or a sample inside it) with an episode that begins inside it; share of the vehicles: "
+            "vehicles_in_contact_share.",
+            "veh-km per run: vehicle_km of macro.json, the distance driven inside the section and the window (the "
+            "denominator of the rate); veh-km / ground truth: per run divided by that of the ground truth of its "
+            "scenario. episodes / 1000 veh-km: the mean of the rates of the runs (table laws) and the pooled rate 1000 "
+            "sum(episodes) / sum(veh-km) over the runs, with its interval over the runs.",
+            "Demand: inserted share (window): of the vehicles planned to depart inside the window (n_planned of "
+            "macro.json) the share inserted at all; shortfall (window): n_planned x (1 - inserted share), planned in "
+            "the window and never inserted; shortfall (run): n_planned - n_inserted of run.json over the whole run; "
+            "insertion delay: mean_depart_delay_s of run.json (all inserted vehicles; the CSV has that of the window "
+            "too: depart_delay_window). The CSV also holds n_planned_window and n_planned_run.",
+            "ground truth: mean over the scenarios of the corridor of the vehicles of the window, the vehicle-km and the "
+            "vehicles planned (window, n_planned_window; whole period, n_planned_run) of the data.",
+            *self.ablation_note(),
+        )
+        return Table(t, "Contact episodes with their exposure and the demand shortfall (review of M8)", notes, frame,
+                     columns)  # fmt: skip
+
+    # ------------------------------------------------------- review of M8: H12.2 on the errors
+    def table_h12_2_error(self) -> Table:
+        """Exploratory: |e| of the candidate minus |e| of the reference for every component of the macro-error vector
+        (the macro triple first) and both macro errors, paired by scenario and seed, per corridor."""
+        c, t = self.cfg, "h12_2_error"
+        index = ["scenario", "seed"]
+        order = [*TRIPLE, *(name for name in COMPONENTS if name not in TRIPLE)]
+        items = [(f"error_{n}", n, COMPONENT_HEADERS[n], "anchored" if n in ANCHORED else "dynamic") for n in order]
+        items += [(key, key, header, "summary") for key, header in ERRORS.items()]
+        rows = []
+        for corridor in self.corridors():
+            reference = self.mine(corridor, c.reference).set_index(index)
+            candidate = self.mine(corridor, c.candidate).set_index(index)
+            mine = []
+            for key, name, header, kind in items:
+                pairs = pd.concat({"a": reference[key].astype(float).abs(), "b": candidate[key].astype(float).abs()},
+                                  axis=1, join="inner").dropna()  # fmt: skip
+                row: dict[str, Any] = {"corridor": corridor, "component": name, "header": header, "kind": kind,
+                                       "in_triple": name in TRIPLE, "pairs": len(pairs),
+                                       "abs_error_reference": pairs["a"].mean() if len(pairs) else np.nan,
+                                       "abs_error_candidate": pairs["b"].mean() if len(pairs) else np.nan}  # fmt: skip
+                self.put(row, "difference", (pairs["b"] - pairs["a"]).to_numpy())
+                if len(pairs) < 2:
+                    self.note(t, f"{corridor}: {name}: {len(pairs)} pairs of {c.reference} and {c.candidate}, no test")
+                else:
+                    with warnings.catch_warnings():
+                        warnings.simplefilter("ignore")  # SciPy warns on degenerate samples; the NaN it returns says it
+                        cmp = paired_comparison(pairs["a"], pairs["b"], n_resamples=c.n_resamples, level=c.level,
+                                                seed=c.seed)  # fmt: skip
+                    relative = pairs["a"].mean() > 0  # the relative change needs a reference error
+                    row.update(relative=cmp["relative_change"] if relative else np.nan,
+                               relative_low=cmp["ci_low"] if relative else np.nan,
+                               relative_high=cmp["ci_high"] if relative else np.nan, wilcoxon_p=cmp["p_value"])  # fmt: skip
+                low, high = _float(row.get("difference_low")), _float(row.get("difference_high"))
+                row["outcome"] = ("smaller error" if high < 0 else "larger error" if low > 0 else "no difference") \
+                    if math.isfinite(low) and math.isfinite(high) else None  # fmt: skip
+                mine.append(row)
+            components = [row for row in mine if row["kind"] != "summary"]
+            for row, p in zip(components, holm([_float(row.get("wilcoxon_p")) for row in components])):
+                row["wilcoxon_p_holm"] = p
+            rows += mine
+        frame = pd.DataFrame(rows, columns=[
+            "corridor", "component", "header", "kind", "in_triple", "pairs", "abs_error_reference", "abs_error_candidate",
+            "difference", "difference_low", "difference_high", "relative", "relative_low", "relative_high", "wilcoxon_p",
+            "wilcoxon_p_holm", "outcome"])  # fmt: skip
+        columns = [
+            Column("corridor", "corridor", "text"), Column("header", "component", "text"),
+            Column("in_triple", "macro triple", "flag"), Column("kind", "kind", "text"), Column("pairs", "pairs", "int"),
+            Column("abs_error_reference", f"\\|e\\| {c.reference}", digits=3),  # escaped: a pipe ends a cell
+            Column("abs_error_candidate", f"\\|e\\| {c.candidate}", digits=3),
+            Column("difference", "difference of \\|e\\|", digits=3, ci=True),
+            Column("relative", "relative", "pct", 1, ci=True), Column("wilcoxon_p", "p (Wilcoxon)", "p"),
+            Column("wilcoxon_p_holm", "p (Holm)", "p"), Column("outcome", f"{c.candidate}", "text"),
+        ]  # fmt: skip
+        notes = self.header(
+            f"Exploratory comparison on the errors (review of M8), not a verdict: the pre-specified H12.2 used the TOST "
+            f"of the raw metrics (table tost, D108: equivalence of {c.candidate} and {c.reference} within "
+            f"+-{100 * c.margin:g} % of the mean of {c.reference}) and stays as reported (verdicts).",
+            f"Per corridor, {c.candidate} against {c.reference}, paired by scenario and seed (pairs): the absolute "
+            "value |e| of every component of the macro-error vector (signed relative errors against the ground truth of "
+            "the run's scenario, as in components; the macro triple first: throughput, travel time (W1), wave speed by "
+            "cross-correlation) and of the macro error and the dynamic macro error (means of the absolute components; "
+            "kind summary).",
+            f"difference of |e| = |e_{c.candidate}| - |e_{c.reference}| per pair, mean with its interval over the "
+            f"pairs (negative: {c.candidate} closer to the data); relative: mean |e_{c.candidate}| / mean "
+            f"|e_{c.reference}| - 1 with its interval; p (Wilcoxon): signed-rank test of the differences (two-sided); "
+            "p (Holm): over the eight components of a corridor; last column: smaller / larger error when the interval "
+            "of the difference excludes 0, else no difference.",
+        )
+        return Table(t, f"H12.2 on the errors: {c.candidate} against {c.reference} (exploratory, review of M8)", notes,
+                     frame, columns)  # fmt: skip
+
 
 def _secondary(table: Table) -> str:
     """Markdown of a second table in the same file: its title one level down."""
@@ -1946,6 +2332,31 @@ def _secondary(table: Table) -> str:
 def _write(table: Table, out: Path) -> None:
     (out / f"{table.name}.md").write_text(markdown(table), encoding="utf-8")
     table.frame.to_csv(out / f"{table.name}.csv", index=False)
+
+
+def clustered_summary(frame: pd.DataFrame) -> str:
+    """The printed line of correlation_clustered: the pooled (or the only corridor's) Spearman of the macro error with
+    its intervals, and the estimates without the family with the largest change and over the learned laws only."""
+    if not len(frame):
+        return "n/a"
+    mine = frame[frame["error"] == ERRORS["macro_error"]]
+    scope = "pooled (corridor as stratum)" if (mine["scope"] == "pooled (corridor as stratum)").any() else \
+        (mine["scope"].iloc[0] if len(mine) else None)  # fmt: skip
+    mine = mine[mine["scope"] == scope]
+    every = mine[mine["subset"] == "all laws with runs"]
+    if not len(every) or pd.isna(every["estimate"].iloc[0]):
+        return "n/a"
+    a = every.iloc[0]
+    text = (f"{scope}: macro error {a['estimate']:.3f} (n {a['n']}), law clusters {a['law_interval'] or 'n/a'}, family "
+            f"clusters {a['family_interval'] or 'n/a'}, p (laws permuted) {a['p_linked']:.4f}")  # fmt: skip
+    drop = mine[mine["left_out"].astype(str).ne("") & mine["subset"].str.startswith("without")].dropna(subset=["estimate"])
+    if len(drop):
+        worst = drop.loc[(drop["estimate"] - a["estimate"]).abs().idxmax()]
+        text += f"; {worst['subset']} {worst['estimate']:.3f} (n {worst['n']})"
+    learned = mine[mine["subset"].str.startswith("learned")].dropna(subset=["estimate"])
+    if len(learned):
+        text += f"; learned laws only {learned['estimate'].iloc[0]:.3f} (n {learned['n'].iloc[0]})"
+    return text
 
 
 def make_corridor_tables(cfg: CorridorTablesConfig) -> list[str]:
@@ -2016,16 +2427,17 @@ def make_corridor_tables(cfg: CorridorTablesConfig) -> list[str]:
     lines.append(f"TABLE verdicts: {overall} ({corridor_text(maker.corridors())}) -> {out / 'verdicts.md'}")
 
     lines += make_m8_corridor_tables(cfg, maker)
-    m8_notes = tuple(f"[{name}]" for name in M8_TABLES)
+    m8_notes = tuple(f"[{name}]" for name in (*M8_TABLES, *M9_TABLES))
     (out / "missing.txt").write_text("".join(f"{line}\n" for line in maker.missing if not line.startswith(m8_notes)),
                                      encoding="utf-8")  # fmt: skip
     return lines
 
 
 def make_m8_corridor_tables(cfg: CorridorTablesConfig, maker: CorridorTableMaker | None = None) -> list[str]:
-    """Write the corridor tables of M8 (asymmetry and asymmetry_contrasts, correlation_pooled, power, temporal) as
-    Markdown and CSV to ``cfg.m8`` with ``missing_corridor.txt`` (the notes of these tables and of the runs); one
-    printed line per table. ``maker``: the maker of the M5 tables, whose runs are then read once."""
+    """Write the corridor tables of M8 (asymmetry and asymmetry_contrasts, correlation_pooled, power, temporal) and of
+    the review of M8 (correlation_clustered, contacts_absolute, h12_2_error) as Markdown and CSV to ``cfg.m8`` with
+    ``missing_corridor.txt`` (the notes of these tables and of the runs); one printed line per table. ``maker``: the
+    maker of the M5 tables, whose runs are then read once."""
     maker = maker or CorridorTableMaker(cfg)
     out = cfg.m8
     out.mkdir(parents=True, exist_ok=True)
@@ -2075,7 +2487,23 @@ def make_m8_corridor_tables(cfg: CorridorTablesConfig, maker: CorridorTableMaker
                          for r in temporal.frame.to_dict("records"))  # fmt: skip
     lines.append(f"TABLE temporal: {outcomes}, {count('temporal')} missing -> {out / 'temporal.md'}")
 
-    notes = tuple(f"[{name}]" for name in (*M8_TABLES, "runs"))
+    # the review of M8: clustered inference of H12.3, absolute contact exposure, H12.2 on the errors
+    clustered = maker.table_correlation_clustered()
+    _write(clustered, out)
+    lines.append(f"TABLE correlation_clustered: {clustered_summary(clustered.frame)} -> {out / 'correlation_clustered.md'}")
+    contacts = maker.table_contacts_absolute()
+    _write(contacts, out)
+    laws = contacts.frame[contacts.frame["law"] != "ground truth"] if len(contacts.frame) else contacts.frame
+    lines.append(f"TABLE contacts_absolute: {len(laws)} laws, {count('contacts_absolute')} missing -> "
+                 f"{out / 'contacts_absolute.md'}")  # fmt: skip
+    errors = maker.table_h12_2_error()
+    _write(errors, out)
+    smaller = ", ".join(f"{r['corridor']} {r['component']}" for r in errors.frame.to_dict("records")
+                        if bool(r.get("in_triple")) and r.get("outcome") == "smaller error")  # fmt: skip
+    lines.append(f"TABLE h12_2_error: {len(errors.frame)} rows, macro triple with a smaller error: {smaller or 'none'} -> "
+                 f"{out / 'h12_2_error.md'}")  # fmt: skip
+
+    notes = tuple(f"[{name}]" for name in (*M8_TABLES, *M9_TABLES, "runs"))
     (out / "missing_corridor.txt").write_text("".join(f"{line}\n" for line in maker.missing if line.startswith(notes)),
                                               encoding="utf-8")  # fmt: skip
     return lines

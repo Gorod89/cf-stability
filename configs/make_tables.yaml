@@ -3,7 +3,7 @@
 # python scripts/make_tables.py tables=[e1,e2_sweep]
 # python scripts/make_tables.py +chosen_weights.gru=0.1   # use another weight than the one chosen on the sweep
 
-tables: [e1, e2_sweep, e2, e2_lowfreq, e3, e4, e5, e2_monotone]   # e2_monotone: into paths.out_dir_m8
+tables: [e1, e2_sweep, e2, e2_lowfreq, e3, e4, e5, e2_monotone, e2_horizon]   # e2_monotone: into paths.out_dir_m8
 n_resamples: 1000         # percentile bootstrap (D88)
 level: 0.95
 seed: 0
@@ -38,6 +38,15 @@ lowfreq_chosen: {}                    # per architecture, replaces the weight ch
 monotone_experiment: e2_monotone_w1
 monotone_architectures: [mlp, pidl, residual_idm]
 monotone_folds: [0]
+# long-window arm of E2 (revision of 7 October 2026, configs/queue/e2_horizon_pilot.yaml): the rollout gain penalty
+# at the chosen E2 weight with a rollout of 380 s whose gain is measured over the last 252 s (two periods of
+# 0.05 rad/s), next to E1 and the chosen E2 weight (rollout 40 s, last 20 s) of the same fold and the first seed
+# (table e2_horizon in paths.out_dir); the low-frequency share counts the audit's equilibria whose gain exceeds
+# the threshold of the audit at a frequency <= horizon_omega_max rad/s
+horizon_experiment: e2_gain_long_w0.1
+horizon_architectures: [gru, lstm]
+horizon_folds: [0]
+horizon_omega_max: 0.1
 
 bases:                    # the share behind every verdict (a column of its table, with an interval)
   h1_1: unstable_eq       # e1: string-unstable equilibria among the equilibria the audit analysed, inside the
