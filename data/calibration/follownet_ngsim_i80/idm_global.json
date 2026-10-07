@@ -1,0 +1,73 @@
+{
+  "collision_rate": 0.0,
+  "config": {
+    "calibration": {
+      "atol": 0.0001,
+      "batch_events": 4096,
+      "bounds": {
+        "T": [
+          0.3,
+          3.0
+        ],
+        "a": [
+          0.2,
+          4.0
+        ],
+        "b": [
+          0.5,
+          6.0
+        ],
+        "s0": [
+          0.5,
+          10.0
+        ],
+        "v0": [
+          10.0,
+          45.0
+        ]
+      },
+      "collision_penalty": 10.0,
+      "device": "auto",
+      "fixed": null,
+      "global_tol": 0.0001,
+      "maxiter": 300,
+      "mutation": [
+        0.5,
+        1.0
+      ],
+      "popsize": 15,
+      "recombination": 0.7,
+      "restarts": 3,
+      "seed": 0,
+      "tol": 0.001
+    },
+    "dataset": "follownet_ngsim_i80",
+    "global_fit": true,
+    "max_events": null,
+    "paths": {
+      "calibration_root": "data/calibration",
+      "events_root": "data/events",
+      "runs_root": "runs"
+    },
+    "per_event": true,
+    "variant": "full"
+  },
+  "config_hash": "d5e53df40cfe",
+  "converged": true,
+  "dataset": "follownet_ngsim_i80",
+  "n_events": 1937,
+  "n_generations": 49,
+  "nrmse_s": 0.3362051817560411,
+  "nrmse_v": 0.10482179852145551,
+  "objective": 0.4410269802774966,
+  "params": {
+    "T": 1.6810075586485318,
+    "a": 0.7730029459681524,
+    "b": 0.5002515027319049,
+    "s0": 0.6897542082547612,
+    "v0": 26.907369812783713
+  },
+  "rmse_s": 6.377646979182331,
+  "rmse_v": 0.9117728479974688,
+  "variant": "full"
+}

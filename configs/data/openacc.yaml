@@ -1,0 +1,7 @@
+# OpenACC (JRC, CC BY 4.0), cf_stability/data/openacc.py; campaigns are site names
+name: openacc
+loader: openacc
+raw_dir: data/raw/openacc
+campaigns: [AstaZero, Casale, Cherasco, JRC, Vicolungo, ZalaZone]
+modes: [ACC, Human, unknown]
+max_duration: 60.0  # platoon runs last tens of minutes (D7)

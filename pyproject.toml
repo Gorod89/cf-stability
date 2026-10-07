@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cf-stability"
+version = "0.1.0"
+description = "String stability of learned car-following models: audit, differentiable stability penalties, corridor-level validation"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.1",
+    "scipy>=1.11",
+    "pyarrow>=15",
+    "torch>=2.2",
+    "hydra-core>=1.3.2",
+    "matplotlib>=3.8",
+    "osqp>=0.6.5",
+    "requests",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+corridor = ["libsumo==1.27.1", "eclipse-sumo==1.27.1"]
+
+[tool.setuptools.packages.find]
+include = ["cf_stability*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+    "slow: long-running tests (deselect with -m 'not slow')",
+    "data: tests that need downloaded datasets under data/raw (skipped when absent)",
+]

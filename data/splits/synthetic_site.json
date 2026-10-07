@@ -1,0 +1,37 @@
+{
+  "dataset": "synthetic",
+  "events_config_hash": "9048d0edb0f8",
+  "folds": {
+    "synthetic/platoon0/1|0|0": 1,
+    "synthetic/platoon0/2|1|0": 1,
+    "synthetic/platoon0/3|2|0": 1,
+    "synthetic/platoon0/4|3|0": 1,
+    "synthetic/platoon0/5|4|0": 1,
+    "synthetic/platoon1/1|0|0": 2,
+    "synthetic/platoon1/2|1|0": 2,
+    "synthetic/platoon1/3|2|0": 2,
+    "synthetic/platoon1/4|3|0": 2,
+    "synthetic/platoon1/5|4|0": 2,
+    "synthetic/platoon2/1|0|0": 0,
+    "synthetic/platoon2/2|1|0": 0,
+    "synthetic/platoon2/3|2|0": 0,
+    "synthetic/platoon2/4|3|0": 0,
+    "synthetic/platoon2/5|4|0": 0,
+    "synthetic/platoon3/1|0|0": 3,
+    "synthetic/platoon3/2|1|0": 3,
+    "synthetic/platoon3/3|2|0": 3,
+    "synthetic/platoon3/4|3|0": 3,
+    "synthetic/platoon3/5|4|0": 3
+  },
+  "groups": {
+    "synthetic/platoon0": 1,
+    "synthetic/platoon1": 2,
+    "synthetic/platoon2": 0,
+    "synthetic/platoon3": 3
+  },
+  "kind": "site",
+  "n_folds": 4,
+  "n_folds_requested": 5,
+  "note": "only 4 site groups for 5 requested folds: n_folds reduced to 4 (leave-one-group-out)",
+  "seed": 0
+}

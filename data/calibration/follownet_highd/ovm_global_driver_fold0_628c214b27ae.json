@@ -1,0 +1,59 @@
+{
+  "collision_rate": 0.0003996802557953637,
+  "converged": true,
+  "data": "follownet_highd",
+  "events_config_hash": "22fd3e32d190",
+  "fold": 0,
+  "n_events": 7506,
+  "n_generations": 37,
+  "nrmse_s": 0.3678174803636869,
+  "nrmse_v": 0.08476212464323317,
+  "objective": 0.45657640750084993,
+  "params": {
+    "s0": 5.904513566174787,
+    "tau": 0.7097871699212877,
+    "v0": 23.876716347599974
+  },
+  "rmse_s": 11.876063959900929,
+  "rmse_v": 1.7985005123561397,
+  "settings": {
+    "atol": 0.0001,
+    "batch_events": 4096,
+    "bounds": {
+      "T": [
+        0.3,
+        3.0
+      ],
+      "a": [
+        0.2,
+        4.0
+      ],
+      "b": [
+        0.5,
+        6.0
+      ],
+      "s0": [
+        0.5,
+        10.0
+      ],
+      "v0": [
+        10.0,
+        45.0
+      ]
+    },
+    "collision_penalty": 10.0,
+    "fixed": {},
+    "global_tol": 0.0001,
+    "maxiter": 300,
+    "mutation": [
+      0.5,
+      1.0
+    ],
+    "popsize": 15,
+    "recombination": 0.7,
+    "restarts": 3,
+    "seed": 0,
+    "tol": 0.001
+  },
+  "split": "driver"
+}

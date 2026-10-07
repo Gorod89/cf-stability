@@ -1,0 +1,14 @@
+# View of the OpenACC event set (D87, docs/m4_contract.md 3.1): the followers driving in human mode, without
+# the run files whose leader profiles drive the platoon test. Read by scripts/train.py (fold of the openacc
+# splits, filtered in all three parts); scripts/extract_events.py refuses it: extract data=openacc instead.
+name: openacc_human      # run directory and calibration cache
+events: openacc          # directory under paths.events_root
+splits: openacc          # prefix of the split files (openacc_driver.json, openacc_site.json)
+filter:
+  mode: Human            # follower_id ends with ":Human"
+  exclude_files:         # <campaign folder>/<file> (meta): the leader profiles of configs/stability/platoon.yaml
+    - ZalaZone/handling_part30.csv
+    - Vicolungo/JRC-VC_280219_part4_highway.csv
+    - Vicolungo/JRC-VC_280219_part2.csv
+    - ZalaZone/handling_part32.csv
+    - ZalaZone/handling_part13.csv

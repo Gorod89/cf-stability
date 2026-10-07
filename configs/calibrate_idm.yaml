@@ -1,0 +1,49 @@
+# IDM calibration per event and per dataset (docs/data_contract.md, section 6).
+# python scripts/calibrate_idm.py dataset=<name> [max_events=500] [calibration.maxiter=50]
+
+dataset: synthetic      # directory under paths.events_root
+variant: full           # name of the per-event fit; other than "full" it becomes a suffix of the output files
+max_events: null        # optional random subsample (seed: calibration.seed), for smoke runs
+per_event: true
+global_fit: true
+# D118: lower bound of the string-stability margin in the objective of every event (the term of D72 with
+# calibration.stability_weight on the speeds 5..30 m/s of CalibrationConfig.stability_speeds); writes
+# idm_event_margin<m>_<key>.json instead of idm_per_event*.parquet and needs global_fit=false. null: the
+# per-event fit of M1. Added in M8: the config hash leaves it out while it is null (cf_stability/utils.py,
+# LATE_KEYS)
+per_event_margin: null
+
+paths:
+  events_root: data/events
+  calibration_root: data/calibration
+  runs_root: runs
+
+calibration:
+  bounds:
+    v0: [10.0, 45.0]
+    T: [0.3, 3.0]
+    s0: [0.5, 10.0]
+    a: [0.2, 4.0]
+    b: [0.5, 6.0]
+  popsize: 15             # population = popsize x 5 = 75
+  maxiter: 300
+  tol: 1.0e-3             # per event: converged when std(J) <= atol + tol * |mean(J)| over the population
+  atol: 1.0e-4
+  global_tol: 1.0e-4      # same criterion for the global fit (atol = 0)
+  restarts: 3             # independent runs of the optimiser, the best objective is kept
+  fixed: null             # per-event fit only, e.g. {v0: global, b: global} or {v0: 30.0, b: 2.0}
+  stability_margin: null  # global fit only: smallest string-stability margin allowed on the speed grid 5..30 m/s
+                          # (the per-event fit takes per_event_margin above)
+  stability_weight: 10.0  # weight of the shortfall of the margin in the objective (global and per event)
+  mutation: [0.5, 1.0]    # dither range
+  recombination: 0.7
+  collision_penalty: 10.0
+  batch_events: 4096      # events optimised together (padded to the longest of the batch)
+  device: auto            # cuda when available
+  seed: 0
+
+hydra:
+  run:
+    dir: outputs/${hydra.job.name}/${now:%Y-%m-%d_%H-%M-%S}
+  job:
+    chdir: false

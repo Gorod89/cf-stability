@@ -1,0 +1,36 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# raw data and extracted events never go into git (highD licence forbids redistribution; the rest is large)
+data/raw/
+data/events/
+# calibrations (5 MB) and split files are part of the reproducibility record and stay
+
+# hydra output directories
+outputs/
+multirun/
+
+# run outputs: weights (*.pt, 60 MB), results (*.json), tables, figures and the SUMO scenarios are kept;
+# trajectories, test frames, logs and queue locks are not
+runs/**/*.npz
+!runs/corridor/scenarios/**
+runs/**/*.parquet
+runs/**/*.log
+runs/**/_queue.lock
+
+# the MDPI template as downloaded (its Definitions/ is copied to paper/Definitions)
+paper/MDPI_Article_Template__4_/
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.log
+paper/*.out
+paper/*.toc
+paper/*.synctex.gz
+
+# the manuscript and the journal template are not published in this repository
+paper/

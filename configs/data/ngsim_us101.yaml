@@ -1,0 +1,21 @@
+# NGSIM US-101 (data.transportation.gov 8ect-6jqj, public domain), cf_stability/data/ngsim.py
+name: ngsim_us101
+loader: ngsim
+location: us-101
+site: us101
+raw_path: data/raw/ngsim/ngsim_us-101_raw.parquet
+reconstruct: true
+reconstruction:  # cf_stability/data/reconstruction.py, ReconstructionConfig
+  f_c: 0.5  # Hz, cut-off of the smoother (gain 1/2)
+  huber: 1.0  # m
+  irls_iter: 2
+  a_min: -8.0
+  a_max: 4.0
+  jerk_max: 15.0
+  s_min: 0.75  # m, minimum net gap to the leader (soft constraint); above extraction.min_spacing
+  slack_weight: 10000.0  # 1e3 left up to 6 cm violations on real I-80 data
+  gap_tol: 0.01  # m
+  max_push: 5.0  # m, overlaps needing a larger push-back are left unconstrained
+  max_passes: 5
+  n_jobs: 4  # processes for the first pass; does not change the result
+lanes: [1, 2, 3, 4, 5]  # mainline; 6 = auxiliary lane, 7 = on-ramp, 8 = off-ramp

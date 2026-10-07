@@ -1,0 +1,6 @@
+# Waymo car-following pairs of Hu et al. (2022), cf_stability/data/waymo.py
+name: waymo
+loader: waymo
+raw_dir: data/raw/waymo
+file: all_seg_paired_cf_trj_final_with_large_vehicle.csv
+pair_types: [HV-HV, AV-HV, HV-AV]  # follower-leader: AV-HV = the AV follows a human-driven vehicle

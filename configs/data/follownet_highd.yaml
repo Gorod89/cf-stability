@@ -1,0 +1,7 @@
+# FollowNet HighD event set (figshare, CC0), cf_stability/data/follownet.py
+name: follownet_highd
+loader: follownet
+file: data/raw/follownet/HighD_car_fol_event_set.npy
+site: highd
+source_dt: 0.04  # 25 Hz, resampled to 10 Hz (D20)
+spacing_offset: 0.0  # dhw, taken as the net gap (D18)

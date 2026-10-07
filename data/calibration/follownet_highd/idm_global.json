@@ -1,0 +1,73 @@
+{
+  "collision_rate": 0.0,
+  "config": {
+    "calibration": {
+      "atol": 0.0001,
+      "batch_events": 4096,
+      "bounds": {
+        "T": [
+          0.3,
+          3.0
+        ],
+        "a": [
+          0.2,
+          4.0
+        ],
+        "b": [
+          0.5,
+          6.0
+        ],
+        "s0": [
+          0.5,
+          10.0
+        ],
+        "v0": [
+          10.0,
+          45.0
+        ]
+      },
+      "collision_penalty": 10.0,
+      "device": "auto",
+      "fixed": null,
+      "global_tol": 0.0001,
+      "maxiter": 300,
+      "mutation": [
+        0.5,
+        1.0
+      ],
+      "popsize": 15,
+      "recombination": 0.7,
+      "restarts": 3,
+      "seed": 0,
+      "tol": 0.001
+    },
+    "dataset": "follownet_highd",
+    "global_fit": true,
+    "max_events": null,
+    "paths": {
+      "calibration_root": "data/calibration",
+      "events_root": "data/events",
+      "runs_root": "runs"
+    },
+    "per_event": true,
+    "variant": "full"
+  },
+  "config_hash": "50a2e965fc35",
+  "converged": true,
+  "dataset": "follownet_highd",
+  "n_events": 12512,
+  "n_generations": 51,
+  "nrmse_s": 0.15438560843324756,
+  "nrmse_v": 0.03692203075859654,
+  "objective": 0.1913076391918441,
+  "params": {
+    "T": 0.6680959514363557,
+    "a": 0.35166774704575193,
+    "b": 0.5000904638494378,
+    "s0": 1.991469553642811,
+    "v0": 29.261660371228434
+  },
+  "rmse_s": 4.984930226658524,
+  "rmse_v": 0.7830429563288182,
+  "variant": "full"
+}

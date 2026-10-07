@@ -1,0 +1,7 @@
+# FollowNet Waymo event set (figshare, CC0), cf_stability/data/follownet.py
+name: follownet_waymo
+loader: follownet
+file: data/raw/follownet/Waymo_filter_car_fol_event_set.npy
+site: waymo
+source_dt: 0.1
+spacing_offset: 4.5  # gross spacing, nominal vehicle length removed (D18)

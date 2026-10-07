@@ -1,0 +1,31 @@
+# python scripts/extract_events.py data=<name>
+defaults:
+  - data: synthetic
+  - _self_
+
+extraction:
+  dt: 0.1
+  min_duration: 15.0
+  max_duration: null  # a non-null data.max_duration overrides this
+  min_spacing: 0.5    # samples with s <= min_spacing end a segment (decision D41; the specification says s > 0)
+  max_spacing: 120.0
+  min_moving_fraction: 0.8
+  moving_speed_eps: 0.1
+  sg_window_s: 1.1
+  sg_order: 2
+  smooth_speeds: false
+
+splits:
+  n_folds: 5
+  seed: 0
+
+paths:
+  raw_root: data/raw
+  events_root: data/events
+  splits_root: data/splits
+
+hydra:
+  job:
+    chdir: false
+  run:
+    dir: outputs/${hydra.job.name}/${now:%Y-%m-%d_%H-%M-%S}

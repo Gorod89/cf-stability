@@ -1,0 +1,7 @@
+# FollowNet NGSIM I-80 event set (figshare, CC0), cf_stability/data/follownet.py
+name: follownet_ngsim_i80
+loader: follownet
+file: data/raw/follownet/NGSIM_I_80_car_fol_event_set.npy
+site: ngsim_i80
+source_dt: 0.1
+spacing_offset: 4.5  # gross spacing, nominal vehicle length removed (D18)

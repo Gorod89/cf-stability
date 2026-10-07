@@ -1,0 +1,10 @@
+# View of the NGSIM I-80 event set (D120, docs/m8_contract.md section 7): the events of period 0 only
+# (07:50-08:05 h, 2 635 of 7 651 events), the drivers whose follower_id starts with ngsim_i80/i80/p0_. Read by
+# scripts/train.py (driver folds of ngsim_i80, filtered in all three parts, as the views of D87);
+# scripts/extract_events.py refuses it: extract data=ngsim_i80 instead. Temporal hold-out: models fine-tuned
+# here are simulated on the periods 1 and 2 of the I-80 corridor, which they have not seen.
+name: ngsim_i80_p0        # run directory and calibration cache
+events: ngsim_i80         # directory under paths.events_root
+splits: ngsim_i80         # prefix of the split files (ngsim_i80_driver.json)
+filter:
+  follower_prefix: ngsim_i80/i80/p0_   # follower_id starts with it (cf_stability/data/views.py)

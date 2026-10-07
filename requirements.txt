@@ -1,0 +1,25 @@
+# Exact versions of the packages that cf_stability, scripts/ and tests/ import, read from the shared environment
+# (.venv, Python 3.11.8) with importlib.metadata on 2026-10-07 (D124); no other package is
+# needed. torch is the CUDA 12.8 build (E2): its wheel comes from the PyTorch index below.
+--extra-index-url https://download.pytorch.org/whl/cu128
+
+numpy==2.4.6               # import numpy: everywhere
+pandas==3.0.6              # import pandas: tables, data
+scipy==1.17.1              # import scipy: statistics, metrics
+pyarrow==25.0.1            # import pyarrow: parquet files (never in the simulation process, E9)
+torch==2.11.0+cu128        # import torch: models
+hydra-core==1.3.7          # import hydra: scripts
+omegaconf==2.3.1           # import omegaconf: scripts
+PyYAML==6.0.3              # import yaml: configs
+matplotlib==3.11.2         # import matplotlib: figures
+cycler==0.12.1             # import cycler: figures
+osqp==1.1.3                # import osqp: NGSIM reconstruction
+requests==2.34.2           # import requests: scripts/download_data.py
+libsumo==1.27.1            # import libsumo: corridor simulation (E9)
+eclipse-sumo==1.27.1       # import sumo: SUMO_HOME and netconvert of the corridor (E9)
+pytest==9.1.1              # import pytest: tests
+
+# installed with libsumo and eclipse-sumo 1.27.1 (E9), not imported directly
+sumo-data==1.27.1          # required by libsumo and eclipse-sumo
+traci==1.27.1              # required by libsumo
+sumolib==1.27.1            # required by traci

@@ -1,0 +1,16 @@
+# Persistence baseline (decision D13): open-loop and closed-loop metrics on one event set.
+# python scripts/persistence_baseline.py dataset=<name>
+
+dataset: synthetic      # directory under paths.events_root
+device: auto            # cuda when available
+batch_events: 4096
+
+paths:
+  events_root: data/events
+  runs_root: runs
+
+hydra:
+  run:
+    dir: outputs/${hydra.job.name}/${now:%Y-%m-%d_%H-%M-%S}
+  job:
+    chdir: false
