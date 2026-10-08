@@ -272,7 +272,7 @@ def test_temporal(tree):
 
 
 def test_m8_tables_alone_and_the_notes_files(tree, tmp_path):
-    """make_m8_corridor_tables writes the five tables of M8 and the three of its review with missing_corridor.txt; the
+    """make_m8_corridor_tables writes the five tables of M8 and the four of its review with missing_corridor.txt; the
     notes of M8 are not in the missing.txt of M5."""
     m5 = (tree["m5"] / "missing.txt").read_text(encoding="utf-8")
     assert "[asymmetry]" not in m5 and "[temporal]" not in m5
@@ -282,9 +282,9 @@ def test_m8_tables_alone_and_the_notes_files(tree, tmp_path):
     assert [line.split(":")[0] for line in lines] == ["TABLE asymmetry", "TABLE asymmetry_contrasts",
                                                       "TABLE correlation_pooled", "TABLE power", "TABLE temporal",
                                                       "TABLE correlation_clustered", "TABLE contacts_absolute",
-                                                      "TABLE h12_2_error"]  # fmt: skip
+                                                      "TABLE h12_2_error", "TABLE ablation_pairs"]  # fmt: skip
     for name in ("asymmetry", "asymmetry_contrasts", "correlation_pooled", "power", "temporal", "correlation_clustered",
-                 "contacts_absolute", "h12_2_error"):
+                 "contacts_absolute", "h12_2_error", "ablation_pairs"):
         alone = pd.read_csv(tmp_path / "m8_alone" / f"{name}.csv")
         pd.testing.assert_frame_equal(alone, pd.read_csv(tree["m8"] / f"{name}.csv"), check_dtype=False)
     assert (tmp_path / "m8_alone" / "missing_corridor.txt").exists() and not (tmp_path / "m5").exists()

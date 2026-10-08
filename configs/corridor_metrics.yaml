@@ -17,8 +17,8 @@ compute: true             # write the macro.json files of the selection
 tables: false             # write the tables of `design` (.md, .csv: laws, components, instability, tost, h12_1,
                           # h12_2, e4_rmax, sensitivity, verdicts) and missing.txt, and those of M8 of the corridor
                           # (asymmetry, asymmetry_contrasts, correlation_pooled, power, temporal; D120-D122) and of its
-                          # review (correlation_clustered, contacts_absolute, h12_2_error) into paths.out_dir_m8 with
-                          # missing_corridor.txt
+                          # review (correlation_clustered, contacts_absolute, h12_2_error, ablation_pairs) into
+                          # paths.out_dir_m8 with missing_corridor.txt
 workers: 1                # scripts/corridor_asymmetry.py: processes of the pool (1: in this process)
 
 macro:                    # hashed into config_hash of every macro.json
@@ -181,6 +181,18 @@ design:                   # tables (docs/m5_contract.md, section 6; docs/m7_cont
   physics_families: [IDM, ResidualIDM]   # left out of the subset "learned laws only"
   cluster_resamples: 5000 # per bootstrap (laws, families, rows within the corridors)
   cluster_seed: 20261007  # one generator per row of the table: the laws, then the families, then the rows
+  # review of M8: the variants of the factorial ablation of the certified hybrid against each other (table
+  # ablation_pairs in paths.out_dir_m8): A idm_global, B idm_core_margin, B' idm_margin_i80, C residual_idm_free_r0.3,
+  # D residual_idm_margin_free_r0.3, E residual_idm_certified; per corridor and pair the macro error, the dynamic
+  # macro error and the collisions per 1000 vehicle-km, paired by scenario and seed (n_resamples, level, seed)
+  ablation_pairs:         # [candidate, reference]: the difference candidate - reference
+    - [residual_idm_certified, residual_idm_margin_free_r0.3]   # E - D
+    - [residual_idm_certified, residual_idm_free_r0.3]          # E - C
+    - [residual_idm_certified, idm_core_margin]                 # E - B
+    - [residual_idm_margin_free_r0.3, residual_idm_free_r0.3]   # D - C
+    - [residual_idm_margin_free_r0.3, idm_core_margin]          # D - B
+    - [idm_core_margin, idm_global]                             # B - A
+    - [idm_margin_i80, idm_global]                              # B' - A
   # sensitivity (D113; table sensitivity): scenarios <sensitivity_scenario>_<variant>, the scenario itself = baseline
   sensitivity_scenario: i80_p1
   sensitivity_variants: [gain0.01, gain0.04, nofeedback, lc_low, lc_high]

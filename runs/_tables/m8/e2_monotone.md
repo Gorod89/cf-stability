@@ -2,7 +2,7 @@
 
 - Runs: 9 of 9 expected runs exist; missing runs, files and values: missing.txt.
 - Control of M8 (D117): penalty kind monotone = relu(-f_s) + relu(f_dv) + relu(f_v) at the anchored equilibria of E2, without string term (the monotonicity constraints of RACER, dv = v - v_lead), experiment e2_monotone_w1; next to E1 and the chosen weight of E2 (D85) of the same runs: follownet_highd, fold(s) 0, seed 0.
-- RMSE s: spacing RMSE of the test part (m), unit driver, with its interval over the drivers; RMSE change vs E1: relative change of the mean RMSE against E1 of the same fold and seed, paired over the drivers; p: Wilcoxon signed-rank test.
+- RMSE s: spacing RMSE of the test part (m), unit driver (event on highD), with its interval over the drivers; RMSE change vs E1: relative change of the mean RMSE against E1 of the same fold and seed, paired over the drivers (on highD: the events, which carry no driver identifier); p: Wilcoxon signed-rank test.
 - Band shares: band_numerical of the grid speeds in support (not stable = 1 - stable); unstable among equilibria: share_unstable_numerical; max gain: largest measured gain of the audit; collided: OpenACC platoon profiles that collided, of profiles (CSV). Unit run: one run per row, so the intervals of the shares are the values themselves.
 - Missing runs and files: runs/_tables/m4/missing.txt.
 - Intervals: 95 % percentile bootstrap over the units, 1000 resamples, seed 0; complete: every run of the design is there and audited.

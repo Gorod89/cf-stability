@@ -14,8 +14,8 @@ settings ``asymmetry``, the detectors and wave lanes of ``macro`` (with the ``me
 them), the filters ``scenario``, ``law``, ``seed``, ``force`` and ``workers``. A file that holds the hash of its
 settings and is newer than its inputs is kept unless ``force=true``. Prints one line per file (``OK``, ``KEPT``,
 ``SKIPPED``, ``FAILED``). With ``tables=true`` writes the corridor tables of M8 (asymmetry, asymmetry_contrasts,
-correlation_pooled, power, temporal) and of its review (correlation_clustered, contacts_absolute, h12_2_error) to
-``runs/_tables/m8/`` as ``scripts/corridor_metrics.py tables=true`` does.
+correlation_pooled, power, temporal) and of its review (correlation_clustered, contacts_absolute, h12_2_error,
+ablation_pairs) to ``runs/_tables/m8/`` as ``scripts/corridor_metrics.py tables=true`` does.
 The process never imports ``libsumo`` (docs/m5_contract.md, section 0).
 """
 

@@ -179,7 +179,7 @@ def test_script_writes_metrics_and_tables(tree, tmp_path):
     lines = proc.stdout.strip().splitlines()
     tables = ("laws", "components", "instability", "tost", "h12_1", "h12_2", "e4_rmax", "sensitivity", "verdicts")
     tables_m8 = ("asymmetry", "asymmetry_contrasts", "correlation_pooled", "power", "temporal",  # runs_root/_tables/m8
-                 "correlation_clustered", "contacts_absolute", "h12_2_error")  # the last three: review of M8
+                 "correlation_clustered", "contacts_absolute", "h12_2_error", "ablation_pairs")  # the last four: review
     assert [line.split(" ", 1)[0] for line in lines] == ["OK", "OK", "OK", "FAILED", "SKIPPED",
                                                          *["TABLE"] * (len(tables) + len(tables_m8))]  # fmt: skip
     for name in tables:

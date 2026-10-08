@@ -14,8 +14,11 @@ speed out, semi-implicit Euler at ``dt = 0.1 s``) is ``windowed_state_space`` of
 follower and leader speed deviations.
 
 For every run of the arms ``ARMS`` (E1; the chosen E2 weight, gain penalty 0.1; the combined penalty of
-D110, Jacobian weight 0.1 for GRU and LSTM, 1 for PERL) and every grid speed with an equilibrium in the
-stored audit (status ok, multiple or outside: inside or outside the band), at the stored equilibrium:
+D110, Jacobian weight 0.1 for GRU and LSTM, 1 for PERL; the long-window pilot of the revision, gain penalty
+0.1 measured over the last 252 s of a 380-s rollout, GRU and LSTM; GRU and LSTM of the E5 control on the
+OpenACC views of D87 without penalty and with the chosen gain weight 0.1, on the data of ``ARM_DATA``) and
+every grid speed with an equilibrium in the stored audit (status ok, multiple or outside: inside or outside
+the band), at the stored equilibrium:
 
 * (a) the poles of the closed loop (``closed_loop_poles``, the ``W + 1`` eigenvalues of the block of the gap
   and the follower speeds) and whether all lie inside the unit circle: local stability of the full
@@ -34,7 +37,10 @@ agreement of the sign of ``M`` and of ``M_w`` with the windowed gain at the lowe
 above 1; mean over the runs with the 95 % percentile bootstrap interval over the runs, 1000 resamples,
 seed 0) and the figure ``runs/_report/supplement/figures/full_history_gain.{png,pdf,txt}`` (windowed
 against numerical gain at 0.02 rad/s, one panel per architecture, E1 and E2). Nothing is retrained:
-the stored models and audits only (CPU, float64).
+the stored models and audits only (CPU, float64). The tables e1, e2, e2_lowfreq, e5 and e2_horizon of
+``cf_stability/eval/tables.py`` read ``full_history.json`` for their shares with local instability added
+(a speed whose loop has a pole on or outside the unit circle is not stable whatever its measured gain), so
+the arms cover the recurrent runs of these tables.
 """
 
 from __future__ import annotations
@@ -70,7 +76,16 @@ ARMS: dict[str, dict[str, str]] = {  # arm -> architecture -> experiment
     "E1": {"gru": "e1", "lstm": "e1", "perl": "e1"},
     "E2": {"gru": "e2_gain_w0.1", "lstm": "e2_gain_w0.1", "perl": "e2_gain_w0.1"},  # chosen weight (D85)
     "E2 combined": {"gru": "e2_combined_j0.1", "lstm": "e2_combined_j0.1", "perl": "e2_combined_j1"},  # D110
+    "E2 long window": {"gru": "e2_gain_long_w0.1", "lstm": "e2_gain_long_w0.1"},  # revision: rollout 380 s, fold 0
+    "E5 ACC": {"gru": "e5", "lstm": "e5"},  # E5 control (D87): no penalty
+    "E5 ACC penalised": {"gru": "e5_gain_w0.1", "lstm": "e5_gain_w0.1"},  # the chosen gain weight of E2
+    "E5 human": {"gru": "e5", "lstm": "e5"},
+    "E5 human penalised": {"gru": "e5_gain_w0.1", "lstm": "e5_gain_w0.1"},
 }
+ARM_DATA: dict[str, str] = {  # arm -> data view of its runs; the other arms: --data
+    "E5 ACC": "openacc_acc", "E5 ACC penalised": "openacc_acc",
+    "E5 human": "openacc_human", "E5 human penalised": "openacc_human",
+}  # fmt: skip
 FIGURE_ARMS = ("E1", "E2")
 OUTPUT = "full_history.json"
 AUDIT = "stability.json"
@@ -258,22 +273,23 @@ def analyse_run(run_dir: Path, write: bool = True) -> dict[str, Any] | str:
 
 def collect(
     runs_root: Path, data: str, architectures: Sequence[str], arms: Mapping[str, Mapping[str, str]] = ARMS,
-    write: bool = True,
+    write: bool = True, arm_data: Mapping[str, str] = ARM_DATA,
 ) -> tuple[pd.DataFrame, pd.DataFrame, list[str], dict[tuple[str, str], int]]:
     """Per run and part the shares (one row each), per speed the points of the figure, the problems and the
-    numbers of runs per architecture and arm."""
+    numbers of runs per architecture and arm. The runs of an arm are on ``arm_data[arm]``, else on ``data``."""
     rows, points, problems, expected = [], [], [], {}
     for arm, experiments in arms.items():
         for architecture in architectures:
             experiment = experiments.get(architecture)
             if experiment is None:
                 continue
-            runs = run_directories(runs_root, experiment, data, architecture)
+            view = arm_data.get(arm, data)
+            runs = run_directories(runs_root, experiment, view, architecture)
             expected[architecture, arm] = len(runs)
             for run_dir in runs:
                 payload = analyse_run(run_dir, write)
                 if isinstance(payload, str):
-                    problems.append(f"{experiment}/{architecture}/{run_dir.name}: {payload}")
+                    problems.append(f"{experiment}/{view}/{architecture}/{run_dir.name}: {payload}")
                     continue
                 agreement = (payload["source"].get("audit_agreement_gain") or {})
                 for part in PARTS:
@@ -364,14 +380,18 @@ def markdown(table: pd.DataFrame, problems: Sequence[str], data: str, threshold:
         return float(pd.to_numeric(table[key], errors="coerce").min()) if len(table) and key in table else np.nan
 
     arms = "; ".join(f"{arm}: " + ", ".join(f"{a} {e}" for a, e in experiments.items())
+                     + (f" on {ARM_DATA[arm]}" if arm in ARM_DATA else "")
                      for arm, experiments in ARMS.items())  # fmt: skip
     lines = [
         "# Full-history linear analysis of the recurrent laws (M9)",
         "",
-        f"- Runs: GRU, LSTM and PERL on {data}; arms {arms} (E1 and E2 five folds x five seeds, the combined arm "
-        "five folds x seed 0). Speeds: every grid speed with an equilibrium in the stored audit (status ok, "
-        "multiple or outside: inside or outside the band), at the stored equilibrium; part all = every such speed, "
-        "support = those in the speed range of the training data.",
+        f"- Runs: GRU, LSTM and PERL; arms {arms}; on {data} where no view is named (E1 and E2 five folds x five "
+        "seeds, the combined arm and E5 five folds x seed 0, the long window fold 0, seed 0). E2 long window: the "
+        "gain penalty of E2 (weight 0.1) measured over the last 252 s of a 380-s rollout, the pilot of the revision; "
+        "E5: the control on the OpenACC views (D87) without penalty and with the chosen gain weight 0.1. Speeds: "
+        "every grid speed with an equilibrium in the stored audit (status ok, multiple or outside: inside or outside "
+        "the band), at the stored equilibrium; part all = every such speed, support = those in the speed range of "
+        "the training data.",
         "- Linearisation: the history Jacobian J [30, 3] of the acceleration with respect to the 30 states of the "
         "window (history_jacobian). The networks are re-run over the last 30 states at every step, without a hidden "
         "state carried between steps, so J is the exact linearisation of the rollout. State-space form of the "
