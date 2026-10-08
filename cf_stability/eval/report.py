@@ -20,8 +20,15 @@ copied, its LaTeX written to ``tables/``; the tables of M8 that this code knows 
 one gets every column of its CSV) and every figure of ``runs/_report/supplement/figures/`` with the caption of
 its ``<name>.txt``. An expected table or figure of M8 without its file gets a note.
 
-Nothing missing raises: a missing table is written with its header and no rows, a missing figure is
-left out, and both get a note in ``report.md`` (section "Notes on missing inputs").
+The corridor figures (5 and 6) take every panel through ``cf_stability.corridor.fields``: the Edie grids of a run are
+computed from its ``trajectories.npz`` where the run has it, else read from its ``fields.npz``
+(``scripts/export_fields.py``; ``corridor_source``), with bit-identical arrays either way; the ground truth comes from
+its npz files. With ``strict`` (the default) a panel of a corridor scenario that exists but lacks its input (a run with
+neither file, a ``fields.npz`` without the grid of the figure, a missing ground truth or ``scenario.json``) raises
+``MissingInputError`` naming the run and the file. Otherwise nothing missing raises: a missing table is written with
+its header and no rows, a missing figure is left out, a figure drawn without some of its panels or curves is
+incomplete, and all get a note in ``report.md`` (section "Notes on missing inputs"); the printed line counts the
+complete figures only.
 """
 
 from __future__ import annotations
@@ -44,6 +51,9 @@ import numpy as np
 import pandas as pd
 import yaml
 
+from cf_stability.corridor.fields import (
+    SOURCES, GridSpec, MissingInputError, PanelSource, fd_points, panel_grids, speed_panels,
+)  # fmt: skip
 from cf_stability.eval import figures
 from cf_stability.eval.collect import RUN_NAME
 from cf_stability.eval.corridor_tables import COMPONENT_HEADERS, RAW_METRICS
@@ -62,6 +72,7 @@ FIGURES = (
     "rmse_vs_instability", "e2_tradeoff", "gain_curves", "growth_curves", "corridor_speed_contours",
     "fundamental_diagrams", "macro_error_vs_instability",
 )  # fmt: skip
+CORRIDOR_FIGURES = ("corridor_speed_contours", "fundamental_diagrams")  # their panels share the inputs
 SECTIONS = (
     "1. Data and runs", "2. Verdicts of the hypotheses", "3. E1: models without penalty (H1.1)",
     "4. E2: stability penalties (H1.2)", "5. E3: transfer to other data", "6. E4: certified hybrid (H1.5)",
@@ -120,6 +131,12 @@ class ReportConfig:
     gain_threshold: float = 1.02
     dpi: int = 200
     font_size: float = 9.0
+    strict: bool = True  # a corridor panel without its input raises (False: a note, the figure without the panel)
+    corridor_source: str = "auto"  # figures 5, 6: auto (trajectories.npz, else fields.npz), trajectories or fields
+
+    def __post_init__(self) -> None:
+        if self.corridor_source not in SOURCES:
+            raise ValueError(f"corridor_source {self.corridor_source!r} (known: {list(SOURCES)})")
 
     @classmethod
     def from_mapping(cls, raw: Mapping[str, Any], paths: Mapping[str, Path]) -> ReportConfig:
@@ -328,6 +345,12 @@ def profile_label(profile: str, mode: str | None = None) -> str:
     return text if not mode else f"{text} ({mode})"
 
 
+def corridor_specs(cfg: ReportConfig) -> tuple[GridSpec, GridSpec]:
+    """The grids of figures 5 (speed field) and 6 (diagrams): their cells, trajectories prepared with the defaults of
+    ``MacroConfig`` (``cf_stability.corridor.fields``; ``figure_specs`` exports them for the report's scenario)."""
+    return GridSpec.contours(cfg.contour_dx, cfg.contour_dt, cfg.contour_lanes), GridSpec.fd(cfg.fd_dx, cfg.fd_dt)
+
+
 def std_before_collision(profile: Mapping[str, Any]) -> np.ndarray:
     """Speed std per platoon position of one simulated platoon, NaN from the first follower whose gap reached
     zero onward (``min_gap``; ``collision_vehicle`` without it): what follows a collision is not car following."""
@@ -350,6 +373,7 @@ class ReportMaker:
         self.notes: list[str] = []
         self.tables: dict[str, ReportTable] = {}
         self.figures: dict[str, str | None] = {}  # name -> None when written, else the reason it is missing
+        self.incomplete: dict[str, list[str]] = {}  # name -> the inputs of panels or curves it was drawn without
         self.refreshed: list[str] = []
         self.m8_names: list[str] = []  # the tables of M8 in the report, in order
         self.platoons = [0, 0]  # simulated platoons of figure 4: collided, all
@@ -369,6 +393,13 @@ class ReportMaker:
     # ------------------------------------------------------------------------------------ helpers
     def note(self, where: str, text: str) -> None:
         self.notes.append(f"{where}: {text}")
+
+    def missing_input(self, names: str | tuple[str, ...], text: str, where: str | None = None) -> None:
+        """A note on an input that a panel or curve of the figures ``names`` lacks: they are drawn incomplete."""
+        names = (names,) if isinstance(names, str) else names
+        self.note(where or f"figure {names[0]}", text)
+        for name in names:
+            self.incomplete.setdefault(name, []).append(text)
 
     def label(self, path: Path) -> str:
         for root in (self.cfg.runs_root, REPO_ROOT):
@@ -1135,9 +1166,12 @@ class ReportMaker:
 
     # ------------------------------------------------------------------------------------- figures
     def figure(self, name: str, build: Callable[[], Any]) -> None:
-        """Build and save one figure; a missing input or an error of the drawing becomes a note."""
+        """Build and save one figure; a missing input or an error of the drawing becomes a note (a corridor panel
+        without its input under ``strict`` raises)."""
         try:
             fig = build()
+        except MissingInputError:
+            raise
         except (ValueError, KeyError, FileNotFoundError, OSError) as exc:
             self.figures[name] = str(exc) or type(exc).__name__
             self.note(f"figure {name}", self.figures[name])
@@ -1176,7 +1210,7 @@ class ReportMaker:
             points[arch] = (maker.values("figure", runs, "test_rmse_s_mean").mean(),
                             maker.values("figure", runs, "band_numerical_stable").mean())  # fmt: skip
         for line in [line for line in maker.missing if line.startswith("[figure]")]:
-            self.note("figure e2_tradeoff", f"E1 of seed 0, {line[len('[figure] '):]}")
+            self.missing_input("e2_tradeoff", f"E1 of seed 0, {line[len('[figure] '):]}")
         maker.missing = [line for line in maker.missing if not line.startswith("[figure]")]
         return figures.e2_tradeoff(sweep.frame, points, archs)
 
@@ -1202,10 +1236,10 @@ class ReportMaker:
             experiment = self.chosen_experiment(arch)
             with_ = self.gains(self.run_dir(experiment, data, arch)) if experiment else None
             if without is None:
-                self.note("figure gain_curves", f"{self.label(self.run_dir('e1', data, arch))}/stability.json missing")
+                self.missing_input("gain_curves", f"{self.label(self.run_dir('e1', data, arch))}/stability.json missing")
             if experiment and with_ is None:
                 missing = self.label(self.run_dir(experiment, data, arch))
-                self.note("figure gain_curves", f"{missing}/stability.json missing")
+                self.missing_input("gain_curves", f"{missing}/stability.json missing")
             omega = (without or with_ or ([], []))[0]
             if omega:
                 curves[arch] = {"omega": omega, "without": (without or (0, []))[1], "with": (with_ or (0, []))[1]}
@@ -1220,7 +1254,7 @@ class ReportMaker:
             except (OSError, ValueError):
                 profiles = None
             if profiles is None:
-                self.note("figure growth_curves", f"{self.label(path)} missing")
+                self.missing_input("growth_curves", f"{self.label(path)} missing")
             else:
                 out.append(profiles)
         return out
@@ -1233,7 +1267,7 @@ class ReportMaker:
             for m in c.e5_penalised:
                 experiment = self.chosen_experiment(m, "e5")
                 if experiment is None:
-                    self.note("figure growth_curves", f"{m}: no chosen weight, no penalised E5 law")
+                    self.missing_input("growth_curves", f"{m}: no chosen weight, no penalised E5 law")
                     continue
                 laws[view].append((f"{figures.name(m)} + penalty", m, True, self.platoon_runs(experiment, view, m)))
         names: dict[str, dict[str, Any]] = {}
@@ -1270,83 +1304,74 @@ class ReportMaker:
         return figures.growth_curves(panels)
 
     def corridor_inputs(self) -> list[dict[str, Any]]:
-        """Trajectories of the ground truth and of the laws of the figures (prepared as for the metrics)."""
-        from cf_stability.corridor.macro import (
-            Geometry, MacroConfig, geometry_from_scenario, load_npz, prepare_trajectories,
-        )  # fmt: skip
+        """The grids of the ground truth and of the laws of figures 5 and 6 (``cf_stability.corridor.fields``: from
+        ``trajectories.npz``, prepared as the metrics prepare it, or from the run's ``fields.npz``). A panel without its
+        input in a scenario that exists raises with ``strict``; otherwise it is left out with a note and both figures are
+        incomplete (a scenario without any directory gives notes only: no figure)."""
+        from cf_stability.corridor.macro import Geometry, geometry_from_scenario
 
         c = self.cfg
         scenario_dir = c.corridor_root / "scenarios" / c.scenario
+        present = scenario_dir.is_dir() or (c.corridor_root / c.scenario).is_dir()
+
+        def lacking(error: MissingInputError) -> None:
+            if present and c.strict:
+                raise error.within(f"corridor figures of {c.scenario}") from None
+            if present:
+                self.missing_input(CORRIDOR_FIGURES, error.describe(self.label), "corridor figures")
+            else:
+                self.note("corridor figures", error.describe(self.label))
+
         scenario_json = scenario_dir / "scenario.json"
         geometry = Geometry()
         if scenario_json.exists():
             geometry = geometry_from_scenario(read_json(scenario_json), geometry)
         else:
-            self.note("corridor figures", f"{self.label(scenario_json)} missing: default geometry and window")
-        items = [("ground truth", "ground truth", scenario_dir / "ground_truth.npz",
-                  scenario_dir / "vehicles_truth.npz")]  # fmt: skip
-        for law in c.figure_laws:
-            run = c.corridor_root / c.scenario / law / f"seed{c.figure_seed}"
-            items.append((law, law, run / "trajectories.npz", run / "vehicles.npz"))
+            lacking(MissingInputError(scenario_json, "missing: default geometry and window"))
+        specs = corridor_specs(c)
+        items = [("ground truth", PanelSource.truth(scenario_dir))]
+        items += [(law, PanelSource.run(c.corridor_root / c.scenario / law / f"seed{c.figure_seed}"))
+                  for law in c.figure_laws]  # fmt: skip
         out = []
-        for label, key, trajectories, vehicles in items:
-            if not trajectories.exists():
-                self.note("corridor figures", f"{self.label(trajectories)} missing")
-                continue
+        for label, panel in items:
             try:
-                arrays = load_npz(trajectories)
-                fleet = load_npz(vehicles) if vehicles.exists() else None
-                prepared = prepare_trajectories(arrays, fleet, geometry, MacroConfig())
-            except (OSError, ValueError, KeyError) as exc:
-                self.note("corridor figures", f"{self.label(trajectories)} unreadable ({type(exc).__name__})")
+                grids = panel_grids(panel, geometry, specs, c.corridor_source)
+            except MissingInputError as error:
+                lacking(error)
                 continue
-            out.append({"label": label, "key": key, "geometry": geometry, "prepared": prepared})
+            out.append({"label": label, "key": label, "geometry": geometry, "contours": grids[specs[0]],
+                        "fd": grids[specs[1]]})  # fmt: skip
         return out
 
     def fig_speed_contours(self, inputs: list[dict[str, Any]]) -> Any:
-        from cf_stability.corridor.macro import edie_grid, interval_edges
-        from cf_stability.corridor.waves import speed_field
-
         if not inputs:
             raise ValueError("no trajectories of the corridor")
-        c = self.cfg
-        t_end = max(float(np.nanmax(i["prepared"]["t"])) for i in inputs if len(i["prepared"]["t"]))
+        t_edges, panels = speed_panels([item["contours"] for item in inputs], self.cfg.contour_dt)
         fields = []
-        for item in inputs:
-            p, g = item["prepared"], item["geometry"]
-            grid = edie_grid({"vehicle": p["piece"], "t": p["t"], "x": p["x"], "lane": p["lane"]},
-                             interval_edges(g.x_in, g.x_out, c.contour_dx), interval_edges(0.0, t_end, c.contour_dt),
-                             lanes=c.contour_lanes)  # fmt: skip
-            speed = speed_field(grid["total"]["distance"], grid["total"]["time"], smooth=0)
-            empty = [int(lane) for i, lane in enumerate(grid["lanes"]) if grid["per_lane"]["time"][i].sum() == 0]
+        for item, (speed, empty) in zip(inputs, panels):
             if empty:
                 self.note("figure corridor_speed_contours", f"{item['label']}: no vehicle in lane(s) {empty}")
-            fields.append({"label": item["label"], "speed": speed, "x_edges": grid["x_edges"],
-                           "t_edges": grid["t_edges"]})  # fmt: skip
+            fields.append({"label": item["label"], "speed": speed, "x_edges": item["contours"]["x_edges"],
+                           "t_edges": t_edges})  # fmt: skip
         truth = next((f["speed"] for f in fields if f["label"] == "ground truth"), fields[0]["speed"])
         vmax = float(np.nanpercentile(truth, 99)) if np.isfinite(truth).any() else 30.0
         return figures.speed_contours(fields, inputs[0]["geometry"].window, math.ceil(vmax))
 
     def fig_fundamental_diagrams(self, inputs: list[dict[str, Any]]) -> Any:
-        from cf_stability.corridor.macro import edie_grid, fundamental_diagram, interval_edges, section_edges
+        from cf_stability.corridor.macro import fundamental_diagram
 
         if not inputs:
             raise ValueError("no trajectories of the corridor")
         c = self.cfg
         panels, truth_curve = [], None
         for item in inputs:
-            p, g = item["prepared"], item["geometry"]
-            w0, w1 = (float(w) for w in g.window)
-            grid = edie_grid({"vehicle": p["piece"], "t": p["t"], "x": p["x"], "lane": p["lane"]},
-                             section_edges(g.x_in, g.x_out, c.fd_dx), interval_edges(w0, w1, c.fd_dt))  # fmt: skip
-            flow, density = grid["total"]["flow"].ravel() * 3600.0, grid["total"]["density"].ravel() * 1000.0
-            keep = np.isfinite(flow) & np.isfinite(density) & (grid["total"]["time"].ravel() > 0)
-            panels.append({"label": item["label"], "key": item["key"], "density": density[keep], "flow": flow[keep]})
+            density, flow = fd_points(item["fd"])
+            panels.append({"label": item["label"], "key": item["key"], "density": density, "flow": flow})
             if item["key"] == "ground truth":
-                fd = fundamental_diagram(flow[keep], density[keep], c.fd_bin)
+                fd = fundamental_diagram(flow, density, c.fd_bin)
                 truth_curve = (fd["density_bins"], fd["flow"])
         if truth_curve is None:
-            self.note("figure fundamental_diagrams", "no ground truth: no binned curve")
+            self.missing_input("fundamental_diagrams", "no ground truth: no binned curve")
         return figures.fundamental_diagrams(panels, truth_curve, c.fd_bin)
 
     def fig_macro_error_vs_instability(self) -> Any:
@@ -1387,17 +1412,25 @@ class ReportMaker:
             panels.append({"frame": points.reset_index(drop=True), "ylabel": ylabel, "correlations": texts})
         return figures.macro_error_vs_instability(panels)
 
-    def make_figures(self) -> None:
+    def load_corridor(self) -> list[dict[str, Any]]:
+        """The panels of figures 5 and 6 (:meth:`corridor_inputs`); an unexpected failure becomes a note (no corridor
+        figure), a panel without its input under ``strict`` raises."""
+        try:
+            return self.corridor_inputs()
+        except MissingInputError:  # strict: a panel without its input stops the report
+            raise
+        except Exception as exc:  # the corridor figures are left out, the others stay
+            self.note("corridor figures", f"{type(exc).__name__}: {exc}")
+            return []
+
+    def make_figures(self, corridor: list[dict[str, Any]] | None = None) -> None:
+        """The seven figures; ``corridor``: the panels of figures 5 and 6 when loaded before (:meth:`load_corridor`)."""
         figures.apply_style(self.cfg.font_size)
         self.figure("rmse_vs_instability", self.fig_rmse_vs_instability)
         self.figure("e2_tradeoff", self.fig_e2_tradeoff)
         self.figure("gain_curves", self.fig_gain_curves)
         self.figure("growth_curves", self.fig_growth_curves)
-        inputs: list[dict[str, Any]] = []
-        try:
-            inputs = self.corridor_inputs()
-        except Exception as exc:  # the corridor figures are left out, the others stay
-            self.note("corridor figures", f"{type(exc).__name__}: {exc}")
+        inputs = self.load_corridor() if corridor is None else corridor
         self.figure("corridor_speed_contours", lambda: self.fig_speed_contours(inputs))
         self.figure("fundamental_diagrams", lambda: self.fig_fundamental_diagrams(inputs))
         self.figure("macro_error_vs_instability", self.fig_macro_error_vs_instability)
@@ -1487,11 +1520,12 @@ class ReportMaker:
                      self.cfg.configs_dir / "corridor_metrics.yaml"):  # fmt: skip
             if path.exists():
                 inputs[self.label(path)] = {"sha256": _sha256(path), "bytes": path.stat().st_size}
+        figures_out = {k: v or self.written_as(k) for k, v in self.figures.items()}
         return {
             "date": datetime.now().isoformat(timespec="seconds"),
             "config": config, "config_hash": config_hash(config),
             "runs": dict(runs), "corridor": dict(corridor), "inputs": inputs, "software": self.software(),
-            "outputs": {"tables": sorted(self.tables), "figures": {k: v or "written" for k, v in self.figures.items()},
+            "outputs": {"tables": sorted(self.tables), "figures": figures_out,
                         "supplement": {"tables": list(self.m8_names),
                                        "figures": [name for name, _, _ in figures_m8 or []]}},  # fmt: skip
             "notes": self.notes,
@@ -1541,11 +1575,19 @@ class ReportMaker:
         lines += [f"CSV: [tables/{name}.csv](tables/{name}.csv), LaTeX: [tables/{name}.tex](tables/{name}.tex).", ""]
         return lines
 
+    def written_as(self, name: str) -> str:
+        """How a written figure is listed in the manifest: written, or incomplete with the inputs it lacks."""
+        lacking = self.incomplete.get(name)
+        return "written" if not lacking else f"written, incomplete: {'; '.join(lacking)}"
+
     def figure_md(self, name: str, caption: str) -> list[str]:
         reason = self.figures.get(name, "not built")
         if reason is None:
-            return [f"![{caption}](figures/{name}.png)", "",
-                    f"Figure `{name}`: {caption} ([PDF](figures/{name}.pdf))."]  # fmt: skip
+            lines = [f"![{caption}](figures/{name}.png)", "",
+                     f"Figure `{name}`: {caption} ([PDF](figures/{name}.pdf))."]  # fmt: skip
+            if self.incomplete.get(name):
+                lines += ["", f"> Figure `{name}` is incomplete (inputs missing): {'; '.join(self.incomplete[name])}."]
+            return lines
         return [f"> Figure `{name}` missing: {reason}."]
 
     def section_data(self, runs: Mapping[str, Any], corridor: Mapping[str, Any]) -> list[str]:
@@ -1600,6 +1642,8 @@ class ReportMaker:
             lines += ["", f"### {milestone}", "", f"```{language}", *commands, "```"]
         lines += ["", "### This report", "", "```bash",
                   "python scripts/corridor_asymmetry.py workers=4   # asymmetry.json of every corridor run and ground truth (M8)",
+                  "python scripts/export_fields.py                  # fields.npz of every corridor run (figures 5 and 6 "
+                  "without trajectories.npz)",
                   "python scripts/make_report.py refresh=true       # first rerun the table scripts (runs/_tables/m4, m5, m8)",
                   "python scripts/make_report.py                    # runs/_report/ from the existing tables",
                   "```"]  # fmt: skip
@@ -1683,13 +1727,14 @@ def make_report(cfg: ReportConfig, config: Mapping[str, Any] | None = None) -> l
     maker = ReportMaker(cfg)
     if cfg.refresh:
         maker.refresh()
+    corridor = maker.load_corridor()  # first: under strict a corridor panel without input stops before any output
     cfg.out_dir.mkdir(parents=True, exist_ok=True)
     maker.tables_m4()
     maker.table_existence()
     maker.tables_m5()
     maker.tables_m8()
     maker.write_tables()
-    maker.make_figures()
+    maker.make_figures(corridor)
     figures_m8 = maker.supplement()
     runs, corridor = maker.scan_runs(), maker.scan_corridor()
     text = maker.report_md(runs, corridor, figures_m8)  # adds the notes of sections 9 and 10 before the manifest
@@ -1697,10 +1742,14 @@ def make_report(cfg: ReportConfig, config: Mapping[str, Any] | None = None) -> l
     write_json(cfg.out_dir / "manifest.json", maker.manifest(runs, corridor, dict(config or {}), figures_m8))
     written = [name for name, reason in maker.figures.items() if reason is None]
     missing = [name for name in FIGURES if name not in written]
+    incomplete = [name for name in written if maker.incomplete.get(name)]
+    complete = [name for name in written if name not in incomplete]  # a figure without some panels does not count
     lines = [*maker.refreshed,
              f"TABLES {len(maker.tables)} (CSV, LaTeX) -> {cfg.out_dir / 'tables'}",
-             f"FIGURES {len(written)} of {len(FIGURES)} (PNG, PDF) -> {cfg.out_dir / 'figures'}"
-             + (f"; missing: {', '.join(missing)}" if missing else ""),
+             f"FIGURES {len(complete)} of {len(FIGURES)} (PNG, PDF) -> {cfg.out_dir / 'figures'}"
+             + (f"; missing: {', '.join(missing)}" if missing else "")
+             + (f"; incomplete (written without some panels, notes in report.md): {', '.join(incomplete)}"
+                if incomplete else ""),
              f"REPORT {cfg.out_dir / 'report.md'}: {len(maker.notes)} notes on missing inputs",
              f"SUPPLEMENT (M8) {len(maker.m8_names)} tables of {maker.label(cfg.m8_dir)}, {len(figures_m8)} figures of "
              f"{maker.label(cfg.supplement_dir)}"]  # fmt: skip

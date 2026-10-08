@@ -9,7 +9,9 @@ One run (``scenario``, ``law``, ``seed``) is one process: it writes
 ``collisions.npz`` (``t, vehicle, x, lane`` of the beginning of every collision episode) and, last,
 ``run.json`` (counts, throughput, the time mean, minimum and maximum of the buffer gain ``g`` and of the
 exit difference ``dN`` inside the analysis window, config, config hash; section 1 of the contract;
-``n_offramp``: vehicles that left by the off-ramp of US-101, D112) and prints one line. The scenarios are
+``n_offramp``: vehicles that left by the off-ramp of US-101, D112) and prints one line; then
+``scripts/export_fields.py`` writes the run's ``fields.npz`` (the inputs of the corridor figures without the
+trajectories) in a child process, whose failure is printed and leaves the run complete. The scenarios are
 those of ``scripts/build_corridor.py``: ``i80_p<k>``, ``us101_p<k>`` and the variants ``i80_p1_<variant>``.
 The hashed part of the config (``config_hash``) is the scenario, the law, the seed, ``sim``, the device of
 the inference, the config hash of the scenario and the fingerprint of the law (law file, bytes of the
@@ -41,6 +43,7 @@ import dataclasses  # noqa: E402
 import functools  # noqa: E402
 import itertools  # noqa: E402
 import os  # noqa: E402
+import subprocess  # noqa: E402
 import time  # noqa: E402
 from concurrent.futures import ThreadPoolExecutor, as_completed  # noqa: E402
 from typing import Any, Mapping  # noqa: E402
@@ -59,6 +62,7 @@ GRID_KEYS = ("scenarios", "laws", "seeds")
 PARENT_KEYS = frozenset({*GRID_KEYS, "workers", "timeout_h", "force", "scenario", "law", "seed"})
 HASHED_KEYS = ("scenario", "law", "seed", "sim", "device", "scenario_hash", "law_hash")
 OUTPUTS = ("trajectories.npz", "vehicles.npz", "collisions.npz", "run.json")
+FIELDS_TIMEOUT_S = 600.0
 
 
 def run_directory(cfg: Mapping[str, Any], scenario: str, law: str, seed: int) -> Path:
@@ -166,6 +170,30 @@ def run_one(cfg: DictConfig) -> None:
     os.replace(tmp, run_dir / "run.json")  # last: its presence with the hash marks the run complete
     label = f"{scenario_name}/{law_name}/seed{seed}"
     print(f"RUN {label}: {summary_line(payload, result['timing'])} -> {run_dir}", flush=True)
+    print(f"FIELDS {export_fields(plain, scenario_name, law_name, seed)}", flush=True)
+
+
+def export_fields(plain: Mapping[str, Any], scenario: str, law: str, seed: int) -> str:
+    """``fields.npz`` of a finished run by ``scripts/export_fields.py`` in a child process (the metrics code imports
+    scipy, which this process, holding libsumo, does without); returns its line, or why it failed (the run stays
+    complete: the script can be run later)."""
+    command = [
+        sys.executable, str(Path(__file__).resolve().parent / "export_fields.py"),
+        "--corridor-root", str(resolve_path(plain["paths"]["runs_root"])),
+        "--scenarios-root", str(resolve_path(plain["paths"]["scenarios_root"])),
+        "--scenario", scenario, "--law", law, "--seed", str(int(seed)),
+    ]  # fmt: skip
+    retry = f"python scripts/export_fields.py --scenario {scenario} --law {law} --seed {seed}"
+    try:
+        proc = subprocess.run(command, capture_output=True, text=True, encoding="utf-8", errors="replace",
+                              env={**os.environ, "PYTHONIOENCODING": "utf-8"}, timeout=FIELDS_TIMEOUT_S)  # fmt: skip
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return f"failed: {type(exc).__name__} ({retry})"
+    lines = proc.stdout.strip().splitlines()
+    if proc.returncode != 0 or not lines or not lines[0].startswith(("OK ", "KEPT ")):
+        tail = (lines[:1] or (proc.stderr or "no output").strip().splitlines()[-1:])[0]
+        return f"failed (exit {proc.returncode}): {tail} ({retry})"
+    return lines[0]
 
 
 def child_overrides() -> list[str]:

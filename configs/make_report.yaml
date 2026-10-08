@@ -22,6 +22,13 @@ contour_lanes: [1, 2, 3, 4, 5, 6]
 fd_dx: 100.0               # m: Edie cells of the fundamental diagrams (as the metrics), lanes together
 fd_dt: 30.0                # s
 fd_bin: 10.0               # veh/km: density bins of the binned flow of the ground truth
+corridor_source: auto      # figures 5 and 6 take a run from: auto = its trajectories.npz where it has one, else its
+                           # fields.npz (scripts/export_fields.py; the published repository holds fields.npz only);
+                           # trajectories or fields = that file only (fields: check that the published files suffice)
+strict: true               # a panel of figures 5 and 6 without its input (a run with neither file, a fields.npz without
+                           # the grid of the figure, a missing ground truth or scenario.json) stops the report with an
+                           # error naming the run and the file; false: a note, the figure is drawn without the panel and
+                           # the printed line does not count it as complete
 gain_threshold: 1.02       # figure 3: the threshold of the audit
 dpi: 200                   # PNG; every figure is also written as PDF
 font_size: 9.0             # pt: readable at column width

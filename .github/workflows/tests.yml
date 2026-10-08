@@ -1,0 +1,44 @@
+# Checks of every push and pull request (README.md, sections Setup and Reproduce): the environment without SUMO and
+# without a GPU, the completeness of the checkout for level 2, and the tests that need neither SUMO, a GPU, training
+# nor data outside git. torch is the CPU build of the pinned version; the CUDA pin, its index and the SUMO packages of
+# requirements.txt are left out here (requirements.txt itself stays the record of the environment of the results).
+name: tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install (torch CPU build, no SUMO)
+        run: |
+          pip install torch==2.11.0 --index-url https://download.pytorch.org/whl/cpu
+          grep -v -E '^(--extra-index-url|torch==|libsumo==|eclipse-sumo==|sumo-data==|traci==|sumolib==)' \
+            requirements.txt > "$RUNNER_TEMP/requirements-ci.txt"
+          pip install -r "$RUNNER_TEMP/requirements-ci.txt"
+          pip install -e . --no-deps
+
+      - name: Environment
+        run: python scripts/check_environment.py --no-sumo --no-gpu
+
+      - name: Completeness of the checkout (level 2)
+        run: python scripts/check_release.py
+
+      - name: Tests (no SUMO, no GPU, no training)
+        run: >-
+          pytest tests/test_analytic.py tests/test_certificate_exact.py tests/test_analysis_m9.py
+          tests/test_corridor_tables_ablation.py tests/test_tables.py tests/test_fields.py -q -p no:cacheprovider

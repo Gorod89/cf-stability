@@ -2,15 +2,18 @@
 
     python scripts/make_report.py
     python scripts/make_report.py refresh=true     # first rerun make_tables.py and corridor_metrics.py tables=true
+    python scripts/make_report.py corridor_source=fields   # figures 5 and 6 from fields.npz only (as published)
 
-Reads the tables of M4, M5 and M8 (``runs/_tables/m4|m5|m8/*.csv``), the run files of the figures and the
-figures of the supplement (``runs/_report/supplement/figures/<name>.png|pdf`` with the caption ``<name>.txt``),
-and writes ``runs/_report/``: ``tables/<name>.csv|tex`` (every table of M4, M5 and M8, the verdicts, the
-existence arm of E2, the components and the dynamic macro error), ``figures/<name>.png|pdf`` (the seven
-figures), ``report.md`` (sections 1-10 of the contract and section 11, the supplement of M8) and
-``manifest.json`` (run counts, hashes of the inputs, software versions, date). Missing inputs give empty
-tables, missing figures and notes in ``report.md``, never an exception (an expected table or figure of M8
-without its file: a note). Prints one line per output group.
+Reads the tables of M4, M5 and M8 (``runs/_tables/m4|m5|m8/*.csv``), the run files of the figures (the corridor
+runs: ``trajectories.npz``, else ``fields.npz`` of ``scripts/export_fields.py``) and the figures of the supplement
+(``runs/_report/supplement/figures/<name>.png|pdf`` with the caption ``<name>.txt``), and writes ``runs/_report/``:
+``tables/<name>.csv|tex`` (every table of M4, M5 and M8, the verdicts, the existence arm of E2, the components and
+the dynamic macro error), ``figures/<name>.png|pdf`` (the seven figures), ``report.md`` (sections 1-10 of the
+contract and section 11, the supplement of M8) and ``manifest.json`` (run counts, hashes of the inputs, software
+versions, date). Missing inputs give empty tables, missing or incomplete figures and notes in ``report.md`` (an
+expected table or figure of M8 without its file: a note), except that with ``strict=true`` (the default) a panel of
+the corridor figures without its input stops the report with an error naming the run and the file. Prints one line
+per output group; ``FIGURES n of 7`` counts the complete figures.
 """
 
 from __future__ import annotations
