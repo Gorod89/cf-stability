@@ -10,6 +10,7 @@
       5,
       6
     ],
+    "corridor_source": "auto",
     "dpi": 200,
     "e5_models": [
       "idm",
@@ -81,6 +82,7 @@
     "pulse_view": "openacc_human",
     "refresh": false,
     "scenario": "i80_p1",
+    "strict": true,
     "supplement_expected": [
       "lowfreq_expansion",
       "certificate_tightness",
@@ -91,7 +93,7 @@
       "fd_*"
     ]
   },
-  "config_hash": "5320ab1c6684",
+  "config_hash": "66dc1601c719",
   "corridor": {
     "macro_config_hashes": [
       "0223978e4c98",
@@ -343,7 +345,7 @@
     "with_macro_json": 1445,
     "with_run_json": 1445
   },
-  "date": "2026-10-08T11:16:57",
+  "date": "2026-10-08T19:22:28",
   "inputs": {
     "_report/supplement/figures/band_width.png": {
       "bytes": 72873,
@@ -582,8 +584,8 @@
       "sha256": "821335dfcdd9341e"
     },
     "docs/decisions.md": {
-      "bytes": 104632,
-      "sha256": "abb152705e420abf"
+      "bytes": 108758,
+      "sha256": "eaf94867661bd457"
     }
   },
   "notes": [],

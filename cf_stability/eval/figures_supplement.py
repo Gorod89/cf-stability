@@ -14,13 +14,21 @@ edges, the partial derivatives of the memoryless view, the numerical gains and t
 the certificates (``certificate.json``, block ``per_speed``), the event sets of ``data/events`` (read with
 :meth:`EventSet.from_parquet`) and the corridor files of M5. The figures follow the style of
 :mod:`cf_stability.eval.figures` (its palette, colours and helpers, no titles, labels with units). The corridor
-panels are prepared exactly as the figures of M6 and the metrics of M5 prepare them; they are drawn on a grid of
-``grid_columns`` columns because ``figures.speed_contours`` and ``figures.fundamental_diagrams`` fix two and three
-columns, which would make a 20-panel figure 7 x 19 inches.
+panels are prepared exactly as the figures of M6 and the metrics of M5 prepare them, through
+:mod:`cf_stability.corridor.fields` (a run's grids from its ``trajectories.npz``, else from its ``fields.npz``;
+``corridor_source``; bit-identical either way); they are drawn on a grid of ``grid_columns`` columns because
+``figures.speed_contours`` and ``figures.fundamental_diagrams`` fix two and three columns, which would make a
+20-panel figure 7 x 19 inches. The grids draw the laws of the corridor design and its arms; the variants of the
+controlled ablation of the certified hybrid (``design.ablation_laws`` of ``corridor_metrics.yaml``, compared in their
+own tables) are left out with a note unless ``ablation_panels``.
 
-Nothing missing raises: a missing or excluded input becomes a note (printed, in the notes file and in the caption
-of the figure or the notes of the table it concerns); a figure without any input is left out, a table without
-rows is written with its header.
+With ``strict`` (the default) a panel of a corridor scenario that exists but lacks its input (a run directory of the
+corridor seed with neither ``trajectories.npz`` nor ``fields.npz``, a ``fields.npz`` without the grid of the figure,
+no run of a main law, a missing ground truth or ``scenario.json``) raises ``MissingInputError`` naming the run and the
+file. Otherwise nothing missing raises: a missing or excluded input becomes a note (printed, in the notes file and in
+the caption of the figure or the notes of the table it concerns); a figure without any input is left out, one drawn
+without some of its panels is marked incomplete (its printed line and the last line), a table without rows is
+written with its header.
 """
 
 from __future__ import annotations
@@ -45,6 +53,9 @@ from matplotlib.figure import Figure  # noqa: E402
 from matplotlib.lines import Line2D  # noqa: E402
 from matplotlib.patches import Patch  # noqa: E402
 
+from cf_stability.corridor.fields import (  # noqa: E402
+    SOURCES, GridSpec, MissingInputError, PanelSource, fd_points, panel_grids, speed_panels,
+)  # fmt: skip
 from cf_stability.eval import figures  # noqa: E402
 from cf_stability.eval.figures import FULL_WIDTH, PALETTE, SHARES, WITH, WITHOUT  # noqa: E402
 from cf_stability.eval.tables import Column, Table, experiment_name, write_table  # noqa: E402
@@ -108,9 +119,17 @@ class SupplementConfig:
     corridor_seed: int = 0
     main_laws: tuple[str, ...] = ("idm_global", "residual_idm_certified", "mlp", "gru", "lstm")  # first after the truth
     max_panels: int = 20  # ground truth included
+    ablation_panels: bool = False  # draw the laws of design.ablation_laws of corridor_metrics.yaml (the variants of
+    # the controlled ablation of the certified hybrid, compared in their own tables; not drawn: a note names them)
     grid_columns: int = 4
     dpi: int = 200
     font_size: float = 9.0
+    strict: bool = True  # a corridor panel without its input raises (False: a note, the figure without the panel)
+    corridor_source: str = "auto"  # corridor runs: auto (trajectories.npz, else fields.npz), trajectories, fields
+
+    def __post_init__(self) -> None:
+        if self.corridor_source not in SOURCES:
+            raise ValueError(f"corridor_source {self.corridor_source!r} (known: {list(SOURCES)})")
 
     @classmethod
     def under(cls, runs_root: Path, **changes: Any) -> SupplementConfig:
@@ -629,6 +648,14 @@ def stability_map_figure(panels: Sequence[Mapping[str, Any]]) -> Figure:
 # ------------------------------------------------------------------------- 5 corridor grids (D123 part b)
 
 
+def corridor_specs(mcfg: Any) -> tuple[GridSpec, GridSpec]:
+    """The grids of the corridor panels (``cf_stability.corridor.fields``): the wave field of the scenario's metrics
+    (cells and lanes) for the speed fields, the cells of the metrics for the diagrams; trajectories prepared with the
+    scenario's macro settings ``mcfg`` (a ``MacroConfig``)."""
+    wc = mcfg.waves
+    return GridSpec.contours(wc.dx, wc.dt, wc.lanes, mcfg), GridSpec.fd(mcfg.cell_dx, mcfg.cell_dt, mcfg)
+
+
 def _grid(n: int, cols: int, height: float, **kwargs: Any) -> tuple[Figure, np.ndarray]:
     cols = max(1, min(cols, n))
     rows = math.ceil(n / cols)
@@ -693,7 +720,8 @@ class Supplement:
         self.cfg = cfg
         self.lines: list[str] = []
         self.notes: list[str] = []
-        self.written: dict[str, list[str]] = {"figures": [], "tables": []}
+        self.written: dict[str, list[str]] = {"figures": [], "tables": [], "incomplete": []}
+        self.corridor_panels: list[tuple[str, list[dict[str, Any]], dict[str, Any], list[str]]] | None = None
         self.figure_dir = cfg.out_dir / "figures"
         self.chosen: dict[str, Any] = {}
         path = cfg.tables_m4 / "chosen_weights.json"
@@ -734,10 +762,13 @@ class Supplement:
             notes.append(line)
         return None
 
-    def figure(self, name: str, build: Callable[[], tuple[Figure, str]]) -> None:
-        """Build one figure and its caption and write ``<name>.png|pdf|txt``; a failure becomes a note."""
+    def figure(self, name: str, build: Callable[[], tuple[Figure, str]], incomplete: Sequence[str] = ()) -> None:
+        """Build one figure and its caption and write ``<name>.png|pdf|txt``; a failure becomes a note (a corridor
+        panel without its input under ``strict`` raises). ``incomplete``: the inputs of panels it is drawn without."""
         try:
             fig, caption = build()
+        except MissingInputError:
+            raise
         except (ValueError, KeyError, FileNotFoundError, OSError) as exc:
             self.note(f"figure {name}", f"not written: {exc or type(exc).__name__}")
             return
@@ -749,7 +780,11 @@ class Supplement:
         paths = figures.save(fig, self.figure_dir, name, self.cfg.dpi)
         (self.figure_dir / f"{name}.txt").write_text(caption.strip() + "\n", encoding="utf-8")
         self.written["figures"].append(name)
-        self.lines.append(f"FIGURE {name}: {self.label(paths[0])} (+ .pdf, .txt)")
+        line = f"FIGURE {name}: {self.label(paths[0])} (+ .pdf, .txt)"
+        if incomplete:
+            self.written["incomplete"].append(name)
+            line += f"; INCOMPLETE: drawn without {len(incomplete)} panel(s), see the notes"
+        self.lines.append(line)
 
     def table(self, table: Table) -> None:
         if table.frame.empty and not len(table.frame.columns):  # no rows: the header of the Markdown columns
@@ -760,9 +795,13 @@ class Supplement:
                           f"{table.name}.csv|md")  # fmt: skip
 
     def guarded(self, name: str, step: Callable[[], None]) -> None:
-        """Run one output group; an unexpected failure becomes a note and the other groups still run."""
+        """Run one output group; an unexpected failure becomes a note and the other groups still run (a corridor
+        panel without its input under ``strict`` raises)."""
         try:
             step()
+        except MissingInputError:
+            plt.close("all")
+            raise
         except Exception as exc:
             tail = traceback.format_exc(limit=3).strip().splitlines()[-1]
             self.note(name, f"failed: {type(exc).__name__}: {exc} ({tail})")
@@ -1045,8 +1084,9 @@ class Supplement:
         return stability_map_figure(panels), self.with_notes(caption, notes)
 
     # ------------------------------------------------------------------------------ 5 corridor (D123 b)
-    def corridor_design(self) -> tuple[dict[str, str], dict[str, Any], list[str]]:
-        """Corridor names (design.corridors), the macro settings of the metrics (``macro``) and notes."""
+    def corridor_design(self) -> tuple[dict[str, str], dict[str, Any], list[str], list[str]]:
+        """Corridor names (design.corridors), the macro settings of the metrics (``macro``), the laws the grids leave
+        out (design.ablation_laws, unless ``ablation_panels``) and notes."""
         notes: list[str] = []
         path = self.cfg.configs_dir / "corridor_metrics.yaml"
         try:
@@ -1055,12 +1095,18 @@ class Supplement:
             notes.append(self.note("corridor", f"{self.label(path)} not readable ({type(exc).__name__}): default "
                                                "corridor names and macro settings"))  # fmt: skip
             raw = {}
-        names = {**CORRIDOR_NAMES, **((raw.get("design") or {}).get("corridors") or {})}
-        return names, raw.get("macro") or {}, notes
+        design = raw.get("design") or {}
+        names = {**CORRIDOR_NAMES, **(design.get("corridors") or {})}
+        excluded = [] if self.cfg.ablation_panels else [str(law) for law in design.get("ablation_laws") or []]
+        return names, raw.get("macro") or {}, excluded, notes
 
-    def corridor(self) -> None:
+    def load_corridor(self) -> None:
+        """The panels of every corridor scenario (:meth:`corridor_inputs`), kept for :meth:`corridor`; loaded before the
+        other outputs, so that under ``strict`` a panel without its input stops the supplement before it writes
+        anything."""
         c = self.cfg
-        names, macro, notes = self.corridor_design()
+        self.corridor_panels = []  # loaded once: a failure below leaves no scenario, not a second attempt
+        names, macro, excluded, notes = self.corridor_design()
         laws_table = None
         path = c.tables_m5 / "laws.csv"
         try:
@@ -1073,20 +1119,31 @@ class Supplement:
                 scenario = f"{corridor}_p{period}"
                 try:
                     inputs, info, scenario_notes = self.corridor_inputs(names.get(corridor, corridor), scenario, macro,
-                                                                        laws_table)  # fmt: skip
+                                                                        laws_table, excluded)  # fmt: skip
+                except MissingInputError:  # strict: a panel without its input stops the supplement
+                    raise
                 except Exception as exc:  # the figures of this scenario are left out, the others stay
                     tail = traceback.format_exc(limit=3).strip().splitlines()[-1]
                     self.note(f"corridor {scenario}", f"inputs failed: {type(exc).__name__}: {exc} ({tail})")
                     continue
-                scenario_notes = notes + scenario_notes
-                self.figure(f"contours_{corridor}_p{period}",
-                            lambda i=inputs, s=info, n=scenario_notes: self.contour_figure(i, s, n))  # fmt: skip
-                self.figure(f"fd_{corridor}_p{period}",
-                            lambda i=inputs, s=info, n=scenario_notes: self.fd_figure(i, s, n))  # fmt: skip
+                self.corridor_panels.append((f"{corridor}_p{period}", inputs, info, notes + scenario_notes))
 
-    def corridor_laws(self, name: str, scenario: str, laws_table: pd.DataFrame | None) -> tuple[list[str], list[str]]:
-        """Laws of the scenario with a run of the figure seed: the main laws, then the laws of ``laws.csv`` for the
-        corridor in its order, then other law directories with such a run (sorted); and the notes."""
+    def corridor(self) -> None:
+        if self.corridor_panels is None:
+            self.load_corridor()
+        for name, inputs, info, scenario_notes in self.corridor_panels or []:
+            self.figure(f"contours_{name}", lambda i=inputs, s=info, n=scenario_notes: self.contour_figure(i, s, n),
+                        info["lacking"])  # fmt: skip
+            self.figure(f"fd_{name}", lambda i=inputs, s=info, n=scenario_notes: self.fd_figure(i, s, n),
+                        info["lacking"])  # fmt: skip
+
+    def corridor_laws(
+        self, name: str, scenario: str, laws_table: pd.DataFrame | None, excluded: Sequence[str] = ()
+    ) -> tuple[list[str], list[str], list[str]]:  # fmt: skip
+        """Laws of the scenario with a run of the figure seed (its directory ``<law>/seed<k>``): the main laws, then the
+        laws of ``laws.csv`` for the corridor in its order, then other law directories with such a run (sorted), the
+        laws ``excluded`` (the ablation variants, :meth:`corridor_design`) left out with a note; the notes; and the
+        main laws without such a run."""
         c = self.cfg
         root = c.corridor_root / scenario
         seed_dir = f"seed{c.corridor_seed}"
@@ -1096,9 +1153,15 @@ class Supplement:
             listed = [str(x) for x in dict.fromkeys(rows["law"].dropna()) if str(x) != "ground truth"]
         others = sorted(p.name for p in root.iterdir() if p.is_dir() and not p.name.startswith("_")) if root.is_dir() \
             else []  # fmt: skip
+        listed = [law for law in listed if law not in excluded]
+        others = [law for law in others if law not in excluded]
         ordered = list(dict.fromkeys([*c.main_laws, *listed, *others]))
-        present = [law for law in ordered if (root / law / seed_dir / "trajectories.npz").exists()]
+        present = [law for law in ordered if (root / law / seed_dir).is_dir()]  # its input is checked when loaded
         notes = []
+        left_out = [law for law in excluded if (root / law / seed_dir).is_dir()]
+        if left_out:
+            notes.append(self.note(f"corridor {scenario}", "not drawn (the variants of the controlled ablation, "
+                                                           f"design.ablation_laws): {', '.join(left_out)}"))  # fmt: skip
         absent = [law for law in dict.fromkeys([*c.main_laws, *listed]) if law not in present]
         if absent:
             notes.append(self.note(f"corridor {scenario}", f"no {seed_dir} run of {', '.join(absent)}"))
@@ -1109,22 +1172,44 @@ class Supplement:
             notes.append(self.note(f"corridor {scenario}", f"{len(present)} laws, {c.max_panels - 1} panels: left out "
                                                            f"{', '.join(present[c.max_panels - 1:])}"))  # fmt: skip
             present = present[: c.max_panels - 1]
-        return present, notes
+        return present, notes, [law for law in c.main_laws if law in absent]
 
     def corridor_inputs(
-        self, name: str, scenario: str, macro: Mapping[str, Any], laws_table: pd.DataFrame | None
-    ) -> tuple[list[dict[str, Any]], dict[str, Any], list[str]]:
-        """The prepared trajectories of the ground truth and of the laws of corridor ``name`` (as ``corridor_metrics``
-        prepares them), the geometry and the macro settings of the scenario, and the notes."""
-        from cf_stability.corridor.macro import (
-            Geometry, MacroConfig, geometry_from_scenario, load_npz, prepare_trajectories, scenario_macro_config,
-        )  # fmt: skip
+        self, name: str, scenario: str, macro: Mapping[str, Any], laws_table: pd.DataFrame | None,
+        excluded: Sequence[str] = (),
+    ) -> tuple[list[dict[str, Any]], dict[str, Any], list[str]]:  # fmt: skip
+        """The grids of the ground truth and of the laws of corridor ``name`` (``cf_stability.corridor.fields``: from
+        ``trajectories.npz`` as ``corridor_metrics`` prepares it, or from the run's ``fields.npz``), the geometry, the
+        macro settings and the specs of the scenario with the inputs its panels lack (``lacking``), and the notes. A
+        scenario that exists (a directory of its ground truth or of its runs) and lacks an input raises with
+        ``strict``; one without any directory gives notes only."""
+        from cf_stability.corridor.macro import Geometry, MacroConfig, geometry_from_scenario, scenario_macro_config
 
         c = self.cfg
         where = f"corridor {scenario}"
         notes: list[str] = []
+        lacking: list[str] = []
         scenario_dir = c.corridor_root / "scenarios" / scenario
-        scenario_json = self.read(scenario_dir / "scenario.json", where, notes) or {}
+        present = scenario_dir.is_dir() or (c.corridor_root / scenario).is_dir()
+
+        def lack(error: MissingInputError) -> None:
+            if present and c.strict:
+                raise error.within(where, "--no-strict") from None
+            notes.append(self.note(where, error.describe(self.label)))
+            if present:
+                lacking.append(error.describe(self.label))
+
+        scenario_file = scenario_dir / "scenario.json"
+        scenario_json: dict[str, Any] = {}
+        if not present:
+            scenario_json = self.read(scenario_file, where, notes) or {}
+        else:
+            try:
+                scenario_json = read_json(scenario_file)
+            except FileNotFoundError:
+                lack(MissingInputError(scenario_file, "missing"))
+            except (OSError, ValueError) as exc:
+                lack(MissingInputError(scenario_file, f"unreadable ({type(exc).__name__})"))
         if not scenario_json:
             notes.append(self.note(where, "default geometry and window"))
         geometry = geometry_from_scenario(scenario_json, Geometry())
@@ -1133,52 +1218,38 @@ class Supplement:
         except (TypeError, ValueError) as exc:
             notes.append(self.note(where, f"macro settings not usable ({exc}): defaults"))
             mcfg = scenario_macro_config(MacroConfig(), scenario_json)
-        laws, law_notes = self.corridor_laws(name, scenario, laws_table)
+        laws, law_notes, without_run = self.corridor_laws(name, scenario, laws_table, excluded)
         notes += law_notes
-        truth = ("ground truth", "ground truth", scenario_dir / "ground_truth.npz", scenario_dir / "vehicles_truth.npz")
-        items = [truth]
-        for law in laws:
-            run = c.corridor_root / scenario / law / f"seed{c.corridor_seed}"
-            items.append((law, law, run / "trajectories.npz", run / "vehicles.npz"))
+        for law in without_run if present else []:  # the main laws are drawn in every scenario
+            lack(MissingInputError(c.corridor_root / scenario / law / f"seed{c.corridor_seed}", "missing (a main law)"))
+        specs = corridor_specs(mcfg)
+        items = [("ground truth", PanelSource.truth(scenario_dir))]
+        items += [(law, PanelSource.run(c.corridor_root / scenario / law / f"seed{c.corridor_seed}")) for law in laws]
         inputs = []
-        for label, key, trajectories, vehicles in items:
-            if not trajectories.exists():
-                notes.append(self.note(where, f"{self.label(trajectories)} missing"))
-                continue
+        for label, panel in items:
             try:
-                arrays = load_npz(trajectories)
-                fleet = load_npz(vehicles) if vehicles.exists() else None
-                prepared = prepare_trajectories(arrays, fleet, geometry, mcfg)
-            except (OSError, ValueError, KeyError) as exc:
-                notes.append(self.note(where, f"{self.label(trajectories)} unreadable ({type(exc).__name__})"))
+                grids = panel_grids(panel, geometry, specs, c.corridor_source)
+            except MissingInputError as error:
+                lack(error)
                 continue
-            inputs.append({"label": label, "key": key, "prepared": prepared})
+            inputs.append({"label": label, "key": label, "contours": grids[specs[0]], "fd": grids[specs[1]]})
         info = {"scenario": scenario, "corridor": name, "period": scenario.rsplit("_p", 1)[-1], "geometry": geometry,
-                "macro": mcfg}  # fmt: skip
+                "macro": mcfg, "specs": specs, "lacking": lacking}  # fmt: skip
         return inputs, info, notes
 
     def contour_figure(self, inputs: list[dict[str, Any]], info: Mapping[str, Any],
                        notes: list[str]) -> tuple[Figure, str]:  # fmt: skip
         """Speed fields as figure 5 of M6 prepares them (Edie cells of the wave field, raw), all panels."""
-        from cf_stability.corridor.macro import edie_grid, interval_edges
-        from cf_stability.corridor.waves import speed_field
-
         if not inputs:
             raise ValueError("no trajectories of the corridor")
         g, wc = info["geometry"], info["macro"].waves
-        t_end = max(float(np.nanmax(i["prepared"]["t"])) for i in inputs if len(i["prepared"]["t"]))
+        t_edges, panels = speed_panels([item["contours"] for item in inputs], info["specs"][0].dt)
         fields, empty_lanes = [], []
-        for item in inputs:
-            p = item["prepared"]
-            grid = edie_grid({"vehicle": p["piece"], "t": p["t"], "x": p["x"], "lane": p["lane"]},
-                             interval_edges(g.x_in, g.x_out, wc.dx), interval_edges(0.0, t_end, wc.dt),
-                             lanes=wc.lanes)  # fmt: skip
-            speed = speed_field(grid["total"]["distance"], grid["total"]["time"], smooth=0)
-            empty = [int(lane) for i, lane in enumerate(grid["lanes"]) if grid["per_lane"]["time"][i].sum() == 0]
+        for item, (speed, empty) in zip(inputs, panels):
             if empty:
                 empty_lanes.append(f"{item['label']}: no vehicle in lane(s) {empty}")
-            fields.append({"label": item["label"], "speed": speed, "x_edges": grid["x_edges"],
-                           "t_edges": grid["t_edges"]})  # fmt: skip
+            fields.append({"label": item["label"], "speed": speed, "x_edges": item["contours"]["x_edges"],
+                           "t_edges": t_edges})  # fmt: skip
         truth = next((f["speed"] for f in fields if f["label"] == "ground truth"), fields[0]["speed"])
         vmax = math.ceil(float(np.nanpercentile(truth, 99))) if np.isfinite(truth).any() else 30
         fig = speed_contours_grid(fields, g.window, vmax, self.cfg.grid_columns)
@@ -1197,7 +1268,7 @@ class Supplement:
 
     def fd_figure(self, inputs: list[dict[str, Any]], info: Mapping[str, Any], notes: list[str]) -> tuple[Figure, str]:
         """Fundamental diagrams as figure 6 of M6 prepares them (Edie cells of the metrics, all lanes), all panels."""
-        from cf_stability.corridor.macro import edie_grid, fundamental_diagram, interval_edges, section_edges
+        from cf_stability.corridor.macro import fundamental_diagram
 
         if not inputs:
             raise ValueError("no trajectories of the corridor")
@@ -1205,15 +1276,10 @@ class Supplement:
         w0, w1 = (float(w) for w in g.window)
         panels, truth_curve = [], None
         for item in inputs:
-            p = item["prepared"]
-            grid = edie_grid({"vehicle": p["piece"], "t": p["t"], "x": p["x"], "lane": p["lane"]},
-                             section_edges(g.x_in, g.x_out, mcfg.cell_dx),
-                             interval_edges(w0, w1, mcfg.cell_dt))  # fmt: skip
-            flow, density = grid["total"]["flow"].ravel() * 3600.0, grid["total"]["density"].ravel() * 1000.0
-            keep = np.isfinite(flow) & np.isfinite(density) & (grid["total"]["time"].ravel() > 0)
-            panels.append({"label": item["label"], "key": item["key"], "density": density[keep], "flow": flow[keep]})
+            density, flow = fd_points(item["fd"])
+            panels.append({"label": item["label"], "key": item["key"], "density": density, "flow": flow})
             if item["key"] == "ground truth":
-                fd = fundamental_diagram(flow[keep], density[keep], mcfg.fd_bin)
+                fd = fundamental_diagram(flow, density, mcfg.fd_bin)
                 truth_curve = (fd["density_bins"], fd["flow"])
         extra = [] if truth_curve is not None else ["no ground truth: no binned curve"]
         fig = fundamental_diagrams_grid(panels, truth_curve, mcfg.fd_bin, self.cfg.grid_columns)
@@ -1244,10 +1310,14 @@ def make_supplement(cfg: SupplementConfig) -> list[str]:
         raise ValueError(f"unknown outputs {sorted(unknown)} (known: {list(OUTPUTS)})")
     figures.apply_style(cfg.font_size)
     maker = Supplement(cfg)
+    if "corridor" in cfg.outputs:  # first: under strict a corridor panel without input stops before any output
+        maker.guarded("corridor", maker.load_corridor)
     for name in OUTPUTS:
         if name in cfg.outputs:
             maker.guarded(name, getattr(maker, name))
     path = maker.write_notes()
-    maker.lines.append(f"SUPPLEMENT: {len(maker.written['figures'])} figures, {len(maker.written['tables'])} tables, "
-                       f"{len(maker.notes)} notes ({maker.label(path)})")  # fmt: skip
+    incomplete = maker.written["incomplete"]
+    lacking = f" ({len(incomplete)} incomplete: {', '.join(incomplete)})" if incomplete else ""
+    maker.lines.append(f"SUPPLEMENT: {len(maker.written['figures'])} figures{lacking}, {len(maker.written['tables'])} "
+                       f"tables, {len(maker.notes)} notes ({maker.label(path)})")  # fmt: skip
     return maker.lines

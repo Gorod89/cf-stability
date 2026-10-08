@@ -388,6 +388,28 @@ def test_too_many_laws_are_cut(tree, tmp_path):
     assert "(2): law_a, law_b." in caption
 
 
+def test_ablation_laws_are_left_out_of_the_grids(tree, tmp_path):
+    """The laws of design.ablation_laws of corridor_metrics.yaml are not drawn (a note names them) unless
+    ablation_panels; the other laws keep their order."""
+    configs = tmp_path / "configs"
+    configs.mkdir()
+    (configs / "corridor_metrics.yaml").write_text(
+        "design:\n  corridors: {i80: I-80, us101: US-101}\n  ablation_laws: [law_d, law_z]\nmacro:\n  waves:\n"
+        "    lanes: [1, 2]\n", encoding="utf-8")  # fmt: skip
+    cfg = config(tree, tmp_path / "out", outputs=("corridor",), corridors=("i80",), configs_dir=configs)
+    lines = make_supplement(cfg)
+    assert any("not drawn (the variants of the controlled ablation, design.ablation_laws): law_d" in line
+               for line in lines)  # law_z has no run: not named
+    caption = (cfg.out_dir / "figures" / "fd_i80_p0.txt").read_text(encoding="utf-8")
+    assert "(2): law_a, law_b." in caption and "design.ablation_laws): law_d." in caption
+    assert "laws with a run but not in laws.csv" not in caption
+    drawn = config(tree, tmp_path / "drawn", outputs=("corridor",), corridors=("i80",), configs_dir=configs,
+                   ablation_panels=True)  # fmt: skip
+    lines = make_supplement(drawn)
+    assert not any("not drawn" in line for line in lines)
+    assert "(3): law_a, law_b, law_d." in (drawn.out_dir / "figures" / "fd_i80_p0.txt").read_text(encoding="utf-8")
+
+
 def test_missing_inputs_give_notes_and_empty_tables(tmp_path):
     cfg = SupplementConfig.under(tmp_path / "runs", events_root=tmp_path / "events", configs_dir=tmp_path / "configs",
                                  dpi=50)  # fmt: skip

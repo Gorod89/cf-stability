@@ -14,11 +14,18 @@ data/events/
 outputs/
 multirun/
 
-# run outputs: weights (*.pt, 60 MB), results (*.json), tables, figures and the SUMO scenarios are kept;
-# trajectories, test frames, logs and queue locks are not
+# run outputs: weights (*.pt, 60 MB), results (*.json), tables, figures and the SUMO scenarios are kept, and
+# so are the per-event closed-loop metrics of every run (test_events.parquet, 82 MB; transfer_*.parquet,
+# 65 MB), which the paired statistics of the tables read, the three heterogeneous corridor laws
+# (runs/corridor/laws/*.npz, 0.4 MB) and the compact figure inputs (fields.npz); the simulated
+# trajectories (3.5 GB), logs and queue locks are not
 runs/**/*.npz
 !runs/corridor/scenarios/**
+!runs/corridor/laws/*.npz
+!runs/**/fields.npz
 runs/**/*.parquet
+!runs/**/test_events.parquet
+!runs/**/transfer_*.parquet
 runs/**/*.log
 runs/**/_queue.lock
 

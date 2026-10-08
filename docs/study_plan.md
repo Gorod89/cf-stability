@@ -39,7 +39,10 @@ matrix were not run.
 - Data: highD events (the FollowNet events stand in for the raw recordings, D22), NGSIM I-80 and US-101
   with a physics-informed reconstruction, Waymo car-following pairs, OpenACC as the control; FollowNet
   extraction criteria; five-fold splits by follower identifier and by site; IDM calibration following
-  Punzo et al.; persistence baseline.
+  Punzo et al.; persistence baseline. *Deviation recorded 7 October 2026 (revision after the internal
+  review, R11): the FollowNet highD events carry no driver or recording identifier, so the highD split
+  and the "driver" bootstrap of that set are event-level; the plan's wording "by follower identifier"
+  holds for NGSIM, Waymo and OpenACC only (Section 4.1 and 3.6 of the paper).*
 - Models: IDM, k-NN, MLP, GRU, LSTM, PIDL-CF, PERL-style Newell + LSTM residual, residual hybrid IDM +
   MLP with a bounded residual; 5 seeds x 5 folds per configuration.
 - Stability: analytic criterion at the grid of equilibrium speeds, numerical frequency response, platoon
@@ -47,7 +50,8 @@ matrix were not run.
   models; certificate for the residual hybrid.
 - Experiments E1-E5 and the I-80 corridor (ten CF laws x ten seeds; I-24 as an extension if available).
 - Statistics: bootstrap over drivers (1 000 resamples), paired Wilcoxon tests with Holm's correction,
-  TOST with +-10 % for H12.2, Spearman and Pearson with bootstrap intervals for H12.3.
+  TOST with +-10 % for H12.2, Spearman and Pearson with bootstrap intervals for H12.3. *As applied on
+  highD the unit of the bootstrap and of the pairing is the event (see the deviation above).*
 
 ## Confirmatory and exploratory parts
 
