@@ -2,7 +2,8 @@
 
 The trees follow a reduced design (2 folds x 2 seeds; MLP, GRU, LSTM and the IDM) with values that
 are constant over the runs where the intervals should collapse, so that means, intervals and
-verdicts can be computed by hand.
+verdicts can be computed by hand. The recurrent runs carry a full_history.json whose speeds give
+the shares of their audit (M9: the shares with the poles of the full-history loop).
 """
 
 import json
@@ -16,7 +17,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from cf_stability.eval.tables import TablesConfig, choose_weight, make_tables, verdict_overall
+from cf_stability.eval.tables import TablesConfig, choose_weight, full_history_shares, make_tables, verdict_overall
 from cf_stability.utils import REPO_ROOT, write_json
 
 DATA, FT = "follownet_highd", "ngsim_i80"
@@ -39,12 +40,51 @@ LOWFREQ = {  # D110, (architecture, Jacobian weight): (stable, validation RMSE, 
     ("lstm", 0.1): (0.5, 2.9, 1.2), ("lstm", 1.0): (0.6, 3.0, 1.3),  # none stable: the largest share
 }  # fmt: skip
 LOWFREQ_CHOSEN = {"gru": 0.1, "lstm": 1.0}
+RECURRENT = ("gru", "lstm", "perl")  # runs with a full_history.json (M9)
+N_BAND = 100  # grid speeds in support with a band of every synthetic audit
+# M9, (experiment, data, model) -> numerically stable equilibria whose full-history loop has a pole outside the unit
+# circle: (inside the band, outside it, at speeds without band); every other recurrent run has none
+POLES = {
+    ("e1", DATA, "gru"): (5, 0, 140),  # unstable among equilibria 0.2 -> 0.5625: H1.1 would hold on it
+    ("e2_gain_w1", DATA, "lstm"): (30, 0, 0),  # not stable 0.05 -> 0.35: H1.2 would be refuted on it
+    ("e2_gain_long_w0.1", DATA, "gru"): (7, 2, 0),  # not stable 0.23 -> 0.30, unstable among equilibria 0.05 -> 0.14
+    ("e5", "openacc_acc", "gru"): (10, 0, 0),  # both 0.5 -> 0.6
+}  # fmt: skip
 
 
 def shares(stable: float, unstable: float, outside: float = 0.0) -> dict:
     none = round(1.0 - stable - unstable - outside, 12)
     return {"stable": stable, "unstable": unstable, "outside": outside, "none": none, "indifferent": 0.0,
             "undefined": 0.0}  # fmt: skip
+
+
+def full_history(stable: float, unstable: float, outside: float, unstable_eq: float, poles=(0, 0, 0)) -> dict:
+    """full_history.json of a recurrent run whose audit has the band shares ``stable``, ``unstable`` and ``outside`` of
+    N_BAND speeds and the share ``unstable_eq`` among its equilibria in support: the equilibria inside the band, those
+    outside it (as many numerically unstable as ``unstable_eq`` needs) and, when ``unstable_eq`` is below the band share
+    unstable, numerically stable equilibria at speeds in support without band; one speed out of support. ``poles``: of
+    the numerically stable equilibria inside the band, outside it and without band, how many have a pole outside the
+    unit circle; every other numerically unstable one has one as well, which changes no share."""
+    n_stable, n_unstable, n_outside = (round(N_BAND * x) for x in (stable, unstable, outside))
+    found = n_stable + n_unstable + n_outside
+    if unstable_eq * found >= n_unstable - 1e-9:
+        extra, outside_unstable = 0, round(unstable_eq * found) - n_unstable
+    else:
+        extra, outside_unstable = round(n_unstable / unstable_eq) - found, 0
+    assert 0 <= outside_unstable <= n_outside and poles[1] <= n_outside - outside_unstable
+    assert poles[0] <= n_stable and poles[2] <= extra
+
+    def speed(in_band, status, unstable_flag, pole_inside, in_support=True):
+        return {"v": 5.0, "s": 20.0, "status": status, "in_support": in_support, "in_band": in_band,
+                "numerical_unstable": unstable_flag, "poles_stable": pole_inside}  # fmt: skip
+
+    records = [speed(True, ("ok", "multiple")[k % 2], False, k >= poles[0]) for k in range(n_stable)]
+    records += [speed(True, "ok", True, k % 2 == 1) for k in range(n_unstable)]
+    records += [speed(False, "outside", True, True) for _ in range(outside_unstable)]
+    records += [speed(False, "outside", False, k >= poles[1]) for k in range(n_outside - outside_unstable)]
+    records += [speed(None, "ok", False, k >= poles[2]) for k in range(extra)]
+    records.append(speed(True, "ok", False, False, in_support=False))  # out of support: no share sees it
+    return {"model": "gru", "window": 30, "equilibria": records}
 
 
 def write_run(
@@ -61,11 +101,15 @@ def write_run(
         "test": {"rmse_s_mean": val + 0.1}, "training": {"epochs": 3, "best_feasible": feasible},
         "train_config": {"penalty": {"kind": "none", "weight": 1.0}},
     })  # fmt: skip
+    unstable_eq = unstable if unstable_eq is None else unstable_eq
     write_json(run / "stability.json", {"audit": {"summary": {
         "band_numerical": {"support": shares(stable, unstable, outside)}, "band_sign": {"support": shares(0.5, 0.5)},
-        "share_unstable_numerical": {"all": 0.0, "support": unstable if unstable_eq is None else unstable_eq},
+        "share_unstable_numerical": {"all": 0.0, "support": unstable_eq}, "n_band": {"all": N_BAND, "support": N_BAND},
         "share_unstable_sign": {"all": 0.0, "support": 0.7}, "max_gain": MAX_GAIN[fold, seed],
     }}})  # fmt: skip
+    if model in RECURRENT:
+        poles = POLES.get((experiment, data, model), (0, 0, 0))
+        write_json(run / "full_history.json", full_history(stable, unstable, outside, unstable_eq, poles))
     write_json(run / "platoon.json", {"summary": {
         "growth_error_mean": growth, "growth_error_acc": acc, "growth_error_human": human,
         "hysteresis_area_pulse": hysteresis,
@@ -208,11 +252,26 @@ def test_e1_complete(complete):
         "holds", "holds", "does not hold",
     )  # fmt: skip
     assert pd.isna(idm["h1_1"]) and mlp["complete"] and idm["complete"]
+    # M9: 145 of the 400 equilibria of the GRU are numerically stable with a pole outside the unit circle, 5 of them
+    # inside the band; the verdicts and the summary line stay on the numerical rule
+    assert (gru["unstable_eq_full"], gru["unstable_eq_full_low"], gru["unstable_eq_full_high"]) == pytest.approx(
+        (225 / 400,) * 3
+    )  # fmt: skip
+    assert (gru["not_stable_full"], gru["not_stable_full_low"], gru["not_stable_full_high"]) == pytest.approx(
+        (0.95,) * 3
+    )  # fmt: skip
+    assert (lstm["unstable_eq_full"], lstm["not_stable_full"]) == pytest.approx((0.9, 0.9))  # no pole outside
+    assert pd.isna(mlp["unstable_eq_full"]) and pd.isna(idm["not_stable_full"])  # memoryless: blank
+    assert (gru["h1_1_poles"], lstm["h1_1_poles"]) == ("holds", "does not hold") and pd.isna(mlp["h1_1_poles"])
     md = (out / "e1.md").read_text(encoding="utf-8")
     assert "- Runs: 14 of 14 expected runs exist" in md and "unit driver" in md and "200 resamples" in md
     assert "| mlp | 4 | 4 | 2.40 [" in md and "-20.0 % [-20.0 %, -20.0 %]" in md and "| 0.80 [0.80, 0.80] |" in md
     assert "H1.1 overall (holds for at least 2 of 3): does not hold" in md
     assert "For information, the same rule on band share not stable: holds" in md
+    header = "| unstable among equilibria | unstable among equilibria (poles incl.) | unstable among equilibria (sign) |"
+    assert header in md and "| not stable | not stable (poles incl.) |" in md and "(poles incl.) (information) |" in md
+    assert "| 0.20 [0.20, 0.20] | 0.56 [0.56, 0.56] |" in md and "Section 3.2 of the paper" in md
+    assert "noted in missing.txt as 'full_history.json missing'" in md and "unit driver (event on highD)" in md
     verdicts = read(out, "verdicts")
     assert verdicts["H1.1", "gru"]["information"].startswith("band share not stable 0.90 [0.90, 0.90]: holds")
     assert verdicts["H1.1", "overall"]["information"] == "band share not stable: holds"
@@ -260,9 +319,12 @@ def test_e2_horizon(complete):
     assert pd.isna(long["lowfreq_unstable"])  # the synthetic audits carry no frequency responses
     assert long["max_gain"] == pytest.approx(1.1) and long["epochs"] == 3 and pd.isna(long["best_epoch"])
     assert bool(long["complete"]) and bool(e1["complete"])
+    # M9: 7 stable speeds inside the band and 2 outside it with a pole outside the unit circle
+    assert (long["not_stable_full"], long["unstable_eq_full"]) == pytest.approx((0.30, 0.14))
+    assert (e1["not_stable_full"], e1["unstable_eq_full"], e2["not_stable_full"]) == pytest.approx((0.95, 0.5625, 0.2))
     md = (out / "e2_horizon.md").read_text(encoding="utf-8")
     assert "| gru | long window (rollout 380 s, last 252 s) | 1 | 2 | 3.13 [" in md and "+16.0 % [" in md
-    assert "gain above threshold at omega <= 0.1" in md
+    assert "gain above threshold at omega <= 0.1" in md and "| 0.23 [0.23, 0.23] | 0.30 [0.30, 0.30] |" in md
     assert any(line.startswith("TABLE e2_horizon: 6 rows from 6/6 runs, 0 missing") for line in lines), lines
 
 
@@ -315,6 +377,23 @@ def test_e2_h1_2(complete):
     assert (e2["mlp"]["growth_error_e1"], e2["mlp"]["growth_error_e2"]) == pytest.approx((0.4, 0.3))
     assert (e2["mlp"]["growth_error_change"], e2["gru"]["growth_error_change"]) == pytest.approx((-0.25, -0.5))
     assert e2["lstm"]["hysteresis_change"] == pytest.approx(-0.2) and e2["lstm"]["growth_error_pairs"] == 4
+    # M9: the poles of the full-history loop; H1.2 stays open for the LSTM, on not stable (poles incl.) it is refuted
+    lstm, gru = e2["lstm"], e2["gru"]
+    assert (lstm["not_stable_full_e2"], lstm["not_stable_full_e2_low"], lstm["not_stable_full_e2_high"]) == (
+        pytest.approx((0.35,) * 3)
+    )  # fmt: skip
+    assert (lstm["unstable_eq_full_e2"], lstm["not_stable_full_e1"], lstm["unstable_eq_full_e1"]) == pytest.approx(
+        (0.35, 0.9, 0.9)
+    )  # fmt: skip
+    assert (lstm["h1_2"], lstm["h1_2_poles"], gru["h1_2_poles"]) == ("open", "refuted", "refuted")
+    assert (gru["not_stable_full_e1"], gru["unstable_eq_full_e1"]) == pytest.approx((0.95, 225 / 400))
+    assert (gru["not_stable_full_e2"], gru["unstable_eq_full_e2"]) == pytest.approx((0.2, 0.2))
+    assert pd.isna(e2["mlp"]["not_stable_full_e2"]) and pd.isna(e2["mlp"]["h1_2_poles"])
+    md = (root / "_tables" / "m4" / "e2.md").read_text(encoding="utf-8")
+    assert "| not stable E1 | not stable E1 (poles incl.) | not stable E2 | not stable E2 (poles incl.) |" in md
+    assert "| H1.2 | H1.2 on band share not stable (poles incl.) (information) | complete |" in md
+    verdicts = read(root / "_tables" / "m4", "verdicts")
+    assert verdicts["H1.2", "lstm"]["verdict"] == "open"
 
 
 def test_e3_transfer(complete):
@@ -349,6 +428,8 @@ def test_e2_lowfreq_h1_2_combined(complete):
     assert (gru["not_stable"], gru["not_stable_high"], gru["h1_2"]) == (pytest.approx(0.05), pytest.approx(0.05),
                                                                         "confirmed")  # fmt: skip
     assert other["rmse_change"] == pytest.approx(0.02) and pd.isna(other["h1_2"])  # fold 0 only, no verdict
+    # M9: no pole outside the unit circle at the stable speeds: the shares with the poles equal those without
+    assert (gru["not_stable_full"], gru["unstable_eq_full"], other["not_stable_full"]) == pytest.approx((0.05, 0.05, 0.03))
     lstm = table["lstm", 1.0]
     assert lstm["chosen"] and lstm["rule"].startswith("no weight reaches") and lstm["h1_2"] == "refuted"
     assert lstm["rmse_change"] == pytest.approx(0.3) and gru["drivers"] == 4 and other["drivers"] == 2
@@ -413,6 +494,15 @@ def test_e5_h1_3(complete):
     assert e5["openacc_acc", "mlp", "none"]["growth_error"] == pytest.approx(0.5)  # the ACC profiles for the ACC view
     assert e5["openacc_human", "mlp", "none"]["growth_error"] == pytest.approx(0.6)
     assert e5["openacc_acc", "idm", "none"]["runs"] == 2 and pd.isna(e5["openacc_acc", "idm", "none"]["reduction"])
+    # M9: the GRU without penalty on the ACC view has 10 stable speeds whose loop is locally unstable
+    none, chosen = e5["openacc_acc", "gru", "none"], e5["openacc_acc", "gru", "chosen"]
+    assert (none["not_stable"], none["not_stable_full"], none["unstable_eq"], none["unstable_eq_full"]) == pytest.approx(
+        (0.5, 0.6, 0.5, 0.6)
+    )  # fmt: skip
+    assert (chosen["not_stable_full"], chosen["unstable_eq_full"]) == pytest.approx((0.5, 0.5))
+    assert pd.isna(e5["openacc_acc", "mlp", "chosen"]["not_stable_full"]) and pd.isna(pooled_acc["unstable_eq_full"])
+    md = (root / "_tables" / "m4" / "e5.md").read_text(encoding="utf-8")
+    assert "| not stable | not stable (poles incl.) | unstable among equilibria | unstable among equilibria (poles" in md
 
 
 def test_missing_runs_files_and_values(tmp_path):
@@ -450,6 +540,57 @@ def test_missing_runs_files_and_values(tmp_path):
     assert gru["reduction_pairs"] == 1 and not gru["complete"]
     assert e5["openacc_human", "mlp", "chosen"]["reduction_pairs"] == 1
     assert "|  |" in (out / "e4.md").read_text(encoding="utf-8")  # empty cells, no error
+
+
+def test_the_poles_need_a_full_history_that_matches_the_audit(tmp_path):
+    """M9: a recurrent run without full_history.json, or whose file no longer gives the shares of its audit, is noted
+    and left out of the shares with the poles; the memoryless laws have none and are not noted; the verdicts stay."""
+    root = build_tree(tmp_path / "runs")
+    (root / "e1" / DATA / "gru" / "driver_fold1_seed1" / "full_history.json").unlink()
+    stale = root / "e2_gain_w1" / DATA / "lstm" / "driver_fold0_seed0"
+    write_json(stale / "full_history.json", full_history(0.9, 0.1, 0.0, 0.1))  # the audit has 0.95 / 0.05
+    (root / "e2_gain_w1" / DATA / "gru" / "driver_fold1_seed0" / "full_history.json").write_text("{", encoding="utf-8")
+    lines = make_tables(config(root, tables=("e1", "e2")))
+    out = root / "_tables" / "m4"
+    missing = (out / "missing.txt").read_text(encoding="utf-8").splitlines()
+    assert "[e1] e1/follownet_highd/gru/driver_fold1_seed1: full_history.json missing" in missing
+    assert "[e2] e1/follownet_highd/gru/driver_fold1_seed1: full_history.json missing" in missing  # E1 runs of e2
+    assert "[e2] e2_gain_w1/follownet_highd/gru/driver_fold1_seed0: full_history.json unreadable (JSONDecodeError)" in (
+        missing
+    )  # fmt: skip
+    assert ("[e2] e2_gain_w1/follownet_highd/lstm/driver_fold0_seed0: full_history.json does not match stability.json "
+            "(share_unstable_numerical 0.1000 from the file, 0.0500 in the audit; rerun "
+            "scripts/analysis/full_history_audit.py)") in missing  # fmt: skip
+    assert len(missing) == 4 and not any("/mlp/" in line or "/idm/" in line for line in missing)
+    assert lines[0].startswith("TABLE e1: 4 rows from 14/14 runs, 1 missing; H1.1 does not hold (mlp holds, gru does "
+                               "not hold, lstm does not hold; on band share not stable: holds)")  # fmt: skip
+    assert lines[1].startswith("TABLE e2: 3 rows from 24/24 runs, 3 missing; H1.2 mlp confirmed, gru refuted, lstm open")
+    e1, e2 = read(out, "e1"), read(out, "e2")
+    assert e1["gru"]["unstable_eq_full"] == pytest.approx(225 / 400) and e1["gru"]["h1_1"] == "does not hold"
+    assert e1["gru"]["complete"] and e1["gru"]["audited"] == 4  # the shares of the numerical rule keep every run
+    assert e2["lstm"]["not_stable_full_e2"] == pytest.approx(0.35) and e2["lstm"]["h1_2_poles"] == "refuted"
+
+
+def test_full_history_shares():
+    """M9: the speeds in support; a pole outside decides a speed without numerical verdict; the band share counts
+    only the stable equilibria inside the band with every pole inside, over the speeds that have a band."""
+
+    def speed(status, in_band, numerical, poles, in_support=True):
+        return {"status": status, "in_support": in_support, "in_band": in_band, "numerical_unstable": numerical,
+                "poles_stable": poles}  # fmt: skip
+
+    payload = {"equilibria": [
+        speed("ok", True, False, True), speed("multiple", True, False, False), speed("ok", True, True, False),
+        speed("outside", False, False, False), speed("ok", None, False, True), speed("ok", True, None, False),
+        speed("ok", True, None, True), speed("ok", True, False, False, in_support=False),
+    ]}  # fmt: skip
+    shares = full_history_shares(payload, 8)
+    assert shares["unstable_eq"] == pytest.approx(1 / 5) and shares["stable"] == pytest.approx(2 / 8)
+    assert shares["unstable_eq_full"] == pytest.approx(4 / 6)  # the speed without verdict and a pole outside counts
+    assert shares["not_stable_full"] == pytest.approx(1 - 1 / 8)
+    empty = full_history_shares({"equilibria": []}, float("nan"))
+    assert all(math.isnan(value) for value in empty.values())
+    assert full_history_shares({"equilibria": []}, 4)["not_stable_full"] == 1.0
 
 
 def test_a_single_run(tmp_path):

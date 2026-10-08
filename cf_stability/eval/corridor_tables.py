@@ -55,7 +55,7 @@ notes of their missing inputs in ``missing_corridor.txt``:
   time of two laws and the seeds per scenario that detect a relative difference between them (paired by seed).
 * ``temporal.md|csv`` (D120): the laws fine-tuned on period 0 against the same laws of D97 on periods 1-2.
 
-The review of M8 adds three tables to ``m8_dir`` (same notes file) and the rows of a factorial ablation:
+The review of M8 adds four tables to ``m8_dir`` (same notes file) and the rows of a factorial ablation:
 
 * ``correlation_clustered.md|csv``: H12.3 over the rows of correlation_pooled as dependent units: percentile intervals
   of a cluster bootstrap over the laws (the two corridor rows of a law move together) and over the architecture families
@@ -68,6 +68,13 @@ The review of M8 adds three tables to ``m8_dir`` (same notes file) and the rows 
   and pooled.
 * ``h12_2_error.md|csv``: exploratory, no verdict: |e| of the candidate minus |e| of the reference for every component
   of the macro-error vector and both macro errors, paired by scenario and seed, with intervals and Wilcoxon p-values.
+* ``ablation_pairs.md|csv``: the variants of the factorial ablation of the certified hybrid against each other (A
+  ``idm_global``, B ``idm_core_margin``, B' ``idm_margin_i80``, C ``residual_idm_free_r0.3``, D
+  ``residual_idm_margin_free_r0.3``, E ``residual_idm_certified``; ``ablation_pairs``: [candidate, reference], by
+  default E-D, E-C, E-B, D-C, D-B, B-A, B'-A), paired by scenario and seed: per corridor, pair and metric (macro error,
+  dynamic macro error, collisions per 1000 vehicle-km) the means of both laws, the mean difference candidate -
+  reference with its interval and the Wilcoxon p-value, the relative change with its interval and the outcome; a pair
+  with a law not in the tables has no rows (one note).
 * ``ablation_laws`` (``idm_core_margin``, ``idm_margin_i80``, ``residual_idm_margin_free_r0.3``): optional laws with rows
   in laws, components, instability, asymmetry and contacts_absolute, and rows of ``rmax_ablation`` in e4_rmax; not in
   the correlations nor the verdicts.
@@ -154,6 +161,24 @@ RMAX_ABLATION = (  # extra rows of e4_rmax; r_max 0: no residual; highd/ngsim No
     {"r_max": 0.3, "core": "margin, no certificate", "highd": "e4_margin_free_r0.3", "ngsim": "e4_margin_free_r0.3_ft",
      "law": "residual_idm_margin_free_r0.3"},
 )  # fmt: skip
+ABLATION_VARIANTS = {  # review of M8, table ablation_pairs: law -> (letter of the variant, the note on it)
+    "idm_global": ("A", "the global IDM of ngsim_i80, no stability margin, no residual"),
+    "idm_core_margin": ("B", ABLATION_TEXT["idm_core_margin"]),
+    "idm_margin_i80": ("B'", ABLATION_TEXT["idm_margin_i80"]),
+    "residual_idm_free_r0.3": ("C", "the free core (no stability margin) with a residual of r_max 0.3 without "
+                                    "certificate, fine-tuned on ngsim_i80 (the control of D111)"),
+    "residual_idm_margin_free_r0.3": ("D", ABLATION_TEXT["residual_idm_margin_free_r0.3"]),
+    "residual_idm_certified": ("E", "the certified hybrid: the margin core with a residual of r_max 0.3 under the a "
+                                    "priori certificate, fine-tuned on ngsim_i80"),
+}  # fmt: skip
+ABLATION_PAIRS = (  # review of M8, table ablation_pairs: [candidate, reference]: E-D, E-C, E-B, D-C, D-B, B-A, B'-A
+    ("residual_idm_certified", "residual_idm_margin_free_r0.3"), ("residual_idm_certified", "residual_idm_free_r0.3"),
+    ("residual_idm_certified", "idm_core_margin"), ("residual_idm_margin_free_r0.3", "residual_idm_free_r0.3"),
+    ("residual_idm_margin_free_r0.3", "idm_core_margin"), ("idm_core_margin", "idm_global"),
+    ("idm_margin_i80", "idm_global"),
+)  # fmt: skip
+ABLATION_METRICS = {"macro_error": "macro error", "macro_error_dynamic": "macro error (dynamic)",
+                    "collisions_per_1000_vkm": "collisions / 1000 veh-km"}  # fmt: skip
 FAMILIES = {  # review of M8: the architecture families, the clusters of correlation_clustered (a law of none: its own)
     "IDM": ("idm_global", "idm_heterogeneous", "idm_heterogeneous_all", "idm_core_margin", "idm_margin_i80"),
     "ResidualIDM": ("residual_idm", "residual_idm_certified", "residual_idm_certified_r0.1", "residual_idm_certified_r0.2",
@@ -162,7 +187,9 @@ FAMILIES = {  # review of M8: the architecture families, the clusters of correla
     "LSTM": ("lstm", "lstm_penalty"), "PERL": ("perl",),
 }  # fmt: skip
 PHYSICS_FAMILIES = ("IDM", "ResidualIDM")  # left out of the subset "learned laws only"
-M9_TABLES = ("correlation_clustered", "contacts_absolute", "h12_2_error")  # review of M8: in m8_dir, after M8_TABLES
+M9_TABLES = (  # review of M8: in m8_dir, after M8_TABLES
+    "correlation_clustered", "contacts_absolute", "h12_2_error", "ablation_pairs",
+)  # fmt: skip
 EXPOSURE_KEYS = (  # per run: macro.json (window) and run.json (whole run) values of the exposure and of the demand
     "vehicle_km", "n_vehicles_window", "n_planned_window", "n_vehicles", "run_n_planned", "run_n_inserted",
     "run_depart_delay_s",
@@ -285,6 +312,8 @@ class CorridorTablesConfig:
     physics_families: tuple[str, ...] = PHYSICS_FAMILIES
     cluster_resamples: int = 5000
     cluster_seed: int = 20261007
+    # review of M8: the variants of the factorial ablation against each other (ablation_pairs): [candidate, reference]
+    ablation_pairs: tuple[tuple[str, str], ...] = ABLATION_PAIRS
     # D113: variants of one scenario
     sensitivity_scenario: str = "i80_p1"
     sensitivity_variants: tuple[str, ...] = SENSITIVITY_VARIANTS
@@ -390,6 +419,11 @@ def _bracket(low: Any, high: Any, digits: int = 3) -> str:
     """``[low, high]`` rounded; empty without both ends."""
     low, high = _float(low), _float(high)
     return "" if math.isnan(low) or math.isnan(high) else f"[{low:.{digits}f}, {high:.{digits}f}]"
+
+
+def _variant(law: str) -> str:
+    """The letter of a law in the factorial ablation (``ABLATION_VARIANTS``: A-E); the law itself without one."""
+    return ABLATION_VARIANTS[law][0] if law in ABLATION_VARIANTS else law
 
 
 def flatten_asymmetry(payload: Mapping[str, Any] | None) -> dict[str, float]:
@@ -2322,6 +2356,86 @@ class CorridorTableMaker:
         return Table(t, f"H12.2 on the errors: {c.candidate} against {c.reference} (exploratory, review of M8)", notes,
                      frame, columns)  # fmt: skip
 
+    # ------------------------------------------- review of M8: the variants of the factorial ablation, paired
+    def table_ablation_pairs(self) -> Table:
+        """The variants of the factorial ablation of the certified hybrid against each other (``ablation_pairs``:
+        [candidate, reference]): per corridor, pair and metric of ``ABLATION_METRICS`` the difference candidate -
+        reference paired by scenario and seed with its interval, the Wilcoxon p-value and the relative change. A pair
+        with a law not in the tables has no rows (one note per corridor)."""
+        c, t = self.cfg, "ablation_pairs"
+        index = ["scenario", "seed"]
+        rows = []
+        for corridor in self.corridors():
+            present = self.laws_on(corridor, c.table_laws())
+            for candidate, reference in c.ablation_pairs:
+                if candidate not in present or reference not in present:
+                    self.note(t, f"{corridor}: {candidate} or {reference} not in the tables, no comparison")
+                    continue
+                pair = f"{_variant(candidate)} - {_variant(reference)}"
+                cand = self.mine(corridor, candidate).set_index(index)
+                ref = self.mine(corridor, reference).set_index(index)
+                for key, header in ABLATION_METRICS.items():
+                    pairs = pd.concat({"a": ref[key].astype(float), "b": cand[key].astype(float)}, axis=1,
+                                      join="inner").dropna()  # fmt: skip
+                    row: dict[str, Any] = {"corridor": corridor, "pair": pair, "candidate": candidate,
+                                           "reference": reference, "metric": key, "header": header, "pairs": len(pairs),
+                                           "mean_candidate": pairs["b"].mean() if len(pairs) else np.nan,
+                                           "mean_reference": pairs["a"].mean() if len(pairs) else np.nan}  # fmt: skip
+                    self.put(row, "difference", (pairs["b"] - pairs["a"]).to_numpy())
+                    if len(pairs) < 2:
+                        self.note(t, f"{corridor}: {candidate} - {reference}: {key}: {len(pairs)} pairs, no test")
+                    else:
+                        with warnings.catch_warnings():
+                            warnings.simplefilter("ignore")  # SciPy warns on degenerate samples; its NaN says it
+                            cmp = paired_comparison(pairs["a"], pairs["b"], n_resamples=c.n_resamples, level=c.level,
+                                                    seed=c.seed)  # fmt: skip
+                        row["wilcoxon_p"] = cmp["p_value"]
+                        if pairs["a"].mean() > 0:  # the relative change needs a reference mean above 0
+                            # no interval when resamples with a reference mean of 0 leave a non-finite end
+                            low, high = _float(cmp["ci_low"]), _float(cmp["ci_high"])
+                            known = math.isfinite(low) and math.isfinite(high)
+                            row.update(relative=cmp["relative_change"], relative_low=low if known else np.nan,
+                                       relative_high=high if known else np.nan)  # fmt: skip
+                    low, high = _float(row.get("difference_low")), _float(row.get("difference_high"))
+                    row["outcome"] = ("lower" if high < 0 else "higher" if low > 0 else "no difference") \
+                        if math.isfinite(low) and math.isfinite(high) else None  # fmt: skip
+                    rows.append(row)
+        frame = pd.DataFrame(rows, columns=[
+            "corridor", "pair", "candidate", "reference", "metric", "header", "pairs", "mean_candidate",
+            "mean_reference", "difference", "difference_low", "difference_high", "relative", "relative_low",
+            "relative_high", "wilcoxon_p", "outcome"])  # fmt: skip
+        columns = [
+            Column("corridor", "corridor", "text"), Column("pair", "pair", "text"),
+            Column("candidate", "candidate", "text"), Column("reference", "reference", "text"),
+            Column("header", "metric", "text"), Column("pairs", "pairs", "int"),
+            Column("mean_candidate", "mean candidate", digits=3), Column("mean_reference", "mean reference", digits=3),
+            Column("difference", "difference", digits=3, ci=True), Column("relative", "relative", "pct", 1, ci=True),
+            Column("wilcoxon_p", "p (Wilcoxon)", "p"), Column("outcome", "outcome", "text"),
+        ]  # fmt: skip
+        laws = set(frame["candidate"]) | set(frame["reference"])  # the variants with rows
+        variants = "; ".join(f"{letter} {law}: {text}" for law, (letter, text) in ABLATION_VARIANTS.items()
+                             if law in laws)  # fmt: skip
+        notes = self.header(
+            "Factorial ablation of the certified hybrid (review of M8; exploratory, not in the verdicts of H12): its "
+            "variants against each other per corridor, paired by scenario and seed (unit run). Variants: "
+            f"{variants or 'none in the tables'}.",
+            "pair: candidate - reference by the letters of the variants, candidate and reference: their laws "
+            "(ablation_pairs: [candidate, reference]; a pair with a law not in the tables has no rows, "
+            "missing_corridor.txt); corridor: the corridor of the runs; metric: macro error (mean of the "
+            "absolute components of the macro-error vector against the ground truth of the run's scenario, as in "
+            "laws), macro error (dynamic) (of FD, wave speed, waves and wave amplitude only) and collisions / 1000 "
+            "veh-km (contact episodes of followers per 1000 vehicle-km inside the window, as in laws).",
+            "pairs: the runs (scenario and seed) of both laws with a value of the metric; mean candidate, mean "
+            "reference: the means over these pairs; difference: candidate - reference per pair, mean with its "
+            "interval over the pairs (negative: the candidate has the smaller error or fewer collisions); relative: "
+            "mean candidate / mean reference - 1 with its interval over the pairs, only with a reference mean above 0 "
+            "(no interval when resamples have a reference mean of 0); p (Wilcoxon): two-sided signed-rank test of the "
+            "differences (1 when every difference is 0; not adjusted for the multiple comparisons); outcome: lower / "
+            "higher when the interval of the difference lies below / above 0, else no difference.",
+        )
+        return Table(t, "Factorial ablation of the certified hybrid: paired differences between its variants (review "
+                        "of M8)", notes, frame, columns)  # fmt: skip
+
 
 def _secondary(table: Table) -> str:
     """Markdown of a second table in the same file: its title one level down."""
@@ -2435,9 +2549,9 @@ def make_corridor_tables(cfg: CorridorTablesConfig) -> list[str]:
 
 def make_m8_corridor_tables(cfg: CorridorTablesConfig, maker: CorridorTableMaker | None = None) -> list[str]:
     """Write the corridor tables of M8 (asymmetry and asymmetry_contrasts, correlation_pooled, power, temporal) and of
-    the review of M8 (correlation_clustered, contacts_absolute, h12_2_error) as Markdown and CSV to ``cfg.m8`` with
-    ``missing_corridor.txt`` (the notes of these tables and of the runs); one printed line per table. ``maker``: the
-    maker of the M5 tables, whose runs are then read once."""
+    the review of M8 (correlation_clustered, contacts_absolute, h12_2_error, ablation_pairs) as Markdown and CSV to
+    ``cfg.m8`` with ``missing_corridor.txt`` (the notes of these tables and of the runs); one printed line per table.
+    ``maker``: the maker of the M5 tables, whose runs are then read once."""
     maker = maker or CorridorTableMaker(cfg)
     out = cfg.m8
     out.mkdir(parents=True, exist_ok=True)
@@ -2487,7 +2601,8 @@ def make_m8_corridor_tables(cfg: CorridorTablesConfig, maker: CorridorTableMaker
                          for r in temporal.frame.to_dict("records"))  # fmt: skip
     lines.append(f"TABLE temporal: {outcomes}, {count('temporal')} missing -> {out / 'temporal.md'}")
 
-    # the review of M8: clustered inference of H12.3, absolute contact exposure, H12.2 on the errors
+    # the review of M8: clustered inference of H12.3, absolute contact exposure, H12.2 on the errors, the variants of
+    # the factorial ablation against each other
     clustered = maker.table_correlation_clustered()
     _write(clustered, out)
     lines.append(f"TABLE correlation_clustered: {clustered_summary(clustered.frame)} -> {out / 'correlation_clustered.md'}")
@@ -2502,6 +2617,13 @@ def make_m8_corridor_tables(cfg: CorridorTablesConfig, maker: CorridorTableMaker
                         if bool(r.get("in_triple")) and r.get("outcome") == "smaller error")  # fmt: skip
     lines.append(f"TABLE h12_2_error: {len(errors.frame)} rows, macro triple with a smaller error: {smaller or 'none'} -> "
                  f"{out / 'h12_2_error.md'}")  # fmt: skip
+    ablation = maker.table_ablation_pairs()
+    _write(ablation, out)
+    by_error = [r for r in ablation.frame.to_dict("records") if r["metric"] == "macro_error"]
+    lower, higher = (", ".join(f"{r['corridor']} {r['pair']}" for r in by_error if r.get("outcome") == side)
+                     for side in ("lower", "higher"))  # fmt: skip
+    lines.append(f"TABLE ablation_pairs: {len(ablation.frame)} rows, macro error lower: {lower or 'none'}; higher: "
+                 f"{higher or 'none'}; {count('ablation_pairs')} missing -> {out / 'ablation_pairs.md'}")  # fmt: skip
 
     notes = tuple(f"[{name}]" for name in (*M8_TABLES, *M9_TABLES, "runs"))
     (out / "missing_corridor.txt").write_text("".join(f"{line}\n" for line in maker.missing if line.startswith(notes)),

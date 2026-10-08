@@ -7,7 +7,8 @@ missing run, file or value to ``missing.txt``. Nothing missing raises: it leaves
 verdict drawn from fewer runs than the design has is marked incomplete.
 
 Units (D88): RMSE-type numbers use the driver (``driver_table``: per driver the mean over its events
-and over the seeds, or over the folds for the transfer targets); numbers of a model (stability shares,
+and over the seeds, or over the folds for the transfer targets; on highD every event is its own driver,
+the events carry no driver identifier, D19); numbers of a model (stability shares,
 largest gain, growth error, hysteresis area) use the run (fold and seed). Every interval is a
 percentile bootstrap over these units (``n_resamples`` resamples, seed ``seed``); paired tests are
 Wilcoxon signed-rank tests of the differences over the common units. The growth error of a profile is
@@ -18,6 +19,13 @@ the tables give the numbers of pairs, of collided profiles, the mean first colli
 collision-free share of the profiles. The arm ``e2_lowfreq`` (D110) has its own table and the verdict rows
 "H1.2 (combined)". The control of M8 with the monotonicity terms only (D117, ``e2_monotone``) has a table without
 verdict in ``m8_dir`` (``runs/_tables/m8``): its fold-0 runs next to E1 and the chosen E2 weight of the same fold.
+
+Local instability (M9, review): for the recurrent laws (``RECURRENT``) the tables e1, e2, e2_lowfreq, e5 and
+e2_horizon add to the shares of the numerical rule (D92) the same shares with the local stability of the
+full-history loop (the poles of ``full_history.json``, ``scripts/analysis/full_history_audit.py``): a speed
+whose loop has a pole on or outside the unit circle is not stable whatever its measured gain
+(``unstable_eq_full``, ``not_stable_full``; :func:`full_history_shares`). The verdicts stay on the
+pre-specified shares; e1 and e2 show the rule of H1.1 and H1.2 on the new shares for information.
 """
 
 from __future__ import annotations
@@ -41,6 +49,10 @@ METRICS, AUDIT, PLATOON, TRANSFER, CERTIFICATE = (
     "metrics.json", "stability.json", "platoon.json", "transfer.json", "certificate.json"
 )  # fmt: skip
 EVENTS = "test_events.parquet"
+FULL_HISTORY = "full_history.json"  # scripts/analysis/full_history_audit.py: poles of the full-history loop (M9)
+RECURRENT = ("gru", "lstm", "perl")  # the laws with memory that full_history_audit.py linearises over their window
+INSIDE = ("ok", "multiple")  # statuses of an equilibrium inside the band where the speed has one (stability.audit)
+POLES = {"h1_1": "unstable_eq_full", "h1_2": "not_stable_full"}  # the shares of the verdicts with the poles (M9)
 ERROR_COLUMN = {
     METRICS: "metrics_error", AUDIT: "audit_error", PLATOON: "platoon_error", TRANSFER: "transfer_error",
     CERTIFICATE: "certificate_error",
@@ -64,6 +76,8 @@ DEFAULT_BASES = {  # the share each verdict uses; a key of the rows of its table
 SHARE_NAMES = {
     "unstable_eq": "unstable among equilibria", "unstable_eq_sign": "unstable among equilibria (sign)",
     "unstable": "band share unstable", "not_stable": "band share not stable",
+    "unstable_eq_full": "unstable among equilibria (poles incl.)",  # M9: with the poles of full_history.json
+    "not_stable_full": "band share not stable (poles incl.)",
 }  # fmt: skip
 BASES = {  # the shares a verdict can use
     "h1_1": ("unstable_eq", "unstable_eq_sign", "unstable", "not_stable"),
@@ -323,6 +337,48 @@ def choose_weight(sweep: pd.DataFrame, stable_min: float) -> tuple[float | None,
     return float(order.iloc[0]["weight"]), f"no weight reaches stable >= {stable_min:g}: largest stable share"
 
 
+def full_history_shares(payload: Mapping[str, Any], n_band: Any) -> dict[str, float]:
+    """The shares of one run with local instability added (M9), from its ``full_history.json`` (``payload``: per
+    grid speed with an equilibrium the numerical verdict of the audit and whether every pole of the full-history
+    loop lies inside the unit circle), over the speeds in support as the audit takes them:
+
+    * ``unstable_eq_full``: among the speeds with an equilibrium (those of ``share_unstable_numerical``), the share
+      whose numerical verdict is unstable or whose loop has a pole on or outside the unit circle (a pole outside
+      decides a speed without numerical verdict as well);
+    * ``not_stable_full``: 1 - the share of the ``n_band`` speeds that have a band (``n_band.support``, those of
+      ``band_numerical``) whose equilibrium lies inside the band, is stable by the numerical rule and has every
+      pole inside.
+
+    With the shares of the numerical rule recomputed from the file (``unstable_eq``, ``stable``), which must equal
+    those of the audit. NaN where a share has no speed."""
+    unstable_full: list[bool] = []
+    unstable: list[bool] = []
+    stable = stable_full = 0
+    for r in payload.get("equilibria") or ():
+        if not isinstance(r, Mapping) or not r.get("in_support"):
+            continue
+        numerical, poles = r.get("numerical_unstable"), r.get("poles_stable")
+        if numerical is not None:
+            unstable.append(bool(numerical))
+        if numerical is True or poles is False:
+            unstable_full.append(True)
+        elif numerical is False and poles is True:
+            unstable_full.append(False)
+        if r.get("in_band") is not None and r.get("status") in INSIDE and numerical is False:
+            stable += 1
+            stable_full += poles is True
+    n_band = _number(n_band)
+    banded = math.isfinite(n_band) and n_band > 0
+
+    def share(flags: list[bool]) -> float:
+        return sum(flags) / len(flags) if flags else math.nan
+
+    return {
+        "unstable_eq_full": share(unstable_full), "not_stable_full": 1.0 - stable_full / n_band if banded else math.nan,
+        "unstable_eq": share(unstable), "stable": stable / n_band if banded else math.nan,
+    }  # fmt: skip
+
+
 # --------------------------------------------------------------------------------------------- the maker
 
 
@@ -360,6 +416,7 @@ class TableMaker:
         self.sweep_choice: dict[str, dict[str, Any]] = {}
         self._rows: dict[Path, dict[str, Any]] = {}
         self._frames: dict[Path, pd.DataFrame | None] = {}
+        self._full: dict[Path, dict[str, float] | str] = {}  # run -> full_history_shares, or why it has none
 
     # ------------------------------------------------------------------------------------- reading
     def label(self, path: Path) -> str:
@@ -493,6 +550,67 @@ class TableMaker:
         _put(row, "unstable_eq_sign", self.ci(self.values(table, runs, "share_unstable_sign")))
         row["max_gain_median"] = self.values(table, runs, "max_gain").median()
 
+    def full_history(self, run: Mapping[str, Any]) -> dict[str, float] | str:
+        """:func:`full_history_shares` of a run (its row of ``collect_run``) checked against its audit: the shares of
+        the numerical rule recomputed from ``full_history.json`` must equal ``share_unstable_numerical`` and the band
+        share stable of ``stability.json`` (else the audit changed after the file was written). The reason as a
+        string when the run has none, empty for a run without a usable audit (noted by :meth:`runs`)."""
+        run_dir = Path(run["run_dir"])
+        if isinstance(run.get(ERROR_COLUMN[AUDIT]), str) or not (run_dir / AUDIT).exists():
+            return ""
+        path = run_dir / FULL_HISTORY
+        if not path.exists():
+            return f"{FULL_HISTORY} missing"
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError) as exc:
+            return f"{FULL_HISTORY} unreadable ({type(exc).__name__})"
+        shares = full_history_shares(payload, run.get("n_band_support"))
+        stored = {"unstable_eq": "share_unstable_numerical", "stable": "band_numerical_stable"}
+        for key, column in stored.items():
+            mine, theirs = shares[key], _number(run.get(column))
+            if not (math.isnan(mine) and math.isnan(theirs)) and not math.isclose(mine, theirs, abs_tol=1e-9):
+                return (f"{FULL_HISTORY} does not match {AUDIT} ({column} {mine:.4f} from the file, {theirs:.4f} in "
+                        "the audit; rerun scripts/analysis/full_history_audit.py)")  # fmt: skip
+        return shares
+
+    def poles(self, table: str, row: dict[str, Any], runs: pd.DataFrame, suffix: str = "") -> None:
+        """The shares with local instability added (M9; :func:`full_history_shares`) of the runs of a recurrent law,
+        mean over the runs with interval, as ``unstable_eq_full<suffix>`` and ``not_stable_full<suffix>``; empty for
+        the memoryless laws. A run without a usable ``full_history.json`` is noted and left out."""
+        values: dict[str, list[float]] = {key: [] for key in POLES.values()}
+        for run in runs.to_dict("records") if len(runs) else []:
+            if run.get("model") not in RECURRENT:
+                continue
+            run_dir = Path(run["run_dir"])
+            if run_dir not in self._full:
+                self._full[run_dir] = self.full_history(run)
+            shares = self._full[run_dir]
+            if isinstance(shares, str):
+                if shares:
+                    self.note(table, f"{self.label(run_dir)}: {shares}")
+                continue
+            for key, found in values.items():
+                found.append(shares[key])
+        for key, found in values.items():
+            _put(row, f"{key}{suffix}", self.ci(found) if found else EMPTY)
+
+    @staticmethod
+    def poles_note() -> str:
+        """The header line of the shares with local instability added (M9)."""
+        laws = ", ".join(name.upper() for name in RECURRENT)
+        return (
+            f"Columns (poles incl.): the shares with the local stability of the recurrent laws ({laws}) added to the "
+            "numerical rule, from the poles of their two-vehicle loop linearised over the whole window at the "
+            "equilibria of the audit (Section 3.2 of the paper; scripts/analysis/full_history_audit.py, "
+            "full_history.json of the run): a speed whose loop has a pole on or outside the unit circle is not "
+            "stable whatever its measured gain. unstable among equilibria (poles incl.): numerical verdict unstable "
+            "or a pole outside, over the speeds of share_unstable_numerical; not stable (poles incl.): 1 - the share "
+            "of the speeds of band_numerical whose equilibrium lies inside the band, is stable by the numerical rule "
+            "and has every pole inside; unit run, mean over the runs. Blank for the memoryless laws and for runs "
+            "without full_history.json (noted in missing.txt as 'full_history.json missing')."
+        )
+
     @staticmethod
     def trained(runs: pd.DataFrame) -> int:
         return int(runs["config_hash"].notna().sum()) if len(runs) else 0
@@ -577,10 +695,12 @@ class TableMaker:
             if model != c.reference:
                 self.versus(row, "rmse_vs_ref", reference, drivers)
             self.shares(t, row, runs)
+            self.poles(t, row, runs)
             row["complete"] = row["runs"] == row["audited"] == expected
             if model in c.h1_1_models:
                 row["h1_1"] = verdict_h1_1(row, v, basis)
                 row["h1_1_information"] = verdict_h1_1(row, v, information)
+                row["h1_1_poles"] = verdict_h1_1(row, v, POLES["h1_1"])  # M9, for information
                 row["complete"] = row["complete"] and reference_complete
                 versus = _ci_text(row, "rmse_vs_ref", "pct", 1)
                 text = f"{SHARE_NAMES[basis]} {_ci_text(row, basis)}, RMSE vs {c.reference} {versus}"
@@ -599,30 +719,35 @@ class TableMaker:
             Column("rmse_s", "RMSE s (m)", ci=True), Column("collision_rate", "collisions", digits=4),
             Column("rmse_vs_ref", f"RMSE vs {c.reference}", "pct", 1, ci=True), Column("rmse_vs_ref_p", "p", "p"),
             Column("audited", "audited", "int"), Column("unstable_eq", "unstable among equilibria", ci=True),
+            Column("unstable_eq_full", "unstable among equilibria (poles incl.)", ci=True),
             Column("unstable_eq_sign", "unstable among equilibria (sign)", ci=True), Column("stable", "stable"),
             Column("unstable", "unstable", ci=True), Column("outside", "outside"), Column("none", "none"),
-            Column("not_stable", "not stable", ci=True), Column("unstable_sign", "unstable (sign)"),
+            Column("not_stable", "not stable", ci=True), Column("not_stable_full", "not stable (poles incl.)", ci=True),
+            Column("unstable_sign", "unstable (sign)"),
             Column("max_gain_median", "max gain (median)", digits=3), Column("h1_1", "H1.1", "text"),
             Column("h1_1_information", f"H1.1 on {SHARE_NAMES[information]} (information)", "text"),
+            Column("h1_1_poles", f"H1.1 on {SHARE_NAMES[POLES['h1_1']]} (information)", "text"),
             Column("complete", "complete", "flag"),
         ]  # fmt: skip
         notes = self.header(
             t,
             f"E1: models without penalty on {c.data}; learned models {len(c.folds)} folds x {len(c.seeds)} seeds, "
             f"baselines {len(c.folds)} folds x seed {c.seeds[0]}.",
-            "RMSE s: spacing RMSE of the test parts (m); unit driver (per driver the mean over its events and the "
-            "seeds), mean over the drivers (column drivers). collisions: mean over the drivers of their collision "
-            "rate.",
+            "RMSE s: spacing RMSE of the test parts (m); unit driver (event on highD): per driver the mean over its "
+            "events and the seeds, mean over the drivers (column drivers). collisions: mean over the drivers of their "
+            "collision rate.",
             f"RMSE vs {c.reference}: relative difference of the mean RMSE to the {c.reference}, paired over the common "
-            "drivers; p: Wilcoxon signed-rank test.",
+            "drivers (on highD: the events, which carry no driver identifier); p: Wilcoxon signed-rank test.",
             "unstable among equilibria: share of the string-unstable equilibria among the equilibria the audit "
             "analysed, inside the band or outside it (share_unstable_numerical; sign criterion: "
             "share_unstable_sign), speeds in support; unit run (column audited), mean over the runs.",
             "Band shares: band_numerical of the grid speeds in support (not stable = 1 - stable), sign criterion "
             "band_sign; unit run, mean over the runs. max gain: median over the runs.",
+            self.poles_note(),
             f"H1.1 (models {', '.join(c.h1_1_models)}): {SHARE_NAMES[basis]} >= {v['h1_1_unstable_min']:g} with "
             f"lower end > {v['h1_1_unstable_low_min']:g}, and RMSE below the {c.reference} (upper end < 0). For "
-            f"information: the same rule on {SHARE_NAMES[information]}.",
+            f"information: the same rule on {SHARE_NAMES[information]}, and on {SHARE_NAMES[POLES['h1_1']]} "
+            "(recurrent laws); the verdicts stay on the pre-specified share (D92: the numerical rule).",
         )
         state = "" if complete else " (incomplete)"
         footer = [
@@ -727,6 +852,8 @@ class TableMaker:
             _put(row, "unstable_e2", self.ci(self.values(t, pen, "band_numerical_unstable")))
             _put(row, "unstable_eq_e1", self.unstable_eq(t, base))
             _put(row, "unstable_eq_e2", self.unstable_eq(t, pen))
+            self.poles(t, row, base, "_e1")  # M9: not_stable_full_e1, unstable_eq_full_e1
+            self.poles(t, row, pen, "_e2")
             hysteresis = "platoon_hysteresis_area_pulse"  # missing when follower 1 collided behind the pulse
             compared = {
                 "growth_error": (self.growth(t, base, "mean"), self.growth(t, pen, "mean")),  # D109: the prefix
@@ -750,6 +877,7 @@ class TableMaker:
                                and stable_e1.notna().sum() == stable_e2.notna().sum() == expected)  # fmt: skip
             share = c.bases["h1_2"]
             row["h1_2"] = verdict_h1_2(row, v, share)
+            row["h1_2_poles"] = verdict_h1_2(row, v, POLES["h1_2"])  # M9, for information
             change = _ci_text(row, "rmse_change", "pct", 1)
             basis = f"{SHARE_NAMES[share]} {_ci_text(row, f'{share}_e2')}, RMSE change {change}"
             self.verdict("H1.2", arch, row["h1_2"], row["complete"], basis)
@@ -764,9 +892,13 @@ class TableMaker:
             Column("runs_e2", "runs E2", "int"), Column("rmse_change_pairs", "drivers", "int"),
             Column("rmse_change", "RMSE change", "pct", 1, ci=True), Column("rmse_change_p", "p", "p"),
             Column("rmse_change_p_holm", "p (Holm)", "p"), Column("not_stable_e1", "not stable E1", ci=True),
+            Column("not_stable_full_e1", "not stable E1 (poles incl.)", ci=True),
             Column("not_stable_e2", "not stable E2", ci=True),
+            Column("not_stable_full_e2", "not stable E2 (poles incl.)", ci=True),
             Column("unstable_eq_e1", "unstable among equilibria E1", ci=True),
+            Column("unstable_eq_full_e1", "unstable among equilibria E1 (poles incl.)", ci=True),
             Column("unstable_eq_e2", "unstable among equilibria E2", ci=True),
+            Column("unstable_eq_full_e2", "unstable among equilibria E2 (poles incl.)", ci=True),
             Column("growth_error_pairs", "growth pairs", "int"),
             Column("growth_collided_e1", "collided E1", "int"), Column("growth_collided_e2", "collided E2", "int"),
             Column("growth_error_e1", "growth error E1", digits=3),
@@ -781,18 +913,22 @@ class TableMaker:
             Column("hysteresis_collided_e2", "collided E2", "int"),
             Column("hysteresis_e1", "hysteresis E1", digits=1), Column("hysteresis_e2", "hysteresis E2", digits=1),
             Column("hysteresis_change", "change", "pct", 1, ci=True),
-            Column("h1_2", "H1.2", "text"), Column("complete", "complete", "flag"),
+            Column("h1_2", "H1.2", "text"),
+            Column("h1_2_poles", f"H1.2 on {SHARE_NAMES[POLES['h1_2']]} (information)", "text"),
+            Column("complete", "complete", "flag"),
         ]  # fmt: skip
         notes = self.header(
             t,
             f"E2: the chosen weight of every architecture (E2 runs) against E1, {len(c.folds)} folds x "
             f"{len(c.seeds)} seeds each.",
-            "RMSE change: relative change of the mean spacing RMSE of the test parts, unit driver (per driver the "
-            "mean over its events and seeds), paired over the common drivers (column drivers); p: Wilcoxon "
-            "signed-rank test; p (Holm): corrected over the architectures.",
+            "RMSE change: relative change of the mean spacing RMSE of the test parts, unit driver (event on highD): "
+            "per driver the mean over its events and seeds, paired over the common drivers (on highD: the events, "
+            "which carry no driver identifier), their number in column drivers; p: Wilcoxon signed-rank test; "
+            "p (Holm): corrected over the architectures.",
             "not stable: 1 - stable (band_numerical, speeds in support); unstable among equilibria: share of the "
             "string-unstable equilibria among the equilibria the audit analysed (share_unstable_numerical); unit "
             "run, mean over the runs.",
+            self.poles_note(),
             "growth error (D109, platoon_prefix_growth_error_mean): per OpenACC profile the growth error on the "
             "collision-free prefix of the platoon (the followers ahead of the first collided position that the "
             "empirical curve has, at least 3), per run the mean over the profiles that have one; whole-curve (D107, "
@@ -805,7 +941,8 @@ class TableMaker:
             f"{v['h1_2_not_stable_high_max']:g} and the upper end of the RMSE change <= "
             f"{100 * v['h1_2_rmse_change_high_max']:+g} %; refuted when the lower end of the RMSE change > "
             f"{100 * v['h1_2_rmse_change_low_refute']:+g} % or its lower end > {v['h1_2_not_stable_low_refute']:g}; "
-            "otherwise open.",
+            f"otherwise open. For information: the same rule on the {SHARE_NAMES[POLES['h1_2']]} with penalty "
+            "(recurrent laws); the verdicts stay on the pre-specified share (D92: the numerical rule).",
         )
         summary = ", ".join(f"{r['architecture']} {r.get('h1_2') or 'n/a'}" for r in rows)
         return Table(t, "E2: stability penalty with the chosen weight (H1.2)", notes, frame, columns, [],
@@ -857,6 +994,7 @@ class TableMaker:
                 self.rmse(row, drivers)
                 self.versus(row, "rmse_change", self.drivers(t, base), drivers)
                 self.shares(t, row, runs)
+                self.poles(t, row, runs)
                 row["collided"], row["profiles"] = self.collided(t, runs, "mean")
                 row["complete"] = row["runs"] == row["audited"] == row["runs_expected"]
                 row["h1_2"] = None  # the verdict belongs to the chosen weight
@@ -880,7 +1018,9 @@ class TableMaker:
             Column("rmse_s", "RMSE s (m)", ci=True), Column("rmse_change", "RMSE change vs E1", "pct", 1, ci=True),
             Column("rmse_change_p", "p", "p"), Column("audited", "audited", "int"), Column("stable", "stable"),
             Column("unstable", "unstable", ci=True), Column("outside", "outside"), Column("none", "none"),
-            Column("not_stable", "not stable", ci=True), Column("unstable_eq", "unstable among equilibria", ci=True),
+            Column("not_stable", "not stable", ci=True), Column("not_stable_full", "not stable (poles incl.)", ci=True),
+            Column("unstable_eq", "unstable among equilibria", ci=True),
+            Column("unstable_eq_full", "unstable among equilibria (poles incl.)", ci=True),
             Column("max_gain_median", "max gain (median)", digits=3), Column("collided", "collided", "int"),
             Column("profiles", "profiles", "int"), Column("h1_2", "H1.2 (combined)", "text"),
             Column("complete", "complete", "flag"),
@@ -892,12 +1032,13 @@ class TableMaker:
             f"guard), experiments {c.lowfreq_experiment.format(weight=c.lowfreq_weights[0])} etc.; the pilot runs "
             f"every weight on fold(s) {', '.join(map(str, c.lowfreq_pilot_folds))}, the weight chosen by the rule "
             f"of D85 on the pilot runs (or given in the configuration) on {len(c.folds)} folds; seed {seeds[0]}.",
-            "RMSE s: spacing RMSE of the test parts (m), unit driver; RMSE change vs E1: relative change of the mean "
-            f"RMSE against the E1 runs of the same folds and seed {seeds[0]}, paired over the common drivers; p: "
-            "Wilcoxon signed-rank test.",
+            "RMSE s: spacing RMSE of the test parts (m), unit driver (event on highD); RMSE change vs E1: relative "
+            f"change of the mean RMSE against the E1 runs of the same folds and seed {seeds[0]}, paired over the "
+            "common drivers (on highD: the events, which carry no driver identifier); p: Wilcoxon signed-rank test.",
             "Band shares: band_numerical of the grid speeds in support (not stable = 1 - stable); unstable among "
             "equilibria: share_unstable_numerical; unit run. max gain: median over the runs. collided: OpenACC "
             "platoon profiles that collided, of profiles, summed over the runs.",
+            self.poles_note(),
             f"H1.2 (combined), on the chosen weight: the rule of H1.2 (E2): confirmed when the upper end of the "
             f"{SHARE_NAMES[share]} < {v['h1_2_not_stable_high_max']:g} and the upper end of the RMSE change <= "
             f"{100 * v['h1_2_rmse_change_high_max']:+g} %; refuted when the lower end of the RMSE change > "
@@ -961,9 +1102,9 @@ class TableMaker:
             f"equilibria of E2, without string term (the monotonicity constraints of RACER, dv = v - v_lead), "
             f"experiment {c.monotone_experiment}; next to E1 and the chosen weight of E2 (D85) of the same runs: "
             f"{c.data}, fold(s) {', '.join(map(str, folds))}, seed {seeds[0]}.",
-            "RMSE s: spacing RMSE of the test part (m), unit driver, with its interval over the drivers; RMSE change vs "
-            "E1: relative change of the mean RMSE against E1 of the same fold and seed, paired over the drivers; p: "
-            "Wilcoxon signed-rank test.",
+            "RMSE s: spacing RMSE of the test part (m), unit driver (event on highD), with its interval over the "
+            "drivers; RMSE change vs E1: relative change of the mean RMSE against E1 of the same fold and seed, paired "
+            "over the drivers (on highD: the events, which carry no driver identifier); p: Wilcoxon signed-rank test.",
             "Band shares: band_numerical of the grid speeds in support (not stable = 1 - stable); unstable among "
             "equilibria: share_unstable_numerical; max gain: largest measured gain of the audit; collided: OpenACC "
             "platoon profiles that collided, of profiles (CSV). Unit run: one run per row, so the intervals of the "
@@ -1034,6 +1175,7 @@ class TableMaker:
                 if experiment != "e1":
                     self.versus(row, "rmse_change", base_drivers, drivers)
                 self.shares(t, row, runs)
+                self.poles(t, row, runs)
                 _put(row, "lowfreq_unstable", self.lowfreq_unstable(t, runs))
                 row["max_gain"] = self.values(t, runs, "max_gain").max() if len(runs) else np.nan
                 row["max_gain_omega"] = self.values(t, runs, "max_gain_omega").median() if len(runs) else np.nan
@@ -1053,7 +1195,9 @@ class TableMaker:
             Column("rmse_s", "RMSE s (m)", ci=True), Column("rmse_change", "RMSE change vs E1", "pct", 1, ci=True),
             Column("rmse_change_p", "p", "p"), Column("audited", "audited", "int"), Column("stable", "stable"),
             Column("unstable", "unstable", ci=True), Column("outside", "outside"), Column("none", "none"),
-            Column("not_stable", "not stable", ci=True), Column("unstable_eq", "unstable among equilibria", ci=True),
+            Column("not_stable", "not stable", ci=True), Column("not_stable_full", "not stable (poles incl.)", ci=True),
+            Column("unstable_eq", "unstable among equilibria", ci=True),
+            Column("unstable_eq_full", "unstable among equilibria (poles incl.)", ci=True),
             Column("lowfreq_unstable", f"gain above threshold at omega <= {c.horizon_omega_max:g}", ci=True),
             Column("max_gain", "max gain", digits=3), Column("max_gain_omega", "omega of max gain (rad/s)", digits=3),
             Column("epochs", "epochs", "int"), Column("best_epoch", "best epoch", "int"),
@@ -1067,9 +1211,9 @@ class TableMaker:
             f"penalty frequency 0.05 rad/s after a warm-up of one period, instead of 40 s and the last 20 s "
             f"(experiment {c.horizon_experiment}); next to E1 and the chosen weight of E2 of the same runs: "
             f"{c.data}, fold(s) {', '.join(map(str, folds))}, seed {seeds[0]}.",
-            "RMSE s: spacing RMSE of the test part (m), unit driver, with its interval over the drivers; RMSE change vs "
-            "E1: relative change of the mean RMSE against E1 of the same fold and seed, paired over the drivers; p: "
-            "Wilcoxon signed-rank test.",
+            "RMSE s: spacing RMSE of the test part (m), unit driver (event on highD), with its interval over the "
+            "drivers; RMSE change vs E1: relative change of the mean RMSE against E1 of the same fold and seed, paired "
+            "over the drivers (on highD: the events, which carry no driver identifier); p: Wilcoxon signed-rank test.",
             "Band shares: band_numerical of the grid speeds in support (not stable = 1 - stable); unstable among "
             "equilibria: share_unstable_numerical; gain above threshold at low frequency: share of the audited "
             f"equilibria (speeds in support) whose measured gain exceeds the threshold of the audit at a frequency "
@@ -1077,6 +1221,7 @@ class TableMaker:
             "of the audit, with the frequency at which it occurs; epochs and best epoch: of the training (patience "
             "10); training: wall time of the training in hours; collided: OpenACC platoon profiles that collided, of "
             "profiles. Unit run: one run per row, so the intervals of the shares are the values themselves.",
+            self.poles_note(),
             "Missing runs and files: runs/_tables/m4/missing.txt.",
         )
         return Table(t, "E2, long-window arm: rollout gain penalty measured over two periods of 0.05 rad/s", notes,
@@ -1246,6 +1391,7 @@ class TableMaker:
                                "runs": self.trained(runs), "runs_expected": len(self.cfg.folds)}  # fmt: skip
         self.rmse(row, self.drivers(t, runs))
         self.shares(t, row, runs)
+        self.poles(t, row, runs)
         growth = self.growth(t, runs, mode)  # D109: the collision-free prefix of every profile of the mode
         row["growth_error"] = growth.mean()
         row["growth_runs"] = int(growth.notna().sum())
@@ -1334,6 +1480,9 @@ class TableMaker:
             Column("runs", "runs", "int"), Column("drivers", "drivers", "int"), Column("rmse_s", "RMSE s (m)", ci=True),
             Column("audited", "audited", "int"), Column("stable", "stable"), Column("unstable", "unstable", ci=True),
             Column("outside", "outside"), Column("none", "none"), Column("not_stable", "not stable", ci=True),
+            Column("not_stable_full", "not stable (poles incl.)", ci=True),
+            Column("unstable_eq", "unstable among equilibria", ci=True),
+            Column("unstable_eq_full", "unstable among equilibria (poles incl.)", ci=True),
             Column("max_gain_median", "max gain (median)", digits=3), Column("collided", "collided", "int"),
             Column("profiles", "profiles", "int"),
             Column("first_collided", "first collided position", digits=1, ci=True),
@@ -1354,7 +1503,9 @@ class TableMaker:
             f"E5: models of the OpenACC views {', '.join(c.views)}, {len(c.folds)} folds, seed {c.seeds[0]}; "
             "without penalty (e5) and with the chosen weight (e5_<penalty>_w<weight>).",
             "RMSE s: spacing RMSE of the test parts (m), unit driver, mean over the drivers. Shares: "
-            "band_numerical of the grid speeds in support, unit run. max gain: median over the runs.",
+            "band_numerical of the grid speeds in support (not stable = 1 - stable); unstable among equilibria: "
+            "share_unstable_numerical; unit run. max gain: median over the runs.",
+            self.poles_note(),
             f"growth error (D109): on the platoon profiles of the driving mode of the view ({modes}); per profile "
             "on the collision-free prefix of the simulated platoon: the followers ahead of its first collided "
             "position that the empirical curve has (at least 3, otherwise none), RMSE over them divided by the "

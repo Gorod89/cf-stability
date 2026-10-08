@@ -7,7 +7,9 @@ hybrid (the guaranteed margin), and the box gives guaranteed signs of ``f_s`` an
 The certificate holds at a speed when the guaranteed margin is ``>= 0`` and both signs are
 guaranteed (local and string stability). All computations run in float64 on a CPU copy in eval mode.
 With the spacing band of the data (``Band``) the a posteriori forms use the anchored equilibria
-(inside the band, or at a speed without band).
+(inside the band, or at a speed without band). The a priori minimum over the feasible spacings is
+scanned (``_a_priori``, the stored certificates) or found exactly (:func:`a_priori_exact`, M9 review);
+:func:`feasible_ends` gives the conditions under which an equilibrium exists among those spacings.
 """
 
 from __future__ import annotations
@@ -87,17 +89,42 @@ def _guarantees(f_s: Tensor, f_dv: Tensor, f_v: Tensor, bounds: Tensor) -> dict[
     }
 
 
-def _feasible_interval(idm: IDM, v: Tensor, r_max: Tensor) -> tuple[Tensor, Tensor, Tensor]:
-    """Spacings in ``[S_MIN, S_MAX]`` with ``|f_idm(s, 0, v)| <= r_max`` (an interval: ``f_idm`` rises with ``s``).
+def feasible_ends(idm: IDM, v: Tensor, r_max: Tensor | float) -> dict[str, Tensor]:
+    """Ends of ``I(v) = {s > 0 : |f_idm(s, 0, v)| <= r_max}`` before the clamping to ``[S_MIN, S_MAX]``, and the
+    existence of an equilibrium of the hybrid in it (M9 review). All entries ``[n]``.
 
-    ``(s*/s)^2 = 1 - (v/v0)^delta -+ r_max / a`` with ``s* = s0 + v T`` gives the ends in closed form.
+    ``f_idm(s, 0, v) = a (1 - (v/v0)^delta) - a (s*/s)^2`` with ``s* = s0 + v T`` rises with ``s`` towards
+    ``a (1 - (v/v0)^delta)``; ``(s*/s)^2 = 1 - (v/v0)^delta -+ r_max / a`` gives ``s_low`` and ``s_high``, ``inf``
+    where the right side is not positive (``s_low``: no feasible spacing; ``s_high``: no upper end).
+    ``limit_margin = a (1 - (v/v0)^delta) - r_max`` (m/s^2). ``bounded`` (``s_high`` finite, i.e.
+    ``limit_margin > 0``): ``f_idm = -r_max`` at ``s_low`` and ``+r_max`` at ``s_high``, so for every residual with
+    ``|r| <= r_max`` the hybrid ``f_idm + r`` (continuous in ``s``) is ``<= 0`` at ``s_low`` and ``>= 0`` at ``s_high``
+    and has an equilibrium in ``I(v)`` (intermediate values; none outside, where ``|f_idm| > r_max``). Otherwise
+    ``I(v)`` is unbounded and no equilibrium need exist: ``f_idm = 0.1 - 144 / s^2`` and the constant ``r = -0.2``,
+    ``r_max = 0.3``, give ``f_idm + r < 0`` at every spacing. ``within``: ``S_MIN <= s_low`` and ``s_high <= S_MAX``,
+    so the clamped interval of the certificate is all of ``I(v)``: the a priori certificate then covers every
+    equilibrium, and one exists.
     """
     v0, T, s0, a, _ = idm.theta.detach().double().cpu().unbind()
     s_star = s0 + v * T
     free = 1.0 - (v / v0) ** idm.delta
     low_arg, high_arg = free + r_max / a, free - r_max / a
-    s_low = torch.where(low_arg > 0, s_star / torch.sqrt(low_arg.clamp(min=1e-300)), torch.inf).clamp(min=S_MIN)
-    s_high = torch.where(high_arg > 0, s_star / torch.sqrt(high_arg.clamp(min=1e-300)), torch.inf).clamp(max=S_MAX)
+    s_low = torch.where(low_arg > 0, s_star / torch.sqrt(low_arg.clamp(min=1e-300)), torch.inf)
+    s_high = torch.where(high_arg > 0, s_star / torch.sqrt(high_arg.clamp(min=1e-300)), torch.inf)
+    return {
+        "s_low": s_low,
+        "s_high": s_high,
+        "limit_margin": a * free - r_max,
+        "bounded": high_arg > 0,
+        "within": (s_low >= S_MIN) & (s_high <= S_MAX),
+    }
+
+
+def _feasible_interval(idm: IDM, v: Tensor, r_max: Tensor) -> tuple[Tensor, Tensor, Tensor]:
+    """Spacings in ``[S_MIN, S_MAX]`` with ``|f_idm(s, 0, v)| <= r_max`` (an interval: ``f_idm`` rises with ``s``):
+    the closed-form ends of :func:`feasible_ends` clamped to ``[S_MIN, S_MAX]``."""
+    ends = feasible_ends(idm, v, r_max)
+    s_low, s_high = ends["s_low"].clamp(min=S_MIN), ends["s_high"].clamp(max=S_MAX)
     return s_low, s_high, s_low <= s_high
 
 
@@ -135,6 +162,103 @@ def _a_priori(idm: IDM, v: Tensor, r_max: Tensor, bounds: Tensor, n_scan: int) -
         "feasible": feasible,
         "guaranteed_margin": margin,
         "s_worst": torch.where(feasible, best_s, nan),
+        "fs_positive": fs_positive,
+        "sum_negative": sum_negative,
+        "holds": (margin >= 0) & fs_positive & sum_negative,
+    }
+
+
+def _root_real_parts(coef: np.ndarray) -> np.ndarray:
+    """Real parts ``[n, d]`` of the roots of the polynomials ``coef [n, d + 1]`` (highest degree first; NaN pads a
+    row of lower degree): ``numpy.roots`` row by row, the eigenvalues of the companion matrix, in one batched
+    ``numpy.linalg.eigvals`` for the rows whose leading coefficient is not 0."""
+    n, d = coef.shape[0], coef.shape[1] - 1
+    out = np.full((n, d), np.nan)
+    finite = np.isfinite(coef).all(axis=1)
+    full = finite & (coef[:, 0] != 0.0)
+    if full.any():
+        c = coef[full]
+        companion = np.zeros((len(c), d, d))
+        companion[:, 0, :] = -c[:, 1:] / c[:, :1]
+        companion[:, np.arange(1, d), np.arange(d - 1)] = 1.0
+        out[full] = np.linalg.eigvals(companion).real
+    for k in np.flatnonzero(finite & ~full):
+        roots = np.roots(coef[k])
+        out[k, : len(roots)] = roots.real
+    return out
+
+
+def a_priori_exact(idm: IDM, v: Tensor, r_max: Tensor | float, bounds: Tensor) -> dict[str, Tensor]:
+    """:func:`_a_priori` with the minimum of the guaranteed margin over the feasible spacings found exactly (M9
+    review): the same entries, without a scan.
+
+    With ``x = 1/s`` and ``s* = s0 + v T`` the IDM derivatives at ``(s, 0, v)`` (the closed forms of
+    ``idm_equilibrium_partials`` at any spacing) are ``F_s = c_s x^3``, ``F_dv = -c_dv x^2`` and
+    ``F_v = -k_v - c_v x^2`` with ``c_s = 2 a s*^2``, ``c_dv = a s* v / sqrt(a b)``, ``c_v = 2 a s* T`` and
+    ``k_v = a delta v^(delta-1) / v0^delta``.
+    :func:`guaranteed_margin` is the smaller over the edges ``q = F_dv + e B_dv`` (``e = -1, +1``) of
+    ``p^2 + 2 p q - 2 (F_s + B_s)`` with ``p = clamp(-q, F_v - B_v, F_v + B_v)``. For one edge and one regime of the
+    clamp this is a polynomial ``g(x) = alpha x^4 + beta x^3 + gamma x^2 + const``, ``beta = -2 c_s``:
+
+    * ``p = -q`` (value ``-q^2``): ``alpha = -c_dv^2``, ``gamma = 2 e B_dv c_dv``;
+    * ``p = F_v -+ B_v = P - c_v x^2``, ``P = -k_v -+ B_v``: ``alpha = c_v^2 + 2 c_v c_dv``,
+      ``gamma = -2 P (c_v + c_dv) - 2 c_v e B_dv``.
+
+    The regime of an edge changes where ``-q = F_v -+ B_v``, ``x^2 = (e B_dv - k_v -+ B_v) / (c_dv + c_v)`` (four
+    breakpoints). Between consecutive breakpoints the guaranteed margin is the smaller of two such polynomials, and
+    the minimum of either over a closed piece lies at its ends or at a root of ``g'(x) = 4 alpha x^3 + 3 beta x^2 +
+    2 gamma x`` inside it. Hence the minimum over ``[1/s_high, 1/s_low]`` is attained at an end of the interval, at a
+    breakpoint or at a real root of the derivative of one of the six pieces (two edges x three regimes) that lies in
+    the interval. These candidates (the real part of every root, :func:`_root_real_parts`: a spurious candidate only
+    costs an evaluation; candidates outside the interval are moved into it, whose ends are candidates anyway) are
+    evaluated with :func:`partials` and :func:`guaranteed_margin` as in :func:`_a_priori`, and their minimum is the
+    minimum over the interval, to rounding (an error ``eps`` of a root moves the value by ``O(eps^2)``). The interval
+    and its clamping are those of :func:`_feasible_interval`; the signs are taken at its two ends (``F_s - B_s``
+    falls and ``F_v + F_dv + B_v + B_dv`` rises with ``s``, so the ends decide them on the whole interval).
+    ``r_max`` broadcasts to ``[n]`` and ``bounds`` to ``[n, 3]``; ``idm`` is used in float64 (a copy otherwise).
+    """
+    if idm.raw.dtype != torch.float64:
+        idm = copy.deepcopy(idm).cpu().double()
+    v = _speeds(v)
+    n = len(v)
+    r_max = torch.as_tensor(r_max, dtype=torch.float64).cpu().expand(n)
+    bounds = torch.as_tensor(bounds, dtype=torch.float64).cpu().expand(n, 3)
+    s_low, s_high, feasible = _feasible_interval(idm, v, r_max)
+    lo, hi = torch.where(feasible, s_low, S_MIN), torch.where(feasible, s_high, S_MIN)
+    v0, T, s0, a, b = idm.theta.detach().double().cpu().unbind()
+    s_star = s0 + v * T
+    c_s, c_dv, c_v = 2.0 * a * s_star**2, a * s_star * v / torch.sqrt(a * b), 2.0 * a * s_star * T
+    k_v = a * idm.delta * v ** (idm.delta - 1.0) / v0**idm.delta
+    _, b_dv, b_v = bounds.unbind(-1)
+    breakpoints, pieces = [], []  # x of the breakpoints; (alpha, beta, gamma) of the pieces
+    for e in (-1.0, 1.0):
+        edge = e * b_dv  # q = edge - c_dv x^2
+        pieces.append((-(c_dv**2), -2.0 * c_s, 2.0 * edge * c_dv))  # p = -q
+        for p_end in (-k_v - b_v, -k_v + b_v):  # p = p_end - c_v x^2, the lower and the upper end of p
+            pieces.append((c_v**2 + 2.0 * c_v * c_dv, -2.0 * c_s, -2.0 * p_end * (c_v + c_dv) - 2.0 * c_v * edge))
+            y = (edge + p_end) / (c_dv + c_v)  # x^2 where -q = p_end - c_v x^2
+            breakpoints.append(torch.where(y > 0, torch.sqrt(y.clamp(min=1e-300)), torch.nan))
+    derivative = torch.stack([torch.stack((4.0 * al, 3.0 * be, 2.0 * ga, torch.zeros_like(al)), dim=-1)
+                              for al, be, ga in pieces], dim=1)  # [n, 6, 4]  # fmt: skip
+    roots = torch.from_numpy(_root_real_parts(derivative.reshape(-1, 4).numpy())).reshape(n, -1)
+    x = torch.cat((torch.stack(breakpoints, dim=1), roots), dim=1)
+    s = 1.0 / x
+    s = torch.where(torch.isfinite(s) & (s > 0), s, lo[:, None])
+    s = torch.cat((lo[:, None], hi[:, None], torch.minimum(torch.maximum(s, lo[:, None]), hi[:, None])), dim=1)
+    k_cand = s.shape[1]
+    f = partials(idm, s.reshape(-1), v.repeat_interleave(k_cand))
+    g = _guarantees(*(t.reshape(n, k_cand) for t in f), bounds[:, None, :])
+    value, k = g["guaranteed_margin"].min(dim=1)
+    nan = torch.full_like(value, torch.nan)
+    margin = torch.where(feasible, value, nan)
+    fs_positive = g["fs_positive"][:, :2].all(dim=1) & feasible
+    sum_negative = g["sum_negative"][:, :2].all(dim=1) & feasible
+    return {
+        "s_low": torch.where(feasible, s_low, nan),
+        "s_high": torch.where(feasible, s_high, nan),
+        "feasible": feasible,
+        "guaranteed_margin": margin,
+        "s_worst": torch.where(feasible, s[torch.arange(n), k], nan),
         "fs_positive": fs_positive,
         "sum_negative": sum_negative,
         "holds": (margin >= 0) & fs_positive & sum_negative,

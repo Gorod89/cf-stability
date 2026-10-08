@@ -343,7 +343,7 @@
     "with_macro_json": 1445,
     "with_run_json": 1445
   },
-  "date": "2026-10-08T00:27:03",
+  "date": "2026-10-08T11:16:57",
   "inputs": {
     "_report/supplement/figures/band_width.png": {
       "bytes": 72873,
@@ -438,20 +438,20 @@
       "sha256": "31ad3fb1606a8afd"
     },
     "_tables/m4/e1.csv": {
-      "bytes": 5056,
-      "sha256": "53443acb6f2045f7"
+      "bytes": 5579,
+      "sha256": "a449a693c9abc9d4"
     },
     "_tables/m4/e2.csv": {
-      "bytes": 5727,
-      "sha256": "7b56934ad13a1305"
+      "bytes": 6712,
+      "sha256": "d6c5a424fbb9c1e1"
     },
     "_tables/m4/e2_horizon.csv": {
-      "bytes": 3880,
-      "sha256": "47f7f3a79423c33b"
+      "bytes": 4564,
+      "sha256": "113fef966273f554"
     },
     "_tables/m4/e2_lowfreq.csv": {
-      "bytes": 3417,
-      "sha256": "f2af2df87d71c7f0"
+      "bytes": 3854,
+      "sha256": "9df593bc4772732c"
     },
     "_tables/m4/e2_sweep.csv": {
       "bytes": 2415,
@@ -466,8 +466,8 @@
       "sha256": "3e1d1e0740292c07"
     },
     "_tables/m4/e5.csv": {
-      "bytes": 8365,
-      "sha256": "b7d2f1e93f2a1256"
+      "bytes": 9301,
+      "sha256": "26386fcf2c5cd947"
     },
     "_tables/m4/verdicts.csv": {
       "bytes": 4090,
@@ -512,6 +512,10 @@
     "_tables/m5/verdicts.csv": {
       "bytes": 3457,
       "sha256": "f43cf5fcea23bc57"
+    },
+    "_tables/m8/ablation_pairs.csv": {
+      "bytes": 11269,
+      "sha256": "4774e1543de90050"
     },
     "_tables/m8/asymmetry.csv": {
       "bytes": 37494,
@@ -570,8 +574,8 @@
       "sha256": "3f6a52595a50005c"
     },
     "configs/corridor_metrics.yaml": {
-      "bytes": 15547,
-      "sha256": "3eda266ccf22de88"
+      "bytes": 16608,
+      "sha256": "473942da1192a1f9"
     },
     "configs/make_tables.yaml": {
       "bytes": 4950,
@@ -630,19 +634,23 @@
         "correlation_pooled",
         "correlation_pooled_laws",
         "power",
+        "ablation_pairs",
         "contacts_absolute",
         "correlation_clustered",
         "h12_2_error",
+        "certificate_exact",
         "equilibrium_roots",
         "full_history",
         "threshold_sensitivity"
       ]
     },
     "tables": [
+      "ablation_pairs",
       "asymmetry",
       "asymmetry_contrasts",
       "band_sensitivity",
       "band_width",
+      "certificate_exact",
       "certificate_tightness",
       "contacts_absolute",
       "correlation_clustered",

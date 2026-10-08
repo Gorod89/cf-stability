@@ -16,8 +16,9 @@ verdicts of H12 (``h12_1``, ``h12_2``, ``verdicts``), ``e4_rmax``, ``sensitivity
 (``asymmetry``, ``asymmetry_contrasts``, ``correlation_pooled``, ``power``, ``temporal``, ``missing_corridor.txt``;
 the ``asymmetry.json`` files come from ``scripts/corridor_asymmetry.py``) with those of the review of M8
 (``correlation_clustered``: H12.3 with law and family clusters; ``contacts_absolute``: contact episodes with their
-exposure; ``h12_2_error``: the certified hybrid against the IDM on the errors), and prints one line per table. The
-metrics process never imports ``libsumo`` (docs/m5_contract.md, 0).
+exposure; ``h12_2_error``: the certified hybrid against the IDM on the errors; ``ablation_pairs``: the variants of the
+factorial ablation of the certified hybrid against each other, the pairs of ``design.ablation_pairs``), and prints one
+line per table. The metrics process never imports ``libsumo`` (docs/m5_contract.md, 0).
 """
 
 from __future__ import annotations
