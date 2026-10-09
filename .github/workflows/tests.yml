@@ -41,4 +41,5 @@ jobs:
       - name: Tests (no SUMO, no GPU, no training)
         run: >-
           pytest tests/test_analytic.py tests/test_certificate_exact.py tests/test_analysis_m9.py
-          tests/test_corridor_tables_ablation.py tests/test_tables.py tests/test_fields.py -q -p no:cacheprovider
+          tests/test_corridor_tables_ablation.py tests/test_tables.py tests/test_fields.py tests/test_check_release.py
+          -q -p no:cacheprovider
