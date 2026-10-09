@@ -1,0 +1,29 @@
+{
+  "title": "cf-stability: string stability of learned car-following models",
+  "description": "Code, configurations, run manifests and results of the study \"String Stability of Learned Car-Following Models: Audit, Differentiable Penalties, a Certified Hybrid and Corridor-Level Validation\" (submitted to Mathematics, MDPI, 2026): an audit of the equilibrium (string) stability of learned car-following models, differentiable stability penalties, a residual hybrid with an a priori certificate, and the validation of the laws on SUMO corridors of NGSIM I-80 and US-101. The archive holds the code, the published tables, figures and report, and the run outputs they are computed from (training-run metrics and audits, per-event closed-loop metrics, corridor-run metrics and the compact speed fields of the figures, scenarios, law files, calibrations and fold definitions). The raw data, the extracted events and the simulated trajectories are not included; the README (section Reproduce) gives the three levels of reproduction and the data access steps.",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "MIT",
+  "language": "eng",
+  "version": "2.0.2",
+  "creators": [
+    {
+      "name": "Gorodnichev, Mikhail",
+      "affiliation": "Faculty of Information Technology, Moscow Technical University of Communication and Informatics",
+      "orcid": "0000-0003-1739-9831"
+    },
+    {
+      "name": "Moseva, Marina",
+      "affiliation": "Faculty of Information Technology, Moscow Technical University of Communication and Informatics",
+      "orcid": "0000-0002-9778-124X"
+    }
+  ],
+  "keywords": [
+    "car-following models",
+    "string stability",
+    "learned traffic models",
+    "stability certificate",
+    "traffic simulation",
+    "SUMO"
+  ]
+}
