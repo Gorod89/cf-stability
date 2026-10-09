@@ -7,8 +7,12 @@ Code, configurations, run manifests and results of the study
 > Technology, Moscow Technical University of Communication and Informatics. Submitted to *Mathematics*
 > (MDPI), 2026.
 
-The manuscript itself is not part of this repository; every table and figure of it is generated here
-from the run manifests by the commands of the section [Reproduce](#reproduce).
+The manuscript itself is not part of this repository. The repository holds the code, the configurations and run
+manifests, the published results, the generator of the computed materials of the manuscript and the map of every
+table and figure of it (`docs/paper_materials.md`): ten of the fourteen tables of the main text, the 41 supplementary
+tables and the 29 figures are generated here from the run outputs by the commands of the section
+[Reproduce](#reproduce); the other four tables of the main text are written by hand, and three items (Table 2, Table
+S11 with Figure S9, Table S12) need the event sets of level 3.
 
 ## What the study does
 
@@ -43,9 +47,10 @@ behaviour and corridor-level fidelity. This repository implements the whole stud
   amplitude of waves, collisions), a macro-error vector against the ground truth, equivalence tests,
   correlations, power, sensitivity to the boundary and the lane-change model, a temporal hold-out and
   an asymmetry/spectrum analysis.
-* **Reporting.** Every table (CSV and LaTeX) and figure (PNG and PDF) of the paper and of its
-  supplementary materials, the generated report `runs/_report/report.md` with every number read from the
-  tables, and a manifest with the run counts and config hashes.
+* **Reporting.** Every computed table (CSV and LaTeX: ten of the fourteen tables of the main text, the 41
+  supplementary tables) and every figure (PNG and PDF) of the paper and of its supplementary materials, the
+  generated report `runs/_report/report.md` with every number read from the tables, and a manifest with the run
+  counts and config hashes.
 
 Main findings: 84-95 % of the equilibria of the five unconstrained networks (MLP, PIDL, GRU, LSTM, PERL)
 are string unstable while their spacing RMSE is 8-33 % below the IDM's; the Jacobian penalty stabilises
@@ -118,8 +123,9 @@ only, the scenarios and the metrics are built in other processes. The commands b
 Windows; `python` stands for the interpreter of the environment (`./.venv/Scripts/python.exe`, on Linux
 `.venv/bin/python`). `.github/workflows/tests.yml` runs on every push and pull request (Ubuntu, Python 3.11, CPU
 torch, no SUMO): `scripts/check_environment.py --no-sumo --no-gpu`, `scripts/check_release.py` and the tests
-`test_analytic`, `test_certificate_exact`, `test_analysis_m9`, `test_corridor_tables_ablation`, `test_tables` and
-`test_fields` (the corridor figures from `fields.npz`).
+`test_analytic`, `test_certificate_exact`, `test_analysis_m9`, `test_corridor_tables_ablation`, `test_tables`,
+`test_fields` (the corridor figures from `fields.npz`) and `test_check_release` (the checkout passes the completeness
+check, a checkout without the inputs of the corridor figures fails it).
 
 ## Reproduce
 
@@ -130,7 +136,7 @@ complete steps are recognised by their files and config hashes and skipped, a se
 | Level | Reproduces | Needs | Wall time | Disk |
 |---|---|---|---|---|
 | 1. Read | every number of the paper, from the published tables, figures and report | a checkout | none | about 0.8 GB |
-| 2. Recompute | every table and figure from the run outputs in git: statistics, intervals, verdicts, correlations, figures, the generated tables of the manuscript | a checkout and the environment (CPU torch; no GPU, no SUMO) | about 5 minutes | a few MB beyond the checkout |
+| 2. Recompute | the statistics, intervals, verdicts and correlations of the experiments, the figures and the generated tables of the manuscript, from the run outputs in git; the items that need the event sets (Table 2, Table S11 with Figure S9, Table S12) stay as published, four main-text tables are written in the manuscript (`docs/paper_materials.md` gives the status of each item) | a checkout and the environment (CPU torch; no GPU, no SUMO) | about 5 minutes | a few MB beyond the checkout |
 | 3. Full | everything from the raw data: events, calibrations, 983 training runs with their audits, 1 445 corridor runs | the data, a CUDA GPU, SUMO | about a week on one GPU | about 15 GB |
 
 ### Level 1: read the published results
@@ -142,7 +148,7 @@ complete steps are recognised by their files and config hashes and skipped, a se
 Figures S1-S22) to its label, its generated file, the CSVs or figures it is built from and the commands that write
 them. `python scripts/check_release.py` checks in a few seconds that a checkout holds everything levels 1 and 2 read.
 
-### Level 2: recompute every table and figure from the run outputs
+### Level 2: recompute the statistics, the tables and the figures from the run outputs
 
 Inputs, all in git: per training run `metrics.json`, `stability.json`, `platoon.json`, `certificate.json`,
 `full_history.json`, the per-event closed-loop metrics `test_events.parquet` and `transfer_*.parquet` and the
@@ -277,7 +283,7 @@ for all seven event sets):
 ```powershell
 .\.venv\Scripts\python.exe -m pytest                       # 231 passed (169 s on CPU)
 
-# reference runs: every model, FollowNet HighD, driver split, fold 0, seed 0 (= powershell -ExecutionPolicy Bypass -File scripts\run_m2.ps1)
+# reference runs: every model, FollowNet HighD, event-level split (the fold directories keep their historical name driver_fold<k>), fold 0, seed 0 (= powershell -ExecutionPolicy Bypass -File scripts\run_m2.ps1)
 .\.venv\Scripts\python.exe scripts\train.py data=follownet_highd model=persistence fold=0 seed=0 experiment=m2
 .\.venv\Scripts\python.exe scripts\train.py data=follownet_highd model=idm fold=0 seed=0 experiment=m2
 .\.venv\Scripts\python.exe scripts\train.py data=follownet_highd model=ovm fold=0 seed=0 experiment=m2

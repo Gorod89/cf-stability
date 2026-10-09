@@ -19,10 +19,14 @@ check (OK, FAIL, WARN, or INFO for what is only reported) with the missing files
 * data/calibration and data/splits: present, every JSON readable; configs: every YAML readable;
 * the run outputs, counted against the manifest of the report: every trained run (model.pt) with metrics.json
   and test_events.parquet; per scenario the corridor runs with run.json, macro.json and asymmetry.json; the
-  audits and the other per-run files against their counts in the release of 8 October 2026 (RELEASE);
-  fields.npz (the Edie fields the corridor figures read without trajectories, scripts/export_fields.py) is
-  reported only (OK when every corridor run has one, WARN when some have, INFO when none has), and so is the count
-  of trajectories.npz (level 3).
+  audits and the other per-run files against their counts in the release of 8 October 2026 (RELEASE); the count
+  of trajectories.npz (level 3) is reported only;
+* the inputs of the corridor figures (figures 5 and 6 of the report, Figures S10-S21 of the supplement): every
+  corridor run of the scenarios of the report holds a fields.npz (cf_stability/corridor/fields.py,
+  scripts/export_fields.py) of the current format, written for this run with the grid settings of the current
+  configs, with the grids the figures draw (the diagram cells of every run, the speed field of the figure seeds),
+  or else its trajectories.npz; a run with neither, or a stale or incomplete fields.npz, fails the check (the
+  figure builders would stop on it in their strict mode).
 """
 
 from __future__ import annotations
@@ -33,9 +37,11 @@ import re
 import sys
 from pathlib import Path
 
+import numpy as np
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))  # cf_stability (the grid settings of the fields), as the other scripts import it
 RUNS = ROOT / "runs"
 REPORT = RUNS / "_report"
 MATERIALS = ROOT / "docs" / "paper_materials.md"
@@ -48,6 +54,7 @@ CONFIGS = ("make_tables.yaml", "corridor_metrics.yaml", "make_report.yaml", "bui
            "train.yaml")  # the configurations of the commands of levels 2 and 3
 LAW_SETS = ("laws", "rmax_laws", "temporal_laws", "ablation_laws")  # the laws of configs/corridor_metrics.yaml
 SCENARIO_FILES = ("scenario.json", "ground_truth.npz", "macro.json", "asymmetry.json")
+FIELDS, TRAJECTORIES = "fields.npz", "trajectories.npz"  # the inputs of a corridor panel (either one)
 
 
 class Checks:
@@ -257,7 +264,7 @@ def check_runs(chk: Checks, manifest: dict, scenarios: list[str]) -> None:
         chk.line(status, pattern, f"{n} (the release: {least})",
                  [f"{x} has none (some runs have none by design)" for x in lacking])
     corridor = manifest.get("corridor") or {}
-    totals = {"run.json": 0, "macro.json": 0, "asymmetry.json": 0, "fields.npz": 0, "trajectories.npz": 0}
+    totals = {"run.json": 0, "macro.json": 0, "asymmetry.json": 0, TRAJECTORIES: 0}
     missing: list[str] = []
     for s in scenarios:
         expect = corridor["scenarios"][s]
@@ -275,12 +282,80 @@ def check_runs(chk: Checks, manifest: dict, scenarios: list[str]) -> None:
     detail = (f"{totals['run.json']} runs (the manifest of the report: {want}); macro.json {totals['macro.json']}, "
               f"asymmetry.json {totals['asymmetry.json']}")
     chk.line("FAIL" if missing or totals["run.json"] != want else "OK", "corridor runs", detail, missing)
-    n = totals["fields.npz"]
-    status = "OK" if n == totals["run.json"] and n else ("INFO" if n == 0 else "WARN")
-    chk.line(status, "fields.npz", f"{n} of {totals['run.json']} corridor runs (the Edie fields of the corridor "
-                                   "figures; reported only)")
-    chk.line("INFO", "trajectories.npz", f"{totals['trajectories.npz']} corridor runs (not part of the release; "
-                                         "level 3)")
+    chk.line("INFO", TRAJECTORIES, f"{totals[TRAJECTORIES]} corridor runs (not part of the release; level 3)")
+
+
+def fields_status(path: Path, fmt: int, expected_hash: str, parts: tuple[str, str, int], contours: bool) -> str | None:
+    """Why the fields.npz at ``path`` does not serve the figures of the run ``parts`` (scenario, law, seed): None when
+    it does, else the reason (unreadable, another format, another run, other grid settings, a grid missing); the
+    speed-field grid is needed only with ``contours`` (the seeds the figures draw)."""
+    try:
+        with np.load(path, allow_pickle=False) as data:
+            header = (int(data["format"]), str(data["settings_hash"]), str(data["scenario"]), str(data["law"]),
+                      int(data["seed"]))  # fmt: skip
+            kinds = {str(name).split("_")[0] for name in np.atleast_1d(data["grids"])}
+    except Exception as exc:  # a file that is not a fields.npz: whatever numpy or zipfile raise
+        return f"unreadable ({type(exc).__name__})"
+    if header[0] != fmt:
+        return f"format {header[0]}, this code reads format {fmt}"
+    if header[2:] != parts:
+        return "belongs to the run {}/{}/seed{}".format(*header[2:])
+    if header[1] != expected_hash:
+        return "stale: written with other grid settings (python scripts/export_fields.py, needs trajectories.npz)"
+    lacking = sorted({"fd", *(("contours",) if contours else ())} - kinds)
+    if lacking:
+        return f"holds no {', '.join(lacking)} grid"
+    return None
+
+
+def check_fields(chk: Checks, scenarios: list[str]) -> None:
+    """The inputs of the corridor figures: every run of the scenarios of the report has a fields.npz that serves its
+    figures (:func:`fields_status`) or its trajectories.npz (level 3)."""
+    try:
+        from cf_stability.corridor.fields import CONTOUR_SEEDS, FORMAT, figure_specs, settings_hash
+        from cf_stability.corridor.macro import Geometry, geometry_from_scenario
+    except ImportError as exc:  # the package is needed for the grid settings: pip install -e . --no-deps
+        chk.line("FAIL", FIELDS, f"cf_stability does not import ({exc}): the fields cannot be checked")
+        return
+    try:
+        report = yaml.safe_load((ROOT / "configs" / "make_report.yaml").read_text(encoding="utf-8")) or {}
+    except (OSError, yaml.YAMLError):
+        report = {}
+    contour_seeds = {*CONTOUR_SEEDS, int(report.get("figure_seed", 0))}  # the seeds whose speed field is drawn
+    counts = {FIELDS: 0, TRAJECTORIES: 0}
+    missing: list[str] = []
+    for s in scenarios:
+        scenario_file = RUNS / "corridor" / "scenarios" / s / "scenario.json"
+        scenario_json = read_json(scenario_file)
+        if scenario_json is None:
+            missing.append(f"{rel(scenario_file)} missing or unreadable: the fields of {s} cannot be checked")
+            continue
+        geometry = geometry_from_scenario(scenario_json, Geometry())
+        specs = figure_specs(s, scenario_json)
+        expected = {c: settings_hash([spec for spec in specs if c or spec.kind != "contours"], geometry)
+                    for c in (True, False)}  # fmt: skip
+        for run_json in sorted((RUNS / "corridor" / s).glob("*/seed*/run.json")):
+            run = run_json.parent
+            seed = int(run.name[4:]) if run.name[4:].isdigit() else -1
+            contours = seed in contour_seeds
+            path = run / FIELDS
+            if path.exists():
+                problem = fields_status(path, FORMAT, expected[contours], (s, run.parent.name, seed), contours)
+                if problem:
+                    missing.append(f"{rel(path)}: {problem}")
+                else:
+                    counts[FIELDS] += 1
+            elif (run / TRAJECTORIES).exists():
+                counts[TRAJECTORIES] += 1
+            else:
+                missing.append(f"{rel(run)}: neither {FIELDS} nor {TRAJECTORIES} (python scripts/export_fields.py "
+                               f"writes {FIELDS} where {TRAJECTORIES} exists)")
+    detail = (f"{counts[FIELDS]} corridor runs with a {FIELDS} that holds the grids of the figures (the diagram cells; "
+              f"the speed field for seed{'s' if len(contour_seeds) > 1 else ''} "
+              f"{', '.join(str(k) for k in sorted(contour_seeds))})")
+    if counts[TRAJECTORIES]:
+        detail += f", {counts[TRAJECTORIES]} with {TRAJECTORIES} only (level 3)"
+    chk.line("FAIL" if missing or not sum(counts.values()) else "OK", FIELDS, detail, missing)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -297,6 +372,7 @@ def main(argv: list[str] | None = None) -> int:
     scenarios = check_scenarios(chk, manifest)
     check_inputs(chk)
     check_runs(chk, manifest, scenarios)
+    check_fields(chk, scenarios)
     c = chk.counts
     print(f"{sum(c.values())} checks: {c['OK']} OK, {c['FAIL']} FAIL, {c['WARN']} WARN, {c['INFO']} INFO"
           + (" -- the checkout is incomplete for level 2" if c["FAIL"] else ""))
