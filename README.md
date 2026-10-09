@@ -1,5 +1,8 @@
 # cf-stability: string stability of learned car-following models
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23256680.svg)](https://doi.org/10.5281/zenodo.23256680)
+[![tests](https://github.com/Gorod89/cf-stability/actions/workflows/tests.yml/badge.svg)](https://github.com/Gorod89/cf-stability/actions/workflows/tests.yml)
+
 Code, configurations, run manifests and results of the study
 
 > **String Stability of Learned Car-Following Models: Audit, Differentiable Penalties, a Certified Hybrid
@@ -460,7 +463,10 @@ python scripts/make_tables.py; python scripts/corridor_metrics.py compute=false 
 
 ## Citation
 
-`CITATION.cff` holds the citation metadata (GitHub: "Cite this repository").
+`CITATION.cff` holds the citation metadata (GitHub: "Cite this repository"). Every release from v2.0.2 on is
+archived on Zenodo: version 2.0.2 is <https://doi.org/10.5281/zenodo.23256680>, the concept DOI
+<https://doi.org/10.5281/zenodo.23256679> resolves to the latest version. Cite the article and the archived version
+you used:
 
 ```bibtex
 @unpublished{gorodnichev2026string,
@@ -469,6 +475,15 @@ python scripts/make_tables.py; python scripts/corridor_metrics.py compute=false 
             a Certified Hybrid and Corridor-Level Validation},
   note   = {Submitted to Mathematics (MDPI)},
   year   = {2026}
+}
+
+@misc{gorodnichev2026code,
+  author       = {Gorodnichev, Mikhail and Moseva, Marina},
+  title        = {cf-stability: string stability of learned car-following models (version 2.0.2)},
+  year         = {2026},
+  howpublished = {Zenodo},
+  doi          = {10.5281/zenodo.23256680},
+  url          = {https://github.com/Gorod89/cf-stability}
 }
 ```
 
