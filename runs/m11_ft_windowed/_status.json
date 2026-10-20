@@ -1,0 +1,473 @@
+{
+  "name": "m11_ft_windowed",
+  "queue_file": "configs\\queue\\m11_ft_windowed.yaml",
+  "pid": 16804,
+  "workers": 2,
+  "updated": "2026-10-20T14:33:45",
+  "totals": {
+    "n_jobs": 15,
+    "done": 1,
+    "failed": 0,
+    "timeout": 0,
+    "skipped": 14,
+    "blocked": 0,
+    "running": 0,
+    "pending": 0,
+    "interrupted": 0
+  },
+  "jobs": [
+    {
+      "index": 1,
+      "label": "m11_ft_windowed_w0.1/ngsim_i80/gru/fold0_seed0",
+      "experiment": "m11_ft_windowed_w0.1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 0.1,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16,
+        "init_from": "runs/e2_windowed_w0.1/follownet_highd/gru/driver_fold0_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed_w0.1\\ngsim_i80\\gru\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-10-20T14:21:35",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed\\_logs\\m11_ft_windowed_w0.1__ngsim_i80__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 2,
+      "label": "m11_ft_windowed_w0.1/ngsim_i80/gru/fold1_seed0",
+      "experiment": "m11_ft_windowed_w0.1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "gru",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 0.1,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16,
+        "init_from": "runs/e2_windowed_w0.1/follownet_highd/gru/driver_fold1_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed_w0.1\\ngsim_i80\\gru\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-10-20T14:21:35",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed\\_logs\\m11_ft_windowed_w0.1__ngsim_i80__gru__driver_fold1_seed0.log"
+    },
+    {
+      "index": 3,
+      "label": "m11_ft_windowed_w0.1/ngsim_i80/gru/fold2_seed0",
+      "experiment": "m11_ft_windowed_w0.1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "gru",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 0.1,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16,
+        "init_from": "runs/e2_windowed_w0.1/follownet_highd/gru/driver_fold2_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed_w0.1\\ngsim_i80\\gru\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-10-20T14:21:35",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed\\_logs\\m11_ft_windowed_w0.1__ngsim_i80__gru__driver_fold2_seed0.log"
+    },
+    {
+      "index": 4,
+      "label": "m11_ft_windowed_w0.1/ngsim_i80/gru/fold3_seed0",
+      "experiment": "m11_ft_windowed_w0.1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "gru",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 0.1,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16,
+        "init_from": "runs/e2_windowed_w0.1/follownet_highd/gru/driver_fold3_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed_w0.1\\ngsim_i80\\gru\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-10-20T14:21:35",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed\\_logs\\m11_ft_windowed_w0.1__ngsim_i80__gru__driver_fold3_seed0.log"
+    },
+    {
+      "index": 5,
+      "label": "m11_ft_windowed_w0.1/ngsim_i80/gru/fold4_seed0",
+      "experiment": "m11_ft_windowed_w0.1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "gru",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 0.1,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16,
+        "init_from": "runs/e2_windowed_w0.1/follownet_highd/gru/driver_fold4_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed_w0.1\\ngsim_i80\\gru\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-10-20T14:21:35",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed\\_logs\\m11_ft_windowed_w0.1__ngsim_i80__gru__driver_fold4_seed0.log"
+    },
+    {
+      "index": 6,
+      "label": "m11_ft_windowed_w1/ngsim_i80/perl/fold0_seed0",
+      "experiment": "m11_ft_windowed_w1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "perl",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 1.0,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16,
+        "init_from": "runs/e2_windowed_w1/follownet_highd/perl/driver_fold0_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed_w1\\ngsim_i80\\perl\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-10-20T14:21:35",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed\\_logs\\m11_ft_windowed_w1__ngsim_i80__perl__driver_fold0_seed0.log"
+    },
+    {
+      "index": 7,
+      "label": "m11_ft_windowed_w1/ngsim_i80/perl/fold1_seed0",
+      "experiment": "m11_ft_windowed_w1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "perl",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 1.0,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16,
+        "init_from": "runs/e2_windowed_w1/follownet_highd/perl/driver_fold1_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed_w1\\ngsim_i80\\perl\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-10-20T14:21:35",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed\\_logs\\m11_ft_windowed_w1__ngsim_i80__perl__driver_fold1_seed0.log"
+    },
+    {
+      "index": 8,
+      "label": "m11_ft_windowed_w1/ngsim_i80/perl/fold2_seed0",
+      "experiment": "m11_ft_windowed_w1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "perl",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 1.0,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16,
+        "init_from": "runs/e2_windowed_w1/follownet_highd/perl/driver_fold2_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed_w1\\ngsim_i80\\perl\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-10-20T14:21:35",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed\\_logs\\m11_ft_windowed_w1__ngsim_i80__perl__driver_fold2_seed0.log"
+    },
+    {
+      "index": 9,
+      "label": "m11_ft_windowed_w1/ngsim_i80/perl/fold3_seed0",
+      "experiment": "m11_ft_windowed_w1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "perl",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 1.0,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16,
+        "init_from": "runs/e2_windowed_w1/follownet_highd/perl/driver_fold3_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed_w1\\ngsim_i80\\perl\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-10-20T14:21:35",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed\\_logs\\m11_ft_windowed_w1__ngsim_i80__perl__driver_fold3_seed0.log"
+    },
+    {
+      "index": 10,
+      "label": "m11_ft_windowed_w1/ngsim_i80/perl/fold4_seed0",
+      "experiment": "m11_ft_windowed_w1",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "perl",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 1.0,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16,
+        "init_from": "runs/e2_windowed_w1/follownet_highd/perl/driver_fold4_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed_w1\\ngsim_i80\\perl\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-10-20T14:21:35",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed\\_logs\\m11_ft_windowed_w1__ngsim_i80__perl__driver_fold4_seed0.log"
+    },
+    {
+      "index": 11,
+      "label": "m11_ft_windowed_w10/ngsim_i80/lstm/fold0_seed0",
+      "experiment": "m11_ft_windowed_w10",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 10.0,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16,
+        "init_from": "runs/e2_windowed_w10/follownet_highd/lstm/driver_fold0_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed_w10\\ngsim_i80\\lstm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit"
+      ],
+      "wall_time_s": 730.0294534000568,
+      "started": "2026-10-20T14:21:35",
+      "ended": "2026-10-20T14:33:45",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed\\_logs\\m11_ft_windowed_w10__ngsim_i80__lstm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 12,
+      "label": "m11_ft_windowed_w10/ngsim_i80/lstm/fold1_seed0",
+      "experiment": "m11_ft_windowed_w10",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "lstm",
+        "fold": 1,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 10.0,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16,
+        "init_from": "runs/e2_windowed_w10/follownet_highd/lstm/driver_fold1_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed_w10\\ngsim_i80\\lstm\\driver_fold1_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-10-20T14:21:35",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed\\_logs\\m11_ft_windowed_w10__ngsim_i80__lstm__driver_fold1_seed0.log"
+    },
+    {
+      "index": 13,
+      "label": "m11_ft_windowed_w10/ngsim_i80/lstm/fold2_seed0",
+      "experiment": "m11_ft_windowed_w10",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "lstm",
+        "fold": 2,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 10.0,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16,
+        "init_from": "runs/e2_windowed_w10/follownet_highd/lstm/driver_fold2_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed_w10\\ngsim_i80\\lstm\\driver_fold2_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-10-20T14:21:35",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed\\_logs\\m11_ft_windowed_w10__ngsim_i80__lstm__driver_fold2_seed0.log"
+    },
+    {
+      "index": 14,
+      "label": "m11_ft_windowed_w10/ngsim_i80/lstm/fold3_seed0",
+      "experiment": "m11_ft_windowed_w10",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "lstm",
+        "fold": 3,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 10.0,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16,
+        "init_from": "runs/e2_windowed_w10/follownet_highd/lstm/driver_fold3_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed_w10\\ngsim_i80\\lstm\\driver_fold3_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-10-20T14:21:35",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed\\_logs\\m11_ft_windowed_w10__ngsim_i80__lstm__driver_fold3_seed0.log"
+    },
+    {
+      "index": 15,
+      "label": "m11_ft_windowed_w10/ngsim_i80/lstm/fold4_seed0",
+      "experiment": "m11_ft_windowed_w10",
+      "overrides": {
+        "data": "ngsim_i80",
+        "model": "lstm",
+        "fold": 4,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 10.0,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16,
+        "init_from": "runs/e2_windowed_w10/follownet_highd/lstm/driver_fold4_seed0"
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed_w10\\ngsim_i80\\lstm\\driver_fold4_seed0",
+      "steps": [
+        "train",
+        "audit"
+      ],
+      "state": "skipped",
+      "exit_code": null,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [],
+      "wall_time_s": 0.0,
+      "started": null,
+      "ended": "2026-10-20T14:21:35",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\m11_ft_windowed\\_logs\\m11_ft_windowed_w10__ngsim_i80__lstm__driver_fold4_seed0.log"
+    }
+  ]
+}

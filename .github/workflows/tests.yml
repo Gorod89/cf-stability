@@ -42,4 +42,7 @@ jobs:
         run: >-
           pytest tests/test_analytic.py tests/test_certificate_exact.py tests/test_analysis_m9.py
           tests/test_corridor_tables_ablation.py tests/test_tables.py tests/test_fields.py tests/test_check_release.py
+          tests/test_robust.py tests/test_safety.py tests/test_predictive_validity.py tests/test_empirical_gain.py
+          tests/test_certificate_latent.py tests/test_corridor_laws_m11.py tests/test_corridor_tables_windowed.py
+          tests/test_windowed_analysis.py tests/test_penalties_windowed.py tests/test_residual_idm_tt.py
           -q -p no:cacheprovider

@@ -1,11 +1,13 @@
 # Instability of the members and macro error of the laws
 
-- Runs: 1370 of 1370 expected runs have a macro.json (I-80: 22 laws x 3 scenarios x 10 seeds + 4 laws (idm_global_p0, residual_idm_certified_p0, mlp_p0, gru_p0) x 2 scenarios (i80_p1, i80_p2) x 10 seeds; US-101: 21 laws x 3 scenarios x 10 seeds); missing runs, files and values: missing.txt.
+- Runs: 1670 of 1670 expected runs have a macro.json (I-80: 27 laws x 3 scenarios x 10 seeds + 4 laws (idm_global_p0, residual_idm_certified_p0, mlp_p0, gru_p0) x 2 scenarios (i80_p1, i80_p2) x 10 seeds; US-101: 26 laws x 3 scenarios x 10 seeds); missing runs, files and values: missing.txt.
 - Analysis window (scenario.json): 180-840 s, 90-870 s.
 - Unstable among equilibria: mean over the member runs of the audit share share_unstable_numerical (string-unstable equilibria among the equilibria found, speeds in support); band share not stable: mean over the members of 1 - band_numerical stable (speeds in support). idm_heterogeneous and idm_heterogeneous_all: per parameter set (members) the share of the grid speeds in the support of the data at which the exact discrete-time gain (dt 0.1 s, 25 frequencies 0.02-2 rad/s) exceeds 1.02, speeds without equilibrium left out, mean over the sets (audited: sets with an equilibrium in the support); the same for the certified per-event cores of residual_idm_certified_het (D118; members: its cores, the residual left out) and for an IDM law of calibrations without member runs (idm_global_p0, D120). The members are the same on every corridor.
 - macro error and macro error (dynamic: FD, wave speed, waves, wave amplitude only): mean over the runs of the law on the corridor (unit run) with its interval. collides: mean collisions per 1000 vehicle-km above 0. The residual amplitudes of D111 are not in this table (correlation_pooled of M8 has them); the temporal hold-out laws of D120 (idm_global_p0, residual_idm_certified_p0, mlp_p0, gru_p0) have rows over their scenarios (column scenarios) but are not in the correlations (in the correlation).
 - Correlations below: per corridor over the laws, 1000 bootstrap resamples of the laws (resamples with a constant variable have no correlation: valid resamples); p (permutation): two-sided, 10000 permutations of the instability over the laws, (1 + hits) / (1 + permutations).
 - Factorial ablation of the certified hybrid (review of M8; rows only, not in the correlations nor the verdicts of H12): idm_core_margin: the IDM cores of the fold members of residual_idm_certified (margin 0.2, calibrated on follownet_highd) with the residual switched off, one core per member drawn per vehicle as residual_idm_certified draws its members; idm_margin_i80: the global IDM of ngsim_i80 calibrated per fold with the stability margin 0.2; residual_idm_margin_free_r0.3: the margin core with a residual of r_max 0.3 without certificate, fine-tuned on ngsim_i80. Their instability: the exact gain of the parameter sets for the IDM laws (members: the parameter sets), the member audits for the hybrid.
+- Windowed-gain penalty of M11 (D128; rows only, not in the correlations nor the verdicts of H12): gru_windowed, lstm_windowed, perl_windowed: the recurrent laws trained on follownet_highd with the windowed-gain penalty of M11 (D128, A1: the gain, the low-frequency coefficient M_w and the poles of the full-history linearisation over the window) at the weight chosen on its pilot and fine-tuned on ngsim_i80 with the penalty continued (configs/queue/m11_ft_windowed.yaml), five fold members drawn per vehicle as gru, lstm and perl draw theirs. Their instability: the member audits.
+- Laws of M11 (D129, D132; rows only, not in the correlations nor the verdicts of H12): residual_idm_tt: the two-timescale certified hybrid of D129 (the certified hybrid whose core time gap T(z) = T_c 1.5^z follows a slow latent z driven by a GRU over the window, tau_z 15 s, fine-tuned on ngsim_i80), five fold members drawn per vehicle as residual_idm_certified draws them, the latent online on every vehicle's history; residual_idm_certified_het_fd: the certified per-event cores of residual_idm_certified_het drawn with the weights exp(beta_T T + beta_s s0) fitted to the binned fundamental diagram of the ground truth of i80_p1 (D132); its instability is that of the same cores, unweighted. Their instability: the member audits (residual_idm_tt: the audit of the online latent) or the exact gain of the cores (residual_idm_certified_het_fd).
 - Intervals: 95 % percentile bootstrap, 1000 resamples, seed 0.
 
 | corridor | law | kind | members | audited | unstable among equilibria | band share not stable | runs | scenarios | macro error | macro error (dynamic) | collisions / 1000 veh-km | collides | in the correlation |
@@ -32,6 +34,11 @@
 | I-80 | idm_core_margin | idm | 5 | 5 | 0.000 |  | 30 | all | 0.198 [0.174, 0.226] | 0.301 [0.254, 0.356] | 0.000 |  |  |
 | I-80 | idm_margin_i80 | idm | 5 | 5 | 0.000 |  | 30 | all | 0.239 [0.188, 0.298] | 0.479 [0.355, 0.624] | 0.000 |  |  |
 | I-80 | residual_idm_margin_free_r0.3 | models | 5 | 5 | 0.000 | 0.000 | 30 | all | 0.176 [0.150, 0.202] | 0.281 [0.229, 0.337] | 0.110 | yes |  |
+| I-80 | gru_windowed | models | 5 | 5 | 0.370 | 0.370 | 30 | all | 0.132 [0.112, 0.153] | 0.233 [0.191, 0.278] | 270.474 | yes |  |
+| I-80 | lstm_windowed | models | 5 | 5 | 0.092 | 0.092 | 30 | all | 0.423 [0.385, 0.465] | 0.511 [0.444, 0.585] | 2665.883 | yes |  |
+| I-80 | perl_windowed | models | 5 | 5 | 0.829 | 0.829 | 30 | all | 0.574 [0.544, 0.611] | 0.471 [0.434, 0.518] | 12559.937 | yes |  |
+| I-80 | residual_idm_tt | models | 5 | 5 | 0.000 | 0.000 | 30 | all | 0.118 [0.106, 0.130] | 0.182 [0.156, 0.208] | 0.000 |  |  |
+| I-80 | residual_idm_certified_het_fd | residual_heterogeneous | 3337 | 3337 | 0.000 |  | 30 | all | 0.215 [0.208, 0.223] | 0.402 [0.382, 0.426] | 0.000 |  |  |
 | US-101 | idm_global | idm | 5 | 5 | 0.000 | 0.000 | 30 | all | 0.133 [0.110, 0.163] | 0.229 [0.183, 0.288] | 0.030 | yes | yes |
 | US-101 | idm_heterogeneous | idm_heterogeneous | 2840 | 2840 | 0.092 |  | 30 | all | 0.125 [0.100, 0.150] | 0.196 [0.152, 0.243] | 0.155 | yes | yes |
 | US-101 | knn | models | 5 | 5 | 0.924 | 0.924 | 30 | all | 0.628 [0.574, 0.690] | 0.583 [0.505, 0.682] | 1955.966 | yes | yes |
@@ -49,6 +56,11 @@
 | US-101 | idm_core_margin | idm | 5 | 5 | 0.000 |  | 30 | all | 0.177 [0.168, 0.185] | 0.222 [0.207, 0.237] | 0.422 | yes |  |
 | US-101 | idm_margin_i80 | idm | 5 | 5 | 0.000 |  | 30 | all | 0.132 [0.115, 0.154] | 0.210 [0.179, 0.248] | 0.068 | yes |  |
 | US-101 | residual_idm_margin_free_r0.3 | models | 5 | 5 | 0.000 | 0.000 | 30 | all | 0.147 [0.138, 0.155] | 0.189 [0.174, 0.203] | 0.296 | yes |  |
+| US-101 | gru_windowed | models | 5 | 5 | 0.370 | 0.370 | 30 | all | 0.260 [0.222, 0.304] | 0.481 [0.403, 0.571] | 297.655 | yes |  |
+| US-101 | lstm_windowed | models | 5 | 5 | 0.092 | 0.092 | 30 | all | 0.679 [0.607, 0.762] | 0.654 [0.548, 0.776] | 2836.030 | yes |  |
+| US-101 | perl_windowed | models | 5 | 5 | 0.829 | 0.829 | 30 | all | 0.904 [0.821, 0.997] | 0.767 [0.657, 0.886] | 12350.048 | yes |  |
+| US-101 | residual_idm_tt | models | 5 | 5 | 0.000 | 0.000 | 30 | all | 0.090 [0.086, 0.095] | 0.082 [0.072, 0.094] | 0.245 | yes |  |
+| US-101 | residual_idm_certified_het_fd | residual_heterogeneous | 3337 | 3337 | 0.000 |  | 30 | all | 0.254 [0.227, 0.284] | 0.436 [0.368, 0.515] | 0.433 | yes |  |
 
 ## Correlation of instability and macro error over the laws
 

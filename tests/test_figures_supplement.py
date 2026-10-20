@@ -398,10 +398,10 @@ def test_ablation_laws_are_left_out_of_the_grids(tree, tmp_path):
         "    lanes: [1, 2]\n", encoding="utf-8")  # fmt: skip
     cfg = config(tree, tmp_path / "out", outputs=("corridor",), corridors=("i80",), configs_dir=configs)
     lines = make_supplement(cfg)
-    assert any("not drawn (the variants of the controlled ablation, design.ablation_laws): law_d" in line
-               for line in lines)  # law_z has no run: not named
+    assert any("not drawn (the variants of the controlled ablation, design.ablation_laws, and the laws of M11): law_d"
+               in line for line in lines)  # law_z has no run: not named
     caption = (cfg.out_dir / "figures" / "fd_i80_p0.txt").read_text(encoding="utf-8")
-    assert "(2): law_a, law_b." in caption and "design.ablation_laws): law_d." in caption
+    assert "(2): law_a, law_b." in caption and "the laws of M11): law_d." in caption
     assert "laws with a run but not in laws.csv" not in caption
     drawn = config(tree, tmp_path / "drawn", outputs=("corridor",), corridors=("i80",), configs_dir=configs,
                    ablation_panels=True)  # fmt: skip

@@ -36,6 +36,13 @@ Per step, after ``simulationStep`` (the state then belongs to the time of that s
   flow at that speed, not the observed one, and the queue of the data drains or spills back; without
   feedback ``g = 1``. The settings are those of the scenario (``scenario.json["boundary"]``).
 
+Safety filter (D130, ``cf_stability/corridor/safety.py``): with ``sim.safety_filter`` set, the law's accelerations
+of the controlled vehicles are clipped to the barrier bound ``min(a, a_safe(s, dv, v))`` before the clip to
+``[a_min, a_max]``; the default (null) leaves the loop as it was and the key out of the config hash
+(:class:`SimConfig`), a filtered run carries the filter's parameters in its hashed ``sim`` and the counts of the
+vehicle steps at which the bound was active in its statistics. Filtered runs belong to the laws ``<law>_filter``
+(:func:`cf_stability.corridor.safety.check_law_name`).
+
 Positions are recorded at whole seconds for ``x_in <= x <= x_out`` on the main line (not on an off-ramp);
 the passage of ``x_out`` is interpolated between two steps; every collision episode is recorded (time,
 vehicle, position, lane of its beginning). The time mean, minimum and maximum of ``g`` and ``dN`` inside
@@ -65,6 +72,8 @@ from cf_stability.corridor.scenario import (  # noqa: E402
     cast,
     exit_difference,
 )
+from cf_stability.corridor.safety import SafetyConfig, check_law_name  # noqa: E402
+from cf_stability.corridor.safety import apply as apply_safety  # noqa: E402
 from cf_stability.utils import read_json  # noqa: E402
 
 CONSTANTS = libsumo.constants
@@ -91,13 +100,27 @@ class SimConfig:
 
     @classmethod
     def from_mapping(cls, raw: Mapping[str, Any] | None) -> SimConfig:
+        """The settings of ``run_corridor.sim``. ``safety_filter`` (D130): null or false (the default) gives a plain
+        :class:`SimConfig`, whose fields (and hence the config hash of a run) are those before the key existed; any
+        other value gives a :class:`FilteredSimConfig` that holds the filter's parameters as a field."""
         values = dict(raw or {})
-        unknown = set(values) - {f.name for f in dataclasses.fields(cls)}
+        safety = SafetyConfig.from_mapping(values.pop("safety_filter", None))
+        unknown = set(values) - {f.name for f in dataclasses.fields(SimConfig)}
         if unknown:
             raise ValueError(f"unknown sim keys {sorted(unknown)}")
         if "sumo_options" in values:
             values["sumo_options"] = tuple(str(o) for o in values["sumo_options"] or ())
-        return cls(**values)
+        if safety is None:
+            return SimConfig(**values)
+        return FilteredSimConfig(**values, safety_filter=safety.as_dict())
+
+
+@dataclasses.dataclass(frozen=True)
+class FilteredSimConfig(SimConfig):
+    """:class:`SimConfig` with the safety filter on (D130): its parameters (``SafetyConfig`` as a dict) are a field,
+    so that ``dataclasses.asdict`` puts them into the hashed config of a run."""
+
+    safety_filter: Mapping[str, float] | None = None
 
 
 @dataclasses.dataclass
@@ -188,6 +211,9 @@ def run_simulation(
     last_step = int(round((planned.max() + sim.tail_s) * per_second))
     t_end = last_step / per_second
 
+    safety = SafetyConfig.from_mapping(getattr(sim, "safety_filter", None))  # D130; None: off
+    check_law_name(getattr(law, "name", ""), safety)
+    filter_counts = {"steps": 0, "active": 0}  # controlled vehicle steps, and those with the bound active
     member = law.assign(n, np.random.default_rng(seed))  # before the simulation: independent of it
     window = int(law.window)
     history = np.zeros((n, window, 3), dtype=np.float64)
@@ -355,6 +381,10 @@ def run_simulation(
                 timing["law"] += c3 - c2
                 if not np.all(np.isfinite(acc)):
                     raise RuntimeError(f"t={t:.1f}: the law returned non-finite accelerations")
+                if safety is not None:  # D130: the barrier bound before the clip of the loop
+                    acc, active = apply_safety(acc, state[:, 0], state[:, 1], state[:, 2], safety)
+                    filter_counts["steps"] += len(acc)
+                    filter_counts["active"] += int(active.sum())
                 acc = np.clip(acc, sim.a_min, sim.a_max)
                 v_next = np.maximum(state[:, 2] + acc * dt, 0.0)
                 capped = in_contact[rc]  # in contact means a gap of at most contact_gap
@@ -431,6 +461,12 @@ def run_simulation(
     for name, values in tracked.items():  # time mean, minimum and maximum inside the analysis window
         stats.update({f"{name}_{what}": float(fn(values)) if values else None
                       for what, fn in (("mean", np.mean), ("min", np.min), ("max", np.max))})  # fmt: skip
+    if safety is not None:  # D130: only filtered runs carry these counts (the files of the others are unchanged)
+        stats["safety_filter_steps"] = int(filter_counts["steps"])
+        stats["safety_filter_active_steps"] = int(filter_counts["active"])
+        stats["safety_filter_active_share"] = (
+            filter_counts["active"] / filter_counts["steps"] if filter_counts["steps"] else None
+        )
     timing.update(loop=loop_wall, vanished=vanished)
     return {
         "trajectories": cast(trajectories, TRAJECTORY_DTYPES),

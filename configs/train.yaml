@@ -48,6 +48,7 @@ train:
   penalty:                # stability penalty (docs/m3_contract.md, section 7): loss += weight * penalty
     kind: none            # none | jacobian | gain | linear_gain | existence | combined (D110: gain + Jacobian part)
                           # | monotone (D117: relu(-f_s) + relu(f_dv) + relu(f_v), the local terms of RACER alone)
+                          # | windowed_gain (D128: |G_w|, M_w and the poles of the full-history linearisation)
     weight: 1.0           # lambda
     margin: 0.5           # m of the Jacobian penalty: relu(m - margin) + sign terms
     gain_margin: 0.05     # m_g of the gain penalties: relu(gain - 1 + m_g)
@@ -77,6 +78,12 @@ train:
     # (cf_stability/utils.py, LATE_KEYS), so the hashes of the earlier runs stay valid
     jacobian_weight: 0.0     # weight of the Jacobian part (memoryless view of the model, every step); 0 = off
     guard: 0.0               # needle guard relu(|f_dv| - guard) + relu(|f_v| - guard) in the Jacobian part, 1/s; 0 = off
+    # windowed_gain only (D128, docs/m11_contract.md): mean over the anchored equilibria of mean_w relu(|G_w| - 1 +
+    # window_gain_margin)^2 at the audit frequencies (linear_omega_*) + relu(margin - M_w) + relu(rho - pole_margin),
+    # rho the spectral radius of the closed loop; its steps are not replayed from a CUDA graph (torch.linalg.eig).
+    # Added in M11: the config hash leaves both out while they hold these defaults (LATE_KEYS)
+    window_gain_margin: 0.02
+    pole_margin: 0.995
 
 paths:
   events_root: data/events

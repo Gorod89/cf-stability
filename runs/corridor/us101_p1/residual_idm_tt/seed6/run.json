@@ -1,0 +1,52 @@
+{
+  "config": {
+    "device": "cuda",
+    "law": "residual_idm_tt",
+    "law_hash": "535eff82cab2",
+    "paths": {
+      "laws_root": "runs/corridor/laws",
+      "runs_root": "runs/corridor",
+      "scenarios_root": "runs/corridor/scenarios"
+    },
+    "scenario": "us101_p1",
+    "scenario_hash": "001e05932235",
+    "seed": 6,
+    "sim": {
+      "a_max": 4.0,
+      "a_min": -8.0,
+      "contact_gap": 1.0,
+      "leader_range": 50.0,
+      "step_length": 0.1,
+      "sumo_options": [],
+      "tail_s": 120.0,
+      "time_to_teleport": 300.0
+    }
+  },
+  "config_hash": "bb56574c18e2",
+  "dN_max": 42.0,
+  "dN_mean": 13.411153846153846,
+  "dN_min": 0.5999999999999659,
+  "g_max": 0.9880000000000007,
+  "g_mean": 0.7317994871794872,
+  "g_min": 0.2,
+  "git_revision": "741fed4cacd7fff929542d42e0f0f72bd13e1815",
+  "law": "residual_idm_tt",
+  "mean_depart_delay_s": 0.05404065443728326,
+  "n_collisions": 0,
+  "n_exited": 1938,
+  "n_in_network": 0,
+  "n_inserted": 2017,
+  "n_not_inserted": 0,
+  "n_offramp": 79,
+  "n_planned": 2017,
+  "n_sumo_collisions": 0,
+  "n_teleports": 0,
+  "scenario": "us101_p1",
+  "seed": 6,
+  "sim_time_s": 1068.4,
+  "steps": 10685,
+  "sumo_version": "SUMO 1.27.1",
+  "vehicle_steps": 1612931,
+  "vehicle_steps_per_second": 8509.54224178995,
+  "wall_time_s": 191.62543459993321
+}

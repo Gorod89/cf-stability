@@ -306,6 +306,8 @@ def test_queue_files_of_the_experiments(monkeypatch):
         "e2_lowfreq_pilot": 6, "e2_lowfreq": 15, "e4_rmax": 200,  # M7 (D110, D111)
         "e2_monotone": 3, "audit_bands": 150, "m8_temporal": 15,  # M8 (D117, D119, D120)
         "e2_horizon_pilot": 2, "e4_variant_d": 50,  # M9 (revision of 7 October 2026)
+        "e2_windowed_pilot": 9, "e2_windowed": 15, "m11_ft_windowed": 15,  # M11 (D128)
+        "e4_tt_pilot": 3, "e4_tt": 10,  # M11 (D129): the pilot of tau_z; e4_tt with its fine-tuning e4_tt_ft
     }  # fmt: skip
     files = sorted((REPO_ROOT / "configs" / "queue").glob("*.yaml"))
     queues = {path.stem: eq.QueueConfig.from_file(path) for path in files}
@@ -318,6 +320,10 @@ def test_queue_files_of_the_experiments(monkeypatch):
     assert experiments["e2_sweep"] == [f"e2_{kind}_w{w}" for kind in ("gain", "jacobian") for w in weights]
     assert experiments["e2_rollout"] == ["e2_gain_spec_w1"]
     assert experiments["e4"] == ["e4_free_ft", "e4_stable", "e4_stable_ft"]
+    assert experiments["e4_tt_pilot"] == ["e4_tt_pilot_tau15", "e4_tt_pilot_tau30", "e4_tt_pilot_tau60"]  # M11 (D129)
+    assert experiments["e4_tt"] == ["e4_tt", "e4_tt_ft"]
+    assert all(spec.steps == ("train", "audit", "platoon", "certificate") for name in ("e4_tt_pilot", "e4_tt")
+               for spec in specs[name])  # fmt: skip
     assert experiments["e5"] == ["e5"]
     assert experiments["e5_penalised"] == ["e5_gain_w0.1", "e5_jacobian_w1"]  # chosen weights of the sweep (D85)
     for name in ("e1", "e2_chosen"):  # the transfer for seed 0 only
@@ -413,6 +419,27 @@ def test_queue_files_of_the_experiments(monkeypatch):
         else:
             assert o["data"] == "ngsim_i80" and o["init_from"] == f"runs/e4_margin_free_r0.3/{run}"
             assert "certificate.enforce" not in o
+    # M11 (D128): the windowed-gain penalty of the recurrent laws, its pilot, five folds and the fine-tuning
+    assert experiments["e2_windowed_pilot"] == ["e2_windowed_w0.1", "e2_windowed_w1", "e2_windowed_w10"]
+    chosen = {spec.overrides["model"]: spec.overrides["train.penalty.weight"] for spec in specs["e2_windowed"]}
+    assert set(chosen) == {"gru", "lstm", "perl"} and set(chosen.values()) <= {0.1, 1.0, 10.0}
+    for name in ("e2_windowed_pilot", "e2_windowed", "m11_ft_windowed"):
+        for spec in specs[name]:
+            o = spec.overrides
+            assert o["train.penalty.kind"] == "windowed_gain" and o["seed"] == 0 and o["fold"] in range(5)
+            assert o["train.penalty.every"] == 4 and o["train.penalty.n_equilibria"] == 16
+            assert spec.steps == (("train", "audit") if name == "m11_ft_windowed" else ("train", "audit", "platoon"))
+            if name == "e2_windowed_pilot":
+                assert o["fold"] == 0 and o["data"] == "follownet_highd"
+            elif name == "e2_windowed":  # the chosen weight of the pilot on every fold
+                assert o["train.penalty.weight"] == chosen[o["model"]] and o["data"] == "follownet_highd"
+            else:  # fine-tuned from the run of the same fold with the penalty continued (as m5_laws)
+                w = chosen[o["model"]]
+                assert o["data"] == "ngsim_i80" and o["train.penalty.weight"] == w
+                assert o["init_from"] == f"runs/e2_windowed_w{w:g}/follownet_highd/{o['model']}/driver_fold{o['fold']}_seed0"
+                assert spec.experiment == f"m11_ft_windowed_w{w:g}"
+    assert sorted({spec.overrides["fold"] for spec in specs["e2_windowed"]}) == [0, 1, 2, 3, 4]
+
     for name, queue in queues.items():  # the first value of every list composes
         groups = tuple({**g, "overrides": {k: v[:1] for k, v in g["overrides"].items()}} for g in queue.groups)
         jobs, _ = eq.load_jobs(eq.QueueConfig(**{**queue.__dict__, "groups": groups, "order": ()}))

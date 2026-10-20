@@ -1,0 +1,16 @@
+# Two-timescale certified hybrid (docs/m11_contract.md, D129): the ResidualIDM of E4 whose core time gap is
+# T(z) = T_c exp(z ln t_factor), z in [-1, 1] a slow latent driven by a one-layer GRU over the window,
+# z_{t+1} = z_t + (dt / tau_z)(tanh(g(h_t)) - z_t), z_0 = 0; the residual takes (s, dv, v, z / z_scale).
+name: residual_idm_tt
+hidden_sizes: [64, 64]
+r_max: 1.0         # m/s^2 (E4: model.r_max=0.3)
+lipschitz: 1.0     # certificate.enforce=true sets it from the a priori certificate over the reachable latent
+idm_learnable: false
+tau_z: 30.0        # s, time constant of the latent (pilot: 15, 30, 60)
+latent_hidden: 16  # hidden units of the GRU of the latent
+window: 30         # states the latent is integrated over (as the GRU of E1)
+t_factor: 1.5      # T from T_c / t_factor (z = -1) to t_factor T_c (z = 1)
+z_scale: 1.0       # scale of z as an input of the residual
+# Rollout loss only, as residual_idm (D63).
+train_overrides:
+  acc_weight: 0.0

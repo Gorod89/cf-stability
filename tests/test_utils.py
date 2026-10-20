@@ -61,6 +61,7 @@ def test_config_hash_leaves_out_late_keys_at_their_default():
     hash while it holds its default; any other value is hashed."""
     assert LATE_KEYS == {
         ("train", "penalty", "jacobian_weight"): 0.0, ("train", "penalty", "guard"): 0.0, ("per_event_margin",): None,
+        ("train", "penalty", "window_gain_margin"): 0.02, ("train", "penalty", "pole_margin"): 0.995,  # M11, D128
     }  # fmt: skip
     base = {"seed": 0, "train": {"lr": 0.001, "penalty": {"kind": "none", "weight": 1.0}}}
     late = copy.deepcopy(base)

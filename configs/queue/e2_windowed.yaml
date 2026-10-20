@@ -1,0 +1,48 @@
+# The windowed-gain penalty of the recurrent laws on five folds (M11, docs/m11_contract.md, D128: algorithm A1,
+# hypothesis H-N3): GRU, LSTM and PERL with the penalty `windowed_gain` at the weight chosen per architecture on the
+# pilot (configs/queue/e2_windowed_pilot.yaml, fold 0) by the rule of D85 (python scripts/analysis/windowed_gain.py
+# choose -> runs/_tables/m11/e2_windowed_pilot.md, e2_windowed_chosen.json); follownet_highd, seed 0. The jobs of fold 0
+# are the pilot runs of the chosen weights (same experiment names, complete: skipped), so the queue trains 12 runs.
+#
+# Chosen weights (D85 on e2_windowed_pilot, 2026-10-20): gru 0.1, lstm 10, perl 1. No weight reached a stable band
+# share of 0.9 on the pilot, so the largest share decided (gru 0.23, tied with weight 1: the smaller validation RMSE;
+# lstm 0.45; perl 0.00 at every weight: the smallest validation RMSE).
+# every = 4 as in the pilot (the eager penalty step cost 5.6-8.8 times a plain step replayed from its graph).
+# python scripts/run_experiment.py configs/queue/e2_windowed.yaml
+name: e2_windowed
+workers: 2
+timeout_h: 8.0
+min_free_ram_gb: 6.0
+order: [seed, fold, model]
+steps: [train, audit, platoon]
+groups:
+  - experiment: "e2_windowed_w{train.penalty.weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [gru]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [windowed_gain]
+      train.penalty.weight: [0.1]               # CHOSEN WEIGHT (D85 on e2_windowed_pilot, 2026-10-20): gru 0.1, lstm 10, perl 1
+      train.penalty.every: [4]
+      train.penalty.n_equilibria: [16]
+  - experiment: "e2_windowed_w{train.penalty.weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [lstm]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [windowed_gain]
+      train.penalty.weight: [10.0]              # CHOSEN WEIGHT (D85 on e2_windowed_pilot, 2026-10-20): gru 0.1, lstm 10, perl 1
+      train.penalty.every: [4]
+      train.penalty.n_equilibria: [16]
+  - experiment: "e2_windowed_w{train.penalty.weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [perl]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [windowed_gain]
+      train.penalty.weight: [1.0]               # CHOSEN WEIGHT (D85 on e2_windowed_pilot, 2026-10-20): gru 0.1, lstm 10, perl 1
+      train.penalty.every: [4]
+      train.penalty.n_equilibria: [16]

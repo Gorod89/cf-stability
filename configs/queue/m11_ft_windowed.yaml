@@ -1,0 +1,50 @@
+# Members of the corridor laws gru_windowed, lstm_windowed and perl_windowed (M11, docs/m11_contract.md, D128): the
+# HighD models of configs/queue/e2_windowed.yaml (windowed-gain penalty at the weight chosen on the pilot, seed 0)
+# fine-tuned on the driver folds of NGSIM I-80 (same fold number) as configs/queue/m5_laws.yaml does for the penalised
+# models: the penalty continues (the same kind, weight, every and speeds; the band of the NGSIM data), steps train
+# and audit. 15 runs.
+# Weights (D85 on e2_windowed_pilot): gru 0.1, lstm 10, perl 1.
+# python scripts/run_experiment.py configs/queue/m11_ft_windowed.yaml
+name: m11_ft_windowed
+workers: 2
+timeout_h: 8.0
+min_free_ram_gb: 6.0
+order: [experiment, fold, model]
+steps: [train, audit]
+groups:
+  - experiment: "m11_ft_windowed_w{train.penalty.weight:g}"
+    overrides:
+      data: [ngsim_i80]
+      model: [gru]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [windowed_gain]
+      train.penalty.weight: [0.1]               # the weight chosen on HighD (D85, e2_windowed_pilot)
+      train.penalty.every: [4]
+      train.penalty.n_equilibria: [16]
+    fixed:
+      init_from: "runs/e2_windowed_w{train.penalty.weight:g}/follownet_highd/{model}/driver_fold{fold}_seed{seed}"
+  - experiment: "m11_ft_windowed_w{train.penalty.weight:g}"
+    overrides:
+      data: [ngsim_i80]
+      model: [lstm]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [windowed_gain]
+      train.penalty.weight: [10.0]              # the weight chosen on HighD (D85, e2_windowed_pilot)
+      train.penalty.every: [4]
+      train.penalty.n_equilibria: [16]
+    fixed:
+      init_from: "runs/e2_windowed_w{train.penalty.weight:g}/follownet_highd/{model}/driver_fold{fold}_seed{seed}"
+  - experiment: "m11_ft_windowed_w{train.penalty.weight:g}"
+    overrides:
+      data: [ngsim_i80]
+      model: [perl]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [windowed_gain]
+      train.penalty.weight: [1.0]               # the weight chosen on HighD (D85, e2_windowed_pilot)
+      train.penalty.every: [4]
+      train.penalty.n_equilibria: [16]
+    fixed:
+      init_from: "runs/e2_windowed_w{train.penalty.weight:g}/follownet_highd/{model}/driver_fold{fold}_seed{seed}"

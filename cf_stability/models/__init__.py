@@ -19,6 +19,7 @@ from cf_stability.models.persistence import Persistence
 from cf_stability.models.pidl import PIDL
 from cf_stability.models.recurrent import GRU, LSTM, Recurrent
 from cf_stability.models.residual_idm import ResidualIDM
+from cf_stability.models.residual_idm_tt import FrozenLatentHybrid, ResidualIDMTT
 
 MODELS: dict[str, type[CFModel]] = {
     "idm": IDM,
@@ -32,6 +33,7 @@ MODELS: dict[str, type[CFModel]] = {
     "pidl": PIDL,
     "perl": PERL,
     "residual_idm": ResidualIDM,
+    "residual_idm_tt": ResidualIDMTT,  # D129 (M11): the certified hybrid with a slow latent time gap
 }
 
 
@@ -78,6 +80,7 @@ def load_model(path: str | Path, map_location: str | torch.device | None = None)
 __all__ = [
     "MODELS",
     "CFModel",
+    "FrozenLatentHybrid",
     "GRU",
     "IDM",
     "InputScaler",
@@ -92,6 +95,7 @@ __all__ = [
     "Persistence",
     "Recurrent",
     "ResidualIDM",
+    "ResidualIDMTT",
     "build_model",
     "load_model",
     "save_model",
