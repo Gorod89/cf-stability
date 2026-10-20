@@ -187,6 +187,7 @@ TAILGATER = {"v0": 15.0, "T": 0.1, "s0": 0.5, "a": 3.0, "b": 3.0}  # equilibrium
 
 @pytest.fixture(scope="module")
 def filter_corridor(tmp_path_factory):
+    pytest.importorskip("sumo", reason="the corridor loop needs the eclipse-sumo package (not installed in the CI)")
     from cf_stability.corridor.scenario import build_scenario
 
     loop_tests = _loop_tests()
