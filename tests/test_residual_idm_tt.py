@@ -68,9 +68,9 @@ def test_reduces_to_the_e4_hybrid_at_frozen_zero(dtype):
     model.frozen_z = 0.0
     assert model.window == 1 and model.memoryless
     out, ref = model(x), source(x)
-    # same outputs: bit for bit in float64; in float32 the first layer sums four products instead of three (the
-    # fourth is 0 * 0) in another order, which can change the last bit
-    tol = 0.0 if dtype == torch.float64 else 1e-6
+    # same outputs: to the last bits in float64 (the first layer sums four products instead of three, the fourth
+    # 0 * 0, in an order that depends on the BLAS of the platform), to 1e-6 in float32
+    tol = 1e-12 if dtype == torch.float64 else 1e-6
     assert (out - ref).abs().max() <= tol and ref.abs().max() > 0.1
     assert (model.residual(x) - source.residual(x)).abs().max() <= tol and source.residual(x).abs().max() > 0.01
     assert model.layer_norms() == pytest.approx(source.layer_norms(), rel=1e-12)  # [W | 0] has the singular values of W

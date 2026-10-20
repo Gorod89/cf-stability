@@ -139,7 +139,8 @@ def test_budget_of_a_latent_model_is_taken_over_its_reachable_range():
     model = tt_of(source, tau_z=15.0)
     reach = model.latent_reach()
     grid = reachable_latent(model)
-    assert len(grid) == 21 and grid[0] == pytest.approx(-reach) and grid[-1] == pytest.approx(reach) and 0.0 in grid
+    assert len(grid) == 21 and grid[0] == pytest.approx(-reach) and grid[-1] == pytest.approx(reach)
+    assert min(abs(z) for z in grid) < 1e-12  # the grid passes through zero (linspace may give a tiny non-zero)
     assert reachable_latent(source) == (0.0,)
     per_z = [float(max_residual_budget(model, V_GRID, a_priori=True, keep_r_max=True, z=z).min()) for z in grid]
     out = enforce_budget(model, 0.9)
