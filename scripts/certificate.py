@@ -14,6 +14,13 @@ is the largest ``r_max * lipschitz`` with that ``r_max`` (the budget of ``certif
 the a posteriori one uses the equilibria anchored to the spacing band of ``metrics.json["context"]``
 when the context has a band. Any other model gets ``{run, model, applicable: false, config, ...}``.
 
+A model with a latent (``residual_idm_tt``, D129) is certified at frozen latents: the entries above are those of
+the hybrid at ``z = 0`` (``frozen_z: 0.0``), and ``latent`` holds ``{tau_z, t_factor, window, reach, z, per_z,
+summary, reachable}``: ``per_z`` the entries ``core``, ``a_priori``, ``at_equilibria`` and ``per_speed`` at every
+``z`` of ``LATENT_SWEEP`` (-1, -0.9, ..., 1; the residual and its bounds are the same at every ``z``), ``summary``
+the counts over them, ``reachable`` the a priori certificate on the range ``|z| <= reach`` that the online latent
+can reach (the values on which the training took the budget).
+
 One line per run. A failing run does not stop the others (``FAILED`` line, error in
 ``certificate.json``); the exit status is then 1. In experiment mode runs whose
 ``certificate.json`` is newer than ``model.pt`` are skipped unless ``force=true``.
@@ -36,10 +43,13 @@ from torch import Tensor  # noqa: E402
 
 from cf_stability.models import ResidualIDM, load_model  # noqa: E402
 from cf_stability.stability.certificate import (  # noqa: E402
+    LATENT_SWEEP,
     certificate_a_priori,
     certificate_at_equilibria,
     core_margin,
     empirical_margin,
+    has_latent,
+    reachable_latent,
     to_json,
 )
 from cf_stability.stability.equilibrium import V_GRID, Band  # noqa: E402
@@ -139,6 +149,45 @@ def certify(
     })
 
 
+def certify_latent(
+    model: ResidualIDM, context: Mapping[str, Any] | None, speeds: Sequence[float], n_scan: int
+) -> dict[str, Any]:
+    """The entries of ``certificate.json`` for a model with a latent (D129): :func:`certify` of the hybrid at
+    ``z = 0`` and, under ``latent``, at every ``z`` of ``LATENT_SWEEP`` and a priori on the reachable range."""
+    top = certify(model.at_z(0.0), context, speeds, n_scan)
+    per_z = []
+    for z in LATENT_SWEEP:
+        c = top if z == 0.0 else certify(model.at_z(z), context, speeds, n_scan)
+        per_z.append({"z": z, **{key: c[key] for key in ("core", "a_priori", "at_equilibria", "per_speed")}})
+    reach = float(model.latent_reach())
+    grid = reachable_latent(model)
+    prior = [certificate_a_priori(model, speeds, n_scan, keep_r_max=True, z=z) for z in grid]
+    margins = [_extreme(c["guaranteed_margin"]) for c in prior]
+    a_priori_holds = [c["a_priori"]["holds"] for c in per_z]
+    post_holds = [c["at_equilibria"]["holds"] for c in per_z]
+    inside = [abs(z) <= reach for z in LATENT_SWEEP]
+    latent = {
+        "tau_z": model.tau_z, "t_factor": model.t_factor, "window": int(model.config()["window"]), "reach": reach,
+        "z": list(LATENT_SWEEP), "per_z": per_z,
+        "summary": {
+            "n_z": len(per_z), "n_a_priori_holds": sum(a_priori_holds), "a_priori_holds_all": all(a_priori_holds),
+            "n_at_equilibria_holds": sum(post_holds), "at_equilibria_holds_all": all(post_holds),
+            "a_priori_holds_reachable_sweep": all(h for h, ok in zip(a_priori_holds, inside) if ok),
+            "z_a_priori_fails": [z for z, h in zip(LATENT_SWEEP, a_priori_holds) if not h],
+            "z_at_equilibria_fails": [z for z, h in zip(LATENT_SWEEP, post_holds) if not h],
+            "a_priori_margin_min": min((m for m in (c["a_priori"]["guaranteed_margin_min"] for c in per_z)
+                                        if m is not None), default=None),
+        },
+        "reachable": {
+            "z": list(grid), "holds": all(bool(c["holds"].all()) for c in prior),
+            "n_hold": [int(c["n_holds"]) for c in prior], "n_grid": len(speeds),
+            "guaranteed_margin_min": min((m for m in margins if m is not None), default=None),
+            "guaranteed_margin_min_per_z": margins,
+        },
+    }  # fmt: skip
+    return {**top, "frozen_z": 0.0, "latent": to_json(latent)}
+
+
 def _fmt(value: float | None, spec: str) -> str:
     return "n/a" if value is None else format(value, spec)
 
@@ -151,7 +200,21 @@ def summary_line(label: str, c: Mapping[str, Any], wall: float) -> str:
         f"admissible {prior['admissible_budget']:.3g})  at equilibria {post['n_hold']}/{prior['n_grid']} "
         f"({equilibria}; min {_fmt(post['guaranteed_margin_min'], '.3f')}, "
         f"empirical {_fmt(post['empirical_margin_min'], '.3f')})  r_max*lipschitz {c['residual']['product']:.3g}  "
-        f"core margin {_fmt(c['core']['margin_min'], '.3f')}  {wall:.0f} s"
+        f"core margin {_fmt(c['core']['margin_min'], '.3f')}  {wall:.0f} s" + _latent_text(c)
+    )
+
+
+def _latent_text(c: Mapping[str, Any]) -> str:
+    """The part of the line of a latent model (D129): the counts over the frozen latents (top entries: z = 0)."""
+    latent = c.get("latent")
+    if not latent:
+        return ""
+    s, r = latent["summary"], latent["reachable"]
+    return (
+        f"  [z = 0 above; latent sweep a priori {s['n_a_priori_holds']}/{s['n_z']} z, at equilibria "
+        f"{s['n_at_equilibria_holds']}/{s['n_z']} z, min {_fmt(s['a_priori_margin_min'], '.3f')}; reachable "
+        f"|z| <= {latent['reach']:.3f}: {'holds' if r['holds'] else 'fails'} "
+        f"(min {_fmt(r['guaranteed_margin_min'], '.3f')})]"
     )
 
 
@@ -173,7 +236,8 @@ def main(cfg: DictConfig) -> None:
             if payload["applicable"]:
                 metrics = run_dir / "metrics.json"
                 context = read_json(metrics).get("context") if metrics.exists() else None
-                payload.update(certify(model, context, speeds, int(settings["n_scan"])))
+                certified = certify_latent if has_latent(model) else certify
+                payload.update(certified(model, context, speeds, int(settings["n_scan"])))
                 line = summary_line(label, payload, time.perf_counter() - t_start)
             else:
                 line = f"{label:<30} not applicable ({model.name})"

@@ -17,6 +17,16 @@ view of the model plus a needle guard, on every step, weight ``jacobian_weight``
 constraints of RACER (Jiang and Di, arXiv 2312.07003) in the convention ``dv = v - v_lead``:
 ``relu(-f_s) + relu(f_dv) + relu(f_v)`` at the anchored equilibria, sampled as for ``jacobian``, plus
 the existence term of every penalty (D74, D80); no string term and no margin.
+
+``windowed_gain`` (D128, docs/m11_contract.md; algorithm A1) is the analytic penalty of the windowed
+(recurrent) laws: at every anchored equilibrium the history Jacobian of the whole window (one backward
+pass through the input history, :func:`window_jacobian`) gives the windowed transfer function ``G_w`` of
+the full-history linearisation (equation (A2) of the paper, ``transfer_windowed``) at the 25 audit
+frequencies, its low-frequency coefficient ``M_w`` in closed form (``windowed_margin``) and the spectral
+radius ``rho`` of the closed loop (:func:`spectral_radius`); the penalty is the mean over the equilibria of
+``mean_w relu(|G_w| - 1 + m_w)^2 + relu(m - M_w) + relu(rho - rho_max)`` plus the existence term of every
+penalty. The eigenvalues synchronise with the host, so its training steps are not replayed from a CUDA
+graph (not in ``CAPTURABLE``).
 """
 
 from __future__ import annotations
@@ -31,7 +41,13 @@ import torch
 from torch import Tensor
 
 from cf_stability.models.base import CFModel
-from cf_stability.stability.analytic import criterion, partials, transfer_windowed
+from cf_stability.stability.analytic import (
+    criterion,
+    partials,
+    transfer_windowed,
+    windowed_margin,
+    windowed_state_space,
+)
 from cf_stability.stability.equilibrium import (
     BAND_KEYS,
     NOMINAL_S0,
@@ -45,11 +61,17 @@ from cf_stability.stability.equilibrium import (
 from cf_stability.train.closed_loop import rollout_model
 
 # existence: the existence term alone; combined: gain plus the Jacobian part of the memoryless view (D110);
-# monotone: the monotonicity terms of RACER alone, no string term (D117)
-KINDS = ("none", "jacobian", "gain", "linear_gain", "existence", "combined", "monotone")
-CAPTURABLE = KINDS  # kinds whose training step can be replayed from a CUDA graph: all (D90)
+# monotone: the monotonicity terms of RACER alone, no string term (D117); windowed_gain: the analytic gain, margin
+# and poles of the full-history linearisation of a windowed law (D128)
+KINDS = ("none", "jacobian", "gain", "linear_gain", "existence", "combined", "monotone", "windowed_gain")
+# kinds whose training step can be replayed from a CUDA graph (D90). Not windowed_gain: torch.linalg.eig synchronises
+# with the host, and a capture that meets it invalidates the CUDA context of the process (checked 2026-10-19), so its
+# penalty steps run eagerly (with every > 1 the steps without penalty are still replayed)
+NOT_CAPTURABLE = ("windowed_gain",)
+CAPTURABLE = tuple(kind for kind in KINDS if kind not in NOT_CAPTURABLE)
 DEFAULT_N_EQUILIBRIA = {
     "none": 0, "jacobian": 16, "gain": 3, "linear_gain": 16, "existence": 16, "combined": 16, "monotone": 16,
+    "windowed_gain": 16,
 }  # fmt: skip
 INFO_KEYS: dict[str, tuple[str, ...]] = {
     "none": (),
@@ -62,10 +84,21 @@ INFO_KEYS: dict[str, tuple[str, ...]] = {
     # rollout part (its value, max_gain, existence: NaN on a step without it); Jacobian part (its unweighted
     # value with the guard, mean_margin, the guard terms, needle = largest |f_dv|, |f_v|: NaN while it is off)
     "combined": ("n_no_equilibrium", "rollout", "max_gain", "existence", "jacobian", "mean_margin", "guard", "needle"),
-}
+    # D128: largest windowed gain, smallest M_w and largest spectral radius at the anchored equilibria; the means of
+    # the three terms (unweighted); the existence term
+    "windowed_gain": (
+        "n_no_equilibrium", "max_gain", "min_margin_window", "max_radius", "gain_term", "margin_term", "pole_term",
+        "existence",
+    ),
+}  # fmt: skip
 JACOBIAN_PART_KEYS = ("jacobian", "mean_margin", "guard", "needle")  # info of the Jacobian part of combined
 AMPLITUDE_EPS = 1e-12  # (m/s)^2 under the square root of the fitted amplitude: finite gradient at zero response
 EXISTENCE_SPACINGS = (1.0, 200.0)  # m, the ends of the scan of find_equilibria
+# windowed_gain (D128): the defaults of its two margins; the margin of M_w is `margin` of the Jacobian penalty
+WINDOW_GAIN_MARGIN, POLE_MARGIN = 0.02, 0.995
+# smallest |w^T x| of the normalised left and right eigenvectors of the dominant pole: bounds the derivative of the
+# spectral radius where two poles of the largest modulus meet (their derivative is unbounded there)
+EIGENVECTOR_OVERLAP_MIN = 1e-8
 
 Info = dict[str, Tensor]
 
@@ -74,9 +107,9 @@ Info = dict[str, Tensor]
 class PenaltyConfig:
     """``train.penalty``: which penalty, its weight ``lambda`` and its settings."""
 
-    kind: str = "none"  # none | jacobian | gain | linear_gain | existence | combined | monotone
+    kind: str = "none"  # none | jacobian | gain | linear_gain | existence | combined | monotone | windowed_gain
     weight: float = 1.0  # lambda (combined: of the rollout part)
-    margin: float = 0.5  # m of the Jacobian penalty (not used by monotone)
+    margin: float = 0.5  # m of the Jacobian penalty (not used by monotone); windowed_gain: of relu(m - M_w)
     gain_margin: float = 0.05  # m_g of the gain penalties
     n_equilibria: int | None = None  # speeds per epoch; None: 16 (jacobian, linear_gain), 3 (gain)
     v_min: float = 5.0  # m/s
@@ -95,7 +128,8 @@ class PenaltyConfig:
     exist_v_max: float | None = None
     # linear_gain only: the frequencies of the audit, because a law penalised on a few frequencies
     # moves its amplification below the lowest of them; the margin shrinks towards w = 0, where
-    # every gain tends to 1: m_g(w) = gain_margin * min(1, (w / gain_margin_ref)^2)
+    # every gain tends to 1: m_g(w) = gain_margin * min(1, (w / gain_margin_ref)^2). windowed_gain: the same
+    # frequencies, with the constant margin window_gain_margin
     linear_omega_min: float = 0.02  # rad/s
     linear_omega_max: float = 2.0
     linear_n_omega: int = 25  # log-spaced
@@ -124,6 +158,10 @@ class PenaltyConfig:
     # config hash leaves them out at these defaults (cf_stability/utils.py, LATE_KEYS)
     jacobian_weight: float = 0.0
     guard: float = 0.0
+    # windowed_gain only (D128): the margin m_w of relu(|G_w| - 1 + m_w)^2 at the audit frequencies and the bound of
+    # the spectral radius of the closed loop in relu(rho - pole_margin). Late keys of the config as well (LATE_KEYS)
+    window_gain_margin: float = WINDOW_GAIN_MARGIN
+    pole_margin: float = POLE_MARGIN
 
     def __post_init__(self) -> None:
         if self.kind not in KINDS:
@@ -150,6 +188,12 @@ class PenaltyConfig:
             raise ValueError(f"jacobian_weight and guard belong to kind combined (D110), not to {self.kind!r}")
         if self.guard and not self.jacobian_weight:
             raise ValueError("the needle guard is part of the Jacobian part of combined: it needs jacobian_weight > 0")
+        self.window_gain_margin, self.pole_margin = float(self.window_gain_margin), float(self.pole_margin)
+        if not (math.isfinite(self.window_gain_margin) and 0.0 < self.pole_margin <= 1.0):
+            raise ValueError("window_gain_margin must be finite and 0 < pole_margin <= 1")
+        changed = (self.window_gain_margin, self.pole_margin) != (WINDOW_GAIN_MARGIN, POLE_MARGIN)
+        if self.kind != "windowed_gain" and changed:
+            raise ValueError(f"window_gain_margin and pole_margin belong to kind windowed_gain (D128), not to {self.kind!r}")
 
     @classmethod
     def from_mapping(cls, mapping: Mapping[str, Any] | None) -> "PenaltyConfig":
@@ -380,6 +424,32 @@ def _projection(omega: Tensor, t: Tensor) -> Tensor:
     return torch.linalg.pinv(design)
 
 
+def rollout_gain(model: CFModel, s: Tensor, v: Tensor, cfg: PenaltyConfig) -> Tensor:
+    """Gain ``[n, n_w]`` of the two-vehicle rollouts of :func:`gain_penalty` at the equilibria ``(s, v)`` and the
+    frequencies ``cfg.omegas``: leader speed ``v_e + A sin(w t)`` from ``t = 0``, leader position by the integration
+    scheme, the follower history at the equilibrium for ``window`` samples before (the warm-up), the follower rolled
+    out for ``horizon_s``; the amplitude of the follower speed fitted on ``sin, cos, 1`` over the last ``measure_s``
+    divided by ``A``. Differentiable; cuDNN as in the rollout loss of the training step, except for a backward in
+    eval mode, which cuDNN RNNs lack. Also the long-window check of D128 (``scripts/analysis/long_window_check.py``)."""
+    device, dtype, dt, window = s.device, s.dtype, model.dt, model.window
+    n_steps, n_meas, n_w = round(cfg.horizon_s / dt), round(cfg.measure_s / dt), len(cfg.omegas)
+    # sample k is at t = (k - window + 1) dt: the warm-up ends at t = 0, where the excitation starts
+    omega_w, t, projection = _gain_design(cfg.omegas, dt, window, n_steps, n_meas, device, dtype)
+    omega = omega_w.repeat(len(s))  # [n x n_w], the frequencies of one speed together
+    s0, v0 = s.repeat_interleave(n_w), v.repeat_interleave(n_w)
+    v_lead = v0.double()[:, None] + cfg.amplitude * torch.sin(omega[:, None] * t[None, :])
+    x_lead = dt * (torch.cumsum(v_lead, dim=-1) - v_lead[:, :1])  # x[k] = x[k-1] + dt v[k]
+    cudnn_ok = model.training or not torch.is_grad_enabled()
+    with contextlib.nullcontext() if cudnn_ok else torch.backends.cudnn.flags(enabled=False):
+        res = rollout_model(
+            model, x_lead.to(dtype), v_lead.to(dtype), s0[:, None].expand(-1, window), v0[:, None].expand(-1, window),
+            dt=dt,
+        )  # fmt: skip
+    deviation = (res.v[:, -n_meas:] - v0[:, None]).reshape(len(s), n_w, n_meas)
+    coef = torch.einsum("wkm,nwm->nwk", projection, deviation)
+    return torch.sqrt(coef[..., 0] ** 2 + coef[..., 1] ** 2 + AMPLITUDE_EPS) / cfg.amplitude
+
+
 def gain_penalty(
     model: CFModel, speeds: Tensor, cfg: PenaltyConfig, equilibria: Equilibria | None = None
 ) -> tuple[Tensor, Info]:
@@ -405,23 +475,7 @@ def gain_penalty(
     info = {"n_no_equilibrium": (~anchored).sum().double(), "max_gain": nan, "existence": existence.detach().double()}
     if _none_in(anchored):
         return existence, info
-    device, dtype, dt, window = s.device, s.dtype, model.dt, model.window
-    n_steps, n_meas, n_w = round(cfg.horizon_s / dt), round(cfg.measure_s / dt), len(cfg.omegas)
-    # sample k is at t = (k - window + 1) dt: the warm-up ends at t = 0, where the excitation starts
-    omega_w, t, projection = _gain_design(cfg.omegas, dt, window, n_steps, n_meas, device, dtype)
-    omega = omega_w.repeat(len(s))  # [n x n_w], the frequencies of one speed together
-    s0, v0 = s.repeat_interleave(n_w), v.repeat_interleave(n_w)
-    v_lead = v0.double()[:, None] + cfg.amplitude * torch.sin(omega[:, None] * t[None, :])
-    x_lead = dt * (torch.cumsum(v_lead, dim=-1) - v_lead[:, :1])  # x[k] = x[k-1] + dt v[k]
-    cudnn_ok = model.training or not torch.is_grad_enabled()
-    with contextlib.nullcontext() if cudnn_ok else torch.backends.cudnn.flags(enabled=False):
-        res = rollout_model(
-            model, x_lead.to(dtype), v_lead.to(dtype), s0[:, None].expand(-1, window), v0[:, None].expand(-1, window),
-            dt=dt,
-        )  # fmt: skip
-    deviation = (res.v[:, -n_meas:] - v0[:, None]).reshape(len(s), n_w, n_meas)
-    coef = torch.einsum("wkm,nwm->nwk", projection, deviation)
-    gain = torch.sqrt(coef[..., 0] ** 2 + coef[..., 1] ** 2 + AMPLITUDE_EPS) / cfg.amplitude  # [n, n_w]
+    gain = rollout_gain(model, s, v, cfg)  # [n, n_w]
     largest = torch.where(anchored[:, None], gain.detach().double(), -torch.inf).max()
     info["max_gain"] = torch.where(anchored.any(), largest, nan)
     excess = gain - 1.0 + cfg.gain_margin
@@ -489,6 +543,118 @@ def linear_gain_penalty(
     return _masked_mean(terms, anchored).to(s.dtype) + existence, info
 
 
+def spectral_radius(jacobian: Tensor, dt: float) -> Tensor:
+    """``rho [n]``: the largest modulus of the closed-loop poles of the linearised windowed law, the eigenvalues
+    of the block of ``(e, u)`` of :func:`~cf_stability.stability.analytic.windowed_state_space` (the poles of
+    ``closed_loop_poles``, the roots of the denominator of ``G_w``), differentiable with respect to
+    ``jacobian [n, W, 3]`` (D128).
+
+    The eigenvalues come from ``torch.linalg.eig`` (the routine of ``torch.linalg.eigvals``) on the CPU in
+    float64, without gradient: on CUDA it synchronises with the host and is about ten times slower for these
+    ``(W + 1) x (W + 1)`` matrices. The derivative is that of the dominant pole alone, ``d lambda = w^T dA x /
+    (w^T x)`` with its right eigenvector ``x`` and its left eigenvector ``w`` (an eigenvector of ``A^T``), taken on
+    the device of ``jacobian``: the backward pass never leaves it, so the order in which the gradients are summed
+    does not depend on the timing of a host thread (bitwise reproducible training). It equals the derivative of
+    ``torch.linalg.eigvals`` where that one is accurate, and a cluster of nearly defective poles elsewhere (a law
+    that ignores its oldest states has one near zero) cannot spoil it, since no matrix of all eigenvectors is
+    inverted. ``|w^T x|`` (unit vectors: the reciprocal condition number of the pole) is bounded below by
+    ``EIGENVECTOR_OVERLAP_MIN``, which bounds the derivative where two poles of the largest modulus meet.
+    """
+    jac = jacobian.to(torch.float64)
+    A, _, _ = windowed_state_space(jac, dt)
+    size = jac.shape[1] + 1
+    block = A[:, :size, :size]  # the poles; the other W eigenvalues of A are those of the leader's shift register (0)
+    with torch.no_grad():
+        host = block.detach().cpu()
+        poles, right = torch.linalg.eig(host)
+        rows, k = torch.arange(len(host)), poles.abs().argmax(dim=1)
+        dominant, x = poles[rows, k], right[rows, :, k]  # [n], [n, W + 1]
+        mirrored, left = torch.linalg.eig(host.transpose(-1, -2))  # same eigenvalues, the left eigenvectors
+        w = left[rows, :, (mirrored - dominant[:, None]).abs().argmin(dim=1)]
+        overlap = (w * x).sum(dim=1)  # w^T x
+        size_overlap = overlap.abs()
+        phase = torch.where(size_overlap > 0, overlap / size_overlap.clamp(min=1e-300), torch.ones_like(overlap))
+        overlap = phase * size_overlap.clamp(min=EIGENVECTOR_OVERLAP_MIN)
+        sensitivity = w[:, :, None] * x[:, None, :] / overlap[:, None, None]  # d lambda / dA [n, W + 1, W + 1]
+        dominant, sensitivity = dominant.to(block.device), sensitivity.to(block.device)
+    step = (sensitivity * (block - block.detach())).sum(dim=(1, 2))  # zero, with the derivative of the pole
+    return (dominant + step).abs()
+
+
+def windowed_terms(jacobian: Tensor, omega: Tensor, dt: float, cfg: PenaltyConfig) -> dict[str, Tensor]:
+    """The quantities and the three terms of ``windowed_gain`` (D128) per equilibrium, from the history Jacobian
+    ``jacobian [n, W, 3]`` (entry ``i`` acts on the state ``W - 1 - i`` steps ago; float64):
+
+    * ``gain [n, n_w]``: ``|G_w(e^(i w dt))|`` at the frequencies ``omega`` (equation (A2): ``transfer_windowed``);
+    * ``margin_window [n]``: ``M_w = M + 2 (f_v m_s - f_s m_v) - dt f_s f_v``, the coefficient of
+      ``|G_w|^2 = 1 - w^2 M_w / f_s^2 + O(w^4)`` (``windowed_margin``);
+    * ``radius [n]``: the spectral radius of the closed loop (:func:`spectral_radius`);
+    * ``gain_term = mean_w relu(gain - 1 + window_gain_margin)^2``, ``margin_term = relu(margin - M_w)``,
+      ``pole_term = relu(radius - pole_margin)`` and their sum ``terms``.
+
+    Every entry is differentiable with respect to ``jacobian``."""
+    jac = jacobian.to(torch.float64)
+    gain = transfer_windowed(jac, omega.to(device=jac.device, dtype=torch.float64), dt).abs()
+    margin_window = windowed_margin(jac, dt)
+    radius = spectral_radius(jac, dt)
+    gain_term = torch.relu(gain - 1.0 + cfg.window_gain_margin).square().mean(dim=1)
+    margin_term = torch.relu(cfg.margin - margin_window)
+    pole_term = torch.relu(radius - cfg.pole_margin)
+    return {
+        "gain": gain, "margin_window": margin_window, "radius": radius, "gain_term": gain_term,
+        "margin_term": margin_term, "pole_term": pole_term, "terms": gain_term + margin_term + pole_term,
+    }  # fmt: skip
+
+
+def windowed_response(model: CFModel, s: Tensor, v: Tensor, cfg: PenaltyConfig) -> dict[str, Tensor]:
+    """The full-history linearisation of ``model`` at the constant states ``(s, 0, v)`` (D128): the history Jacobian
+    ``jacobian [n, W, 3]`` of one backward pass through the whole input history (:func:`window_jacobian`, the lag
+    Jacobians of Appendix A of the paper, in float64), the audit frequencies ``omega [n_w]`` of ``cfg``
+    (``linear_omega_min``, ``linear_omega_max``, ``linear_n_omega``, log-spaced) and the entries of
+    :func:`windowed_terms`; differentiable with respect to the parameters of ``model``."""
+    omega, _ = _linear_grid(
+        cfg.linear_omega_min, cfg.linear_omega_max, cfg.linear_n_omega, cfg.gain_margin, cfg.gain_margin_ref, s.device
+    )
+    jacobian = window_jacobian(model, s, v).double()
+    return {"omega": omega, "jacobian": jacobian, **windowed_terms(jacobian, omega, model.dt, cfg)}
+
+
+def windowed_gain_penalty(
+    model: CFModel, speeds: Tensor, cfg: PenaltyConfig, equilibria: Equilibria | None = None
+) -> tuple[Tensor, Info]:
+    """A1 (D128): mean over the anchored equilibria of ``mean_w relu(|G_w| - 1 + m_w)^2 + relu(m - M_w) +
+    relu(rho - rho_max)`` (:func:`windowed_terms` of :func:`windowed_response`; ``m_w = window_gain_margin``, ``m =
+    margin``, ``rho_max = pole_margin``), plus the existence term (:func:`existence_penalty`, as in ``gain`` and
+    ``combined``). The windowed law is linearised over its whole window at the equilibrium history: no rollout.
+
+    ``equilibria`` (at ``speeds``) are computed with the band of ``cfg`` when not given. ``info`` (detached):
+    ``n_no_equilibrium``, ``max_gain`` (largest windowed gain over the anchored equilibria and the frequencies),
+    ``min_margin_window`` (smallest ``M_w``), ``max_radius`` (largest spectral radius), the means of the three terms
+    over the anchored equilibria (``gain_term``, ``margin_term``, ``pole_term``) and ``existence``. Speeds without an
+    anchored equilibrium are linearised at the nominal spacing and masked out, as in :func:`jacobian_penalty`.
+    """
+    eq = _equilibria(model, speeds, cfg, equilibria)
+    s, v, anchored = _anchored(eq)
+    nan = torch.full((), float("nan"), dtype=torch.float64, device=s.device)
+    existence = existence_penalty(model, v, eq.usable, cfg)
+    info = {key: nan for key in INFO_KEYS["windowed_gain"]}
+    info.update(n_no_equilibrium=(~anchored).sum().double(), existence=existence.detach().double())
+    if _none_in(anchored):
+        return existence, info
+    response = windowed_response(model, s, v, cfg)
+    some = anchored.any()
+
+    def largest(values: Tensor) -> Tensor:
+        return torch.where(some, torch.where(anchored, values.detach().double(), -torch.inf).max(), nan)
+
+    info["max_gain"] = largest(response["gain"].amax(dim=1))
+    info["min_margin_window"] = -largest(-response["margin_window"])
+    info["max_radius"] = largest(response["radius"])
+    for key in ("gain_term", "margin_term", "pole_term"):
+        info[key] = _masked_mean(response[key].detach().double(), anchored)
+    return _masked_mean(response["terms"], anchored).to(s.dtype) + existence, info
+
+
 def existence_only_penalty(
     model: CFModel, speeds: Tensor, cfg: PenaltyConfig, equilibria: Equilibria | None = None
 ) -> tuple[Tensor, Info]:
@@ -543,6 +709,7 @@ PENALTIES: dict[str, Callable[..., tuple[Tensor, Info]]] = {
     "existence": existence_only_penalty,
     "combined": combined_penalty,
     "monotone": monotone_penalty,
+    "windowed_gain": windowed_gain_penalty,
 }
 
 

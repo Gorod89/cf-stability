@@ -45,7 +45,8 @@ from ``<run>/model.pt`` as it is (scaler, fitted parts, IDM core, ``lipschitz``)
 no ``fit``; the ``model`` group must name the model type of the checkpoint. Certified budget
 (D86): ``certificate.enforce=true`` (``residual_idm`` with a fixed core, not with ``init_from``) sets
 ``lipschitz = certificate.safety * b / r_max`` after the calibration of the core, with ``b`` the
-admissible budget of the a priori certificate at the model's ``r_max`` (``b = 0``: error).
+admissible budget of the a priori certificate at the model's ``r_max`` (``b = 0``: error); for
+``residual_idm_tt`` (D129) ``b`` is the smallest over the frozen latents its online latent can reach.
 """
 
 from __future__ import annotations
@@ -77,7 +78,8 @@ from cf_stability.train.tensors import training_context  # noqa: E402
 from cf_stability.train.trainer import TrainConfig, seed_everything, train_model  # noqa: E402
 from cf_stability.utils import config_hash, git_revision, read_json, resolve_path, to_plain, write_json  # noqa: E402
 
-NEEDS_IDM = ("idm", "pidl", "residual_idm")
+NEEDS_IDM = ("idm", "pidl", "residual_idm", "residual_idm_tt")
+CERTIFIED = ("residual_idm", "residual_idm_tt")  # models with the certified budget of D86 (residual_idm_tt: D129)
 NEEDS_NEWELL = ("newell", "perl")
 NEEDS_OVM = ("ovm",)
 CALIBRATIONS = {"idm": calibrate_global, "newell": calibrate_newell, "ovm": calibrate_ovm}
@@ -128,8 +130,9 @@ def check_options(cfg: DictConfig, model_cfg: Mapping[str, Any]) -> None:
     """Combinations of options that cannot work, before any data are read."""
     if not cfg.certificate.enforce:
         return
-    if model_cfg["name"] != "residual_idm":
-        raise ValueError(f"certificate.enforce=true needs model=residual_idm, got a {model_cfg['name']!r} model")
+    if model_cfg["name"] not in CERTIFIED:
+        raise ValueError(f"certificate.enforce=true needs model=residual_idm (or residual_idm_tt), got a "
+                         f"{model_cfg['name']!r} model")
     if cfg.init_from is not None:
         raise ValueError("certificate.enforce=true cannot be combined with init_from: the budget is set at the start")
     if model_cfg.get("idm_learnable"):  # the budget holds for the calibrated core, not for one changed by training

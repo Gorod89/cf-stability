@@ -21,6 +21,11 @@ training events of the run, rebuilt from the config of its ``metrics.json`` (vie
 band of the context, and writes ``stability_q<low>_<high>.json`` (``output`` overrides the name) with
 the band under ``band_override``. The anchored search of D79 makes the equilibrium itself depend on the
 band, so another band needs a new audit, not a reclassification of the stored one.
+
+Frozen latent (D129): ``frozen_z=<z>`` audits a model with a latent (``residual_idm_tt``) with its latent frozen at
+``z`` (``model.frozen_z``: the memoryless hybrid with the core time gap ``T(z)``) and writes
+``stability_z<z>.json`` (``stability_z-0.5.json``, ``stability_z0.json``, ...; ``output`` overrides the name) with
+``frozen_z`` in the payload and in the hashed settings. A model without latent fails with that message.
 """
 
 from __future__ import annotations
@@ -46,11 +51,22 @@ from cf_stability.utils import config_hash, git_revision, read_json, resolve_pat
 OUTPUT = "stability.json"
 
 
+def frozen_output(z: float) -> str:
+    """``stability_z<z>.json`` of an audit at the frozen latent ``z`` (D129): ``stability_z-1.json``,
+    ``stability_z0.5.json``."""
+    return f"stability_z{float(z):g}.json"
+
+
 def output_name(cfg: DictConfig) -> str:
-    """``output``, else ``stability.json`` or, with ``band_quantiles``, ``stability_q<low>_<high>.json``."""
+    """``output``, else ``stability.json`` or, with ``band_quantiles``, ``stability_q<low>_<high>.json``, or, with
+    ``frozen_z``, ``stability_z<z>.json``."""
     if cfg.get("output"):
         return str(cfg.output)
     quantiles = cfg.get("band_quantiles")
+    if cfg.get("frozen_z") is not None:
+        if quantiles is not None:
+            raise ValueError("frozen_z and band_quantiles together need output=<name>")
+        return frozen_output(cfg.frozen_z)
     return OUTPUT if quantiles is None else band_output(quantiles)
 
 
@@ -125,6 +141,9 @@ def main(cfg: DictConfig) -> None:
     if quantiles is not None:
         BandConfig(quantiles=tuple(quantiles))  # checked before any run: three increasing numbers in [0, 1]
     hashed = plain["stability"] if quantiles is None else {"stability": plain["stability"], "band_quantiles": quantiles}
+    frozen_z = plain.get("frozen_z")
+    if frozen_z is not None:  # D129; the hash of an audit without it is unchanged
+        hashed = {"stability": plain["stability"], "band_quantiles": quantiles, "frozen_z": float(frozen_z)}
     header = {"config": plain, "config_hash": config_hash(hashed), "git_revision": git_revision()}
     name, cache = output_name(cfg), {}
     for run_dir in run_directories(cfg):
@@ -134,6 +153,11 @@ def main(cfg: DictConfig) -> None:
         try:
             model = load_model(run_dir / "model.pt")
             payload["model"] = model.name
+            if frozen_z is not None:  # D129: the latent frozen at a value (the memoryless hybrid at T(z))
+                if not hasattr(model, "frozen_z"):
+                    raise ValueError(f"frozen_z={frozen_z}: model {model.name!r} has no latent")
+                model.frozen_z = float(frozen_z)
+                payload["frozen_z"] = float(frozen_z)
             metrics_path = run_dir / "metrics.json"
             metrics = read_json(metrics_path) if metrics_path.exists() else None
             context = None if metrics is None else metrics.get("context")

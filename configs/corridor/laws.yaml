@@ -105,3 +105,38 @@ table:
     kind: models                 #   ngsim_i80 (the runs of e4_margin_free_r0.3_ft)
     device: cpu
     members: "runs/e4_margin_free_r0.3_ft/ngsim_i80/residual_idm/driver_fold{fold}_seed0"
+  # M11, D130 (agent C): copies of four laws for the corridor runs with the safety filter (sim.safety_filter of
+  # configs/run_corridor.yaml, cf_stability/corridor/safety.py); the loop runs a law <law>_filter with the filter only,
+  # so the filtered runs never replace those of the unfiltered law. Same members and draws as the law without suffix.
+  mlp_filter: {kind: models, device: cpu, members: "runs/e4_free_ft/ngsim_i80/mlp/driver_fold{fold}_seed0"}
+  gru_filter: {kind: models, device: cuda, members: "runs/m5_ft/ngsim_i80/gru/driver_fold{fold}_seed0"}
+  lstm_filter: {kind: models, device: cuda, members: "runs/m5_ft/ngsim_i80/lstm/driver_fold{fold}_seed0"}
+  residual_idm_certified_filter:
+    kind: models
+    device: cpu
+    members: "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold{fold}_seed0"
+  # M11 (agent B), docs/m11_contract.md. D132: the cores of residual_idm_certified_het drawn with the weights
+  # w_i ~ exp(beta_T T_i + beta_s s0_i) instead of uniformly; (beta_T, beta_s) fitted to the binned fundamental diagram of
+  # the ground truth of i80_p1 (python scripts/analysis/het_fd_tilt.py -> the `tilt` file, which must have been fitted on
+  # the cores of this law); members, cores and recheck as residual_idm_certified_het (the same members for a seed).
+  # D129: the two-timescale certified hybrid (residual_idm_tt, tau_z 15 s) fine-tuned on ngsim_i80, one fold member per
+  # vehicle drawn as residual_idm_certified draws its members; the latent runs online on the history of every vehicle
+  # (a GRU over the window, on the GPU as the recurrent laws gru, lstm and perl).
+  residual_idm_certified_het_fd:
+    kind: residual_heterogeneous
+    device: cpu
+    members: "runs/e4_stable_ft/ngsim_i80/residual_idm/driver_fold{fold}_seed0"
+    cores: "data/calibration/ngsim_i80/idm_event_margin0.2_*_certified.json"
+    recheck: true
+    tilt: "data/calibration/ngsim_i80/het_fd_tilt.json"
+  residual_idm_tt:
+    kind: models
+    device: cuda
+    members: "runs/e4_tt_ft/ngsim_i80/residual_idm_tt/driver_fold{fold}_seed0"
+  # M11 (agent A), docs/m11_contract.md, D128: the recurrent laws trained on follownet_highd with the windowed-gain
+  # penalty (A1) at the weight chosen on its pilot (D85: gru 0.1, lstm 10, perl 1) and fine-tuned on ngsim_i80 with the
+  # penalty continued (configs/queue/m11_ft_windowed.yaml); kind models on the GPU as gru, lstm and perl, one fold
+  # member drawn per vehicle as they draw theirs. Rows of the corridor tables (windowed_laws of configs/corridor_metrics.yaml).
+  gru_windowed: {kind: models, device: cuda, members: "runs/m11_ft_windowed_w0.1/ngsim_i80/gru/driver_fold{fold}_seed0"}
+  lstm_windowed: {kind: models, device: cuda, members: "runs/m11_ft_windowed_w10/ngsim_i80/lstm/driver_fold{fold}_seed0"}
+  perl_windowed: {kind: models, device: cuda, members: "runs/m11_ft_windowed_w1/ngsim_i80/perl/driver_fold{fold}_seed0"}

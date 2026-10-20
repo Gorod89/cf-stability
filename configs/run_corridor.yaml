@@ -26,6 +26,10 @@ sim:                      # hashed with the scenario, the law and the seed
   contact_gap: 1.0        # m: a gap <= 0 begins a collision episode (the vehicle stays, its speed is capped so that
                           # it cannot penetrate further); the episode ends when the gap is above this
   sumo_options: []        # further options of SUMO, e.g. [--no-warnings, "true"]
+  safety_filter: null     # D130 (cf_stability/corridor/safety.py): null = off, left out of the config hash; true = the
+                          # barrier h = s - s_min - v tau_s - max(0, v^2 - v_lead^2) / (2 b) with its defaults, or a
+                          # mapping {s_min: 2.0, tau_s: 0.5, b: 4.0, alpha: 1.0}; the values enter the hash. Filtered
+                          # runs need a law named <law>_filter (configs/corridor/laws.yaml), which runs filtered only
 
 paths:
   scenarios_root: runs/corridor/scenarios

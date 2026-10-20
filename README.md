@@ -1,6 +1,6 @@
 # cf-stability: string stability of learned car-following models
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23256680.svg)](https://doi.org/10.5281/zenodo.23256680)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23256679.svg)](https://doi.org/10.5281/zenodo.23256679)
 [![tests](https://github.com/Gorod89/cf-stability/actions/workflows/tests.yml/badge.svg)](https://github.com/Gorod89/cf-stability/actions/workflows/tests.yml)
 
 Code, configurations, run manifests and results of the study
@@ -172,7 +172,9 @@ git diff --ignore-cr-at-eol runs                                 # what differs 
 ```
 
 On the published checkout `make_tables.py` and `corridor_metrics.py compute=false tables=true` rewrite every table
-they write byte for byte (all of `runs/_tables/m4` and `m5`; `e2_monotone` and the corridor tables of `m8`), and
+they write byte for byte (all of `runs/_tables/m4` and `m5`; `e2_monotone` and the corridor tables of `m8`; the
+tables of the manuscript are those of the tag v2.0.2, from v2.1.0 the corridor tables carry the laws of M11 as
+further rows), and
 `make_figures_supplement.py` the tables `lowfreq_expansion` and `certificate_tightness` (checked on Windows on 8
 October 2026: 26 s, 47 s and 54 s; the published files have Windows line endings, which a run on Linux replaces,
 hence `--ignore-cr-at-eol`). `make_figures_supplement.py` comes before `make_report.py`, which lists the
@@ -443,6 +445,40 @@ python scripts/corridor_metrics.py; python scripts/corridor_asymmetry.py workers
 python scripts/make_tables.py; python scripts/corridor_metrics.py compute=false tables=true; python scripts/make_report.py   # adds the tables e2_horizon (m4), correlation_clustered, contacts_absolute, h12_2_error and ablation_pairs (m8)
 ```
 
+#### M11: extensions after the submission (19-20 October 2026)
+
+Five hypotheses and three algorithms proposed after the submission, each with a decision rule fixed before the runs
+(`docs/m11_contract.md`, D127-D133) and reported in `docs/m11_report.md` (verdicts: none of the six rules met; the
+windowed-gain penalty closes the low-frequency blind band of the rollout penalties and gives the best GRU law of the
+corridor; the two-timescale certified law is the best law on US-101; the safety filter removes 99.9-100 % of the
+contacts). The five new laws are further rows of the corridor tables (design keys `m11_laws`, `windowed_laws` of
+`configs/corridor_metrics.yaml`; not in the correlations); the manuscript's tables are those of the tag v2.0.2.
+
+```bash
+python scripts/run_experiment.py configs/queue/e2_windowed_pilot.yaml   # A1: windowed-gain penalty, GRU/LSTM/PERL, weights 0.1/1/10, fold 0 (9 runs)
+python scripts/analysis/windowed_gain.py choose                        # the weights by D85 -> configs/queue/e2_windowed.yaml
+python scripts/run_experiment.py configs/queue/e2_windowed.yaml         # five folds (12 further runs)
+python scripts/analysis/long_window_check.py --device cuda             # the 380-s rollout gain at 0.02, 0.05, 0.1 rad/s (runs/_tables/m11/long_window)
+python scripts/analysis/full_history_audit.py --arm-set m11            # runs/_tables/m11/full_history_windowed
+python scripts/run_experiment.py configs/queue/m11_ft_windowed.yaml     # fine-tuning on NGSIM I-80 with the penalty (15 runs)
+python scripts/analysis/windowed_gain.py tables                        # runs/_tables/m11/e2_windowed*, the branch of H-N3
+python scripts/run_experiment.py configs/queue/e4_tt_pilot.yaml         # A2: two-timescale certified law, tau_z 15/30/60 s (3 runs)
+python scripts/run_experiment.py configs/queue/e4_tt.yaml               # five folds and their fine-tuning on NGSIM I-80 (10 runs)
+python scripts/analysis/certificate_tt.py                              # the exact certificate at 21 frozen latents (runs/_tables/m11/certificate_tt)
+python scripts/analysis/tt_summary.py                                  # runs/_tables/m11/tt_pilot, tt_highd, tt_ngsim
+python scripts/analysis/het_fd_tilt.py                                 # H-N5: the FD-matched member weights (data/calibration/ngsim_i80/het_fd_tilt.json)
+python scripts/build_corridor.py scenarios=false                       # the laws gru_windowed, lstm_windowed, perl_windowed, residual_idm_tt, residual_idm_certified_het_fd
+python scripts/run_corridor.py scenarios=[i80_p0,i80_p1,i80_p2,us101_p0,us101_p1,us101_p2] laws=[gru_windowed,lstm_windowed,perl_windowed,residual_idm_tt,residual_idm_certified_het_fd] seeds=[0,1,2,3,4,5,6,7,8,9] workers=3   # 300 runs
+python scripts/run_corridor.py scenarios=[i80_p1,us101_p1] laws=[mlp_filter,gru_filter,lstm_filter,residual_idm_certified_filter] seeds=[0,1,2,3,4] workers=3   # A3: the safety filter (40 runs)
+python scripts/corridor_metrics.py; python scripts/corridor_asymmetry.py workers=2
+python scripts/make_tables.py; python scripts/corridor_metrics.py compute=false tables=true
+python scripts/analysis/m11_pairs.py                                   # runs/_tables/m11/tt_pairs, het_fd_pairs
+python scripts/analysis/safety_filter.py                               # runs/_tables/m11/safety_filter
+python scripts/analysis/predictive_validity.py                         # H-N1: runs/_tables/m11/predictive_validity (runs the platoon step for members that lack it)
+python scripts/analysis/robust_certificate.py --workers 3              # A3: runs/_tables/m11/robust_certificate, budget_allocation (about 35 min)
+python scripts/analysis/empirical_gain.py                              # H-N4: runs/_tables/m11/empirical_gain, figure empirical_gain (needs the event sets, level 3)
+```
+
 ## Outputs
 
 * `runs/_report/report.md`: the generated report (eleven sections, every number read from the tables),
@@ -464,9 +500,9 @@ python scripts/make_tables.py; python scripts/corridor_metrics.py compute=false 
 ## Citation
 
 `CITATION.cff` holds the citation metadata (GitHub: "Cite this repository"). Every release from v2.0.2 on is
-archived on Zenodo: version 2.0.2 is <https://doi.org/10.5281/zenodo.23256680>, the concept DOI
-<https://doi.org/10.5281/zenodo.23256679> resolves to the latest version. Cite the article and the archived version
-you used:
+archived on Zenodo: the concept DOI <https://doi.org/10.5281/zenodo.23256679> resolves to the latest version, version
+2.0.2 (the state of the submitted manuscript) is <https://doi.org/10.5281/zenodo.23256680>. Cite the article and the
+archived version you used:
 
 ```bibtex
 @unpublished{gorodnichev2026string,

@@ -65,6 +65,8 @@ from cf_stability.train.tensors import BandConfig, spacing_band  # noqa: E402
 from cf_stability.utils import REPO_ROOT, read_json  # noqa: E402
 
 OUTPUTS = ("lowfreq_expansion", "certificate_tightness", "band_width", "stability_maps", "corridor")
+# law sets of the design of corridor_metrics.yaml that the corridor grids leave out (D125; the laws of M11 as well, D133)
+EXCLUDED_LAW_SETS = ("ablation_laws", "m11_laws", "windowed_laws", "filter_laws")
 EQUILIBRIUM = ("ok", "multiple", "outside")  # statuses with an equilibrium (FOUND of cf_stability.stability.audit)
 FLAGS = ("clipped", "stopped", "collided")  # rollout flags of the numerical response (cf_stability.stability.frequency)
 PARTIALS = ("f_s", "f_dv", "f_v")
@@ -1097,7 +1099,8 @@ class Supplement:
             raw = {}
         design = raw.get("design") or {}
         names = {**CORRIDOR_NAMES, **(design.get("corridors") or {})}
-        excluded = [] if self.cfg.ablation_panels else [str(law) for law in design.get("ablation_laws") or []]
+        excluded = [] if self.cfg.ablation_panels else [str(law) for key in EXCLUDED_LAW_SETS
+                                                        for law in design.get(key) or []]  # fmt: skip
         return names, raw.get("macro") or {}, excluded, notes
 
     def load_corridor(self) -> None:
@@ -1161,7 +1164,8 @@ class Supplement:
         left_out = [law for law in excluded if (root / law / seed_dir).is_dir()]
         if left_out:
             notes.append(self.note(f"corridor {scenario}", "not drawn (the variants of the controlled ablation, "
-                                                           f"design.ablation_laws): {', '.join(left_out)}"))  # fmt: skip
+                                                           f"design.ablation_laws, and the laws of M11): "
+                                                           f"{', '.join(left_out)}"))  # fmt: skip
         absent = [law for law in dict.fromkeys([*c.main_laws, *listed]) if law not in present]
         if absent:
             notes.append(self.note(f"corridor {scenario}", f"no {seed_dir} run of {', '.join(absent)}"))

@@ -38,13 +38,25 @@ The review of M8 adds two more (the factorial ablation of the certified hybrid):
   off; ``members: []`` (the audits of the runs are those of the hybrid: the instability of the law is that of its cores
   in closed form), the runs in ``source``, ``support_v`` from the runs.
 
+M11 adds two laws (docs/m11_contract.md):
+
+* kind ``residual_heterogeneous`` with ``tilt`` (D132, ``residual_idm_certified_het_fd``): the cores of the law are
+  drawn with the weights ``w_i ~ exp(beta_T T_i + beta_s s0_i)`` instead of uniformly; ``tilt`` names the file of
+  ``scripts/analysis/het_fd_tilt.py`` with ``beta_T``, ``beta_s`` and the positions of the cores it was fitted on
+  (``cores_index``), which must be the cores of the law (else the law is not written). The weights go to the table
+  (``weight``) and the betas to ``source.tilt``; without ``tilt`` nothing changes (the file, its fingerprint and the
+  draws of ``residual_idm_certified_het`` are those of M8).
+* kind ``models`` with the members of ``residual_idm_tt`` (D129): the two-timescale certified hybrid is a model with a
+  window, its latent runs online on the history of every vehicle (as the GRU laws); nothing of its own here.
+
 Simulation (:func:`load_law`): an object with ``n_members``, ``window``, ``assign(n, rng)`` (the member of
 every vehicle of the demand, drawn in the order of the planned departures) and
 ``accelerations(rows, history)`` (unclipped accelerations of the vehicles ``rows`` for their histories
 ``[n, window, 3]`` of ``(s, dv, v)``). The heterogeneous hybrid draws the member of every vehicle exactly as
 ``ModelLaw`` (the same members as ``residual_idm_certified`` for a seed), then its core as ``IDMLaw`` draws a row
-of its table, and evaluates per member in one batch ``idm(core of each vehicle) + residual of the member``, the
-core in the float32 of the member's own core (``ResidualIDM.forward``).
+of its table (with the weights of the table when it has them, D132), and evaluates per member in one batch
+``idm(core of each vehicle) + residual of the member``, the core in the float32 of the member's own core
+(``ResidualIDM.forward``).
 
 Only numpy is imported at module level: the parent of the multi-run mode computes fingerprints without
 pandas or torch, and a simulation process must import libsumo before them (docs/m5_contract.md, section 0).
@@ -538,9 +550,16 @@ def _export_residual_heterogeneous(
     if not used:
         return None, f"LAW {name:<24} not written: no usable core in {_relative(path)} ({counts})"
     arrays = np.array([core["params"] for core in used], dtype=np.float64)
+    index = np.array([core["index"] for core in used], dtype=np.int64)
+    tilt = None
+    if spec.get("tilt"):  # D132: the cores drawn with exponentially tilted weights
+        tilt, problem = tilt_weights(str(spec["tilt"]), arrays, index)
+        if tilt is None:
+            return None, f"LAW {name:<24} not written: tilt {spec['tilt']}: {problem}"
     out_dir.mkdir(parents=True, exist_ok=True)
-    np.savez(out_dir / f"{name}.npz", **{key: arrays[:, j] for j, key in enumerate(IDM_KEYS)},
-             index=np.array([core["index"] for core in used], dtype=np.int64))  # fmt: skip
+    extra = {} if tilt is None else {"weight": tilt.pop("weight")}  # the table of the uniform law keeps its arrays
+    np.savez(out_dir / f"{name}.npz", **{key: arrays[:, j] for j, key in enumerate(IDM_KEYS)}, index=index,
+             **extra)  # fmt: skip
     share = info["share_certified"] if info["share_certified"] is not None else len(certified) / max(len(cores), 1)
     payload: dict[str, Any] = {
         "law": name, "kind": "residual_heterogeneous", "device": "cpu",
@@ -554,10 +573,38 @@ def _export_residual_heterogeneous(
             "residual_bounds": bounds.tolist(), "bound_used": bounds.max(axis=0).tolist(),
         },
     }  # fmt: skip
+    if tilt is not None:  # only then: the file of the uniform law keeps its content (and its fingerprint)
+        payload["source"]["tilt"] = tilt
+        counts += f"; tilted: beta_T {tilt['beta_T']:+.4f}, beta_s {tilt['beta_s']:+.4f}, effective cores " \
+                  f"{tilt['effective_cores']:.0f}"  # fmt: skip
     write_json(out_dir / f"{name}.json", payload)
     folds = "n/a" if info["folds"] is None else ", ".join(map(str, info["folds"]))
     return payload, _line(payload, f"{len(used)} cores of {counts} (certificate of the file: residual of fold(s) "
                                    f"{folds}); {len(present)}/{len(runs)} members for the residual", out_dir)  # fmt: skip
+
+
+def tilt_weights(path: str, params: np.ndarray, index: np.ndarray) -> tuple[dict[str, Any] | None, str | None]:
+    """The weights ``w_i ~ exp(beta_T T_i + beta_s s0_i)`` of the cores ``params [n, 5]`` (positions ``index`` in the
+    cores file) with the betas of the tilt file ``path`` (``scripts/analysis/het_fd_tilt.py``, D132), and the record of
+    the law: ``{file, key, beta_T, beta_s, effective_cores, weight}``; ``(None, reason)`` when the file is missing,
+    holds no betas or was fitted on other cores."""
+    resolved = resolve_path(path)
+    if not resolved.is_file():
+        return None, f"{path}: no file (python scripts/analysis/het_fd_tilt.py)"
+    fit = read_json(resolved)
+    try:
+        beta_t, beta_s = float(fit["beta_T"]), float(fit["beta_s"])
+    except (KeyError, TypeError, ValueError):
+        return None, f"{path}: no beta_T, beta_s"
+    fitted = fit.get("cores_index")
+    if fitted is None or len(fitted) != len(index) or not np.array_equal(np.asarray(fitted, dtype=np.int64), index):
+        return None, f"{path} was fitted on other cores ({0 if fitted is None else len(fitted)}, the law has {len(index)})"
+    logit = beta_t * params[:, IDM_KEYS.index("T")] + beta_s * params[:, IDM_KEYS.index("s0")]
+    weight = np.exp(logit - logit.max())
+    weight = weight / weight.sum()
+    record = {"file": _relative(resolved), "key": fit.get("key"), "beta_T": beta_t, "beta_s": beta_s,
+              "effective_cores": float(1.0 / np.sum(weight**2)), "weight": weight}  # fmt: skip
+    return record, None
 
 
 def _line(payload: Mapping[str, Any], what: str, out_dir: Path) -> str:
@@ -676,9 +723,13 @@ class ResidualHetLaw:
     member`` (``ResidualIDM.residual`` of the last state). The member of every vehicle is drawn as ``ModelLaw`` draws
     it (the same members as the law of the fold members alone for a seed), then its core as ``IDMLaw`` draws a row of
     its table; the vehicles of one member are evaluated in one batch, the core in the dtype of the member's own core
-    (``ResidualIDM.forward``), so that a table holding a member's own core reproduces that member exactly."""
+    (``ResidualIDM.forward``), so that a table holding a member's own core reproduces that member exactly. With
+    ``weights`` (D132) the row of a vehicle is drawn with these probabilities (``Generator.choice``); without them
+    uniformly (``Generator.integers``, as in M8: the draws of the uniform law are unchanged)."""
 
-    def __init__(self, name: str, models: Sequence[Any], table: np.ndarray, device: str) -> None:
+    def __init__(
+        self, name: str, models: Sequence[Any], table: np.ndarray, device: str, weights: np.ndarray | None = None
+    ) -> None:
         import torch
 
         from cf_stability.models.idm import idm_acc
@@ -690,12 +741,22 @@ class ResidualHetLaw:
         self.n_members = len(self.models)
         self.window = max(int(model.window) for model in self.models)
         self.table = np.asarray(table, dtype=np.float64)
+        self.weights = None
+        if weights is not None:
+            w = np.asarray(weights, dtype=np.float64).reshape(-1)
+            if len(w) != len(self.table) or not np.all(np.isfinite(w)) or np.any(w < 0) or not w.sum() > 0:
+                raise ValueError(f"law {name}: {len(w)} weights for {len(self.table)} cores, or not a distribution")
+            self.weights = w / w.sum()
         self.member: np.ndarray | None = None
         self.params: np.ndarray | None = None  # [vehicles, 5] after assign
 
     def assign(self, n_vehicles: int, rng: np.random.Generator) -> np.ndarray:
         self.member = rng.integers(self.n_members, size=n_vehicles).astype(np.int8)
-        self.params = self.table[rng.integers(len(self.table), size=n_vehicles)]
+        if self.weights is None:
+            rows = rng.integers(len(self.table), size=n_vehicles)
+        else:
+            rows = rng.choice(len(self.table), size=n_vehicles, p=self.weights)
+        self.params = self.table[rows]
         return self.member
 
     def accelerations(self, rows: np.ndarray, history: np.ndarray) -> np.ndarray:
@@ -743,5 +804,6 @@ def load_law(path: str | Path, device: str | None = None) -> tuple[IDMLaw | Mode
     if kind == "residual_heterogeneous":
         with np.load(path.parent / payload["table"]) as data:
             table = np.stack([np.asarray(data[key], dtype=np.float64).reshape(-1) for key in IDM_KEYS], axis=1)
-        return ResidualHetLaw(name, models, table, device), device
+            weights = np.asarray(data["weight"], dtype=np.float64) if "weight" in data.files else None  # D132
+        return ResidualHetLaw(name, models, table, device, weights), device
     return ModelLaw(name, models, device), device

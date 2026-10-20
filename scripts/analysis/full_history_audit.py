@@ -2,6 +2,7 @@
 
     python scripts/analysis/full_history_audit.py              # full_history.json per run, the table, the figure
     python scripts/analysis/full_history_audit.py --no-figure  # without the figure
+    python scripts/analysis/full_history_audit.py --arm-set m11   # M11 (D128): the windowed-gain penalty, own table
 
 The audit classifies GRU, LSTM and PERL by the numerical frequency response of the full rollout and
 reports the Jacobian criterion only for the memoryless view (the window filled with the constant
@@ -41,6 +42,13 @@ the stored models and audits only (CPU, float64). The tables e1, e2, e2_lowfreq,
 ``cf_stability/eval/tables.py`` read ``full_history.json`` for their shares with local instability added
 (a speed whose loop has a pole on or outside the unit circle is not stable whatever its measured gain), so
 the arms cover the recurrent runs of these tables.
+
+``--arm-set m11`` (M11, docs/m11_contract.md, D128): the arms of ``M11_ARMS`` instead, the runs of the windowed-gain
+penalty (A1, kind ``windowed_gain``: the chosen weight of every architecture on five folds and the three pilot weights
+on fold 0, seed 0) next to the E1 runs of seed 0, into ``runs/_tables/m11/full_history_windowed.{csv,md}`` (no
+figure). ``full_history.json`` is written into the runs of the new experiments only (``M11_WRITE``): the files of the
+E1 runs belong to the table of M9 and stay as they are (they hold the wall time of their analysis). The default arm
+set and its table ``runs/_tables/m9/full_history`` are unchanged.
 """
 
 from __future__ import annotations
@@ -86,6 +94,19 @@ ARM_DATA: dict[str, str] = {  # arm -> data view of its runs; the other arms: --
     "E5 ACC": "openacc_acc", "E5 ACC penalised": "openacc_acc",
     "E5 human": "openacc_human", "E5 human penalised": "openacc_human",
 }  # fmt: skip
+# M11 (D128): the windowed-gain penalty of the recurrent laws, every arm on seed 0; the weight of an architecture chosen
+# by the rule of D85 on the pilot of fold 0 (scripts/analysis/windowed_gain.py; configs/queue/e2_windowed.yaml)
+M11_CHOSEN: dict[str, str] = {"gru": "e2_windowed_w0.1", "lstm": "e2_windowed_w10", "perl": "e2_windowed_w1"}  # 2026-10-20
+M11_WEIGHTS = ("0.1", "1", "10")  # the pilot (configs/queue/e2_windowed_pilot.yaml)
+M11_ARMS: dict[str, dict[str, str]] = {
+    "E1 (seed 0)": {"gru": "e1", "lstm": "e1", "perl": "e1"},
+    "E2 windowed (chosen weight)": dict(M11_CHOSEN),
+    **{f"E2 windowed w{w} (pilot)": {a: f"e2_windowed_w{w}" for a in ARCHITECTURES} for w in M11_WEIGHTS},
+}
+M11_SEEDS: dict[str, tuple[int, ...]] = {arm: (0,) for arm in M11_ARMS}  # arm -> seeds of its runs
+M11_FOLDS: dict[str, tuple[int, ...]] = {arm: (0,) for arm in M11_ARMS if arm.endswith("(pilot)")}  # arm -> folds
+M11_WRITE = ("e2_windowed",)  # experiments (prefixes) whose runs get full_history.json in the M11 arm set
+M11_OUT, M11_TABLE = "runs/_tables/m11", "full_history_windowed"
 FIGURE_ARMS = ("E1", "E2")
 OUTPUT = "full_history.json"
 AUDIT = "stability.json"
@@ -234,8 +255,18 @@ def summarise_records(records: Sequence[Mapping[str, Any]], part: str) -> dict[s
     return out
 
 
-def run_directories(runs_root: Path, experiment: str, data: str, architecture: str) -> list[Path]:
-    return sorted(p.parent for p in (runs_root / experiment / data / architecture).glob("*/model.pt"))
+def run_directories(
+    runs_root: Path, experiment: str, data: str, architecture: str, seeds: Sequence[int] | None = None,
+    folds: Sequence[int] | None = None,
+) -> list[Path]:  # fmt: skip
+    """The run directories (with ``model.pt``) of an experiment, architecture and data view; with ``seeds`` and
+    ``folds`` only those of the runs ``<split>_fold<f>_seed<s>`` of these folds and seeds (None: every one)."""
+    runs = sorted(p.parent for p in (runs_root / experiment / data / architecture).glob("*/model.pt"))
+    if seeds is not None:
+        runs = [r for r in runs if any(r.name.endswith(f"_seed{s}") for s in seeds)]
+    if folds is not None:
+        runs = [r for r in runs if any(f"_fold{f}_" in r.name for f in folds)]
+    return runs
 
 
 def load_audit(run_dir: Path) -> dict[str, Any] | str:
@@ -273,21 +304,26 @@ def analyse_run(run_dir: Path, write: bool = True) -> dict[str, Any] | str:
 
 def collect(
     runs_root: Path, data: str, architectures: Sequence[str], arms: Mapping[str, Mapping[str, str]] = ARMS,
-    write: bool = True, arm_data: Mapping[str, str] = ARM_DATA,
+    write: bool = True, arm_data: Mapping[str, str] = ARM_DATA, arm_seeds: Mapping[str, Sequence[int]] | None = None,
+    arm_folds: Mapping[str, Sequence[int]] | None = None, write_only: Sequence[str] | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame, list[str], dict[tuple[str, str], int]]:
     """Per run and part the shares (one row each), per speed the points of the figure, the problems and the
-    numbers of runs per architecture and arm. The runs of an arm are on ``arm_data[arm]``, else on ``data``."""
+    numbers of runs per architecture and arm. The runs of an arm are on ``arm_data[arm]``, else on ``data``; with
+    ``arm_seeds`` / ``arm_folds`` an arm has the runs of these seeds / folds only; with ``write_only``
+    ``full_history.json`` is written only into the runs of the experiments that start with one of its prefixes."""
     rows, points, problems, expected = [], [], [], {}
+    arm_seeds, arm_folds = arm_seeds or {}, arm_folds or {}
     for arm, experiments in arms.items():
         for architecture in architectures:
             experiment = experiments.get(architecture)
             if experiment is None:
                 continue
             view = arm_data.get(arm, data)
-            runs = run_directories(runs_root, experiment, view, architecture)
+            runs = run_directories(runs_root, experiment, view, architecture, arm_seeds.get(arm), arm_folds.get(arm))
             expected[architecture, arm] = len(runs)
+            mine = write and (write_only is None or any(experiment.startswith(prefix) for prefix in write_only))
             for run_dir in runs:
-                payload = analyse_run(run_dir, write)
+                payload = analyse_run(run_dir, mine)
                 if isinstance(payload, str):
                     problems.append(f"{experiment}/{view}/{architecture}/{run_dir.name}: {payload}")
                     continue
@@ -328,7 +364,8 @@ def lowest_differences(points: pd.DataFrame, part: str) -> tuple[int, float, flo
 
 
 def summarise(
-    rows: pd.DataFrame, expected: Mapping[tuple[str, str], int], points: pd.DataFrame | None = None
+    rows: pd.DataFrame, expected: Mapping[tuple[str, str], int], points: pd.DataFrame | None = None,
+    arms: Sequence[str] = tuple(ARMS),
 ) -> pd.DataFrame:
     """Per architecture, arm and part: the mean over the runs of every share of :data:`STATISTICS` with its 95 %
     percentile bootstrap interval over the runs, the numbers of runs and speeds, |numerical - windowed| gain at the
@@ -359,7 +396,7 @@ def summarise(
         out.append(row)
     order = {arch: k for k, arch in enumerate(ARCHITECTURES)}
     frame = pd.DataFrame(out)
-    arm_order = {arm: k for k, arm in enumerate(ARMS)}
+    arm_order = {arm: k for k, arm in enumerate(arms)}
     frame["_a"], frame["_b"] = frame["architecture"].map(order).fillna(99), frame["arm"].map(arm_order).fillna(99)
     frame["_c"] = frame["part"].map({p: k for k, p in enumerate(PARTS)})
     return frame.sort_values(["_a", "_b", "_c"], kind="stable").drop(columns=["_a", "_b", "_c"]).reset_index(drop=True)
@@ -372,7 +409,12 @@ def _ci(row: Mapping[str, Any], key: str, digits: int = 2) -> str:
     return f"{value:.{digits}f} [{low:.{digits}f}, {high:.{digits}f}]" if np.isfinite(low) else f"{value:.{digits}f}"
 
 
-def markdown(table: pd.DataFrame, problems: Sequence[str], data: str, threshold: float, lowest: float) -> str:
+def markdown(
+    table: pd.DataFrame, problems: Sequence[str], data: str, threshold: float, lowest: float,
+    title: str | None = None, runs_text: str | None = None,
+) -> str:  # fmt: skip
+    """The table in Markdown; ``title`` and ``runs_text`` (the start of the first bullet) replace those of M9."""
+
     def largest(key: str) -> float:
         return float(pd.to_numeric(table[key], errors="coerce").max()) if len(table) and key in table else np.nan
 
@@ -382,13 +424,16 @@ def markdown(table: pd.DataFrame, problems: Sequence[str], data: str, threshold:
     arms = "; ".join(f"{arm}: " + ", ".join(f"{a} {e}" for a, e in experiments.items())
                      + (f" on {ARM_DATA[arm]}" if arm in ARM_DATA else "")
                      for arm, experiments in ARMS.items())  # fmt: skip
-    lines = [
-        "# Full-history linear analysis of the recurrent laws (M9)",
-        "",
-        f"- Runs: GRU, LSTM and PERL; arms {arms}; on {data} where no view is named (E1 and E2 five folds x five "
+    runs_text = runs_text or (
+        f"Runs: GRU, LSTM and PERL; arms {arms}; on {data} where no view is named (E1 and E2 five folds x five "
         "seeds, the combined arm and E5 five folds x seed 0, the long window fold 0, seed 0). E2 long window: the "
         "gain penalty of E2 (weight 0.1) measured over the last 252 s of a 380-s rollout, the pilot of the revision; "
-        "E5: the control on the OpenACC views (D87) without penalty and with the chosen gain weight 0.1. Speeds: "
+        "E5: the control on the OpenACC views (D87) without penalty and with the chosen gain weight 0.1."
+    )
+    lines = [
+        f"# {title or 'Full-history linear analysis of the recurrent laws (M9)'}",
+        "",
+        f"- {runs_text} Speeds: "
         "every grid speed with an equilibrium in the stored audit (status ok, multiple or outside: inside or outside "
         "the band), at the stored equilibrium; part all = every such speed, support = those in the speed range of "
         "the training data.",
@@ -606,8 +651,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--figure-dir", default="runs/_report/supplement/figures")
     parser.add_argument("--no-figure", action="store_true")
     parser.add_argument("--no-json", action="store_true", help="do not write full_history.json into the runs")
+    parser.add_argument("--arm-set", choices=("m9", "m11"), default="m9",
+                        help="m11: the windowed-gain penalty of M11 (D128) into runs/_tables/m11, without figure")
     args = parser.parse_args(argv)
     runs_root = resolve_path(args.runs_root)
+    if args.arm_set == "m11":
+        return main_m11(args, runs_root)
     rows, points, problems, expected = collect(runs_root, args.data, args.architectures, write=not args.no_json)
     table = summarise(rows, expected, points)
     thresholds = sorted(set(rows["threshold"])) if len(rows) else [THRESHOLD]
@@ -632,6 +681,43 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"figure: {figure_dir / 'full_history_gain.png'} (+ .pdf, .txt)")
     analysed = len(rows[rows["part"] == "all"]) if len(rows) else 0
     print(f"full_history: {analysed} runs analysed, {len(problems)} problems -> {out / 'full_history.csv'}, .md")
+    return 0
+
+
+def m11_runs_text(data: str) -> str:
+    """The first bullet of the table of M11."""
+    chosen = ", ".join(f"{a} {e}" for a, e in M11_CHOSEN.items())
+    return (
+        f"Runs: GRU, LSTM and PERL on {data}, seed 0 (M11, D128). E1 (seed 0): no penalty, five folds. E2 windowed "
+        f"(chosen weight): the windowed-gain penalty (kind windowed_gain: mean over the anchored equilibria of mean_w "
+        "relu(|G_w| - 0.98)^2 at the 25 audit frequencies + relu(0.5 - M_w) + relu(rho - 0.995), plus the existence "
+        f"term) at the weight chosen by the rule of D85 on the pilot ({chosen}), five folds; E2 windowed w<weight> "
+        "(pilot): the pilot weights 0.1, 1 and 10 on fold 0 (the chosen one is also in the row above)."
+    )
+
+
+def main_m11(args: argparse.Namespace, runs_root: Path) -> int:
+    """The arm set of M11 (D128): ``M11_ARMS`` into ``M11_OUT/M11_TABLE.{csv,md}``."""
+    rows, points, problems, expected = collect(
+        runs_root, args.data, args.architectures, arms=M11_ARMS, write=not args.no_json, arm_seeds=M11_SEEDS,
+        arm_folds=M11_FOLDS, write_only=M11_WRITE,
+    )  # fmt: skip
+    table = summarise(rows, expected, points, arms=tuple(M11_ARMS))
+    thresholds = sorted(set(rows["threshold"])) if len(rows) else [THRESHOLD]
+    lowest_values = sorted(set(rows["lowest_omega"])) if len(rows) else [0.02]
+    if len(thresholds) > 1 or len(lowest_values) > 1:
+        problems.append(f"audits with different thresholds {thresholds} or lowest frequencies {lowest_values}")
+    out = resolve_path(args.out if args.out != "runs/_tables/m9" else M11_OUT)
+    out.mkdir(parents=True, exist_ok=True)
+    table.to_csv(out / f"{M11_TABLE}.csv", index=False)
+    text = markdown(table, problems, args.data, float(thresholds[0]), float(lowest_values[0]),
+                    title="Full-history linear analysis of the windowed-gain penalty (M11, D128)",
+                    runs_text=m11_runs_text(args.data))  # fmt: skip
+    (out / f"{M11_TABLE}.md").write_text(text, encoding="utf-8")
+    for line in problems[:20]:
+        print(f"  problem: {line}")
+    analysed = len(rows[rows["part"] == "all"]) if len(rows) else 0
+    print(f"{M11_TABLE}: {analysed} runs analysed, {len(problems)} problems -> {out / (M11_TABLE + '.csv')}, .md")
     return 0
 
 

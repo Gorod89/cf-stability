@@ -94,6 +94,17 @@ design:                   # tables (docs/m5_contract.md, section 6; docs/m7_cont
   ablation_laws: [idm_core_margin, idm_margin_i80, residual_idm_margin_free_r0.3]   # review of M8: the factorial
                           # ablation of the certified hybrid; rows of laws, components, instability, asymmetry,
                           # contacts_absolute and e4_rmax (rmax_ablation); not in the correlations nor the verdicts
+  m11_laws: [residual_idm_tt, residual_idm_certified_het_fd]   # M11 (D129, D132; agent B): the two-timescale certified
+                          # hybrid and the FD-weighted heterogeneous certified hybrid, optional, handled as the
+                          # ablation laws: rows of laws, components, instability, asymmetry and contacts_absolute; not in
+                          # the correlations nor the verdicts (paired comparisons: scripts/analysis/m11_pairs.py)
+  windowed_laws: [gru_windowed, lstm_windowed, perl_windowed]   # M11 (D128; agent A): the recurrent laws with the
+                          # windowed-gain penalty (A1), optional, handled as the ablation laws: rows of laws,
+                          # components, instability, asymmetry and contacts_absolute; not in the correlations nor
+                          # the verdicts
+  filter_laws: [mlp_filter, gru_filter, lstm_filter, residual_idm_certified_filter]   # M11 (D130): the laws run
+                          # with the safety filter (i80_p1 and us101_p1, seeds 0-4; table runs/_tables/m11/safety_filter);
+                          # not in the tables, the correlations nor the verdicts; the supplement grids leave them out
   optional_laws: [residual_idm_certified_het, idm_global_p0, residual_idm_certified_p0, mlp_p0, gru_p0,
                   idm_core_margin, idm_margin_i80, residual_idm_margin_free_r0.3]   # in the tables once a law file
                           # or a run exists (one note in missing.txt before)

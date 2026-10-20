@@ -1,0 +1,38 @@
+# Two-timescale certified hybrid (docs/m11_contract.md, D129) on five folds, seed 0, and its fine-tuning on NGSIM I-80.
+#   e4_tt     residual_idm_tt on follownet_highd with the time constant of the latent chosen on the pilot
+#             (configs/queue/e4_tt_pilot.yaml; rule of D129: all three pilot runs have no unstable equilibrium at any
+#             frozen z in {-1, -0.5, 0, 0.5, 1}, tau_z = 15 s has the smallest validation RMSE); otherwise the recipe of
+#             e4_stable: IDM core with margin 0.2, r_max 0.3, budget certified a priori over the reachable latent
+#   e4_tt_ft  e4_tt fine-tuned on ngsim_i80 as e4_stable_ft (configs/queue/e4.yaml): the checkpoint as it is (core,
+#             scalers, certified budget), no calibration; the certificate is taken again after the fine-tuning
+# The fine-tuning of a fold waits in this queue for the model.pt of its e4_tt run. The frozen-z audits
+# (scripts/audit_stability.py frozen_z=<z>) run after this queue. The init_from paths assume paths.runs_root=runs.
+# python scripts/run_experiment.py configs/queue/e4_tt.yaml
+name: e4_tt
+workers: 2
+timeout_h: 4.0
+min_free_ram_gb: 6.0
+order: [data, seed, fold, experiment]   # follownet_highd before ngsim_i80: every source before its fine-tuning
+steps: [train, audit, platoon, certificate]
+groups:
+  - experiment: e4_tt
+    overrides:
+      data: [follownet_highd]
+      model: [residual_idm_tt]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+    fixed:
+      calibration.stability_margin: 0.2
+      certificate.enforce: true
+      model.r_max: 0.3
+      model.tau_z: 15.0       # chosen on the pilot (D129)
+  - experiment: e4_tt_ft
+    overrides:
+      data: [ngsim_i80]
+      model: [residual_idm_tt]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+    fixed:
+      init_from: "runs/e4_tt/follownet_highd/residual_idm_tt/driver_fold{fold}_seed{seed}"
+      model.r_max: 0.3        # as the checkpoint (the checkpoint decides; the config records it)
+      model.tau_z: 15.0

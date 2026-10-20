@@ -1,0 +1,30 @@
+# Pilot of the analytic windowed-gain penalty of the recurrent laws (M11, docs/m11_contract.md, D128: algorithm A1,
+# hypothesis H-N3): GRU, LSTM and PERL with the penalty `windowed_gain`, the mean over the anchored equilibria of 16
+# speeds per epoch of mean_w relu(|G_w| - 0.98)^2 at the 25 audit frequencies (0.02-2 rad/s) + relu(0.5 - M_w) +
+# relu(rho - 0.995) of the full-history linearisation over the window (cf_stability/stability/penalties.py), plus the
+# existence term of the band; weights 0.1, 1 and 10; fold 0, seed 0, 9 runs. The weight of every architecture is
+# then chosen by the rule of D85 and written into configs/queue/e2_windowed.yaml (same experiment names: its fold-0
+# jobs are these runs).
+# every: the penalty steps run eagerly (torch.linalg.eig, no CUDA graph). Smoke runs of 2026-10-19 (fold 0, 2 epochs
+# of 40 steps, the GPU otherwise idle): an eager penalty step took 0.173 / 0.324 / 0.413 s against 0.031 / 0.037 /
+# 0.052 s for a step without penalty replayed from its graph (gru / lstm / perl), 5.6 / 8.8 / 7.9 times, above the
+# factor 3 of D128: every = 4 (the penalty multiplied by 4 on every 4th step, as D90 does; mean cost of a step 2.2 /
+# 2.9 / 2.7 times that of a plain step, against 3.3 / 4.9 / 4.5 with every = 2).
+# python scripts/run_experiment.py configs/queue/e2_windowed_pilot.yaml
+name: e2_windowed_pilot
+workers: 2
+timeout_h: 8.0
+min_free_ram_gb: 6.0
+order: [seed, fold, model]
+steps: [train, audit, platoon]
+groups:
+  - experiment: "e2_windowed_w{train.penalty.weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [gru, lstm, perl]
+      fold: [0]
+      seed: [0]
+      train.penalty.kind: [windowed_gain]
+      train.penalty.weight: [0.1, 1.0, 10.0]
+      train.penalty.every: [4]                  # D128: raised from 1 (smoke runs above)
+      train.penalty.n_equilibria: [16]          # D128: 16 speeds per epoch, drawn as for the gain penalty

@@ -10,6 +10,14 @@ With the spacing band of the data (``Band``) the a posteriori forms use the anch
 (inside the band, or at a speed without band). The a priori minimum over the feasible spacings is
 scanned (``_a_priori``, the stored certificates) or found exactly (:func:`a_priori_exact`, M9 review);
 :func:`feasible_ends` gives the conditions under which an equilibrium exists among those spacings.
+
+M11 (D129): a model with a latent (``ResidualIDMTT``: the core time gap ``T(z)`` follows a slow latent ``z``) is
+certified at a frozen latent. :func:`at_latent` gives the hybrid at ``z`` as a ResidualIDM (the core at ``T(z)``, the
+residual at ``z`` with the bounds of the model, the same at every ``z``), and the functions below take ``z=`` (the
+model's ``frozen_z`` when not given; a model without latent is used as it is). :data:`LATENT_SWEEP` holds the 21
+values of the sweep in [-1, 1], :func:`a_priori_exact_latent` the exact certificate at each of them from the stored
+inputs; :func:`enforce_budget` takes the certified budget of a latent model over the range the online latent can
+reach (:func:`reachable_latent`).
 """
 
 from __future__ import annotations
@@ -32,6 +40,36 @@ N_ZOOM = 3  # rescans of the a priori minimum around the best spacing, 2 grid ce
 N_BISECT = 60
 
 Speeds = Sequence[float] | Tensor
+LATENT_SWEEP: tuple[float, ...] = tuple(round(-1.0 + 0.1 * k, 10) for k in range(21))  # D129: z = -1, -0.9, ..., 1
+N_REACHABLE = 21  # values of the latent on its reachable range at which the budget of a latent model is taken
+
+
+def has_latent(model: Any) -> bool:
+    """The model has a latent that the certificate freezes (``at_z``, D129)."""
+    return callable(getattr(model, "at_z", None))
+
+
+def at_latent(model: ResidualIDM, z: float | None = None) -> ResidualIDM:
+    """The hybrid whose certificate is taken: ``model`` itself without a latent; with one (``ResidualIDMTT``, D129) the
+    hybrid at the frozen latent ``z`` (``model.frozen_z`` when ``z`` is None) as a ResidualIDM: the core at ``T(z)``,
+    the residual at ``z`` with the bounds of the model (``model.at_z``)."""
+    if not has_latent(model):
+        if z is not None:
+            raise ValueError(f"{type(model).__name__} has no latent to freeze (z={z})")
+        return model
+    z = getattr(model, "frozen_z", None) if z is None else z
+    if z is None:
+        raise ValueError("a model with an online latent is certified at a frozen latent: pass z or set frozen_z")
+    return model.at_z(float(z))
+
+
+def reachable_latent(model: ResidualIDM, n: int = N_REACHABLE) -> tuple[float, ...]:
+    """``n`` values of the latent from ``-reach`` to ``reach`` (both included), ``reach = model.latent_reach()``: the
+    largest ``|z|`` of the online latent (D129); ``(0.0,)`` for a model without latent."""
+    if not has_latent(model):
+        return (0.0,)
+    reach = float(model.latent_reach())
+    return tuple(float(x) for x in torch.linspace(-reach, reach, n, dtype=torch.float64))
 
 
 def _float64(model: ResidualIDM) -> ResidualIDM:
@@ -49,8 +87,10 @@ def _equilibria(m: ResidualIDM, v: Tensor, band: Band | None) -> tuple[Equilibri
     return eq, eq.anchored
 
 
-def core_margin(model: ResidualIDM, v: Speeds = V_GRID) -> Tensor:
-    """Closed-form string-stability margin ``[n]`` of the IDM core at its own equilibria, NaN for ``v >= v0``."""
+def core_margin(model: ResidualIDM, v: Speeds = V_GRID, *, z: float | None = None) -> Tensor:
+    """Closed-form string-stability margin ``[n]`` of the IDM core at its own equilibria, NaN for ``v >= v0``
+    (a latent model: the core at the frozen latent ``z``, :func:`at_latent`)."""
+    model = at_latent(model, z)
     theta = model.idm.theta.detach().double().cpu()
     return idm_margin(_speeds(v), *theta.unbind())
 
@@ -265,6 +305,27 @@ def a_priori_exact(idm: IDM, v: Tensor, r_max: Tensor | float, bounds: Tensor) -
     }
 
 
+def latent_core_params(params: Mapping[str, float], z: float, t_factor: float = 1.5) -> dict[str, float]:
+    """The core parameters at the frozen latent ``z`` of D129: ``T(z) = T_c exp(z ln t_factor)``, the others as given
+    (the stored ``core.params`` of a latent model are those of ``z = 0``)."""
+    out = {name: float(params[name]) for name in ("v0", "T", "s0", "a", "b")}
+    out["T"] = out["T"] * math.exp(float(z) * math.log(float(t_factor)))
+    return out
+
+
+def a_priori_exact_latent(
+    params: Mapping[str, float], r_max: float, bounds: Tensor, z_values: Sequence[float] = LATENT_SWEEP,
+    v: Speeds = V_GRID, t_factor: float = 1.5, delta: float = 4.0,
+) -> list[dict[str, Tensor]]:  # fmt: skip
+    """:func:`a_priori_exact` of the core ``params`` (those of ``z = 0``) at every frozen latent of ``z_values``
+    (:func:`latent_core_params`) with the residual ``r_max`` and ``bounds`` unchanged (D129): one entry per ``z``."""
+    out = []
+    for z in z_values:
+        idm = IDM(latent_core_params(params, z, t_factor), dtype=torch.float64, delta=delta)
+        out.append(a_priori_exact(idm, v, r_max, bounds))
+    return out
+
+
 def _largest(holds_at: Callable[[Tensor], Tensor], n: int) -> Tensor:
     """Largest ``beta >= 0`` per entry with ``holds_at(beta)`` true (monotone), 0 where it fails at 0."""
     zero = torch.zeros(n, dtype=torch.float64)
@@ -290,8 +351,10 @@ def max_residual_budget(
     n_scan: int = 400,
     keep_r_max: bool = False,
     band: Band | None = None,
+    z: float | None = None,
 ) -> Tensor:
-    """Largest ``r_max * lipschitz`` per speed ``[n]`` for which the certificate would hold.
+    """Largest ``r_max * lipschitz`` per speed ``[n]`` for which the certificate would hold (a latent model: at the
+    frozen latent ``z``, :func:`at_latent`).
 
     The bounds scale with the product (the layer norms of the weights stay). At the equilibria the
     IDM derivatives are those at the hybrid's current equilibria (anchored ones with ``band``; 0
@@ -302,7 +365,7 @@ def max_residual_budget(
     counts as holding (no equilibrium can exist), which keeps the condition monotone where the
     IDM itself has no equilibrium.
     """
-    m, v = _float64(model), _speeds(v)
+    m, v = _float64(at_latent(model, z)), _speeds(v)
     unit = math.prod(m.layer_norms()) / m.scaler.scale.double().cpu()  # bounds per unit of r_max * lipschitz
     if a_priori:
         ratio = m.r_max / m.lipschitz
@@ -329,22 +392,32 @@ def enforce_budget(model: ResidualIDM, safety: float, v: Speeds = V_GRID, n_scan
     The a priori certificate depends on the weights only through the layer norms, so it survives
     the training that follows. Raises ``ValueError`` when ``b = 0``: the IDM core is then not string
     stable (or its signs are not guaranteed) at some spacing that ``r_max`` admits as an equilibrium.
+    A latent model (D129): ``b`` is the smallest over the frozen latents of :func:`reachable_latent` (the range the
+    online latent can reach), recorded under ``latent``.
     """
     if not 0.0 < safety <= 1.0:
         raise ValueError(f"certificate.safety must lie in (0, 1], got {safety}")
     speeds = _speeds(v)
-    per_speed = max_residual_budget(model, speeds, a_priori=True, n_scan=n_scan, keep_r_max=True)
+    latent = reachable_latent(model) if has_latent(model) else None  # D129: every z the online latent can reach
+    per_z = [max_residual_budget(model, speeds, a_priori=True, n_scan=n_scan, keep_r_max=True, z=z)
+             for z in (latent or (None,))]  # fmt: skip
+    per_speed = torch.stack(per_z).min(dim=0).values
     admissible = float(per_speed.min())
     if not admissible > 0.0:
         failing = [float(x) for x in speeds[per_speed <= 0.0]]
         core = {k: round(x, 4) for k, x in model.idm.params_dict().items()}
+        where = "" if latent is None else f" for some frozen latent in [{latent[0]:.4f}, {latent[-1]:.4f}]"
         raise ValueError(
             f"no admissible residual budget: with r_max = {model.r_max:g} the a priori certificate fails for every "
-            f"lipschitz > 0 at v = {failing} m/s (IDM core {core}); a core with a larger margin "
+            f"lipschitz > 0 at v = {failing} m/s{where} (IDM core {core}); a core with a larger margin "
             f"(calibration.stability_margin) or a smaller model.r_max is needed"
         )
     model.lipschitz = safety * admissible / model.r_max
-    return {"admissible": admissible, "safety": float(safety), "r_max": model.r_max, "lipschitz": model.lipschitz}
+    out = {"admissible": admissible, "safety": float(safety), "r_max": model.r_max, "lipschitz": model.lipschitz}
+    if latent is not None:  # only then: the record of the E4 runs keeps its keys
+        out["latent"] = {"z": list(latent), "reach": float(model.latent_reach()),
+                         "admissible_per_z": [float(b.min()) for b in per_z]}  # fmt: skip
+    return out
 
 
 def _header(m: ResidualIDM, v: Tensor) -> dict[str, Any]:
@@ -359,13 +432,16 @@ def _header(m: ResidualIDM, v: Tensor) -> dict[str, Any]:
     }
 
 
-def certificate_at_equilibria(model: ResidualIDM, v: Speeds = V_GRID, band: Band | None = None) -> dict[str, Any]:
+def certificate_at_equilibria(
+    model: ResidualIDM, v: Speeds = V_GRID, band: Band | None = None, *, z: float | None = None
+) -> dict[str, Any]:
     """A posteriori certificate: IDM derivatives at the equilibria of the hybrid, per speed.
 
     With ``band`` the equilibria are searched inside the band and only the anchored ones count.
-    Speeds without such an equilibrium (``found`` false) do not hold.
+    Speeds without such an equilibrium (``found`` false) do not hold. A latent model: the hybrid at the
+    frozen latent ``z`` (:func:`at_latent`).
     """
-    m, v = _float64(model), _speeds(v)
+    m, v = _float64(at_latent(model, z)), _speeds(v)
     eq, found = _equilibria(m, v, band)
     f_s, f_dv, f_v = partials(m.idm, eq.s, eq.v)
     g = _guarantees(f_s, f_dv, f_v, residual_bounds(m))
@@ -386,16 +462,17 @@ def certificate_at_equilibria(model: ResidualIDM, v: Speeds = V_GRID, band: Band
 
 
 def certificate_a_priori(
-    model: ResidualIDM, v: Speeds = V_GRID, n_scan: int = 400, *, keep_r_max: bool = False
+    model: ResidualIDM, v: Speeds = V_GRID, n_scan: int = 400, *, keep_r_max: bool = False, z: float | None = None
 ) -> dict[str, Any]:
     """A priori certificate: minimum over every spacing that can be an equilibrium of a residual with
     ``|r| <= r_max`` (``|f_idm(s, 0, v)| <= r_max``, ``s`` in [1, 200] m), per speed.
 
     It depends on the weights only through the layer norms of the bound, which spectral
     normalisation keeps near 1, and therefore survives fine-tuning. ``max_budget`` follows
-    :func:`max_residual_budget` with ``keep_r_max``.
+    :func:`max_residual_budget` with ``keep_r_max``. A latent model: the core at the frozen latent ``z``
+    with the residual bounds of the model (:func:`at_latent`).
     """
-    m, v = _float64(model), _speeds(v)
+    m, v = _float64(at_latent(model, z)), _speeds(v)
     out = _a_priori(m.idm, v, torch.full_like(v, m.r_max), residual_bounds(m).expand(len(v), 3), n_scan)
     return {
         **_header(m, v),
@@ -434,10 +511,12 @@ def certify_core(
     return _a_priori(idm, v, torch.full_like(v, float(r_max)), bounds, n_scan)
 
 
-def empirical_margin(model: ResidualIDM, v: Speeds = V_GRID, band: Band | None = None) -> Tensor:
+def empirical_margin(
+    model: ResidualIDM, v: Speeds = V_GRID, band: Band | None = None, *, z: float | None = None
+) -> Tensor:
     """Margin ``[n]`` of the hybrid itself at its equilibria (``partials``; anchored ones with ``band``),
-    NaN without such an equilibrium."""
-    m, v = _float64(model), _speeds(v)
+    NaN without such an equilibrium (a latent model: at the frozen latent ``z``, :func:`at_latent`)."""
+    m, v = _float64(at_latent(model, z)), _speeds(v)
     eq, found = _equilibria(m, v, band)
     margin = criterion(*partials(m, eq.s, eq.v))["margin"]
     return torch.where(found, margin, torch.full_like(margin, torch.nan))

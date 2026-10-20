@@ -1,0 +1,128 @@
+{
+  "name": "e4_tt_pilot",
+  "queue_file": "configs\\queue\\e4_tt_pilot.yaml",
+  "pid": 27160,
+  "workers": 2,
+  "updated": "2026-10-19T19:05:21",
+  "totals": {
+    "n_jobs": 3,
+    "done": 3,
+    "failed": 0,
+    "timeout": 0,
+    "skipped": 0,
+    "blocked": 0,
+    "running": 0,
+    "pending": 0,
+    "interrupted": 0
+  },
+  "jobs": [
+    {
+      "index": 1,
+      "label": "e4_tt_pilot_tau15/follownet_highd/residual_idm_tt/fold0_seed0",
+      "experiment": "e4_tt_pilot_tau15",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm_tt",
+        "model.tau_z": 15.0,
+        "fold": 0,
+        "seed": 0,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_tt_pilot_tau15\\follownet_highd\\residual_idm_tt\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon",
+        "certificate"
+      ],
+      "wall_time_s": 639.3883906999836,
+      "started": "2026-10-19T18:51:54",
+      "ended": "2026-10-19T19:02:33",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_tt_pilot\\_logs\\e4_tt_pilot_tau15__follownet_highd__residual_idm_tt__driver_fold0_seed0.log"
+    },
+    {
+      "index": 2,
+      "label": "e4_tt_pilot_tau30/follownet_highd/residual_idm_tt/fold0_seed0",
+      "experiment": "e4_tt_pilot_tau30",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm_tt",
+        "model.tau_z": 30.0,
+        "fold": 0,
+        "seed": 0,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_tt_pilot_tau30\\follownet_highd\\residual_idm_tt\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon",
+        "certificate"
+      ],
+      "wall_time_s": 456.82939079997595,
+      "started": "2026-10-19T18:51:54",
+      "ended": "2026-10-19T18:59:30",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_tt_pilot\\_logs\\e4_tt_pilot_tau30__follownet_highd__residual_idm_tt__driver_fold0_seed0.log"
+    },
+    {
+      "index": 3,
+      "label": "e4_tt_pilot_tau60/follownet_highd/residual_idm_tt/fold0_seed0",
+      "experiment": "e4_tt_pilot_tau60",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "residual_idm_tt",
+        "model.tau_z": 60.0,
+        "fold": 0,
+        "seed": 0,
+        "calibration.stability_margin": 0.2,
+        "certificate.enforce": true,
+        "model.r_max": 0.3
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_tt_pilot_tau60\\follownet_highd\\residual_idm_tt\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon",
+        "certificate"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon",
+        "certificate"
+      ],
+      "wall_time_s": 350.57306909991894,
+      "started": "2026-10-19T18:59:30",
+      "ended": "2026-10-19T19:05:21",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e4_tt_pilot\\_logs\\e4_tt_pilot_tau60__follownet_highd__residual_idm_tt__driver_fold0_seed0.log"
+    }
+  ]
+}

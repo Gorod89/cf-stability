@@ -78,6 +78,16 @@ The review of M8 adds four tables to ``m8_dir`` (same notes file) and the rows o
 * ``ablation_laws`` (``idm_core_margin``, ``idm_margin_i80``, ``residual_idm_margin_free_r0.3``): optional laws with rows
   in laws, components, instability, asymmetry and contacts_absolute, and rows of ``rmax_ablation`` in e4_rmax; not in
   the correlations nor the verdicts.
+
+M11 (docs/m11_contract.md, D128): ``windowed_laws`` (``gru_windowed``, ``lstm_windowed``, ``perl_windowed``: the recurrent
+laws trained with the windowed-gain penalty and fine-tuned on NGSIM I-80 with it, A1) are handled as the ablation laws:
+optional, rows of laws, components, instability, asymmetry and contacts_absolute, not in the correlations nor the
+verdicts.
+
+M11 (D129, D132): ``m11_laws`` (``residual_idm_tt``: the two-timescale certified hybrid; ``residual_idm_certified_het_fd``:
+the cores of ``residual_idm_certified_het`` drawn with weights fitted to the fundamental diagram of i80_p1) are handled
+the same way: optional, rows of laws, components, instability, asymmetry and contacts_absolute, not in the correlations
+nor the verdicts (their paired comparisons: ``scripts/analysis/m11_pairs.py``).
 """
 
 from __future__ import annotations
@@ -154,6 +164,25 @@ ABLATION_TEXT = {  # the note of the tables on every law of the ablation
     "idm_margin_i80": "the global IDM of ngsim_i80 calibrated per fold with the stability margin 0.2",
     "residual_idm_margin_free_r0.3": "the margin core with a residual of r_max 0.3 without certificate, fine-tuned on "
                                      "ngsim_i80",
+}  # fmt: skip
+# M11 (D128): the recurrent laws with the windowed-gain penalty (A1), handled as the ablation laws (rows, optional)
+WINDOWED_LAWS = ("gru_windowed", "lstm_windowed", "perl_windowed")
+WINDOWED_TEXT = (
+    "the recurrent laws trained on follownet_highd with the windowed-gain penalty of M11 (D128, A1: the gain, the "
+    "low-frequency coefficient M_w and the poles of the full-history linearisation over the window) at the weight "
+    "chosen on its pilot and fine-tuned on ngsim_i80 with the penalty continued (configs/queue/m11_ft_windowed.yaml), "
+    "five fold members drawn per vehicle as gru, lstm and perl draw theirs"
+)
+# M11 (D129, D132): the laws of agent B, handled as the ablation laws (rows, optional)
+M11_LAWS = ("residual_idm_tt", "residual_idm_certified_het_fd")
+M11_TEXT = {
+    "residual_idm_tt": "the two-timescale certified hybrid of D129 (the certified hybrid whose core time gap T(z) = T_c "
+                       "1.5^z follows a slow latent z driven by a GRU over the window, tau_z 15 s, fine-tuned on "
+                       "ngsim_i80), five fold members drawn per vehicle as residual_idm_certified draws them, the "
+                       "latent online on every vehicle's history",
+    "residual_idm_certified_het_fd": "the certified per-event cores of residual_idm_certified_het drawn with the weights "
+                                     "exp(beta_T T + beta_s s0) fitted to the binned fundamental diagram of the ground "
+                                     "truth of i80_p1 (D132); its instability is that of the same cores, unweighted",
 }  # fmt: skip
 RMAX_ABLATION = (  # extra rows of e4_rmax; r_max 0: no residual; highd/ngsim None: no training runs of the row
     {"r_max": 0.0, "core": "certified core alone", "highd": None, "ngsim": None, "law": "idm_core_margin"},
@@ -255,6 +284,8 @@ class CorridorTablesConfig:
     ablation_laws: tuple[str, ...] = ABLATION_LAWS  # review of M8: rows of laws, components, instability, e4_rmax
     optional_laws: tuple[str, ...] = (HET_LAW, *TEMPORAL_LAWS, *ABLATION_LAWS)  # in the tables once a law file or a
     # run exists
+    windowed_laws: tuple[str, ...] = WINDOWED_LAWS  # M11 (D128): rows as the ablation laws, optional as well
+    m11_laws: tuple[str, ...] = M11_LAWS  # M11 (D129, D132): rows as the ablation laws, optional as well
     law_corridors: Mapping[str, tuple[str, ...]] = dataclasses.field(
         default_factory=lambda: {"idm_heterogeneous_all": ("I-80",), **{law: ("I-80",) for law in TEMPORAL_LAWS}}
     )
@@ -343,8 +374,10 @@ class CorridorTablesConfig:
 
     def table_laws(self) -> tuple[str, ...]:
         """The laws with rows in the laws and components tables: the design, the residual amplitudes, the temporal
-        hold-out, the ablation of the review (each once, in this order)."""
-        return tuple(dict.fromkeys((*self.laws, *self.rmax_laws, *self.temporal_laws, *self.ablation_laws)))
+        hold-out, the ablation of the review, the windowed laws of M11, the laws of D129 and D132 (each once, in this
+        order)."""
+        return tuple(dict.fromkeys((*self.laws, *self.rmax_laws, *self.temporal_laws, *self.ablation_laws,
+                                    *self.windowed_laws, *self.m11_laws)))  # fmt: skip
 
     def family_of(self, law: str) -> str | None:
         """The architecture family of a law (``families``); None for a law of none."""
@@ -681,8 +714,8 @@ class CorridorTableMaker:
     def present(self, law: str) -> bool:
         """A law of ``optional_laws`` (D118, D120) is in the tables once its law file or a run of it exists (one note
         otherwise); every other law always is."""
-        if law not in self.cfg.optional_laws:
-            return True
+        if law not in self.cfg.optional_laws and law not in self.cfg.windowed_laws and law not in self.cfg.m11_laws:
+            return True  # M11: the windowed laws and those of D129 and D132 too
         if law not in self._present:
             root = self.cfg.corridor_root
             scenarios = dict.fromkeys((*self.cfg.scenarios, *self.cfg.law_scenarios.get(law, ())))
@@ -690,6 +723,8 @@ class CorridorTableMaker:
             self._present[law] = found
             if not found:
                 origin = "a law of the review of M8" if law in self.cfg.ablation_laws else "a law of M8"
+                origin = "a law of M11" if law in self.cfg.windowed_laws else origin
+                origin = "a law of M11" if law in self.cfg.m11_laws else origin
                 self.note("runs", f"{law}: no law file and no runs yet ({origin}): not in the tables")
         return self._present[law]
 
@@ -853,6 +888,22 @@ class CorridorTableMaker:
         return [f"Factorial ablation of the certified hybrid (review of M8; rows only, not in the correlations nor the "
                 f"verdicts of H12): {laws}."]  # fmt: skip
 
+    def windowed_note(self) -> list[str]:
+        """One note line on the windowed laws of M11 in the tables (none: no line)."""
+        present = [law for law in self.cfg.windowed_laws if any(law in self.laws_on(k, [law]) for k in self.corridors())]
+        if not present:
+            return []
+        return [f"Windowed-gain penalty of M11 (D128; rows only, not in the correlations nor the verdicts of H12): "
+                f"{', '.join(present)}: {WINDOWED_TEXT}."]  # fmt: skip
+
+    def m11_note(self) -> list[str]:
+        """One note line on the laws of D129 and D132 (M11) in the tables (none: no line)."""
+        present = [law for law in self.cfg.m11_laws if any(law in self.laws_on(k, [law]) for k in self.corridors())]
+        if not present:
+            return []
+        laws = "; ".join(f"{law}: {M11_TEXT.get(law, 'configs/corridor/laws.yaml')}" for law in present)
+        return [f"Laws of M11 (D129, D132; rows only, not in the correlations nor the verdicts of H12): {laws}."]
+
     def header(self, *lines: str) -> list[str]:
         c, runs = self.cfg, self.runs()
         return [
@@ -922,6 +973,8 @@ class CorridorTableMaker:
             f"period 0, run on {', '.join(c.temporal_scenarios)} only, column scenarios); a law listed in law_corridors "
             "runs on those corridors only; a law of M8 without runs yet is left out (missing.txt).",
             *self.ablation_note(),
+            *self.windowed_note(),
+            *self.m11_note(),
         )
         errors = Table(t, "Laws of the corridor: macro error against the ground truth", notes, frame, error_columns)
         raw_frame = pd.concat([frame.assign(scenario="all"), truths], ignore_index=True)
@@ -1032,7 +1085,8 @@ class CorridorTableMaker:
         c, t = self.cfg, "instability"
         rows = []
         for corridor in self.corridors():
-            for law in self.laws_on(corridor, tuple(dict.fromkeys((*c.laws, *c.temporal_laws, *c.ablation_laws)))):
+            for law in self.laws_on(corridor, tuple(dict.fromkeys((*c.laws, *c.temporal_laws, *c.ablation_laws,
+                                                                    *c.windowed_laws, *c.m11_laws)))):  # fmt: skip
                 mine = self.mine(corridor, law)
                 row: dict[str, Any] = {"corridor": corridor, "law": law, **self.instability_of(t, law), "runs": len(mine),
                                        "scenario_set": self.scenario_set(corridor, law),
@@ -1094,6 +1148,9 @@ class CorridorTableMaker:
             f"{c.n_permutations} permutations of the instability over the laws, (1 + hits) / (1 + permutations).",
             *(f"{line} Their instability: the exact gain of the parameter sets for the IDM laws (members: the parameter "
               "sets), the member audits for the hybrid." for line in self.ablation_note()),
+            *(f"{line} Their instability: the member audits." for line in self.windowed_note()),
+            *(f"{line} Their instability: the member audits (residual_idm_tt: the audit of the online latent) or the "
+              "exact gain of the cores (residual_idm_certified_het_fd)." for line in self.m11_note()),
         )
         table = Table(t, "Instability of the members and macro error of the laws", notes, frame, columns)
         corr_columns = [
@@ -1146,6 +1203,8 @@ class CorridorTableMaker:
             "amplitude are what a law decides. macro error: mean of the absolute values of all eight components; "
             "macro error (dynamic): of the four dynamic ones (components that exist).",
             *self.ablation_note(),
+            *self.windowed_note(),
+            *self.m11_note(),
         )
         title = "Components of the macro error: anchored and dynamic"
         return Table("components", title, notes, pd.DataFrame(rows), columns)
@@ -1765,6 +1824,8 @@ class CorridorTableMaker:
             "interval; errors: signed relative errors (run - truth) / |truth| against the ground truth of the run's "
             "scenario. Ground truth: per scenario, and their mean.",
             *self.ablation_note(),
+            *self.windowed_note(),
+            *self.m11_note(),
             f"Intervals: {100 * c.level:g} % percentile bootstrap, {c.n_resamples} resamples, seed {c.seed}.",
         ]
         table = Table(t, "Acceleration asymmetry and oscillation spectrum (D121)", notes, frame, columns)
@@ -2280,6 +2341,8 @@ class CorridorTableMaker:
             "ground truth: mean over the scenarios of the corridor of the vehicles of the window, the vehicle-km and the "
             "vehicles planned (window, n_planned_window; whole period, n_planned_run) of the data.",
             *self.ablation_note(),
+            *self.windowed_note(),
+            *self.m11_note(),
         )
         return Table(t, "Contact episodes with their exposure and the demand shortfall (review of M8)", notes, frame,
                      columns)  # fmt: skip

@@ -1,0 +1,326 @@
+{
+  "name": "e2_windowed_pilot",
+  "queue_file": "configs\\queue\\e2_windowed_pilot.yaml",
+  "pid": 27780,
+  "workers": 2,
+  "updated": "2026-10-19T20:45:18",
+  "totals": {
+    "n_jobs": 9,
+    "done": 9,
+    "failed": 0,
+    "timeout": 0,
+    "skipped": 0,
+    "blocked": 0,
+    "running": 0,
+    "pending": 0,
+    "interrupted": 0
+  },
+  "jobs": [
+    {
+      "index": 1,
+      "label": "e2_windowed_w0.1/follownet_highd/gru/fold0_seed0",
+      "experiment": "e2_windowed_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 0.1,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_windowed_w0.1\\follownet_highd\\gru\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 620.4838372999802,
+      "started": "2026-10-19T19:08:53",
+      "ended": "2026-10-19T19:19:13",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_windowed_pilot\\_logs\\e2_windowed_w0.1__follownet_highd__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 2,
+      "label": "e2_windowed_w1/follownet_highd/gru/fold0_seed0",
+      "experiment": "e2_windowed_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 1.0,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_windowed_w1\\follownet_highd\\gru\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 1210.7291046999162,
+      "started": "2026-10-19T19:08:53",
+      "ended": "2026-10-19T19:29:04",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_windowed_pilot\\_logs\\e2_windowed_w1__follownet_highd__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 3,
+      "label": "e2_windowed_w10/follownet_highd/gru/fold0_seed0",
+      "experiment": "e2_windowed_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "gru",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 10.0,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_windowed_w10\\follownet_highd\\gru\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 929.6638183000032,
+      "started": "2026-10-19T19:19:13",
+      "ended": "2026-10-19T19:34:43",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_windowed_pilot\\_logs\\e2_windowed_w10__follownet_highd__gru__driver_fold0_seed0.log"
+    },
+    {
+      "index": 4,
+      "label": "e2_windowed_w0.1/follownet_highd/lstm/fold0_seed0",
+      "experiment": "e2_windowed_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 0.1,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_windowed_w0.1\\follownet_highd\\lstm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 1264.4823555001058,
+      "started": "2026-10-19T19:29:04",
+      "ended": "2026-10-19T19:50:08",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_windowed_pilot\\_logs\\e2_windowed_w0.1__follownet_highd__lstm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 5,
+      "label": "e2_windowed_w1/follownet_highd/lstm/fold0_seed0",
+      "experiment": "e2_windowed_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 1.0,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_windowed_w1\\follownet_highd\\lstm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 1191.4970879999455,
+      "started": "2026-10-19T19:34:43",
+      "ended": "2026-10-19T19:54:35",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_windowed_pilot\\_logs\\e2_windowed_w1__follownet_highd__lstm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 6,
+      "label": "e2_windowed_w10/follownet_highd/lstm/fold0_seed0",
+      "experiment": "e2_windowed_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "lstm",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 10.0,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_windowed_w10\\follownet_highd\\lstm\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 2254.060856499942,
+      "started": "2026-10-19T19:50:08",
+      "ended": "2026-10-19T20:27:44",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_windowed_pilot\\_logs\\e2_windowed_w10__follownet_highd__lstm__driver_fold0_seed0.log"
+    },
+    {
+      "index": 7,
+      "label": "e2_windowed_w0.1/follownet_highd/perl/fold0_seed0",
+      "experiment": "e2_windowed_w0.1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 0.1,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_windowed_w0.1\\follownet_highd\\perl\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 881.0618020000402,
+      "started": "2026-10-19T20:08:09",
+      "ended": "2026-10-19T20:22:52",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_windowed_pilot\\_logs\\e2_windowed_w0.1__follownet_highd__perl__driver_fold0_seed0.log"
+    },
+    {
+      "index": 8,
+      "label": "e2_windowed_w1/follownet_highd/perl/fold0_seed0",
+      "experiment": "e2_windowed_w1",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 1.0,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_windowed_w1\\follownet_highd\\perl\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 1346.6686697000405,
+      "started": "2026-10-19T20:22:52",
+      "ended": "2026-10-19T20:45:18",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_windowed_pilot\\_logs\\e2_windowed_w1__follownet_highd__perl__driver_fold0_seed0.log"
+    },
+    {
+      "index": 9,
+      "label": "e2_windowed_w10/follownet_highd/perl/fold0_seed0",
+      "experiment": "e2_windowed_w10",
+      "overrides": {
+        "data": "follownet_highd",
+        "model": "perl",
+        "fold": 0,
+        "seed": 0,
+        "train.penalty.kind": "windowed_gain",
+        "train.penalty.weight": 10.0,
+        "train.penalty.every": 4,
+        "train.penalty.n_equilibria": 16
+      },
+      "run_dir": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_windowed_w10\\follownet_highd\\perl\\driver_fold0_seed0",
+      "steps": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "state": "done",
+      "exit_code": 0,
+      "failed_step": null,
+      "error": null,
+      "steps_run": [
+        "train",
+        "audit",
+        "platoon"
+      ],
+      "wall_time_s": 1004.4282327999827,
+      "started": "2026-10-19T20:27:44",
+      "ended": "2026-10-19T20:44:28",
+      "log": "C:\\Users\\\u0413\u043e\u0440\u043e\u0434\\Downloads\\research_plans\\cf-stability\\runs\\e2_windowed_pilot\\_logs\\e2_windowed_w10__follownet_highd__perl__driver_fold0_seed0.log"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+# Two-timescale certified hybrid (D129, H-N2): paired differences against E
+
+- Two-timescale certified hybrid (D129, H-N2): paired differences against E. Candidate and reference per corridor, paired by scenario and seed (unit run): the builder of ablation_pairs (cf_stability/eval/corridor_tables.py) with these pairs; E = residual_idm_certified (the certified hybrid, uniform fold members).
+- Runs: 1490 of 1490 expected runs have a macro.json (I-80: 24 laws x 3 scenarios x 10 seeds + 4 laws (idm_global_p0, residual_idm_certified_p0, mlp_p0, gru_p0) x 2 scenarios (i80_p1, i80_p2) x 10 seeds; US-101: 23 laws x 3 scenarios x 10 seeds); missing runs, files and values: missing.txt.
+- Analysis window (scenario.json): 180-840 s, 90-870 s.
+- pair: candidate - reference by the letters of the variants, candidate and reference: their laws (ablation_pairs: [candidate, reference]; a pair with a law not in the tables has no rows, missing_corridor.txt); corridor: the corridor of the runs; metric: macro error (mean of the absolute components of the macro-error vector against the ground truth of the run's scenario, as in laws), macro error (dynamic) (of FD, wave speed, waves and wave amplitude only) and collisions / 1000 veh-km (contact episodes of followers per 1000 vehicle-km inside the window, as in laws).
+- pairs: the runs (scenario and seed) of both laws with a value of the metric; mean candidate, mean reference: the means over these pairs; difference: candidate - reference per pair, mean with its interval over the pairs (negative: the candidate has the smaller error or fewer collisions); relative: mean candidate / mean reference - 1 with its interval over the pairs, only with a reference mean above 0 (no interval when resamples have a reference mean of 0); p (Wilcoxon): two-sided signed-rank test of the differences (1 when every difference is 0; not adjusted for the multiple comparisons); outcome: lower / higher when the interval of the difference lies below / above 0, else no difference.
+- Intervals: 95 % percentile bootstrap, 1000 resamples, seed 0.
+
+| corridor | pair | candidate | reference | metric | pairs | mean candidate | mean reference | difference | relative | p (Wilcoxon) | outcome |
+|---|---|---|---|---|---:|---:|---:|---:|---:|---:|---|
+| I-80 | residual_idm_tt - residual_idm_certified | residual_idm_tt | residual_idm_certified | macro error | 30 | 0.118 | 0.125 | -0.007 [-0.027, 0.012] | -5.6 % [-19.6 %, +10.6 %] | 0.465 | no difference |
+| I-80 | residual_idm_tt - residual_idm_certified | residual_idm_tt | residual_idm_certified | macro error (dynamic) | 30 | 0.182 | 0.190 | -0.008 [-0.049, 0.030] | -4.1 % [-22.2 %, +18.3 %] | 0.641 | no difference |
+| I-80 | residual_idm_tt - residual_idm_certified | residual_idm_tt | residual_idm_certified | collisions / 1000 veh-km | 30 | 0.000 | 0.000 | 0.000 [0.000, 0.000] |  | 1.000 | no difference |
+| US-101 | residual_idm_tt - residual_idm_certified | residual_idm_tt | residual_idm_certified | macro error | 30 | 0.090 | 0.113 | -0.023 [-0.029, -0.015] | -20.1 % [-24.7 %, -14.2 %] | <0.001 | lower |
+| US-101 | residual_idm_tt - residual_idm_certified | residual_idm_tt | residual_idm_certified | macro error (dynamic) | 30 | 0.082 | 0.122 | -0.040 [-0.053, -0.026] | -32.9 % [-40.6 %, -22.9 %] | <0.001 | lower |
+| US-101 | residual_idm_tt - residual_idm_certified | residual_idm_tt | residual_idm_certified | collisions / 1000 veh-km | 30 | 0.245 | 0.227 | 0.018 [-0.194, 0.223] | +8.1 % [-58.6 %, +201.1 %] | 0.814 | no difference |
