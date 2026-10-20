@@ -286,6 +286,9 @@ class CorridorTablesConfig:
     # run exists
     windowed_laws: tuple[str, ...] = WINDOWED_LAWS  # M11 (D128): rows as the ablation laws, optional as well
     m11_laws: tuple[str, ...] = M11_LAWS  # M11 (D129, D132): rows as the ablation laws, optional as well
+    # M11 (D130): the laws run with the safety filter, a design key that only figures_supplement.py reads (it leaves
+    # them out of the grids); accepted here and not used: the tables, the correlations and the verdicts do not hold them
+    filter_laws: tuple[str, ...] = ()
     law_corridors: Mapping[str, tuple[str, ...]] = dataclasses.field(
         default_factory=lambda: {"idm_heterogeneous_all": ("I-80",), **{law: ("I-80",) for law in TEMPORAL_LAWS}}
     )
