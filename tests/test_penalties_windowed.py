@@ -3,7 +3,12 @@ penalty of a linear law with memory equals the gain, the low-frequency coefficie
 transfer function; gradients by central differences; the derivative of the spectral radius at nearly defective
 poles; ``M_w`` equal to that of ``scripts/analysis/full_history_audit.py`` on stored runs; the existence term and
 the anchoring of every penalty; the configuration (late keys of the config hash) and the training loop (no CUDA
-graph for the penalty steps)."""
+graph for the penalty steps).
+
+M12 (D134, docs/m12_contract.md): the tests of the penalty run with both reductions of its gain term over the
+frequencies (``frequency_reduce`` mean, the M11 penalty and the default, and max); ``max`` is the largest
+per-frequency term of the linear law and its gradient reaches the frequency of that term only; the default
+reproduces the penalty values of stored M11 runs bit for bit (on the device of their training)."""
 
 import copy
 import dataclasses
@@ -27,19 +32,22 @@ from cf_stability.stability.equilibrium import V_GRID, Equilibria, find_equilibr
 from cf_stability.stability.penalties import (
     CAPTURABLE,
     DEFAULT_N_EQUILIBRIA,
+    FREQUENCY_REDUCES,
     INFO_KEYS,
     KINDS,
     PenaltyConfig,
     existence_penalty,
     penalty_band,
+    reduce_frequencies,
     spectral_radius,
     stability_penalty,
     windowed_gain_penalty,
     windowed_response,
+    windowed_terms,
 )
 from cf_stability.train.closed_loop import rollout_memoryless, rollout_model
 from cf_stability.train.tensors import BandConfig, training_context
-from cf_stability.train.trainer import RolloutConfig, TrainConfig, train_model
+from cf_stability.train.trainer import RolloutConfig, TrainConfig, train_model, validation_penalty
 from cf_stability.utils import REPO_ROOT, config_hash, read_json
 
 OMEGA = torch.logspace(math.log10(0.02), math.log10(2.0), 25, dtype=torch.float64)  # the audit frequencies
@@ -111,13 +119,23 @@ class GeometricLaw(CFModel):
 AMPLIFYING = GeometricLaw((0.05, -0.17, -0.2), (0.95, 0.6, 0.3))  # M = 0.008, M_w = -0.012
 # a damped law with memory: M_w > 0, every pole inside
 DAMPED = GeometricLaw((0.08, -0.6, -0.6), (0.5, 0.3, 0.4), window=10)
+# D134: a broad amplification of about 1.1 near 0.36 rad/s (largest gain 1.116 at the 16th audit frequency), the shape
+# that the mean over the frequencies weighs below the feasibility tolerance of D89; poles inside
+RESONANT = GeometricLaw((0.3, -0.4, -0.3), (0.6, 0.5, 0.4), window=10)
 SPEEDS = torch.tensor([8.0, 15.0, 23.0], dtype=torch.float64)
+REDUCES = FREQUENCY_REDUCES  # D134: the M11 tests of the kind run with both reductions over the frequencies
+
+
+def gain_terms_of(law: GeometricLaw, margin: float = 0.02) -> Tensor:
+    """``relu(|G_w| - 1 + m_w)^2`` at the audit frequencies from the closed form of ``law`` ``[n_w]``."""
+    return torch.relu(law.gain(OMEGA) - 1.0 + margin).square()
 
 
 def penalty_of(law: GeometricLaw, cfg: PenaltyConfig) -> float:
-    """The penalty of ``windowed_gain`` from the closed forms of ``law`` (the same derivatives at every speed)."""
-    gain = law.gain(OMEGA)
-    gain_term = torch.relu(gain - 1.0 + cfg.window_gain_margin).square().mean().item()
+    """The penalty of ``windowed_gain`` from the closed forms of ``law`` (the same derivatives at every speed), with
+    the reduction of the gain term over the frequencies of ``cfg`` (D134)."""
+    terms = gain_terms_of(law, cfg.window_gain_margin)
+    gain_term = (terms.mean() if cfg.frequency_reduce == "mean" else terms.max()).item()
     return gain_term + max(0.0, cfg.margin - law.margin_window()) + max(0.0, law.radius() - cfg.pole_margin)
 
 
@@ -156,36 +174,85 @@ def test_config_and_hash_neutral_keys():
     assert "window_gain_margin: 0.02" in text and "pole_margin: 0.995" in text
 
 
+def test_frequency_reduce_key_and_its_hash_neutral_default():
+    """D134: ``frequency_reduce`` (mean, the M11 penalty, by default; max), a key of kind windowed_gain only, left out
+    of the config hash at its default (LATE_KEYS) and held by configs/train.yaml at that default."""
+    assert REDUCES == ("mean", "max") and windowed().frequency_reduce == "mean"
+    assert PenaltyConfig().frequency_reduce == "mean"  # every kind holds the default
+    assert windowed(frequency_reduce="max").frequency_reduce == "max"
+    assert PenaltyConfig.from_mapping({"kind": "windowed_gain", "frequency_reduce": "max"}).frequency_reduce == "max"
+    assert INFO_KEYS["windowed_gain"][-1] == "argmax_omega"
+    for bad, message in (
+        ({"kind": "windowed_gain", "frequency_reduce": "median"}, "frequency_reduce must be one of"),
+        ({"kind": "windowed_gain", "frequency_reduce": "MAX"}, "frequency_reduce must be one of"),
+        ({"kind": "linear_gain", "frequency_reduce": "max"}, "belongs to kind windowed_gain"),
+        ({"kind": "gain", "frequency_reduce": "max"}, "belongs to kind windowed_gain"),
+    ):
+        with pytest.raises(ValueError, match=message):
+            PenaltyConfig(**bad)
+    base = {"train": {"penalty": {"kind": "windowed_gain", "weight": 10.0, "window_gain_margin": 0.02}}, "seed": 0}
+    with_key = copy.deepcopy(base)
+    with_key["train"]["penalty"]["frequency_reduce"] = "mean"
+    assert config_hash(with_key) == config_hash(base)
+    with_key["train"]["penalty"]["frequency_reduce"] = "max"
+    assert config_hash(with_key) != config_hash(base)
+    text = (REPO_ROOT / "configs" / "train.yaml").read_text(encoding="utf-8")
+    assert "\n    frequency_reduce: mean\n" in text
+
+
+def test_reduce_frequencies_and_where_its_gradient_goes():
+    """mean: every frequency gets 1 / n_w of the gradient; max: the largest term of every row gets all of it."""
+    terms = torch.tensor([[0.0, 0.3, 0.1, 0.2], [0.5, 0.0, 0.0, 0.4]], dtype=torch.float64, requires_grad=True)
+    for how, value, grad in (
+        ("mean", [0.15, 0.225], [[0.25] * 4, [0.25] * 4]),
+        ("max", [0.3, 0.5], [[0.0, 1.0, 0.0, 0.0], [1.0, 0.0, 0.0, 0.0]]),
+    ):
+        reduced = reduce_frequencies(terms, how)
+        assert reduced.tolist() == pytest.approx(value, rel=1e-15)
+        (g,) = torch.autograd.grad(reduced.sum(), terms)
+        assert g.tolist() == grad
+    with pytest.raises(ValueError, match="frequency_reduce"):
+        reduce_frequencies(terms, "sum")
+
+
 # ------------------------------------------------------------------------- a linear law with a known transfer
 
 
-@pytest.mark.parametrize("law", [AMPLIFYING, DAMPED], ids=["amplifying", "damped"])
-def test_response_of_a_linear_law_with_memory_is_its_known_transfer_function(law):
+@pytest.mark.parametrize("reduce", REDUCES)
+@pytest.mark.parametrize("law", [AMPLIFYING, DAMPED, RESONANT], ids=["amplifying", "damped", "resonant"])
+def test_response_of_a_linear_law_with_memory_is_its_known_transfer_function(law, reduce):
     eq = find_equilibria(law, SPEEDS)
     assert eq.found.all()
-    response = windowed_response(law, eq.s, eq.v, windowed())
+    response = windowed_response(law, eq.s, eq.v, windowed(frequency_reduce=reduce))
     expected = law.weights.expand(len(SPEEDS), -1, -1)
     torch.testing.assert_close(response["jacobian"], expected, rtol=1e-12, atol=1e-15)  # one backward pass
     torch.testing.assert_close(response["omega"], OMEGA, rtol=1e-12, atol=0.0)
     torch.testing.assert_close(response["gain"], law.gain(OMEGA).expand(len(SPEEDS), -1), rtol=1e-10, atol=1e-12)
     assert response["margin_window"].tolist() == pytest.approx([law.margin_window()] * len(SPEEDS), rel=1e-10)
     assert response["radius"].tolist() == pytest.approx([law.radius()] * len(SPEEDS), rel=1e-10)
+    terms = gain_terms_of(law)
+    expected_term = (terms.mean() if reduce == "mean" else terms.max()).item()
+    assert response["gain_term"].tolist() == pytest.approx([expected_term] * len(SPEEDS), rel=1e-9, abs=1e-15)
     if law is AMPLIFYING:  # the memory moves M_w below the memoryless margin and below 0: |G_w| > 1 at low frequency
         f_s, f_dv, f_v = law.gains
         assert law.margin_window() < 0.0 < f_v**2 + 2 * f_v * f_dv - 2 * f_s and response["gain"][0, 0] > 1.0
     assert law.radius() < 1.0
 
 
-def test_penalty_of_a_linear_law_with_memory_is_the_gain_of_its_transfer_function():
+@pytest.mark.parametrize("reduce", REDUCES)
+def test_penalty_of_a_linear_law_with_memory_is_the_gain_of_its_transfer_function(reduce):
     law = AMPLIFYING
-    # with the margins m_w = 1, M_w > -100 and rho < 1 the penalty is the mean squared gain over the audit frequencies
-    cfg = windowed(window_gain_margin=1.0, margin=-100.0, pole_margin=1.0)
+    # with the margins m_w = 1, M_w > -100 and rho < 1 the penalty is the mean (max) squared gain over the audit
+    # frequencies
+    cfg = windowed(window_gain_margin=1.0, margin=-100.0, pole_margin=1.0, frequency_reduce=reduce)
     value, info = windowed_gain_penalty(law, SPEEDS, cfg)
-    assert value.item() == pytest.approx(law.gain(OMEGA).square().mean().item(), rel=1e-10)
+    squared = law.gain(OMEGA).square()
+    assert value.item() == pytest.approx((squared.mean() if reduce == "mean" else squared.max()).item(), rel=1e-10)
     assert info["max_gain"].item() == pytest.approx(law.gain(OMEGA).max().item(), rel=1e-10)
+    assert info["argmax_omega"].item() == OMEGA[law.gain(OMEGA).argmax()].item()
     # the margins of D128 (the pole bound lowered to 0.98, below the radius 0.984): every term is active and the
     # penalty is that of the closed forms
-    cfg = windowed(pole_margin=0.98)
+    cfg = windowed(pole_margin=0.98, frequency_reduce=reduce)
     value, info = windowed_gain_penalty(law, SPEEDS, cfg)
     assert min(info[k].item() for k in ("gain_term", "margin_term", "pole_term")) > 0.0
     assert value.item() == pytest.approx(penalty_of(law, cfg), rel=1e-10)
@@ -196,6 +263,46 @@ def test_penalty_of_a_linear_law_with_memory_is_the_gain_of_its_transfer_functio
     assert value.item() == pytest.approx(
         info["gain_term"].item() + info["margin_term"].item() + info["pole_term"].item(), rel=1e-12
     )
+
+
+@pytest.mark.parametrize("law", [AMPLIFYING, RESONANT], ids=["amplifying", "resonant"])
+def test_max_is_the_largest_per_frequency_term_and_its_gradient_reaches_that_frequency_only(law):
+    """D134 on the linear laws of known transfer function: with ``max`` the gain term of every equilibrium is the
+    largest of the per-frequency terms relu(|G_w| - 1 + 0.02)^2 (an interior frequency of the audit grid for both
+    laws), the info names that frequency, and the gradient of the penalty with respect to the history Jacobian is
+    that of the term of this frequency alone: no other frequency receives any."""
+    terms = gain_terms_of(law)
+    k = int(terms.argmax())
+    assert 0 < k < len(OMEGA) - 1 and terms[k] > 0.0 and (terms > 0.0).sum() > 1  # more than one frequency amplifies
+    only_gain = {"margin": -100.0, "pole_margin": 1.0}  # M_w > -100, rho < 1: the gain term alone
+    cfg = windowed(frequency_reduce="max", **only_gain)
+    value, info = windowed_gain_penalty(law, SPEEDS, cfg)
+    assert value.item() == pytest.approx(terms.max().item(), rel=1e-9)
+    assert info["gain_term"].item() == pytest.approx(terms.max().item(), rel=1e-9)
+    assert info["argmax_omega"].item() == OMEGA[k].item()
+    mean_value, mean_info = windowed_gain_penalty(law, SPEEDS, windowed(**only_gain))
+    assert mean_value.item() == pytest.approx(terms.mean().item(), rel=1e-9) and mean_value.item() < value.item()
+    assert mean_info["argmax_omega"].item() == OMEGA[k].item()  # the same frequency under both reductions
+    # the gradient with respect to the Jacobian (the parameters of a network act through it) is the gradient of the
+    # term at omega_k alone, and it differs from that of every other amplifying frequency
+    jacobian = law.weights.expand(len(SPEEDS), -1, -1).clone().requires_grad_(True)
+    (grad,) = torch.autograd.grad(windowed_terms(jacobian, OMEGA, law.dt, cfg)["gain_term"].sum(), jacobian)
+    single = windowed(frequency_reduce="mean", **only_gain)  # the mean over one frequency is its term
+    for j in torch.nonzero(terms > 0.0).flatten().tolist():
+        term_j = windowed_terms(jacobian, OMEGA[j : j + 1], law.dt, single)["gain_term"]
+        (grad_j,) = torch.autograd.grad(term_j.sum(), jacobian)
+        if j == k:
+            torch.testing.assert_close(grad, grad_j, rtol=1e-12, atol=0.0)
+        else:
+            assert (grad - grad_j).abs().max() > 1e-6 * grad.abs().max()
+    # through the network-independent part: d gain_term / d |G_w| is one-hot at omega_k on every equilibrium
+    gain = law.gain(OMEGA).expand(len(SPEEDS), -1).clone().requires_grad_(True)
+    reduced = reduce_frequencies(torch.relu(gain - 1.0 + 0.02).square(), "max")
+    (d_gain,) = torch.autograd.grad(reduced.sum(), gain)
+    assert torch.nonzero(d_gain).tolist() == [[row, k] for row in range(len(SPEEDS))]
+    if law is RESONANT:  # the arithmetic of D134: a broad amplification of 1.1 passes the tolerance of D89 under the
+        # mean over the frequencies and not under the maximum
+        assert terms.mean().item() < 0.01 < terms.max().item() and law.gain(OMEGA).max().item() > 1.1
 
 
 def test_windowed_gain_is_the_gain_of_the_rollout():
@@ -235,8 +342,9 @@ def test_memoryless_law_gives_the_discrete_transfer_function():
     roots = np.roots([1.0, -(2.0 + 0.1 * q - 0.01 * f_s), 1.0 + 0.1 * q])
     assert response["radius"][0].item() == pytest.approx(np.abs(roots).max(), rel=1e-12)
     # a damped memoryless law: |G_w| < 0.98 at every audit frequency, M_w > 0.5, rho < 0.995: the penalty is zero
-    value, info = windowed_gain_penalty(law, SPEEDS, windowed())
-    assert value.item() == 0.0 and info["max_gain"].item() < 0.98 and info["max_radius"].item() < 0.995
+    for reduce in REDUCES:
+        value, info = windowed_gain_penalty(law, SPEEDS, windowed(frequency_reduce=reduce))
+        assert value.item() == 0.0 and info["max_gain"].item() < 0.98 and info["max_radius"].item() < 0.995
 
 
 # ------------------------------------------------------------------------------------------------ gradients
@@ -297,9 +405,10 @@ TERMS = {  # the configuration that leaves one term active (or all three)
 }
 
 
+@pytest.mark.parametrize("reduce", REDUCES)
 @pytest.mark.parametrize("term", list(TERMS))
-def test_windowed_gain_penalty_gradient(term):
-    model, cfg = TinyGRU(), windowed(**TERMS[term])
+def test_windowed_gain_penalty_gradient(term, reduce):
+    model, cfg = TinyGRU(), windowed(**TERMS[term], frequency_reduce=reduce)
     eq = find_equilibria(model, GRADIENT_SPEEDS)
     assert eq.found.all()
     value, info = windowed_gain_penalty(model, GRADIENT_SPEEDS, cfg, eq)
@@ -362,8 +471,9 @@ STORED = ["e1/follownet_highd/gru/driver_fold0_seed0", "e2_gain_w0.1/follownet_h
           "e1/follownet_highd/perl/driver_fold0_seed0"]  # fmt: skip
 
 
+@pytest.mark.parametrize("reduce", REDUCES)
 @pytest.mark.parametrize("run", STORED)
-def test_margin_of_the_penalty_equals_that_of_the_full_history_audit(run):
+def test_margin_of_the_penalty_equals_that_of_the_full_history_audit(run, reduce):
     run_dir = REPO_ROOT / "runs" / run
     if not ((run_dir / "model.pt").is_file() and (run_dir / "stability.json").is_file()):
         pytest.skip(f"stored run {run} absent")
@@ -373,7 +483,7 @@ def test_margin_of_the_penalty_equals_that_of_the_full_history_audit(run):
     assert len(reference) > 3
     s = torch.tensor([r["s"] for r in reference], dtype=torch.float64)
     v = torch.tensor([r["v"] for r in reference], dtype=torch.float64)
-    response = windowed_response(model.train(), s, v, windowed())
+    response = windowed_response(model.train(), s, v, windowed(frequency_reduce=reduce))
     expected = [r["margin_window"] for r in reference]
     assert response["margin_window"].tolist() == pytest.approx(expected, rel=1e-9, abs=1e-14)
     assert response["radius"].tolist() == pytest.approx([r["spectral_radius"] for r in reference], rel=1e-12)
@@ -383,9 +493,17 @@ def test_margin_of_the_penalty_equals_that_of_the_full_history_audit(run):
     n = len(reference)
     eq = Equilibria(v=v, s=s, found=torch.ones(n, dtype=torch.bool), indifferent=torch.zeros(n, dtype=torch.bool),
                     n_crossings=torch.ones(n, dtype=torch.long))  # fmt: skip
-    value, info = windowed_gain_penalty(model, v, windowed(), eq)
+    value, info = windowed_gain_penalty(model, v, windowed(frequency_reduce=reduce), eq)
     assert info["min_margin_window"].item() == pytest.approx(min(expected), rel=1e-9, abs=1e-14)
     assert info["max_radius"].item() == pytest.approx(max(r["spectral_radius"] for r in reference), rel=1e-12)
+    # D134: the largest windowed gain of the audit script and its frequency (omega_at_max_windowed) are those of the
+    # info; the gain term of every equilibrium is the reduction of the per-frequency terms of the script's gains
+    best = max(reference, key=lambda r: r["max_gain_windowed"])
+    assert info["max_gain"].item() == pytest.approx(best["max_gain_windowed"], rel=1e-9)
+    assert info["argmax_omega"].item() == pytest.approx(best["omega_at_max_windowed"], rel=1e-12)
+    per_frequency = torch.relu(torch.tensor([r["gain_windowed"] for r in reference], dtype=torch.float64) - 0.98).square()
+    expected_terms = reduce_frequencies(per_frequency, reduce)
+    torch.testing.assert_close(response["gain_term"].detach(), expected_terms, rtol=1e-8, atol=1e-12)
     stored = run_dir / "full_history.json"
     if stored.is_file():  # the file written by the audit script holds the same values
         on_file = {round(r["v"], 6): r["margin_window"] for r in read_json(stored)["equilibria"]}
@@ -401,13 +519,14 @@ def band_mapping(v, s_low, s_high) -> dict:
     return {"v": list(v), "s_low": list(s_low), "s_median": median, "s_high": list(s_high), "n": [200] * len(v)}
 
 
-def test_anchored_equilibria_and_the_existence_term_as_in_every_penalty():
+@pytest.mark.parametrize("reduce", REDUCES)
+def test_anchored_equilibria_and_the_existence_term_as_in_every_penalty(reduce):
     """The equilibrium s_e = 2 + 0.2 v / 0.05 of AMPLIFYING (f_v / f_s = -4 s): inside the band at 8 and 15 m/s, not
     at 23 m/s (the band misses it): that speed leaves the windowed terms and enters the existence term."""
     law = AMPLIFYING
     s_e = [2.0 + 4.0 * v for v in SPEEDS.tolist()]  # 34, 62, 94 m
     band = band_mapping(SPEEDS.tolist(), [s_e[0] - 3, s_e[1] - 3, s_e[2] + 10], [s_e[0] + 3, s_e[1] + 3, s_e[2] + 30])
-    cfg = windowed(band=band)
+    cfg = windowed(band=band, frequency_reduce=reduce)
     eq = find_equilibria(law, SPEEDS, band=penalty_band(law, cfg))
     assert eq.status == ["ok", "ok", "outside"]
     value, info = windowed_gain_penalty(law, SPEEDS, cfg)
@@ -417,8 +536,9 @@ def test_anchored_equilibria_and_the_existence_term_as_in_every_penalty():
     assert value.item() == pytest.approx(penalty_of(law, cfg) + existence.item(), rel=1e-10)  # the same derivatives
     # without the existence term and without anchored equilibria: zero, with NaN info of the windowed terms
     nothing = band_mapping(SPEEDS.tolist(), [s + 10 for s in s_e], [s + 20 for s in s_e])
-    value, info = windowed_gain_penalty(law, SPEEDS, windowed(band=nothing, existence_weight=0.0))
+    value, info = windowed_gain_penalty(law, SPEEDS, windowed(band=nothing, existence_weight=0.0, frequency_reduce=reduce))
     assert value.item() == 0.0 and info["n_no_equilibrium"].item() == 3.0 and math.isnan(info["max_gain"].item())
+    assert math.isnan(info["argmax_omega"].item())  # D134: no anchored equilibrium, no frequency
 
 
 # ----------------------------------------------------------------------------------------- training loop
@@ -480,13 +600,16 @@ def train_config(**kwargs) -> TrainConfig:
     return TrainConfig(**{**base, **kwargs})
 
 
-def test_windowed_gain_kind_trains(data):
+@pytest.mark.parametrize("reduce", REDUCES)
+def test_windowed_gain_kind_trains(data, reduce):
     """``kind: windowed_gain`` on a GRU: its info in the history, the validation penalty of the epoch choice (D89) at
-    the grid speeds, the penalty on every ``every``-th step multiplied by ``every``."""
+    the grid speeds, the penalty on every ``every``-th step multiplied by ``every``; with both reductions over the
+    frequencies (D134), the frequency of the largest excess in the history (``penalty_argmax_omega``: the mean over the
+    penalty steps of the epoch; ``val_penalty_argmax_omega``: at the grid speeds after the epoch)."""
     train, val = data
     torch.manual_seed(0)
     model = WindowGRU(train)
-    penalty = windowed(weight=0.5, every=2, n_equilibria=4)
+    penalty = windowed(weight=0.5, every=2, n_equilibria=4, frequency_reduce=reduce)
     res = train_model(model, train, val, train_config(penalty=penalty), seed=0)
     assert res["penalty_band"] is True and res["penalty_steps"] == 5 and res["cuda_graph"] is False
     keys = {f"{prefix}_{key}" for prefix in ("penalty", "val_penalty") for key in INFO_KEYS["windowed_gain"]}
@@ -494,8 +617,12 @@ def test_windowed_gain_kind_trains(data):
         assert set(h) == M2_HISTORY_KEYS | {"val_penalty"} | keys
         # NaN in an epoch none of whose penalty steps drew a speed with an anchored equilibrium (epoch 2 here)
         anchored = math.isfinite(h["penalty_max_gain"])
-        terms = ("gain_term", "margin_term", "pole_term", "min_margin_window", "max_radius")
+        terms = ("gain_term", "margin_term", "pole_term", "min_margin_window", "max_radius", "argmax_omega")
         assert all(math.isfinite(h[f"penalty_{k}"]) is anchored for k in terms) and math.isfinite(h["penalty_existence"])
+        if anchored:  # a mean of audit frequencies
+            assert OMEGA[0].item() <= h["penalty_argmax_omega"] <= OMEGA[-1].item()
+        if math.isfinite(h["val_penalty_max_gain"]):  # one evaluation: an audit frequency
+            assert min(abs(h["val_penalty_argmax_omega"] - w) for w in OMEGA.tolist()) < 1e-12
         n = 3 if h["epoch"] == 1 else 2  # steps 0, 2, 4 of epoch 1 and 6, 8 of epoch 2
         parts = 0.5 * 2 * n / 5 * h["loss_penalty"]
         assert h["loss"] == pytest.approx(h["loss_acc"] + h["loss_rollout"] + h["loss_extra"] + parts, rel=1e-12)
@@ -506,10 +633,29 @@ def test_windowed_gain_kind_trains(data):
     best = res["history"][res["best_epoch"] - 1]
     assert best["val_penalty"] == pytest.approx(value.item(), rel=1e-5)
     assert best["val_penalty_margin_term"] == pytest.approx(info["margin_term"].item(), rel=1e-5)
+    assert best["val_penalty_gain_term"] == pytest.approx(info["gain_term"].item(), rel=1e-5, abs=1e-12)
+    assert best["val_penalty_argmax_omega"] == pytest.approx(info["argmax_omega"].item(), rel=1e-12, nan_ok=True)
+
+
+def test_the_default_trains_as_the_explicit_mean(data):
+    """D134: the default of ``frequency_reduce`` is the penalty of M11 (mean): the training with the key left out and
+    with ``mean`` given are the same bit for bit (history and weights); ``max`` trains differently."""
+    train, val = data
+    runs = {}
+    for name, more in (("default", {}), ("mean", {"frequency_reduce": "mean"}), ("max", {"frequency_reduce": "max"})):
+        torch.manual_seed(0)
+        model = WindowGRU(train)
+        res = train_model(model, train, val, train_config(penalty=windowed(weight=5.0, n_equilibria=4, **more)), seed=0)
+        history = [{k: v for k, v in h.items() if not k.startswith("time")} for h in res["history"]]
+        runs[name] = (repr(history), {k: v.detach().clone() for k, v in model.state_dict().items()})
+    (h_default, w_default), (h_mean, w_mean), (h_max, w_max) = runs["default"], runs["mean"], runs["max"]
+    assert h_default == h_mean and all(torch.equal(w_default[k], w_mean[k]) for k in w_default)
+    assert h_max != h_mean and not all(torch.equal(w_max[k], w_mean[k]) for k in w_max)
 
 
 @GPU_ONLY
-def test_windowed_gain_steps_are_eager_and_the_plain_steps_from_the_graph(data):
+@pytest.mark.parametrize("reduce", REDUCES)
+def test_windowed_gain_steps_are_eager_and_the_plain_steps_from_the_graph(data, reduce):
     """On CUDA with ``cuda_graph``: no capture of the penalty steps is attempted (a capture that met
     torch.linalg.eig would invalidate the CUDA context), the steps without penalty are replayed from their graph;
     bitwise the weights of the fully eager training."""
@@ -521,7 +667,7 @@ def test_windowed_gain_steps_are_eager_and_the_plain_steps_from_the_graph(data):
         torch.manual_seed(0)
         model = WindowGRU(train)
         cfg = train_config(device="cuda", batch_size=64, steps_per_epoch=10, cuda_graph=graph,
-                           penalty=windowed(n_equilibria=4, every=3))  # fmt: skip
+                           penalty=windowed(n_equilibria=4, every=3, frequency_reduce=reduce))  # fmt: skip
         with warnings.catch_warnings(record=True) as caught:
             warnings.simplefilter("always")
             res = train_model(model, train, val, cfg, seed=0)
@@ -534,5 +680,61 @@ def test_windowed_gain_steps_are_eager_and_the_plain_steps_from_the_graph(data):
     # every = 1: every step is a penalty step and nothing is replayed
     torch.manual_seed(0)
     res = train_model(WindowGRU(train), train, val, train_config(device="cuda", batch_size=64, steps_per_epoch=4,
-                      max_epochs=1, penalty=windowed(n_equilibria=4)), seed=0)  # fmt: skip
+                      max_epochs=1, penalty=windowed(n_equilibria=4, frequency_reduce=reduce)), seed=0)  # fmt: skip
     assert res["cuda_graph"] is False and res["penalty_graph"] is False and res["plain_graph"] is False
+
+
+# ------------------------------------------------- D134: the default reproduces the penalty of stored M11 runs
+
+# runs of the M11 pilot (configs/queue/e2_windowed_pilot.yaml, trained on CUDA): the penalty met by GRU and LSTM at
+# weight 10 (the diagnosed weakness of D128) and PERL at weight 1 (every term active)
+M11_STORED = ["e2_windowed_w10/follownet_highd/gru/driver_fold0_seed0",
+              "e2_windowed_w10/follownet_highd/lstm/driver_fold0_seed0",
+              "e2_windowed_w1/follownet_highd/perl/driver_fold0_seed0"]  # fmt: skip
+
+
+def stored_validation_penalty(run: str, device: str, **change) -> tuple[dict[str, float], dict[str, float]]:
+    """The validation penalty of the best epoch of a stored run recomputed from its model.pt as the trainer computes
+    it (``validation_penalty``: eval mode, the grid speeds of V_GRID in [v_min, v_max], the band of the training data
+    stored in metrics.json, the settings of its train_config with ``change``), and the stored history entry."""
+    run_dir = REPO_ROOT / "runs" / run
+    if not ((run_dir / "model.pt").is_file() and (run_dir / "metrics.json").is_file()):
+        pytest.skip(f"stored run {run} absent")
+    metrics = read_json(run_dir / "metrics.json")
+    settings = {**metrics["train_config"]["penalty"], "band": metrics["context"]["band"], **change}
+    cfg = PenaltyConfig.from_mapping(settings)
+    model = load_model(run_dir / "model.pt", device)
+    grid = torch.tensor([v for v in V_GRID if cfg.v_min <= v <= cfg.v_max], device=device, dtype=torch.float32)
+    return validation_penalty(model, grid, cfg), metrics["training"]["history"][metrics["best_epoch"] - 1]
+
+
+@pytest.mark.parametrize("run", M11_STORED)
+def test_the_default_reproduces_the_stored_m11_penalty(run):
+    """On the CPU: the default (the stored train_config has no frequency_reduce) and ``mean`` give the same values bit
+    for bit, equal to the values stored by the training on CUDA to the last digits (the device differs); ``max`` is the
+    larger penalty with the same frequency of the largest excess."""
+    default, stored = stored_validation_penalty(run, "cpu")
+    mean, _ = stored_validation_penalty(run, "cpu", frequency_reduce="mean")
+    largest, _ = stored_validation_penalty(run, "cpu", frequency_reduce="max")
+    assert "frequency_reduce" not in read_json(REPO_ROOT / "runs" / run / "metrics.json")["train_config"]["penalty"]
+    assert repr(default) == repr(mean)  # bit for bit, NaN included
+    keys = [key for key in default if key in stored]
+    assert len(keys) == len(INFO_KEYS["windowed_gain"])  # val_penalty and every part but argmax_omega (new in M12)
+    for key in keys:
+        assert default[key] == pytest.approx(stored[key], rel=1e-4, abs=1e-8), key  # float32 model on the CPU
+    assert largest["val_penalty_gain_term"] >= default["val_penalty_gain_term"] > 0.0
+    for key in ("margin_term", "pole_term", "existence", "max_gain", "argmax_omega"):
+        assert largest[f"val_penalty_{key}"] == default[f"val_penalty_{key}"], key
+
+
+@GPU_ONLY
+@pytest.mark.parametrize("run", M11_STORED)
+def test_the_default_reproduces_the_stored_m11_penalty_bit_for_bit_on_cuda(run):
+    """On the device of the training (CUDA, float32 model, the penalty in float64): the default reproduces the
+    validation penalty and every part of it stored in the history of the best epoch of the M11 run bit for bit."""
+    default, stored = stored_validation_penalty(run, "cuda")
+    mean, _ = stored_validation_penalty(run, "cuda", frequency_reduce="mean")
+    keys = [key for key in default if key in stored]
+    assert len(keys) == len(INFO_KEYS["windowed_gain"])  # val_penalty and the parts but argmax_omega
+    assert {key: default[key] for key in keys} == {key: stored[key] for key in keys}
+    assert {key: mean[key] for key in keys} == {key: stored[key] for key in keys}

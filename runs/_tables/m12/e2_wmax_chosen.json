@@ -1,0 +1,26 @@
+{
+  "gru": {
+    "weight": 100.0,
+    "experiment": "e2_wmax_w100",
+    "rule": "stable >= 0.9: smallest validation RMSE",
+    "stable": 1.0,
+    "val_rmse_s": 2.961129564120681,
+    "complete": true
+  },
+  "lstm": {
+    "weight": 10.0,
+    "experiment": "e2_wmax_w10",
+    "rule": "stable >= 0.9: smallest validation RMSE",
+    "stable": 0.9545454545454546,
+    "val_rmse_s": 2.920978805219179,
+    "complete": true
+  },
+  "perl": {
+    "weight": 100.0,
+    "experiment": "e2_wmax_w100",
+    "rule": "no weight reaches stable >= 0.9: largest stable share",
+    "stable": 0.045454545454545456,
+    "val_rmse_s": 3.156966275076746,
+    "complete": true
+  }
+}

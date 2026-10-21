@@ -5,6 +5,9 @@ The leader drives at ``v_e + A sin(w t)`` from ``t = 0``, the last sample of a w
 Per frequency the first ``max(60 s, 1 period)`` after ``t = 0`` are discarded and the follower
 speed is projected on ``sin(w t), cos(w t), 1`` over the smallest whole number of periods
 ``>= max(60 s, 2 periods)`` that follows.
+
+A stateful model (docs/m12_contract.md, D135) starts from its state at the steady state of the warm-up on the
+equilibrium (``model.steady_state``) and carries it through the rollout.
 """
 
 from __future__ import annotations
@@ -107,7 +110,11 @@ def excite(model: CFModel, s_e: Tensor, v_e: Tensor, omega: Tensor, cfg: Frequen
     v_lead = v_e64 + cfg.amplitude * torch.sin(omega.double().to(device)[:, None] * t.clamp(min=0.0))
     x_lead = s_e64 + dt * (torch.cumsum(v_lead, -1) - v_lead[:, :1])  # x[k+1] = x[k] + dt v[k+1]
     hist = (s_e64.expand(-1, window), v_e64.expand(-1, window))
-    res = rollout_model(model, x_lead.to(dtype), v_lead.to(dtype), *(h.to(dtype) for h in hist), dt=dt)
+    state = None
+    if getattr(model, "stateful", False):  # D135: the state of a vehicle that has driven at the equilibrium
+        warm = torch.stack((hist[0], torch.zeros_like(hist[0]), hist[1]), dim=-1).to(dtype)  # (s_e, 0, v_e)
+        state = model.steady_state(warm)
+    res = rollout_model(model, x_lead.to(dtype), v_lead.to(dtype), *(h.to(dtype) for h in hist), dt=dt, state=state)
     simulated = (k >= window) & (k < end)
     applied = (k >= window - 1) & (k < end - 1)  # accelerations that drive the simulated samples
     amplitude, phase, offset, residual = fit_sinusoid(res.v, t, omega, (k >= start) & (k < end))

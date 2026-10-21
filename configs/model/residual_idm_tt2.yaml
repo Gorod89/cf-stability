@@ -1,0 +1,19 @@
+# Two-timescale certified hybrid with a persistent latent (docs/m12_contract.md, D135): the model of D129
+# (configs/model/residual_idm_tt.yaml) whose latent follows z_target = z_lo + (z_hi - z_lo) sigmoid(g(h_t)) in
+# [z_lo, z_hi] = [-0.2, 1.0] (T from 0.92 T_c to 1.5 T_c) and is carried along the vehicle (stateful: advanced once per
+# call, z_{t+1} = z_t + (dt / tau_z)(z_target - z_t), z = 0 at the first window of an event or vehicle).
+name: residual_idm_tt2
+hidden_sizes: [64, 64]
+r_max: 1.0         # m/s^2 (E4: model.r_max=0.3)
+lipschitz: 1.0     # certificate.enforce=true sets it from the a priori certificate over the 21 latents of [z_lo, z_hi]
+idm_learnable: false
+tau_z: 30.0        # s, time constant of the latent (pilot: 15, 30, 60)
+latent_hidden: 16  # hidden units of the GRU of the latent (over the window)
+window: 30         # states the GRU of the latent reads (as the GRU of E1)
+t_factor: 1.5      # T(z) = T_c t_factor^z
+z_scale: 1.0       # scale of z as an input of the residual
+z_lo: -0.2         # range of the latent (D135)
+z_hi: 1.0
+# Rollout loss only, as residual_idm (D63).
+train_overrides:
+  acc_weight: 0.0

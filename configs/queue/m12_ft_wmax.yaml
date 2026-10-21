@@ -1,0 +1,53 @@
+# Members of the corridor laws gru_wmax, lstm_wmax and perl_wmax (M12, docs/m12_contract.md, D134): the HighD models of
+# configs/queue/e2_wmax.yaml (windowed-gain penalty with the maximum over the frequencies at the weight chosen on the
+# pilot, seed 0) fine-tuned on the driver folds of NGSIM I-80 (same fold number) as configs/queue/m11_ft_windowed.yaml
+# does for the penalty of M11: the penalty continues (the same kind, reduction, weight, every and speeds; the band of
+# the NGSIM data), steps train and audit. 15 runs.
+# Weights (D85 on e2_wmax_pilot): gru 100, lstm 10, perl 100.
+# python scripts/run_experiment.py configs/queue/m12_ft_wmax.yaml
+name: m12_ft_wmax
+workers: 2
+timeout_h: 8.0
+min_free_ram_gb: 6.0
+order: [experiment, fold, model]
+steps: [train, audit]
+groups:
+  - experiment: "m12_ft_wmax_w{train.penalty.weight:g}"
+    overrides:
+      data: [ngsim_i80]
+      model: [gru]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [windowed_gain]
+      train.penalty.frequency_reduce: [max]
+      train.penalty.weight: [100.0]               # the weight chosen on HighD (D85, e2_wmax_pilot)
+      train.penalty.every: [4]
+      train.penalty.n_equilibria: [16]
+    fixed:
+      init_from: "runs/e2_wmax_w{train.penalty.weight:g}/follownet_highd/{model}/driver_fold{fold}_seed{seed}"
+  - experiment: "m12_ft_wmax_w{train.penalty.weight:g}"
+    overrides:
+      data: [ngsim_i80]
+      model: [lstm]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [windowed_gain]
+      train.penalty.frequency_reduce: [max]
+      train.penalty.weight: [10.0]               # the weight chosen on HighD (D85, e2_wmax_pilot)
+      train.penalty.every: [4]
+      train.penalty.n_equilibria: [16]
+    fixed:
+      init_from: "runs/e2_wmax_w{train.penalty.weight:g}/follownet_highd/{model}/driver_fold{fold}_seed{seed}"
+  - experiment: "m12_ft_wmax_w{train.penalty.weight:g}"
+    overrides:
+      data: [ngsim_i80]
+      model: [perl]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [windowed_gain]
+      train.penalty.frequency_reduce: [max]
+      train.penalty.weight: [100.0]               # the weight chosen on HighD (D85, e2_wmax_pilot)
+      train.penalty.every: [4]
+      train.penalty.n_equilibria: [16]
+    fixed:
+      init_from: "runs/e2_wmax_w{train.penalty.weight:g}/follownet_highd/{model}/driver_fold{fold}_seed{seed}"

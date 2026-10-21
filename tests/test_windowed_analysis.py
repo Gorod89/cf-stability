@@ -1,6 +1,8 @@
 """Analyses of the windowed-gain penalty of M11 (D128) on synthetic inputs: the arm set m11 of
 scripts/analysis/full_history_audit.py, the long-window check (scripts/analysis/long_window_check.py) and the tables
-with the branch of the decision rule of H-N3 (scripts/analysis/windowed_gain.py)."""
+with the branch of the decision rule of H-N3 (scripts/analysis/windowed_gain.py). M12 (D134): the arm sets m12 of both
+scripts (the penalty with the maximum over the frequencies; the share above the threshold at 0.5-2 rad/s) and the
+tables of ``--arm wmax`` with the branch of H-N3'."""
 
 import importlib.util
 import math
@@ -220,3 +222,142 @@ def test_run_helpers_of_the_windowed_tables(tmp_path):
     assert (out / "e2_windowed_pilot.md").is_file() and (out / "e2_windowed.md").is_file()
     assert "no branch" in (out / "e2_windowed_branch.md").read_text(encoding="utf-8")
     assert read_json(out / "e2_windowed_chosen.json") == {}
+
+
+# ------------------------------------------------------------------------------------- M12 (D134): the maximum
+
+
+def test_share_above_the_threshold_in_the_high_band():
+    """``high_band_unstable``: a speed counts when its windowed gain exceeds the threshold (strictly) at some audit
+    frequency in 0.5-2 rad/s; speeds out of support leave the part support; a gain that is not finite there leaves the
+    speed out."""
+    fh = script("full_history_audit")
+    assert fh.HIGH_BAND == (0.5, 2.0)
+
+    def rec(gains, support=True):
+        return {"in_support": support, "gain_windowed": gains}
+
+    payload = {"omega": [0.1, 0.3, 0.6, 1.0, 2.0, 2.5], "threshold": 1.02, "equilibria": [
+        rec([1.5, 1.3, 1.0, 1.01, 1.02, 3.0]),  # above only outside the band (2.0 is inside, 1.02 is not above)
+        rec([0.9, 0.9, 0.9, 1.03, 0.9, 0.9]),  # above at 1 rad/s
+        rec([0.9, 0.9, 1.10, 0.9, 0.9, 0.9], support=False),  # above, out of support
+        rec([0.9, 0.9, None, 0.9, 0.9, 0.9]),  # undefined in the band
+        rec([2.0, None, 0.9, 0.9, 0.9, None]),  # undefined outside the band only: defined
+    ]}  # fmt: skip
+    assert fh.high_band_unstable(payload, "support") == {"windowed_unstable_highfreq": 1 / 3, "n_windowed_unstable_highfreq": 3}
+    assert fh.high_band_unstable(payload, "all") == {"windowed_unstable_highfreq": 2 / 4, "n_windowed_unstable_highfreq": 4}
+    assert fh.high_band_unstable({**payload, "threshold": 1.0}, "support")["windowed_unstable_highfreq"] == 2 / 3
+    assert fh.high_band_unstable({**payload, "omega": [0.01] * 6}, "all")["windowed_unstable_highfreq"] is None
+    assert "windowed_unstable_highfreq" in fh.M12_STATISTICS and "windowed_unstable_highfreq" not in fh.STATISTICS
+
+
+def test_the_m12_arm_set_selects_its_runs_and_adds_the_high_band_share(tmp_path, monkeypatch):
+    fh = script("full_history_audit")
+    root = tmp_path / "runs"
+    laws = {"e1": STABLE, "e2_windowed_w1": COUNTEREXAMPLE, "e2_wmax_w10": AMPLIFIER, "e2_wmax_w100": STABLE}
+    fake_runs(root, laws, {
+        "e1": ["driver_fold0_seed0", "driver_fold1_seed0"], "e2_windowed_w1": ["driver_fold0_seed0", "driver_fold1_seed0"],
+        "e2_wmax_w10": ["driver_fold0_seed0", "driver_fold1_seed0", "driver_fold0_seed1"],  # seed 1: not an M12 run
+        "e2_wmax_w100": ["driver_fold0_seed0", "driver_fold1_seed0"],  # pilot weight: fold 0 only
+    })  # fmt: skip
+    arms = {"E1 (seed 0)": {"gru": "e1"}, "E2 windowed mean, M11 (chosen weight)": {"gru": "e2_windowed_w1"},
+            "E2 windowed max (chosen weight)": {"gru": "e2_wmax_w10"},
+            "E2 windowed max w100 (pilot)": {"gru": "e2_wmax_w100"}}  # fmt: skip
+    monkeypatch.setattr(fh, "M12_ARMS", arms)
+    monkeypatch.setattr(fh, "M12_SEEDS", {arm: (0,) for arm in arms})
+    monkeypatch.setattr(fh, "M12_FOLDS", {"E2 windowed max w100 (pilot)": (0,)})
+    monkeypatch.setattr(fh, "HIGH_BAND", (0.2, 2.0))  # the audit of these tests has 0.1, 0.22, 0.46 and 1 rad/s
+    monkeypatch.setattr(fh, "load_model", lambda path: DelayedLaw(*laws[Path(path).read_bytes().decode()]))
+    out = tmp_path / "m12"
+    assert fh.main(["--arm-set", "m12", "--runs-root", str(root), "--architectures", "gru", "--out", str(out)]) == 0
+    table = pd.read_csv(out / "full_history_wmax.csv")
+    assert list(dict.fromkeys(table["arm"])) == list(arms) and list(table["runs"]) == [2, 2, 2, 2, 2, 2, 1, 1]
+    # the share of the band equals the mean over the runs of high_band_unstable of the files written for them
+    group = root / "e2_wmax_w10" / "follownet_highd" / "gru"
+    payloads = [read_json(group / name / "full_history.json") for name in ("driver_fold0_seed0", "driver_fold1_seed0")]
+    expected = np.mean([fh.high_band_unstable(payload, "support", (0.2, 2.0))["windowed_unstable_highfreq"]
+                        for payload in payloads])  # fmt: skip
+    rows = table.set_index(["arm", "part"])
+    assert rows.loc[("E2 windowed max (chosen weight)", "support"), "windowed_unstable_highfreq"] == pytest.approx(expected)
+    assert rows.loc[("E1 (seed 0)", "all"), "windowed_unstable_highfreq"] == 0.0  # the stable law
+    # the interval columns of the statistics of M9 keep their meaning next to the new statistic (no name collision)
+    for statistic in fh.M12_STATISTICS:
+        assert (table[f"{statistic}_low"] <= table[statistic] + 1e-12).all()
+        assert (table[statistic] <= table[f"{statistic}_high"] + 1e-12).all()
+    assert not any(a != b and a.startswith(b + "_") and a[len(b) + 1:] in ("low", "high")
+                   for a in fh.M12_STATISTICS for b in fh.M12_STATISTICS)  # fmt: skip
+    # full_history.json in the runs of e2_wmax* only (seed 0, and fold 0 of the pilot weight)
+    assert not list((root / "e1").rglob("full_history.json"))
+    assert not list((root / "e2_windowed_w1").rglob("full_history.json"))
+    assert not (group / "driver_fold0_seed1" / "full_history.json").exists()
+    assert not (root / "e2_wmax_w100" / "follownet_highd" / "gru" / "driver_fold1_seed0" / "full_history.json").exists()
+    md = (out / "full_history_wmax.md").read_text(encoding="utf-8")
+    assert md.startswith("# Full-history linear analysis of the windowed-gain penalty with the maximum over the "
+                         "frequencies (M12, D134)")  # fmt: skip
+    assert "frequency_reduce max" in md and "Windowed gain near 1 rad/s (D134" in md and md.count("\n| gru |") == 24
+    assert 0.0 < expected  # the amplifier exceeds the threshold in the band at some speed
+
+
+def test_the_long_window_script_m12_arm_set(tmp_path, monkeypatch):
+    lw = script("long_window_check")
+    root = tmp_path / "runs"
+    laws = {"e1": AMPLIFIER, "e2_windowed_w1": AMPLIFIER, "e2_wmax_w1": STABLE}
+    fake_runs(root, laws, {name: ["driver_fold0_seed0"] for name in laws})
+    assert list(lw.M12_ARMS)[:2] == ["E1", "windowed mean w0.1 (M11)"] and "windowed max w100" in lw.M12_ARMS
+    monkeypatch.setattr(lw, "M12_ARMS", {"E1": {"gru": "e1"}, "windowed mean w1 (M11)": {"gru": "e2_windowed_w1"},
+                                         "windowed max w1": {"gru": "e2_wmax_w1"}})  # fmt: skip
+    monkeypatch.setattr(lw, "load_model", lambda path: DelayedLaw(*laws[Path(path).read_bytes().decode()]))
+    out = tmp_path / "m12"
+    assert lw.main(["--arm-set", "m12", "--runs-root", str(root), "--out", str(out), "--device", "cpu"]) == 0
+    table = pd.read_csv(out / "long_window_wmax.csv")
+    assert list(table["arm"]) == ["E1", "windowed mean w1 (M11)", "windowed max w1"]
+    assert list(table["holds"]) == [False, False, True]
+    assert (root / "e2_wmax_w1" / "follownet_highd" / "gru" / "driver_fold0_seed0" / "long_window.json").is_file()
+    for reference in ("e1", "e2_windowed_w1"):  # the runs of E1 and of M11 keep their files (none here)
+        assert not (root / reference / "follownet_highd" / "gru" / "driver_fold0_seed0" / "long_window.json").exists()
+    assert sorted(read_json(out / "long_window_wmax_runs.json")) == [
+        f"{name}/follownet_highd/gru/driver_fold0_seed0" for name in ("e1", "e2_windowed_w1", "e2_wmax_w1")]
+    md = (out / "long_window_wmax.md").read_text(encoding="utf-8")
+    assert "(M12, D134)" in md and "hypothesis H-N3'" in md and "windowed max w<weight>" in md
+    assert not (out / "long_window.md").exists()
+
+
+def test_branch_of_the_decision_rule_of_h_n3_prime(tmp_path):
+    wg = script("windowed_gain")
+    maker = wg.WindowedTables(wg.tables_config(tmp_path, tmp_path), arm=wg.WMAX)
+
+    def cond(stable, change, holds):
+        return {"stable": stable, "rmse_change": change, "long_window": holds, "complete": True}
+
+    lines = maker.branch({"gru": cond(0.95, 0.05, True), "lstm": cond(0.92, 0.10, True), "perl": cond(0, 1, False)})
+    assert lines[0].startswith("Decision rule of H-N3' (D134)") and "'confirmed'" in lines[-1]
+    lines = maker.branch({"gru": cond(0.95, 0.25, True), "lstm": cond(0.92, 0.05, True)})
+    assert "'partial'" in lines[-1]
+    assert "'refuted'" in maker.branch({"gru": cond(0.5, 0.05, True), "lstm": cond(0.92, 0.05, True)})[-1]
+    assert wg.WMAX.weights == (0.1, 1.0, 10.0, 100.0) and wg.WMAX.experiment.format(weight=100.0) == "e2_wmax_w100"
+    assert wg.WMAX.before == {"gru": 0.1, "lstm": 10.0, "perl": 1.0} and wg.WINDOWED.before == {}
+
+
+def test_the_wmax_tables_without_runs_and_with_a_pilot_run(tmp_path):
+    """``--arm wmax``: the tables of M12 in their own files (runs/_tables/m12 by default); the frequency of the
+    largest excess of the best epoch is read from the history."""
+    wg = script("windowed_gain")
+    out = tmp_path / "m12"
+    assert wg.main(["tables", "--arm", "wmax", "--runs-root", str(tmp_path / "runs"), "--out", str(out)]) == 0
+    for name in ("e2_wmax_pilot.md", "e2_wmax_pilot.csv", "e2_wmax.md", "e2_wmax.csv", "missing_wmax.txt"):
+        assert (out / name).is_file(), name
+    assert read_json(out / "e2_wmax_chosen.json") == {}
+    branch = (out / "e2_wmax_branch.md").read_text(encoding="utf-8")
+    assert branch.startswith("# H-N3': the branch of the decision rule (D134)") and "no branch" in branch
+    assert not (out / "e2_windowed_pilot.md").exists()
+    missing = (out / "missing_wmax.txt").read_text(encoding="utf-8")
+    assert "e2_wmax_w100/follownet_highd/gru/driver_fold0_seed0: run missing" in missing
+    pilot = (out / "e2_wmax_pilot.md").read_text(encoding="utf-8")
+    assert "frequency_reduce max" in pilot and "max_w relu(|G_w| - 0.98)^2" in pilot and "at omega (rad/s)" in pilot
+    run = tmp_path / "run"
+    run.mkdir()
+    history = [{"val_penalty": 0.02, "val_penalty_gain_term": 0.015, "val_penalty_argmax_omega": 1.1247}]
+    write_json(run / "metrics.json", {"best_epoch": 1, "training": {"history": history, "wall_time_s": 3600.0}})
+    parts = wg.best_epoch_penalty(run, wg.WMAX.penalty_parts)
+    assert parts["val_argmax_omega"] == 1.1247 and parts["val_gain_term"] == 0.015
+    assert "val_argmax_omega" not in wg.best_epoch_penalty(run)  # the M11 tables keep their columns

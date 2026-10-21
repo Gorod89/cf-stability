@@ -1,4 +1,9 @@
-"""Closed-loop evaluation on full events (docs/m2_contract.md, section 4)."""
+"""Closed-loop evaluation on full events (docs/m2_contract.md, section 4).
+
+A stateful model (docs/m12_contract.md, D135) starts every closed-loop rollout from its initial state at the first
+window of the event and carries it; its one-step (open-loop) accelerations use the state of the teacher-forced pass
+over the observed windows of the event (``cf_stability/train/stateful.py``).
+"""
 
 from __future__ import annotations
 
@@ -82,7 +87,9 @@ def evaluate_closed_loop(
         for start in range(0, len(order), batch_events):
             idx = order[start : start + batch_events]
             batch = EventTensors([events[i] for i in idx], device, dtype)
-            res = rollout_model(model, batch.x_lead, batch.v_lead, batch.s[:, :warmup], batch.v[:, :warmup])
+            state = model.initial_state(len(idx), device) if getattr(model, "stateful", False) else None  # D135
+            res = rollout_model(model, batch.x_lead, batch.v_lead, batch.s[:, :warmup], batch.v[:, :warmup],
+                                state=state)  # fmt: skip
             m = closed_loop_metrics(res, batch.s, batch.v, batch.mask, start=warmup - 1)
             scored = batch.mask & (torch.arange(batch.mask.shape[1], device=device) >= warmup - 1)
             columns = {
@@ -122,12 +129,23 @@ def open_loop_rmse(
     device: str | torch.device | None = None,
 ) -> float:
     """One-step acceleration RMSE with the observed history, pooled over the samples
-    ``warmup - 1 .. n - 1`` (those of the closed-loop score). Reported, never used for selection."""
+    ``warmup - 1 .. n - 1`` (those of the closed-loop score). Reported, never used for selection.
+    A stateful model (D135): the state before every window from the teacher-forced pass over the event."""
     _check_warmup(model, events, warmup)
     with evaluating(model, device) as device:
         data = EventTensors(events, device, model_dtype(model))
         ends = data.window_ends(warmup)
         sse = torch.zeros((), dtype=torch.float64, device=device)
+        if getattr(model, "stateful", False):
+            from cf_stability.train.stateful import teacher_forced_path
+
+            path_ends, before, _ = teacher_forced_path(model, data)
+            keep = path_ends[:, 1] >= warmup - 1  # the window ends of the score (window <= warmup)
+            path_ends, before = path_ends[keep], before[keep]
+            for index, state in zip(path_ends.split(batch_size), before.split(batch_size)):
+                acc, _ = model(data.state_windows(index, model.window), state.to(model_dtype(model)))
+                sse += ((acc - data.targets(index)).double() ** 2).sum()
+            return math.sqrt(sse.item() / len(path_ends))
         for index in ends.split(batch_size):
             err = model(data.state_windows(index, model.window)) - data.targets(index)
             sse += (err.double() ** 2).sum()

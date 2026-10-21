@@ -1,0 +1,52 @@
+# The windowed-gain penalty with the maximum over the frequencies on five folds (M12, docs/m12_contract.md, D134:
+# algorithm A1', hypothesis H-N3'): GRU, LSTM and PERL with the penalty `windowed_gain`, frequency_reduce max, at the
+# weight chosen per architecture on the pilot (configs/queue/e2_wmax_pilot.yaml, fold 0) by the rule of D85 (python
+# scripts/analysis/windowed_gain.py choose --arm wmax -> runs/_tables/m12/e2_wmax_pilot.md, e2_wmax_chosen.json);
+# follownet_highd, seed 0. The jobs of fold 0 are the pilot runs of the chosen weights (same experiment names,
+# complete: skipped), so the queue trains 12 runs.
+#
+# Chosen weights (D85 on e2_wmax_pilot, 2026-10-20): gru 100 (stable 1.00 at weights 10 and 100: the smaller
+# validation RMSE), lstm 10 (stable 0.95; weight 1 stable 1.00 with a larger validation RMSE), perl 100 (no weight
+# reaches 0.9: the largest stable share, 0.05).
+# every = 4 and 16 speeds as in the pilot (and in M11).
+# python scripts/run_experiment.py configs/queue/e2_wmax.yaml
+name: e2_wmax
+workers: 2
+timeout_h: 8.0
+min_free_ram_gb: 6.0
+order: [seed, fold, model]
+steps: [train, audit, platoon]
+groups:
+  - experiment: "e2_wmax_w{train.penalty.weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [gru]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [windowed_gain]
+      train.penalty.frequency_reduce: [max]
+      train.penalty.weight: [100.0]               # CHOSEN WEIGHT (D85 on e2_wmax_pilot)
+      train.penalty.every: [4]
+      train.penalty.n_equilibria: [16]
+  - experiment: "e2_wmax_w{train.penalty.weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [lstm]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [windowed_gain]
+      train.penalty.frequency_reduce: [max]
+      train.penalty.weight: [10.0]               # CHOSEN WEIGHT (D85 on e2_wmax_pilot)
+      train.penalty.every: [4]
+      train.penalty.n_equilibria: [16]
+  - experiment: "e2_wmax_w{train.penalty.weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [perl]
+      fold: [0, 1, 2, 3, 4]
+      seed: [0]
+      train.penalty.kind: [windowed_gain]
+      train.penalty.frequency_reduce: [max]
+      train.penalty.weight: [100.0]               # CHOSEN WEIGHT (D85 on e2_wmax_pilot)
+      train.penalty.every: [4]
+      train.penalty.n_equilibria: [16]

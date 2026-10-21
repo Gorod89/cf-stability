@@ -102,6 +102,14 @@ design:                   # tables (docs/m5_contract.md, section 6; docs/m7_cont
                           # windowed-gain penalty (A1), optional, handled as the ablation laws: rows of laws,
                           # components, instability, asymmetry and contacts_absolute; not in the correlations nor
                           # the verdicts
+  wmax_laws: [gru_wmax, lstm_wmax, perl_wmax]   # M12 (D134; agent A'): the recurrent laws with the windowed-gain
+                          # penalty with the maximum over the frequencies (A1'), handled exactly as windowed_laws: rows
+                          # of laws, components, instability, asymmetry and contacts_absolute; not in the correlations
+                          # nor the verdicts (paired comparisons: scripts/analysis/wmax_pairs.py)
+  m12_laws: [residual_idm_tt2]   # M12 (D135; agent B'): the two-timescale certified hybrid with the latent carried
+                          # along the vehicle (A2'), handled as m11_laws: rows of laws, components, instability,
+                          # asymmetry and contacts_absolute; not in the correlations nor the verdicts (paired
+                          # comparisons: scripts/analysis/m12_pairs.py)
   filter_laws: [mlp_filter, gru_filter, lstm_filter, residual_idm_certified_filter]   # M11 (D130): the laws run
                           # with the safety filter (i80_p1 and us101_p1, seeds 0-4; table runs/_tables/m11/safety_filter);
                           # not in the tables, the correlations nor the verdicts; the supplement grids leave them out

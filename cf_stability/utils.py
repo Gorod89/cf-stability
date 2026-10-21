@@ -17,6 +17,7 @@ LATE_KEYS: dict[tuple[str, ...], Any] = {
     ("per_event_margin",): None,  # D118, configs/calibrate_idm.yaml
     ("train", "penalty", "window_gain_margin"): 0.02,  # D128 (M11, agent A): penalty kind windowed_gain
     ("train", "penalty", "pole_margin"): 0.995,  # D128
+    ("train", "penalty", "frequency_reduce"): "mean",  # D134 (M12, agent A'): windowed_gain, mean | max over frequencies
 }
 
 

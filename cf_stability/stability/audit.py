@@ -6,6 +6,13 @@ frequencies of the numerical response (continuous, discrete and, for windowed mo
 linearised window response) and the numerical frequency response. The "analytic gain" flag uses
 the exact linearisation of the simulated law: the windowed response for windowed
 (differentiable) models, the discrete one otherwise.
+
+A stateful model (docs/m12_contract.md, D135: a latent carried along the vehicle) is audited as it runs: its equilibria
+are those of its steady-state view (``SteadyStateView``: the state at the steady state of the constant history, e.g.
+the latent at its target), the numerical frequency response starts every rollout from that state on the equilibrium
+and carries it (``cf_stability/stability/frequency.py``); the partials and the analytic criterion are those of the
+steady-state view (the quasi-static limit w -> 0 of the latent), the analytic gain is the discrete one of these
+partials (the windowed linearisation does not hold the latent's dynamics) and ``state: "steady"`` marks the audit.
 """
 
 from __future__ import annotations
@@ -20,7 +27,7 @@ from typing import Any, Callable, Mapping, Sequence
 import torch
 from torch import Tensor
 
-from cf_stability.models.base import CFModel
+from cf_stability.models.base import CFModel, steady_view
 from cf_stability.stability.analytic import (
     criterion,
     history_jacobian,
@@ -114,11 +121,13 @@ def audit_model(model: CFModel, context: Mapping[str, Any] | None, cfg: AuditCon
     device, _ = model_like(model)  # a model without tensors (persistence) stays on the CPU
     freq = cfg.frequency
     band = Band.from_context(context, model)
-    eq = find_equilibria(model, cfg.speeds or V_GRID, band=band)
+    stateful = bool(getattr(model, "stateful", False))  # D135: the law with its state at the steady state
+    law = steady_view(model)
+    eq = find_equilibria(law, cfg.speeds or V_GRID, band=band)
     index = eq.usable.nonzero().squeeze(-1)
     omega = torch.as_tensor(freq.omegas(), dtype=torch.float64, device=device)
-    windowed = model.window > 1 and getattr(model, "differentiable", True)
-    analytic = _analytic(model, eq.s[index], eq.v[index], omega, windowed) if len(index) else {}
+    windowed = model.window > 1 and getattr(model, "differentiable", True) and not stateful
+    analytic = _analytic(law, eq.s[index], eq.v[index], omega, windowed) if len(index) else {}
     exact = analytic.get("windowed" if windowed else "discrete")
     response = frequency_response(model, eq, freq)
     support = None if context is None else (float(context["box_low"][V_INDEX]), float(context["box_high"][V_INDEX]))
@@ -172,6 +181,8 @@ def audit_model(model: CFModel, context: Mapping[str, Any] | None, cfg: AuditCon
         "omega": omega.tolist(),
         "equilibria": records,
     }
+    if stateful:  # D135 (absent in the audits of the models without a state)
+        audit["state"] = "steady"
     audit["summary"] = summarise_audit(audit)
     audit["wall_time_s"] = time.perf_counter() - t_start
     return audit

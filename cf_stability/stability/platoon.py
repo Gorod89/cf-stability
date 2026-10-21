@@ -16,6 +16,10 @@ closes its gap first, vehicle ``n`` makes up ``n`` gaps, and the speed deviation
 platoon because of the start and not because of the law. The start ``anchored`` therefore uses the
 equilibrium of the law inside the spacing band of its training data (D78, D79); the time gap is the
 fallback where there is none (D73).
+
+A stateful model (docs/m12_contract.md, D135): the equilibria are those of its steady-state view (the state at the
+steady state of the constant history), every follower starts with the steady state of its start history and carries
+its own state from step to step.
 """
 
 from __future__ import annotations
@@ -33,7 +37,7 @@ from torch.nn.utils import parametrize
 from cf_stability.data.openacc import parse_openacc_csv
 from cf_stability.data.processing import resample_uniform
 from cf_stability.data.schema import DT
-from cf_stability.models.base import CFModel
+from cf_stability.models.base import CFModel, steady_view
 from cf_stability.stability.certificate import to_json
 from cf_stability.stability.equilibrium import NOMINAL_S0, NOMINAL_T, Band, find_equilibria
 from cf_stability.train.calibration import resolve_device
@@ -99,7 +103,7 @@ def _start_gaps(
     start gap is an equilibrium of the model (else a time gap)."""
     if start_gap not in START_GAPS:
         raise ValueError(f"start_gap must be one of {START_GAPS}, got {start_gap!r}")
-    eq = find_equilibria(model, v_start, band=band if start_gap == "anchored" else None)
+    eq = find_equilibria(steady_view(model), v_start, band=band if start_gap == "anchored" else None)  # D135
     # a law without tensors (persistence, calibrated laws) is searched on the CPU: back to the platoon's device
     s, usable = eq.s.to(v_start), eq.usable.to(v_start.device)
     if start_gap == "equilibrium":  # an indifferent law is in equilibrium at the nominal spacing it gets
@@ -165,9 +169,14 @@ def simulate_platoons(
     state = torch.stack((s, v[:, 1:] - v[:, :-1], v[:, 1:]), dim=-1).reshape(-1, 1, 3)
     history = state.expand(-1, w, -1).contiguous()
     series: dict[str, list[Tensor]] = {"v": [v], "x": [x], "s": [s], "a": []}
+    carried = m.steady_state(history) if getattr(m, "stateful", False) else None  # D135: one state per follower
     with parametrize.cached():  # spectral norms of ResidualIDM once, not at every step
         for k in range(w - 1, w + t_max - 2):
-            a = torch.clamp(m(history), A_MIN, A_MAX).reshape(n_prof, n_f)
+            if carried is None:
+                a = torch.clamp(m(history), A_MIN, A_MAX).reshape(n_prof, n_f)
+            else:
+                a, carried = m(history, carried)
+                a = torch.clamp(a, A_MIN, A_MAX).reshape(n_prof, n_f)
             v_f = torch.clamp(v[:, 1:] + a * dt, min=0.0)
             x_f = x[:, 1:] + v_f * dt
             v = torch.cat((v_lead[:, k + 1 : k + 2], v_f), dim=1)

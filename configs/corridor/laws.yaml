@@ -140,3 +140,20 @@ table:
   gru_windowed: {kind: models, device: cuda, members: "runs/m11_ft_windowed_w0.1/ngsim_i80/gru/driver_fold{fold}_seed0"}
   lstm_windowed: {kind: models, device: cuda, members: "runs/m11_ft_windowed_w10/ngsim_i80/lstm/driver_fold{fold}_seed0"}
   perl_windowed: {kind: models, device: cuda, members: "runs/m11_ft_windowed_w1/ngsim_i80/perl/driver_fold{fold}_seed0"}
+  # M12 (agent B'), docs/m12_contract.md, D135: the two-timescale certified hybrid with the latent carried along the
+  # vehicle (residual_idm_tt2: z in [-0.2, 1], tau_z chosen on the pilot) fine-tuned on ngsim_i80, one fold member per
+  # vehicle drawn as residual_idm_certified draws its members; one latent per vehicle from its insertion (z = 0), carried
+  # with its history window (the law file gets stateful: true); on the GPU as residual_idm_tt. Rows of the corridor
+  # tables (m12_laws of configs/corridor_metrics.yaml).
+  residual_idm_tt2:
+    kind: models
+    device: cuda
+    members: "runs/e4_tt2_ft/ngsim_i80/residual_idm_tt2/driver_fold{fold}_seed0"
+  # M12 (agent A'), docs/m12_contract.md, D134: the recurrent laws trained on follownet_highd with the windowed-gain
+  # penalty with the maximum over the frequencies (A1') at the weight chosen on its pilot (D85: gru 100, lstm 10,
+  # perl 100) and fine-tuned on ngsim_i80 with the penalty continued (configs/queue/m12_ft_wmax.yaml); kind models on
+  # the GPU as gru, lstm and perl, one fold member drawn per vehicle as they draw theirs. Rows of the corridor tables
+  # (wmax_laws of configs/corridor_metrics.yaml).
+  gru_wmax: {kind: models, device: cuda, members: "runs/m12_ft_wmax_w100/ngsim_i80/gru/driver_fold{fold}_seed0"}
+  lstm_wmax: {kind: models, device: cuda, members: "runs/m12_ft_wmax_w10/ngsim_i80/lstm/driver_fold{fold}_seed0"}
+  perl_wmax: {kind: models, device: cuda, members: "runs/m12_ft_wmax_w100/ngsim_i80/perl/driver_fold{fold}_seed0"}

@@ -49,6 +49,14 @@ on fold 0, seed 0) next to the E1 runs of seed 0, into ``runs/_tables/m11/full_h
 figure). ``full_history.json`` is written into the runs of the new experiments only (``M11_WRITE``): the files of the
 E1 runs belong to the table of M9 and stay as they are (they hold the wall time of their analysis). The default arm
 set and its table ``runs/_tables/m9/full_history`` are unchanged.
+
+``--arm-set m12`` (M12, docs/m12_contract.md, D134): the arms of ``M12_ARMS``, the windowed-gain penalty with the
+maximum over the frequencies (A1', ``frequency_reduce: max``; the chosen weight on five folds and the four pilot
+weights on fold 0) next to E1 and to the penalty of M11 (the mean; its chosen weights on five folds, its pilot weights
+on fold 0), seed 0, into ``runs/_tables/m12/full_history_wmax.{csv,md}`` (no figure), with one statistic more: the share
+of the speeds whose windowed gain exceeds the threshold at some audit frequency in ``HIGH_BAND`` (0.5-2 rad/s, the
+amplification near 1 rad/s that the mean over the frequencies weighed little; D134). ``full_history.json`` is written
+into the runs of ``e2_wmax*`` only (``M12_WRITE``); the tables of M9 and M11 are unchanged.
 """
 
 from __future__ import annotations
@@ -59,7 +67,7 @@ import math
 import sys
 import time
 from pathlib import Path
-from typing import Any, Mapping, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
@@ -107,6 +115,23 @@ M11_SEEDS: dict[str, tuple[int, ...]] = {arm: (0,) for arm in M11_ARMS}  # arm -
 M11_FOLDS: dict[str, tuple[int, ...]] = {arm: (0,) for arm in M11_ARMS if arm.endswith("(pilot)")}  # arm -> folds
 M11_WRITE = ("e2_windowed",)  # experiments (prefixes) whose runs get full_history.json in the M11 arm set
 M11_OUT, M11_TABLE = "runs/_tables/m11", "full_history_windowed"
+# M12 (D134): the windowed-gain penalty with the maximum over the frequencies, every arm on seed 0; the weight of an
+# architecture chosen by the rule of D85 on its pilot of fold 0 (scripts/analysis/windowed_gain.py --arm wmax;
+# configs/queue/e2_wmax.yaml); beside it the penalty of M11 (the mean) at its chosen and its pilot weights
+M12_CHOSEN: dict[str, str] = {"gru": "e2_wmax_w100", "lstm": "e2_wmax_w10", "perl": "e2_wmax_w100"}  # 2026-10-20
+M12_WEIGHTS = ("0.1", "1", "10", "100")  # the pilot (configs/queue/e2_wmax_pilot.yaml)
+M12_ARMS: dict[str, dict[str, str]] = {
+    "E1 (seed 0)": {"gru": "e1", "lstm": "e1", "perl": "e1"},
+    "E2 windowed mean, M11 (chosen weight)": dict(M11_CHOSEN),
+    "E2 windowed max (chosen weight)": dict(M12_CHOSEN),
+    **{f"E2 windowed mean w{w} (M11 pilot)": {a: f"e2_windowed_w{w}" for a in ARCHITECTURES} for w in M11_WEIGHTS},
+    **{f"E2 windowed max w{w} (pilot)": {a: f"e2_wmax_w{w}" for a in ARCHITECTURES} for w in M12_WEIGHTS},
+}
+M12_SEEDS: dict[str, tuple[int, ...]] = {arm: (0,) for arm in M12_ARMS}
+M12_FOLDS: dict[str, tuple[int, ...]] = {arm: (0,) for arm in M12_ARMS if arm.endswith("pilot)")}
+M12_WRITE = ("e2_wmax",)  # experiments (prefixes) whose runs get full_history.json in the M12 arm set
+M12_OUT, M12_TABLE = "runs/_tables/m12", "full_history_wmax"
+HIGH_BAND = (0.5, 2.0)  # rad/s (D134): the band of the amplification near 1 rad/s
 FIGURE_ARMS = ("E1", "E2")
 OUTPUT = "full_history.json"
 AUDIT = "stability.json"
@@ -128,6 +153,12 @@ STATISTICS: dict[str, str] = {
     "limit_check_window": f"(M_w < 0) = (windowed gain at {LIMIT_OMEGA:g} rad/s > 1), a check of M_w",
 }
 N_RESAMPLES, SEED = 1000, 0
+# M12 (D134): the statistics of the arm set m12, those of M9 and the share above the threshold in HIGH_BAND
+M12_STATISTICS: dict[str, str] = {
+    **STATISTICS,
+    "windowed_unstable_highfreq": f"windowed gain above the threshold at some audit frequency in {HIGH_BAND[0]:g}-"
+                              f"{HIGH_BAND[1]:g} rad/s",
+}  # fmt: skip
 
 
 def _num(x: Any) -> float | None:
@@ -302,15 +333,40 @@ def analyse_run(run_dir: Path, write: bool = True) -> dict[str, Any] | str:
     return payload
 
 
+def high_band_unstable(
+    payload: Mapping[str, Any], part: str, band: tuple[float, float] | None = None
+) -> dict[str, Any]:  # fmt: skip
+    """M12 (D134): over the speeds of ``part`` of a run's analysis (``full_history.json``), the share whose windowed
+    gain exceeds the threshold (strictly) at some audit frequency in ``band`` (default ``HIGH_BAND``) as
+    ``windowed_unstable_highfreq`` and the number of speeds it is defined at (a gain that is not finite at one of these
+    frequencies leaves the speed out)."""
+    band = HIGH_BAND if band is None else band
+    omega = np.asarray(payload.get("omega") or [], dtype=float)
+    inside = (omega >= band[0]) & (omega <= band[1])
+    threshold = float(payload.get("threshold", THRESHOLD))
+    flags: list[bool | None] = []
+    for r in payload.get("equilibria") or []:
+        if part != "all" and not r.get("in_support"):
+            continue
+        gains = r.get("gain_windowed") or []
+        values = [g for g, keep in zip(gains, inside) if keep]
+        defined = inside.any() and len(gains) == len(omega) and all(g is not None for g in values)
+        flags.append(max(values) > threshold if defined else None)
+    share, n = _mean(flags)
+    return {"windowed_unstable_highfreq": share, "n_windowed_unstable_highfreq": n}
+
+
 def collect(
     runs_root: Path, data: str, architectures: Sequence[str], arms: Mapping[str, Mapping[str, str]] = ARMS,
     write: bool = True, arm_data: Mapping[str, str] = ARM_DATA, arm_seeds: Mapping[str, Sequence[int]] | None = None,
     arm_folds: Mapping[str, Sequence[int]] | None = None, write_only: Sequence[str] | None = None,
+    extra: Callable[[Mapping[str, Any], str], Mapping[str, Any]] | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame, list[str], dict[tuple[str, str], int]]:
     """Per run and part the shares (one row each), per speed the points of the figure, the problems and the
     numbers of runs per architecture and arm. The runs of an arm are on ``arm_data[arm]``, else on ``data``; with
     ``arm_seeds`` / ``arm_folds`` an arm has the runs of these seeds / folds only; with ``write_only``
-    ``full_history.json`` is written only into the runs of the experiments that start with one of its prefixes."""
+    ``full_history.json`` is written only into the runs of the experiments that start with one of its prefixes; with
+    ``extra`` (M12) every row also gets ``extra(payload, part)``."""
     rows, points, problems, expected = [], [], [], {}
     arm_seeds, arm_folds = arm_seeds or {}, arm_folds or {}
     for arm, experiments in arms.items():
@@ -333,7 +389,8 @@ def collect(
                     stored = agreement.get(part)
                     rows.append({
                         "architecture": architecture, "arm": arm, "experiment": experiment, "run": run_dir.name,
-                        "part": part, **summary, "stored_max_abs_diff": payload["stored_max_abs_diff"],
+                        "part": part, **summary, **(extra(payload, part) if extra is not None else {}),
+                        "stored_max_abs_diff": payload["stored_max_abs_diff"],
                         "audit_agreement_gain": stored, "threshold": payload["threshold"],
                         "lowest_omega": payload["lowest_omega"],
                     })  # fmt: skip
@@ -365,11 +422,12 @@ def lowest_differences(points: pd.DataFrame, part: str) -> tuple[int, float, flo
 
 def summarise(
     rows: pd.DataFrame, expected: Mapping[tuple[str, str], int], points: pd.DataFrame | None = None,
-    arms: Sequence[str] = tuple(ARMS),
+    arms: Sequence[str] = tuple(ARMS), statistics: Mapping[str, str] = STATISTICS,
 ) -> pd.DataFrame:
-    """Per architecture, arm and part: the mean over the runs of every share of :data:`STATISTICS` with its 95 %
-    percentile bootstrap interval over the runs, the numbers of runs and speeds, |numerical - windowed| gain at the
-    lowest frequency over the locally stable speeds (pooled; :func:`lowest_differences`), the consistency checks."""
+    """Per architecture, arm and part: the mean over the runs of every share of ``statistics`` (:data:`STATISTICS`;
+    M12: :data:`M12_STATISTICS`) with its 95 % percentile bootstrap interval over the runs, the numbers of runs and
+    speeds, |numerical - windowed| gain at the lowest frequency over the locally stable speeds (pooled;
+    :func:`lowest_differences`), the consistency checks."""
     out = []
     if rows.empty:
         return pd.DataFrame(out)
@@ -379,7 +437,7 @@ def summarise(
             "runs": int(group["run"].nunique()), "runs_expected": expected.get((architecture, arm), 0),
             "speeds": int(group["n_equilibria"].sum()),
         }  # fmt: skip
-        for name in STATISTICS:
+        for name in statistics:
             values = pd.to_numeric(group[name], errors="coerce").to_numpy(dtype=np.float64)
             ci = bootstrap_ci(values, group["run"].to_numpy(), n_resamples=N_RESAMPLES, seed=SEED)
             row.update({name: ci["estimate"], f"{name}_low": ci["low"], f"{name}_high": ci["high"]})
@@ -651,12 +709,15 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--figure-dir", default="runs/_report/supplement/figures")
     parser.add_argument("--no-figure", action="store_true")
     parser.add_argument("--no-json", action="store_true", help="do not write full_history.json into the runs")
-    parser.add_argument("--arm-set", choices=("m9", "m11"), default="m9",
-                        help="m11: the windowed-gain penalty of M11 (D128) into runs/_tables/m11, without figure")
+    parser.add_argument("--arm-set", choices=("m9", "m11", "m12"), default="m9",
+                        help="m11: the windowed-gain penalty of M11 (D128) into runs/_tables/m11, without figure; m12: "
+                             "the penalty with the maximum over the frequencies (D134) into runs/_tables/m12")
     args = parser.parse_args(argv)
     runs_root = resolve_path(args.runs_root)
     if args.arm_set == "m11":
         return main_m11(args, runs_root)
+    if args.arm_set == "m12":
+        return main_m12(args, runs_root)
     rows, points, problems, expected = collect(runs_root, args.data, args.architectures, write=not args.no_json)
     table = summarise(rows, expected, points)
     thresholds = sorted(set(rows["threshold"])) if len(rows) else [THRESHOLD]
@@ -718,6 +779,76 @@ def main_m11(args: argparse.Namespace, runs_root: Path) -> int:
         print(f"  problem: {line}")
     analysed = len(rows[rows["part"] == "all"]) if len(rows) else 0
     print(f"{M11_TABLE}: {analysed} runs analysed, {len(problems)} problems -> {out / (M11_TABLE + '.csv')}, .md")
+    return 0
+
+
+def m12_runs_text(data: str) -> str:
+    """The first bullet of the table of M12."""
+    chosen = ", ".join(f"{a} {e}" for a, e in M12_CHOSEN.items()) or "not chosen yet"
+    before = ", ".join(f"{a} {e}" for a, e in M11_CHOSEN.items())
+    return (
+        f"Runs: GRU, LSTM and PERL on {data}, seed 0 (M12, D134). E1 (seed 0): no penalty, five folds. E2 windowed max "
+        "(chosen weight): the windowed-gain penalty with the maximum over the frequencies (kind windowed_gain, "
+        "frequency_reduce max: mean over the anchored equilibria of max_w relu(|G_w| - 0.98)^2 at the 25 audit "
+        "frequencies + relu(0.5 - M_w) + relu(rho - 0.995), plus the existence term) at the weight chosen by the rule "
+        f"of D85 on its pilot ({chosen}), five folds; E2 windowed max w<weight> (pilot): the pilot weights 0.1, 1, 10 "
+        "and 100 on fold 0. Before the change: E2 windowed mean, M11 (chosen weight): the penalty of D128 (the mean "
+        f"over the frequencies) at the weights chosen on its pilot ({before}), five folds; E2 windowed mean w<weight> "
+        "(M11 pilot): its pilot weights 0.1, 1 and 10 on fold 0."
+    )
+
+
+def markdown_high_band(table: pd.DataFrame, threshold: float) -> str:
+    """M12 (D134): the section of the share above the threshold in ``HIGH_BAND`` (and at any audit frequency)."""
+    low, high = HIGH_BAND
+    lines = [
+        "",
+        f"Windowed gain near 1 rad/s (D134; the audit frequencies in {low:g}-{high:g} rad/s):",
+        "",
+        f"- windowed > {threshold:g} at {low:g}-{high:g} rad/s: share of the speeds whose windowed gain exceeds "
+        f"{threshold:g} at some audit frequency in {low:g}-{high:g} rad/s (unit run, mean over the runs with the 95 % "
+        f"percentile bootstrap interval over the runs); windowed > {threshold:g}: at any of the 25 frequencies (the "
+        "column of the table above). The secondary number of D134, before (the mean of M11) and after the change (the "
+        "maximum), no verdict.",
+        "",
+        f"| architecture | arm | part | runs | speeds | windowed > {threshold:g} at {low:g}-{high:g} rad/s | "
+        f"windowed > {threshold:g} |",
+        "|---|---|---|---:|---:|---:|---:|",
+    ]
+    for _, row in table.iterrows():
+        lines.append(
+            f"| {row['architecture']} | {row['arm']} | {row['part']} | {row['runs']} | {row['speeds']} | "
+            f"{_ci(row, 'windowed_unstable_highfreq')} | {_ci(row, 'windowed_unstable')} |"
+        )
+    return "\n".join(lines) + "\n"
+
+
+def main_m12(args: argparse.Namespace, runs_root: Path) -> int:
+    """The arm set of M12 (D134): ``M12_ARMS`` into ``M12_OUT/M12_TABLE.{csv,md}``, with the share above the threshold
+    in ``HIGH_BAND``."""
+    rows, points, problems, expected = collect(
+        runs_root, args.data, args.architectures, arms=M12_ARMS, write=not args.no_json, arm_seeds=M12_SEEDS,
+        arm_folds=M12_FOLDS, write_only=M12_WRITE, extra=high_band_unstable,
+    )  # fmt: skip
+    table = summarise(rows, expected, points, arms=tuple(M12_ARMS), statistics=M12_STATISTICS)
+    thresholds = sorted(set(rows["threshold"])) if len(rows) else [THRESHOLD]
+    lowest_values = sorted(set(rows["lowest_omega"])) if len(rows) else [0.02]
+    if len(thresholds) > 1 or len(lowest_values) > 1:
+        problems.append(f"audits with different thresholds {thresholds} or lowest frequencies {lowest_values}")
+    out = resolve_path(args.out if args.out != "runs/_tables/m9" else M12_OUT)
+    out.mkdir(parents=True, exist_ok=True)
+    table.to_csv(out / f"{M12_TABLE}.csv", index=False)
+    text = markdown(table, problems, args.data, float(thresholds[0]), float(lowest_values[0]),
+                    title="Full-history linear analysis of the windowed-gain penalty with the maximum over the "
+                          "frequencies (M12, D134)",
+                    runs_text=m12_runs_text(args.data))  # fmt: skip
+    if len(table):
+        text += markdown_high_band(table, float(thresholds[0]))
+    (out / f"{M12_TABLE}.md").write_text(text, encoding="utf-8")
+    for line in problems[:20]:
+        print(f"  problem: {line}")
+    analysed = len(rows[rows["part"] == "all"]) if len(rows) else 0
+    print(f"{M12_TABLE}: {analysed} runs analysed, {len(problems)} problems -> {out / (M12_TABLE + '.csv')}, .md")
     return 0
 
 

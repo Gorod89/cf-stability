@@ -84,6 +84,10 @@ train:
     # Added in M11: the config hash leaves both out while they hold these defaults (LATE_KEYS)
     window_gain_margin: 0.02
     pole_margin: 0.995
+    # windowed_gain only (D134, docs/m12_contract.md): the reduction of its gain term over the audit frequencies at
+    # every equilibrium, mean (D128, M11) or max (max_w relu(|G_w| - 1 + window_gain_margin)^2, the frequency of the
+    # largest excess, as linear_gain under D81). Added in M12: hash-neutral at this default (LATE_KEYS)
+    frequency_reduce: mean
 
 paths:
   events_root: data/events

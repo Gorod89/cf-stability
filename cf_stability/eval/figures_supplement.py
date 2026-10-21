@@ -66,7 +66,8 @@ from cf_stability.utils import REPO_ROOT, read_json  # noqa: E402
 
 OUTPUTS = ("lowfreq_expansion", "certificate_tightness", "band_width", "stability_maps", "corridor")
 # law sets of the design of corridor_metrics.yaml that the corridor grids leave out (D125; the laws of M11 as well, D133)
-EXCLUDED_LAW_SETS = ("ablation_laws", "m11_laws", "windowed_laws", "filter_laws")
+EXCLUDED_LAW_SETS = ("ablation_laws", "m11_laws", "windowed_laws", "filter_laws", "wmax_laws",  # wmax_laws: M12, D134
+                     "m12_laws")  # m12_laws: M12, D135
 EQUILIBRIUM = ("ok", "multiple", "outside")  # statuses with an equilibrium (FOUND of cf_stability.stability.audit)
 FLAGS = ("clipped", "stopped", "collided")  # rollout flags of the numerical response (cf_stability.stability.frequency)
 PARTIALS = ("f_s", "f_dv", "f_v")

@@ -18,6 +18,12 @@ model's ``frozen_z`` when not given; a model without latent is used as it is). :
 values of the sweep in [-1, 1], :func:`a_priori_exact_latent` the exact certificate at each of them from the stored
 inputs; :func:`enforce_budget` takes the certified budget of a latent model over the range the online latent can
 reach (:func:`reachable_latent`).
+
+M12 (D135): a latent model with a range of its own (``ResidualIDMTT2``: the latent carried along the vehicle in
+``[z_lo, z_hi]`` = [-0.2, 1]) has its own sweep (``model.LATENT_SWEEP``, 21 values of the range; :func:`latent_sweep`)
+and its range (``model.latent_range()``; :func:`latent_interval`): the budget of D86 is taken at the 21 values of the
+sweep and the certificate is checked at them. The models of D129 keep the sweep of [-1, 1] and the range
+``[-reach, reach]``.
 """
 
 from __future__ import annotations
@@ -63,13 +69,34 @@ def at_latent(model: ResidualIDM, z: float | None = None) -> ResidualIDM:
     return model.at_z(float(z))
 
 
+def latent_sweep(model: Any) -> tuple[float, ...]:
+    """The frozen latents of the certificate sweep: the model's own ``LATENT_SWEEP`` (D135: 21 values of its range),
+    else :data:`LATENT_SWEEP` (D129: -1, -0.9, ..., 1)."""
+    return tuple(float(z) for z in getattr(model, "LATENT_SWEEP", LATENT_SWEEP))
+
+
+def latent_interval(model: Any) -> tuple[float, float]:
+    """The range the online latent can reach: ``model.latent_range()`` when the model has one (D135), else
+    ``[-reach, reach]`` with ``reach = model.latent_reach()`` (D129)."""
+    if callable(getattr(model, "latent_range", None)):
+        lo, hi = model.latent_range()
+        return float(lo), float(hi)
+    reach = float(model.latent_reach())
+    return -reach, reach
+
+
 def reachable_latent(model: ResidualIDM, n: int = N_REACHABLE) -> tuple[float, ...]:
     """``n`` values of the latent from ``-reach`` to ``reach`` (both included), ``reach = model.latent_reach()``: the
-    largest ``|z|`` of the online latent (D129); ``(0.0,)`` for a model without latent."""
+    largest ``|z|`` of the online latent (D129); ``(0.0,)`` for a model without latent. A model with a range of its own
+    (D135): its sweep when it has ``n`` values (the budget is taken where the certificate is checked), else ``n`` values
+    of the range."""
     if not has_latent(model):
         return (0.0,)
-    reach = float(model.latent_reach())
-    return tuple(float(x) for x in torch.linspace(-reach, reach, n, dtype=torch.float64))
+    sweep = getattr(model, "LATENT_SWEEP", None)
+    if callable(getattr(model, "latent_range", None)) and sweep is not None and len(sweep) == n:
+        return tuple(float(z) for z in sweep)
+    lo, hi = latent_interval(model)
+    return tuple(float(x) for x in torch.linspace(lo, hi, n, dtype=torch.float64))
 
 
 def _float64(model: ResidualIDM) -> ResidualIDM:
@@ -417,6 +444,8 @@ def enforce_budget(model: ResidualIDM, safety: float, v: Speeds = V_GRID, n_scan
     if latent is not None:  # only then: the record of the E4 runs keeps its keys
         out["latent"] = {"z": list(latent), "reach": float(model.latent_reach()),
                          "admissible_per_z": [float(b.min()) for b in per_z]}  # fmt: skip
+        if callable(getattr(model, "latent_range", None)):  # D135: the range of the latent (absent in D129 records)
+            out["latent"]["range"] = list(latent_interval(model))
     return out
 
 

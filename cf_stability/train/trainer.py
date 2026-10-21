@@ -29,6 +29,16 @@ from cf_stability.stability.penalties import (
 from cf_stability.train.calibration import resolve_device
 from cf_stability.train.closed_loop import rollout_model
 from cf_stability.train.evaluate import evaluate_closed_loop, evaluating, summarise
+from cf_stability.train.stateful import (
+    PassBuffers,
+    is_stateful,
+    pass_capacity,
+    pass_plan,
+    pass_size,
+    plan_tensors,
+    rollout_states,
+    round_capacity,
+)
 from cf_stability.train.tensors import BandConfig, EventTensors, training_context
 
 DTYPES = {"float32": torch.float32, "float64": torch.float64}
@@ -87,17 +97,19 @@ def seed_everything(seed: int) -> None:
 
 
 def rollout_loss(
-    model: CFModel, data: EventTensors, starts: Tensor, *, horizon: int, var_s: float, var_v: float
+    model: CFModel, data: EventTensors, starts: Tensor, *, horizon: int, var_s: float, var_v: float, state: Any = None
 ) -> Tensor:
     """``MSE(s) / var_s + MSE(v) / var_v`` of teacher-free rollouts behind the recorded leader.
 
     Each segment starts at a window end ``(event, j)`` of ``starts [S, 2]`` after the observed
     warm-up ``j - window + 1 .. j`` and runs ``horizon`` steps with the clipping of the contract;
     samples past the end of an event are masked. Gradients flow through the whole rollout.
+    ``state`` (D135): the states of a stateful model at the starts (the teacher-forced pass of
+    ``cf_stability/train/stateful.py``), carried through the rollouts; None: ``model(history)``.
     """
     w = model.window
     seg = data.segments(starts, w, horizon)
-    res = rollout_model(model, seg["x_lead"], seg["v_lead"], seg["s"][:, :w], seg["v"][:, :w])
+    res = rollout_model(model, seg["x_lead"], seg["v_lead"], seg["s"][:, :w], seg["v"][:, :w], state=state)
     mask = seg["mask"][:, w:]
     sse_s = torch.where(mask, (res.s[:, w:] - seg["s"][:, w:]) ** 2, 0.0).sum()
     sse_v = torch.where(mask, (res.v[:, w:] - seg["v"][:, w:]) ** 2, 0.0).sum()
@@ -259,6 +271,13 @@ def train_model(
     spacing band of the training data (``training_context(..., cfg.band)["band"]``) unless its
     config holds one; ``existence: fixed`` reproduces M3 in full, without band.
 
+    A stateful model (D135, ``cf_stability/train/stateful.py``): before the rollouts of a step the
+    teacher-forced pass of its state over every event of the batch, from the event's first window to
+    the start of each rollout (gradients kept, once per event, shared by its rollouts), on a plan of
+    fixed capacity that the host fills before the step (a batch beyond it runs eagerly with a larger
+    plan); the rollouts carry the state, and the validation rollouts start from the initial state at
+    the first window of every event. ``state_pass`` in the result: capacity and eager overflow steps.
+
     The penalty enters the steps whose running number (from 0, over the whole training) is a
     multiple of ``penalty.every``, multiplied by ``every`` (D90); the history reports its unscaled
     mean over those steps of the epoch (NaN in an epoch without one). On CUDA with ``cuda_graph``
@@ -291,6 +310,13 @@ def train_model(
     data = EventTensors(train_events, device, dtype)
     ends = data.window_ends(model.window)
     steps = min(math.ceil(len(ends) / cfg.batch_size), cfg.steps_per_epoch)
+    # D135: the teacher-forced pass of a stateful model, planned on the host with fixed shapes (CUDA graphs)
+    stateful = is_stateful(model)
+    n_max = max(int(data.mask.shape[1]) - model.window + 1, 1)  # windows of the longest event
+    ends_np = ends.cpu().numpy() if stateful else None
+    capacity = pass_capacity(ends_np, model.window, cfg.rollout.segments, n_max, seed) if stateful else 0
+    buffers = PassBuffers(cfg.rollout.segments, capacity, device) if stateful else None
+    overflow_steps = 0
     sampler = torch.Generator().manual_seed(int(np.random.SeedSequence(seed).generate_state(1)[0]))
     weight, acc_weight = float(cfg.rollout.weight), float(cfg.acc_weight)
     penalty, penalty_weight = cfg.penalty, float(cfg.penalty.weight)
@@ -324,17 +350,22 @@ def train_model(
     jacobian_weight = float(penalty.jacobian_weight)
     every_step = combined and jacobian_weight > 0
 
-    def train_step(index: Tensor, starts: Tensor, guard: bool, with_penalty: bool) -> tuple[Tensor, Tensor, Tensor]:
+    def train_step(
+        index: Tensor, starts: Tensor, guard: bool, with_penalty: bool, plan: Mapping[str, Tensor] | None = None
+    ) -> tuple[Tensor, Tensor, Tensor]:
         """Loss, loss terms and penalty info of one batch and the update, skipped when ``guard``
         finds the loss non-finite; the penalty only when ``with_penalty`` (combined: its rollout
-        part; the Jacobian part on every step)."""
+        part; the Jacobian part on every step). A stateful model: the states at the rollout starts
+        from the plan of the pass (``plan``, else the buffers refilled before the step, D135)."""
         optimizer.zero_grad(set_to_none=False)  # gradient buffers stay in place for the CUDA graphs
         state, target = data.state_windows(index, model.window), data.targets(index)
         loss_acc = torch.mean((model(state) - target) ** 2)
         if weight > 0:
+            carried = rollout_states(model, data, starts, plan or buffers.tensors, n_max) if stateful else None
             loss_rollout = rollout_loss(
-                model, data, starts, horizon=cfg.rollout.horizon, var_s=stats["var_s"], var_v=stats["var_v"]
-            )
+                model, data, starts, horizon=cfg.rollout.horizon, var_s=stats["var_s"], var_v=stats["var_v"],
+                state=carried,
+            )  # fmt: skip
         else:
             loss_rollout = torch.zeros_like(loss_acc)
         loss_extra = model.extra_loss({"state": state, "target": target})
@@ -386,7 +417,8 @@ def train_model(
         model.train()
         # segment starts are drawn even without rollout loss: the batches stay the same
         order = torch.randperm(len(ends), generator=sampler)[: steps * cfg.batch_size].to(device)
-        seg_starts = torch.randint(len(ends), (steps, cfg.rollout.segments), generator=sampler).to(device)
+        seg_cpu = torch.randint(len(ends), (steps, cfg.rollout.segments), generator=sampler)
+        seg_starts = seg_cpu.to(device)
         if penalty.active:  # also in an epoch without penalty step: the speeds do not depend on `every`
             speeds.copy_(sample_speeds(penalty, speed_sampler, device, dtype))
         totals = torch.zeros(len(TERMS), dtype=torch.float64, device=device)
@@ -397,10 +429,19 @@ def train_model(
             with_penalty = penalty.active and step_number % every == 0
             step_number += 1
             graph = graphs[with_penalty] if len(index) == cfg.batch_size else None
+            large = None  # D135: the plan of a pass beyond the capacity (an eager step)
+            if stateful and weight > 0:
+                starts_np = ends_np[seg_cpu[step].numpy()]
+                needed = pass_size(starts_np, model.window)
+                if needed <= capacity:
+                    buffers.fill(pass_plan(starts_np, model.window, n_max, capacity))
+                else:
+                    large = plan_tensors(pass_plan(starts_np, model.window, n_max, round_capacity(needed)), device)
+                    graph, overflow_steps = None, overflow_steps + 1
             if graph is not None:
                 loss, terms, info = graph(index, ends[seg_starts[step]])
             else:
-                loss, terms, info = train_step(index, ends[seg_starts[step]], True, with_penalty)
+                loss, terms, info = train_step(index, ends[seg_starts[step]], True, with_penalty, large)
             if not torch.isfinite(loss):  # the best weights are restored below
                 non_finite = {"epoch": epoch, "step": step, **dict(zip(TERMS, terms.tolist()))}
                 break
@@ -451,7 +492,9 @@ def train_model(
             break
     model.load_state_dict(best_state)
     model.eval()
+    extra = {"state_pass": {"capacity": capacity, "n_max": n_max, "overflow_steps": overflow_steps}} if stateful else {}
     return {
+        **extra,
         "history": history,
         "best_epoch": choice.best_epoch,
         "best_val_rmse_s": choice.best_rmse,
