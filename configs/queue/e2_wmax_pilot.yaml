@@ -1,0 +1,28 @@
+# Pilot of the windowed-gain penalty with the maximum over the frequencies (M12, docs/m12_contract.md, D134: algorithm
+# A1', hypothesis H-N3'): GRU, LSTM and PERL with the penalty `windowed_gain` of M11 (D128) whose gain term is the
+# maximum over the 25 audit frequencies (0.02-2 rad/s) of relu(|G_w| - 0.98)^2 at every anchored equilibrium
+# (train.penalty.frequency_reduce: max) instead of the mean; the terms relu(0.5 - M_w) and relu(rho - 0.995) and the
+# existence term of the band unchanged; 16 speeds per epoch; weights 0.1, 1, 10 (the M11 grid) and 100 (one step up:
+# the maximum is a larger penalty than the mean); fold 0, seed 0, 12 runs. The weight of every architecture is then
+# chosen by the rule of D85 (ties as in D128: the smaller validation RMSE) and written into configs/queue/e2_wmax.yaml
+# (same experiment names: its fold-0 jobs are these runs).
+# every = 4 as in M11 (the eager penalty step cost 5.6-8.8 times a plain step replayed from its graph, D128).
+# python scripts/run_experiment.py configs/queue/e2_wmax_pilot.yaml
+name: e2_wmax_pilot
+workers: 2
+timeout_h: 8.0
+min_free_ram_gb: 6.0
+order: [seed, fold, model]
+steps: [train, audit, platoon]
+groups:
+  - experiment: "e2_wmax_w{train.penalty.weight:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [gru, lstm, perl]
+      fold: [0]
+      seed: [0]
+      train.penalty.kind: [windowed_gain]
+      train.penalty.frequency_reduce: [max]      # D134: the maximum over the frequencies
+      train.penalty.weight: [0.1, 1.0, 10.0, 100.0]
+      train.penalty.every: [4]                  # as in M11 (D128)
+      train.penalty.n_equilibria: [16]          # as in M11: 16 speeds per epoch, drawn as for the gain penalty

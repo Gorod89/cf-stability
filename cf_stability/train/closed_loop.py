@@ -5,12 +5,16 @@ Conventions (docs/data_contract.md, section 1): semi-implicit Euler
 ``s[k+1] = x_lead[k+1] - x[k+1]``, accelerations clipped to ``[A_MIN, A_MAX]``,
 collision = ``s <= 0``. ``a[..., k]`` is the (clipped) acceleration applied between
 ``k`` and ``k + 1``; its last entry repeats the previous one.
+
+A stateful model (docs/m12_contract.md, D135) gets its state through ``rollout_model(..., state=...)``: the state at
+the first call, advanced by every call and returned in ``RolloutResult.state``; without it the model is called as
+before (``model(history)``).
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Callable, Iterator, Sequence
+from typing import Any, Callable, Iterator, Sequence
 
 import numpy as np
 import torch
@@ -34,6 +38,7 @@ class RolloutResult:
     v: Tensor
     x: Tensor
     a: Tensor
+    state: Any = None  # D135: the state of a stateful model after the last call (None without one)
 
 
 def _euler_step(x: Tensor, v: Tensor, a: Tensor, x_lead_next: Tensor, dt: float) -> tuple[Tensor, Tensor, Tensor]:
@@ -101,6 +106,7 @@ def rollout_model(
     dt: float = DT,
     a_min: float = A_MIN,
     a_max: float = A_MAX,
+    state: Any = None,
 ) -> RolloutResult:
     """Closed-loop rollout of a model with a state window.
 
@@ -108,18 +114,25 @@ def rollout_model(
     simulation starts from index ``W - 1``. The returned series (length ``T``) hold the
     observed values in the warm-up part, where ``a`` is the finite difference of the
     observed speeds. The model sees the last ``min(k + 1, window)`` states, kept in a rolling
-    ``[B, steps, 3]`` tensor; the rollout is differentiable.
+    ``[B, steps, 3]`` tensor; the rollout is differentiable. ``state`` (D135): the state of a stateful
+    model before the first call (``model(history, state) -> (a, state)`` at every step, the last one in
+    ``RolloutResult.state``); None calls ``model(history)``.
     """
     n_steps, n_hist = x_lead.shape[-1], s_hist.shape[-1]
     if n_hist < 1 or n_steps < max(n_hist, 2):
         raise ValueError(f"need 1 <= history ({n_hist}) <= T ({n_steps}) and T >= 2")
+    carried = state  # D135: the state of a stateful model (the name `state` below is the new sample of the history)
     keep = model.window - 1  # states carried over to the next step besides the new one
     history = torch.stack((s_hist, v_hist - v_lead[..., :n_hist], v_hist), dim=-1)[..., -model.window :, :].contiguous()
     s, v = s_hist[..., -1], v_hist[..., -1]
     x = x_lead[..., n_hist - 1] - s
     sim: tuple[list[Tensor], ...] = ([], [], [], [])
     for k in range(n_hist - 1, n_steps - 1):
-        a = torch.clamp(model(history), a_min, a_max)
+        if carried is None:
+            a = torch.clamp(model(history), a_min, a_max)
+        else:  # D135: the state of a stateful model, carried from call to call
+            a, carried = model(history, carried)
+            a = torch.clamp(a, a_min, a_max)
         s, v, x = _euler_step(x, v, a, x_lead[..., k + 1], dt)
         state = torch.stack((s, v - v_lead[..., k + 1], v), dim=-1)[..., None, :]
         history = torch.cat((history[..., max(0, history.shape[-2] - keep) :, :], state), dim=-2) if keep else state
@@ -129,7 +142,7 @@ def rollout_model(
     s_all, v_all, x_all, a_all = (
         torch.cat((obs, torch.stack(series, dim=-1)), dim=-1) if series else obs for obs, series in zip(observed, sim)
     )
-    return RolloutResult(s_all, v_all, x_all, torch.cat((a_all, a_all[..., -1:]), dim=-1))
+    return RolloutResult(s_all, v_all, x_all, torch.cat((a_all, a_all[..., -1:]), dim=-1), carried)
 
 
 def pad_events(

@@ -99,13 +99,14 @@
       "0223978e4c98",
       "33f3a0b2f5d4"
     ],
-    "runs": 1785,
+    "runs": 2025,
     "scenarios": {
       "i80_p0": {
         "laws": [
           "gru",
           "gru_penalty",
           "gru_windowed",
+          "gru_wmax",
           "idm_core_margin",
           "idm_global",
           "idm_heterogeneous",
@@ -115,10 +116,12 @@
           "lstm",
           "lstm_penalty",
           "lstm_windowed",
+          "lstm_wmax",
           "mlp",
           "mlp_penalty",
           "perl",
           "perl_windowed",
+          "perl_wmax",
           "pidl",
           "residual_idm",
           "residual_idm_certified",
@@ -129,12 +132,13 @@
           "residual_idm_certified_r0.5",
           "residual_idm_free_r0.3",
           "residual_idm_margin_free_r0.3",
-          "residual_idm_tt"
+          "residual_idm_tt",
+          "residual_idm_tt2"
         ],
-        "runs": 270,
+        "runs": 310,
         "scenario_config_hash": "2111a8388b2e",
-        "with_macro_json": 270,
-        "with_run_json": 270
+        "with_macro_json": 310,
+        "with_run_json": 310
       },
       "i80_p1": {
         "laws": [
@@ -143,6 +147,7 @@
           "gru_p0",
           "gru_penalty",
           "gru_windowed",
+          "gru_wmax",
           "idm_core_margin",
           "idm_global",
           "idm_global_p0",
@@ -154,12 +159,14 @@
           "lstm_filter",
           "lstm_penalty",
           "lstm_windowed",
+          "lstm_wmax",
           "mlp",
           "mlp_filter",
           "mlp_p0",
           "mlp_penalty",
           "perl",
           "perl_windowed",
+          "perl_wmax",
           "pidl",
           "residual_idm",
           "residual_idm_certified",
@@ -172,12 +179,13 @@
           "residual_idm_certified_r0.5",
           "residual_idm_free_r0.3",
           "residual_idm_margin_free_r0.3",
-          "residual_idm_tt"
+          "residual_idm_tt",
+          "residual_idm_tt2"
         ],
-        "runs": 330,
+        "runs": 370,
         "scenario_config_hash": "e6c408fbeff0",
-        "with_macro_json": 330,
-        "with_run_json": 330
+        "with_macro_json": 370,
+        "with_run_json": 370
       },
       "i80_p1_gain0.01": {
         "laws": [
@@ -240,6 +248,7 @@
           "gru_p0",
           "gru_penalty",
           "gru_windowed",
+          "gru_wmax",
           "idm_core_margin",
           "idm_global",
           "idm_global_p0",
@@ -250,11 +259,13 @@
           "lstm",
           "lstm_penalty",
           "lstm_windowed",
+          "lstm_wmax",
           "mlp",
           "mlp_p0",
           "mlp_penalty",
           "perl",
           "perl_windowed",
+          "perl_wmax",
           "pidl",
           "residual_idm",
           "residual_idm_certified",
@@ -266,18 +277,20 @@
           "residual_idm_certified_r0.5",
           "residual_idm_free_r0.3",
           "residual_idm_margin_free_r0.3",
-          "residual_idm_tt"
+          "residual_idm_tt",
+          "residual_idm_tt2"
         ],
-        "runs": 310,
+        "runs": 350,
         "scenario_config_hash": "8e825de61fa3",
-        "with_macro_json": 310,
-        "with_run_json": 310
+        "with_macro_json": 350,
+        "with_run_json": 350
       },
       "us101_p0": {
         "laws": [
           "gru",
           "gru_penalty",
           "gru_windowed",
+          "gru_wmax",
           "idm_core_margin",
           "idm_global",
           "idm_heterogeneous",
@@ -286,10 +299,12 @@
           "lstm",
           "lstm_penalty",
           "lstm_windowed",
+          "lstm_wmax",
           "mlp",
           "mlp_penalty",
           "perl",
           "perl_windowed",
+          "perl_wmax",
           "pidl",
           "residual_idm",
           "residual_idm_certified",
@@ -300,12 +315,13 @@
           "residual_idm_certified_r0.5",
           "residual_idm_free_r0.3",
           "residual_idm_margin_free_r0.3",
-          "residual_idm_tt"
+          "residual_idm_tt",
+          "residual_idm_tt2"
         ],
-        "runs": 260,
+        "runs": 300,
         "scenario_config_hash": "5757525a5a14",
-        "with_macro_json": 260,
-        "with_run_json": 260
+        "with_macro_json": 300,
+        "with_run_json": 300
       },
       "us101_p1": {
         "laws": [
@@ -313,6 +329,7 @@
           "gru_filter",
           "gru_penalty",
           "gru_windowed",
+          "gru_wmax",
           "idm_core_margin",
           "idm_global",
           "idm_heterogeneous",
@@ -322,11 +339,13 @@
           "lstm_filter",
           "lstm_penalty",
           "lstm_windowed",
+          "lstm_wmax",
           "mlp",
           "mlp_filter",
           "mlp_penalty",
           "perl",
           "perl_windowed",
+          "perl_wmax",
           "pidl",
           "residual_idm",
           "residual_idm_certified",
@@ -338,18 +357,20 @@
           "residual_idm_certified_r0.5",
           "residual_idm_free_r0.3",
           "residual_idm_margin_free_r0.3",
-          "residual_idm_tt"
+          "residual_idm_tt",
+          "residual_idm_tt2"
         ],
-        "runs": 280,
+        "runs": 320,
         "scenario_config_hash": "001e05932235",
-        "with_macro_json": 280,
-        "with_run_json": 280
+        "with_macro_json": 320,
+        "with_run_json": 320
       },
       "us101_p2": {
         "laws": [
           "gru",
           "gru_penalty",
           "gru_windowed",
+          "gru_wmax",
           "idm_core_margin",
           "idm_global",
           "idm_heterogeneous",
@@ -358,10 +379,12 @@
           "lstm",
           "lstm_penalty",
           "lstm_windowed",
+          "lstm_wmax",
           "mlp",
           "mlp_penalty",
           "perl",
           "perl_windowed",
+          "perl_wmax",
           "pidl",
           "residual_idm",
           "residual_idm_certified",
@@ -372,18 +395,19 @@
           "residual_idm_certified_r0.5",
           "residual_idm_free_r0.3",
           "residual_idm_margin_free_r0.3",
-          "residual_idm_tt"
+          "residual_idm_tt",
+          "residual_idm_tt2"
         ],
-        "runs": 260,
+        "runs": 300,
         "scenario_config_hash": "2e6be0bf8b37",
-        "with_macro_json": 260,
-        "with_run_json": 260
+        "with_macro_json": 300,
+        "with_run_json": 300
       }
     },
-    "with_macro_json": 1785,
-    "with_run_json": 1785
+    "with_macro_json": 2025,
+    "with_run_json": 2025
   },
-  "date": "2026-10-20T16:05:16",
+  "date": "2026-10-21T02:59:29",
   "inputs": {
     "_report/supplement/figures/band_width.png": {
       "bytes": 72873,
@@ -518,8 +542,8 @@
       "sha256": "93c6054aab48564f"
     },
     "_tables/m5/components.csv": {
-      "bytes": 36440,
-      "sha256": "3314c4bfbe4ca72d"
+      "bytes": 41378,
+      "sha256": "f4a00554610b107b"
     },
     "_tables/m5/e4_rmax.csv": {
       "bytes": 7424,
@@ -534,16 +558,16 @@
       "sha256": "ccd903edba77bb5e"
     },
     "_tables/m5/instability.csv": {
-      "bytes": 10838,
-      "sha256": "22f03cd9e2fdfc82"
+      "bytes": 12541,
+      "sha256": "9d16640197269a57"
     },
     "_tables/m5/instability_correlation.csv": {
       "bytes": 4386,
       "sha256": "40fa6b2070faba24"
     },
     "_tables/m5/laws.csv": {
-      "bytes": 96458,
-      "sha256": "eb4b9abeb066c618"
+      "bytes": 109548,
+      "sha256": "76bb813d6d0a2726"
     },
     "_tables/m5/sensitivity.csv": {
       "bytes": 6857,
@@ -562,8 +586,8 @@
       "sha256": "4774e1543de90050"
     },
     "_tables/m8/asymmetry.csv": {
-      "bytes": 45029,
-      "sha256": "ae5589271c1ec1af"
+      "bytes": 50875,
+      "sha256": "4543addcd09745e4"
     },
     "_tables/m8/asymmetry_contrasts.csv": {
       "bytes": 8278,
@@ -582,8 +606,8 @@
       "sha256": "56b62f7ca80f1c37"
     },
     "_tables/m8/contacts_absolute.csv": {
-      "bytes": 40864,
-      "sha256": "71122c9c6c1b7fc5"
+      "bytes": 46876,
+      "sha256": "0b7a312e7cbafc0f"
     },
     "_tables/m8/correlation_clustered.csv": {
       "bytes": 35527,
@@ -618,16 +642,16 @@
       "sha256": "3f6a52595a50005c"
     },
     "configs/corridor_metrics.yaml": {
-      "bytes": 17810,
-      "sha256": "d3912b54094ec1fa"
+      "bytes": 18672,
+      "sha256": "81804efc5e2de6a4"
     },
     "configs/make_tables.yaml": {
       "bytes": 4950,
       "sha256": "821335dfcdd9341e"
     },
     "docs/decisions.md": {
-      "bytes": 120443,
-      "sha256": "68adff2b7f6d6607"
+      "bytes": 124965,
+      "sha256": "62609ec86b724c89"
     }
   },
   "notes": [],
@@ -1161,6 +1185,94 @@
       ],
       "trained": 7
     },
+    "e2_wmax_w0.1": {
+      "config_fingerprint": "1fe582776361",
+      "config_hashes": 3,
+      "event_sets": [
+        "follownet_highd"
+      ],
+      "folds": [
+        0
+      ],
+      "models": [
+        "gru",
+        "lstm",
+        "perl"
+      ],
+      "runs": 3,
+      "seeds": [
+        0
+      ],
+      "trained": 3
+    },
+    "e2_wmax_w1": {
+      "config_fingerprint": "0b27e4bad6f2",
+      "config_hashes": 3,
+      "event_sets": [
+        "follownet_highd"
+      ],
+      "folds": [
+        0
+      ],
+      "models": [
+        "gru",
+        "lstm",
+        "perl"
+      ],
+      "runs": 3,
+      "seeds": [
+        0
+      ],
+      "trained": 3
+    },
+    "e2_wmax_w10": {
+      "config_fingerprint": "c474c61ca988",
+      "config_hashes": 7,
+      "event_sets": [
+        "follownet_highd"
+      ],
+      "folds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "models": [
+        "gru",
+        "lstm",
+        "perl"
+      ],
+      "runs": 7,
+      "seeds": [
+        0
+      ],
+      "trained": 7
+    },
+    "e2_wmax_w100": {
+      "config_fingerprint": "7ff976f3aa13",
+      "config_hashes": 11,
+      "event_sets": [
+        "follownet_highd"
+      ],
+      "folds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "models": [
+        "gru",
+        "lstm",
+        "perl"
+      ],
+      "runs": 11,
+      "seeds": [
+        0
+      ],
+      "trained": 11
+    },
     "e3_reference": {
       "config_fingerprint": "eb36c9dd5e2c",
       "config_hashes": 5,
@@ -1544,6 +1656,104 @@
       ],
       "trained": 5
     },
+    "e4_tt2": {
+      "config_fingerprint": "8e825064c9d0",
+      "config_hashes": 5,
+      "event_sets": [
+        "follownet_highd"
+      ],
+      "folds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "models": [
+        "residual_idm_tt2"
+      ],
+      "runs": 5,
+      "seeds": [
+        0
+      ],
+      "trained": 5
+    },
+    "e4_tt2_ft": {
+      "config_fingerprint": "cf01bc91ec35",
+      "config_hashes": 5,
+      "event_sets": [
+        "ngsim_i80"
+      ],
+      "folds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "models": [
+        "residual_idm_tt2"
+      ],
+      "runs": 5,
+      "seeds": [
+        0
+      ],
+      "trained": 5
+    },
+    "e4_tt2_pilot_tau15": {
+      "config_fingerprint": "c5cdf97546d8",
+      "config_hashes": 1,
+      "event_sets": [
+        "follownet_highd"
+      ],
+      "folds": [
+        0
+      ],
+      "models": [
+        "residual_idm_tt2"
+      ],
+      "runs": 1,
+      "seeds": [
+        0
+      ],
+      "trained": 1
+    },
+    "e4_tt2_pilot_tau30": {
+      "config_fingerprint": "e87e3fe5df04",
+      "config_hashes": 1,
+      "event_sets": [
+        "follownet_highd"
+      ],
+      "folds": [
+        0
+      ],
+      "models": [
+        "residual_idm_tt2"
+      ],
+      "runs": 1,
+      "seeds": [
+        0
+      ],
+      "trained": 1
+    },
+    "e4_tt2_pilot_tau60": {
+      "config_fingerprint": "2a192accb941",
+      "config_hashes": 1,
+      "event_sets": [
+        "follownet_highd"
+      ],
+      "folds": [
+        0
+      ],
+      "models": [
+        "residual_idm_tt2"
+      ],
+      "runs": 1,
+      "seeds": [
+        0
+      ],
+      "trained": 1
+    },
     "e4_tt_ft": {
       "config_fingerprint": "c5a8e35c9440",
       "config_hashes": 5,
@@ -1758,6 +1968,51 @@
         0
       ],
       "trained": 5
+    },
+    "m12_ft_wmax_w10": {
+      "config_fingerprint": "2a941c4d956a",
+      "config_hashes": 5,
+      "event_sets": [
+        "ngsim_i80"
+      ],
+      "folds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "models": [
+        "lstm"
+      ],
+      "runs": 5,
+      "seeds": [
+        0
+      ],
+      "trained": 5
+    },
+    "m12_ft_wmax_w100": {
+      "config_fingerprint": "c5f2332397ca",
+      "config_hashes": 10,
+      "event_sets": [
+        "ngsim_i80"
+      ],
+      "folds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "models": [
+        "gru",
+        "perl"
+      ],
+      "runs": 10,
+      "seeds": [
+        0
+      ],
+      "trained": 10
     },
     "m2": {
       "config_fingerprint": "b42f0716d4d6",

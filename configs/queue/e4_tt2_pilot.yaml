@@ -1,0 +1,27 @@
+# Pilot of the two-timescale certified hybrid with a persistent latent (docs/m12_contract.md, D135): residual_idm_tt2 on
+# follownet_highd, fold 0, seed 0, at the latent time constants tau_z = 15, 30 and 60 s; otherwise the recipe of
+# e4_tt (configs/queue/e4_tt_pilot.yaml): IDM core with string-stability margin 0.2, r_max 0.3, residual budget
+# certified a priori, here over the 21 frozen latents of the range [-0.2, 1] of the latent. The latent is carried along
+# the event in training (teacher-forced pass from the first window to every rollout start) and in the closed-loop
+# evaluation, the audit, the platoon test and the corridor. tau_z is then chosen by the rule of D129 from the
+# validation RMSE and the audits at the frozen z of D129 (scripts/audit_stability.py frozen_z=<z>, run after this
+# queue) and online.
+# python scripts/run_experiment.py configs/queue/e4_tt2_pilot.yaml
+name: e4_tt2_pilot
+workers: 2
+timeout_h: 4.0
+min_free_ram_gb: 6.0
+order: [experiment, seed, fold, model]
+steps: [train, audit, platoon, certificate]
+groups:
+  - experiment: "e4_tt2_pilot_tau{model.tau_z:g}"
+    overrides:
+      data: [follownet_highd]
+      model: [residual_idm_tt2]
+      model.tau_z: [15.0, 30.0, 60.0]
+      fold: [0]
+      seed: [0]
+    fixed:
+      calibration.stability_margin: 0.2
+      certificate.enforce: true
+      model.r_max: 0.3

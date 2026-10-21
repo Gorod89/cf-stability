@@ -45,4 +45,6 @@ jobs:
           tests/test_robust.py tests/test_safety.py tests/test_predictive_validity.py tests/test_empirical_gain.py
           tests/test_certificate_latent.py tests/test_corridor_laws_m11.py tests/test_corridor_tables_windowed.py
           tests/test_windowed_analysis.py tests/test_penalties_windowed.py tests/test_residual_idm_tt.py
+          tests/test_corridor_tables_wmax.py tests/test_residual_idm_tt2.py tests/test_stateful_callers.py
+          tests/test_corridor_laws_m12.py
           -q -p no:cacheprovider

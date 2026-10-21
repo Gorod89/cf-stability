@@ -1,0 +1,33 @@
+{
+  "device": "cuda",
+  "kind": "models",
+  "law": "residual_idm_tt2",
+  "members": [
+    {
+      "model": "runs/e4_tt2_ft/ngsim_i80/residual_idm_tt2/driver_fold0_seed0/model.pt",
+      "run": "runs/e4_tt2_ft/ngsim_i80/residual_idm_tt2/driver_fold0_seed0"
+    },
+    {
+      "model": "runs/e4_tt2_ft/ngsim_i80/residual_idm_tt2/driver_fold1_seed0/model.pt",
+      "run": "runs/e4_tt2_ft/ngsim_i80/residual_idm_tt2/driver_fold1_seed0"
+    },
+    {
+      "model": "runs/e4_tt2_ft/ngsim_i80/residual_idm_tt2/driver_fold2_seed0/model.pt",
+      "run": "runs/e4_tt2_ft/ngsim_i80/residual_idm_tt2/driver_fold2_seed0"
+    },
+    {
+      "model": "runs/e4_tt2_ft/ngsim_i80/residual_idm_tt2/driver_fold3_seed0/model.pt",
+      "run": "runs/e4_tt2_ft/ngsim_i80/residual_idm_tt2/driver_fold3_seed0"
+    },
+    {
+      "model": "runs/e4_tt2_ft/ngsim_i80/residual_idm_tt2/driver_fold4_seed0/model.pt",
+      "run": "runs/e4_tt2_ft/ngsim_i80/residual_idm_tt2/driver_fold4_seed0"
+    }
+  ],
+  "stateful": true,
+  "support_v": [
+    0.0,
+    18.050324854227018
+  ],
+  "window": 30
+}

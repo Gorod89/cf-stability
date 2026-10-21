@@ -20,6 +20,7 @@ from cf_stability.models.pidl import PIDL
 from cf_stability.models.recurrent import GRU, LSTM, Recurrent
 from cf_stability.models.residual_idm import ResidualIDM
 from cf_stability.models.residual_idm_tt import FrozenLatentHybrid, ResidualIDMTT
+from cf_stability.models.residual_idm_tt2 import ResidualIDMTT2
 
 MODELS: dict[str, type[CFModel]] = {
     "idm": IDM,
@@ -34,6 +35,7 @@ MODELS: dict[str, type[CFModel]] = {
     "perl": PERL,
     "residual_idm": ResidualIDM,
     "residual_idm_tt": ResidualIDMTT,  # D129 (M11): the certified hybrid with a slow latent time gap
+    "residual_idm_tt2": ResidualIDMTT2,  # D135 (M12): the same with the latent carried along the vehicle
 }
 
 
@@ -96,6 +98,7 @@ __all__ = [
     "Recurrent",
     "ResidualIDM",
     "ResidualIDMTT",
+    "ResidualIDMTT2",
     "build_model",
     "load_model",
     "save_model",

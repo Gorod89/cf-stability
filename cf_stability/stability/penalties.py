@@ -27,6 +27,12 @@ radius ``rho`` of the closed loop (:func:`spectral_radius`); the penalty is the 
 ``mean_w relu(|G_w| - 1 + m_w)^2 + relu(m - M_w) + relu(rho - rho_max)`` plus the existence term of every
 penalty. The eigenvalues synchronise with the host, so its training steps are not replayed from a CUDA
 graph (not in ``CAPTURABLE``).
+
+``frequency_reduce`` (D134, docs/m12_contract.md; algorithm A1') reduces the gain term of ``windowed_gain`` over the
+audit frequencies at every equilibrium: ``mean`` (D128, the default: the penalty of M11) or ``max``, ``max_w relu(|G_w|
+- 1 + m_w)^2``, the term of the frequency of the largest excess, into which alone its gradient flows (the reduction
+D81 chose for ``linear_gain``: in the mean one violated frequency weighs 1/25). The other terms are unchanged; the
+info of the kind records that frequency (``argmax_omega``) under both reductions.
 """
 
 from __future__ import annotations
@@ -85,10 +91,11 @@ INFO_KEYS: dict[str, tuple[str, ...]] = {
     # value with the guard, mean_margin, the guard terms, needle = largest |f_dv|, |f_v|: NaN while it is off)
     "combined": ("n_no_equilibrium", "rollout", "max_gain", "existence", "jacobian", "mean_margin", "guard", "needle"),
     # D128: largest windowed gain, smallest M_w and largest spectral radius at the anchored equilibria; the means of
-    # the three terms (unweighted); the existence term
+    # the three terms (unweighted); the existence term. D134 (M12): argmax_omega, the frequency (rad/s) of the largest
+    # excess |G_w| - 1 + m_w over the anchored equilibria and the audit frequencies (that of max_gain)
     "windowed_gain": (
         "n_no_equilibrium", "max_gain", "min_margin_window", "max_radius", "gain_term", "margin_term", "pole_term",
-        "existence",
+        "existence", "argmax_omega",
     ),
 }  # fmt: skip
 JACOBIAN_PART_KEYS = ("jacobian", "mean_margin", "guard", "needle")  # info of the Jacobian part of combined
@@ -96,6 +103,8 @@ AMPLITUDE_EPS = 1e-12  # (m/s)^2 under the square root of the fitted amplitude: 
 EXISTENCE_SPACINGS = (1.0, 200.0)  # m, the ends of the scan of find_equilibria
 # windowed_gain (D128): the defaults of its two margins; the margin of M_w is `margin` of the Jacobian penalty
 WINDOW_GAIN_MARGIN, POLE_MARGIN = 0.02, 0.995
+# windowed_gain (D134): the reductions of its gain term over the audit frequencies; the default is that of D128 (M11)
+FREQUENCY_REDUCES, FREQUENCY_REDUCE = ("mean", "max"), "mean"
 # smallest |w^T x| of the normalised left and right eigenvectors of the dominant pole: bounds the derivative of the
 # spectral radius where two poles of the largest modulus meet (their derivative is unbounded there)
 EIGENVECTOR_OVERLAP_MIN = 1e-8
@@ -162,6 +171,9 @@ class PenaltyConfig:
     # the spectral radius of the closed loop in relu(rho - pole_margin). Late keys of the config as well (LATE_KEYS)
     window_gain_margin: float = WINDOW_GAIN_MARGIN
     pole_margin: float = POLE_MARGIN
+    # windowed_gain only (D134, M12): the reduction of its gain term relu(|G_w| - 1 + m_w)^2 over the audit frequencies
+    # at every equilibrium, mean (D128, M11) or max (the frequency of the largest excess). A late key as well (LATE_KEYS)
+    frequency_reduce: str = FREQUENCY_REDUCE
 
     def __post_init__(self) -> None:
         if self.kind not in KINDS:
@@ -194,6 +206,10 @@ class PenaltyConfig:
         changed = (self.window_gain_margin, self.pole_margin) != (WINDOW_GAIN_MARGIN, POLE_MARGIN)
         if self.kind != "windowed_gain" and changed:
             raise ValueError(f"window_gain_margin and pole_margin belong to kind windowed_gain (D128), not to {self.kind!r}")
+        if self.frequency_reduce not in FREQUENCY_REDUCES:
+            raise ValueError(f"frequency_reduce must be one of {FREQUENCY_REDUCES}, got {self.frequency_reduce!r}")
+        if self.kind != "windowed_gain" and self.frequency_reduce != FREQUENCY_REDUCE:
+            raise ValueError(f"frequency_reduce belongs to kind windowed_gain (D134), not to {self.kind!r}")
 
     @classmethod
     def from_mapping(cls, mapping: Mapping[str, Any] | None) -> "PenaltyConfig":
@@ -424,13 +440,16 @@ def _projection(omega: Tensor, t: Tensor) -> Tensor:
     return torch.linalg.pinv(design)
 
 
-def rollout_gain(model: CFModel, s: Tensor, v: Tensor, cfg: PenaltyConfig) -> Tensor:
+def rollout_gain(model: CFModel, s: Tensor, v: Tensor, cfg: PenaltyConfig, state: Any = None) -> Tensor:
     """Gain ``[n, n_w]`` of the two-vehicle rollouts of :func:`gain_penalty` at the equilibria ``(s, v)`` and the
     frequencies ``cfg.omegas``: leader speed ``v_e + A sin(w t)`` from ``t = 0``, leader position by the integration
     scheme, the follower history at the equilibrium for ``window`` samples before (the warm-up), the follower rolled
     out for ``horizon_s``; the amplitude of the follower speed fitted on ``sin, cos, 1`` over the last ``measure_s``
     divided by ``A``. Differentiable; cuDNN as in the rollout loss of the training step, except for a backward in
-    eval mode, which cuDNN RNNs lack. Also the long-window check of D128 (``scripts/analysis/long_window_check.py``)."""
+    eval mode, which cuDNN RNNs lack. Also the long-window check of D128 (``scripts/analysis/long_window_check.py``).
+    ``state`` (D135, appended by agent B' of M12): the state ``[n x n_w]`` of a stateful model at the warm-up, carried
+    through the rollout; None gives a stateful model its steady state on the equilibrium (``model.steady_state``);
+    a model without a state is called as before."""
     device, dtype, dt, window = s.device, s.dtype, model.dt, model.window
     n_steps, n_meas, n_w = round(cfg.horizon_s / dt), round(cfg.measure_s / dt), len(cfg.omegas)
     # sample k is at t = (k - window + 1) dt: the warm-up ends at t = 0, where the excitation starts
@@ -441,9 +460,12 @@ def rollout_gain(model: CFModel, s: Tensor, v: Tensor, cfg: PenaltyConfig) -> Te
     x_lead = dt * (torch.cumsum(v_lead, dim=-1) - v_lead[:, :1])  # x[k] = x[k-1] + dt v[k]
     cudnn_ok = model.training or not torch.is_grad_enabled()
     with contextlib.nullcontext() if cudnn_ok else torch.backends.cudnn.flags(enabled=False):
+        if state is None and getattr(model, "stateful", False):  # D135: the state of the warm-up on the equilibrium
+            warm = torch.stack((s0, torch.zeros_like(s0), v0), dim=-1)[:, None, :].expand(-1, window, -1)
+            state = model.steady_state(warm.to(dtype))
         res = rollout_model(
             model, x_lead.to(dtype), v_lead.to(dtype), s0[:, None].expand(-1, window), v0[:, None].expand(-1, window),
-            dt=dt,
+            dt=dt, state=state if getattr(model, "stateful", False) else None,
         )  # fmt: skip
     deviation = (res.v[:, -n_meas:] - v0[:, None]).reshape(len(s), n_w, n_meas)
     coef = torch.einsum("wkm,nwm->nwk", projection, deviation)
@@ -581,6 +603,17 @@ def spectral_radius(jacobian: Tensor, dt: float) -> Tensor:
     return (dominant + step).abs()
 
 
+def reduce_frequencies(terms: Tensor, how: str) -> Tensor:
+    """``terms [n, n_w]`` reduced over the frequencies (the last dimension) to ``[n]`` (D134): ``mean`` (D128) or
+    ``max``, the largest term, whose gradient reaches the frequency of that term alone (``amax``; a tie between
+    positive terms, which does not occur in practice, would share it)."""
+    if how == "mean":
+        return terms.mean(dim=1)
+    if how == "max":
+        return terms.amax(dim=1)
+    raise ValueError(f"frequency_reduce must be one of {FREQUENCY_REDUCES}, got {how!r}")
+
+
 def windowed_terms(jacobian: Tensor, omega: Tensor, dt: float, cfg: PenaltyConfig) -> dict[str, Tensor]:
     """The quantities and the three terms of ``windowed_gain`` (D128) per equilibrium, from the history Jacobian
     ``jacobian [n, W, 3]`` (entry ``i`` acts on the state ``W - 1 - i`` steps ago; float64):
@@ -589,15 +622,16 @@ def windowed_terms(jacobian: Tensor, omega: Tensor, dt: float, cfg: PenaltyConfi
     * ``margin_window [n]``: ``M_w = M + 2 (f_v m_s - f_s m_v) - dt f_s f_v``, the coefficient of
       ``|G_w|^2 = 1 - w^2 M_w / f_s^2 + O(w^4)`` (``windowed_margin``);
     * ``radius [n]``: the spectral radius of the closed loop (:func:`spectral_radius`);
-    * ``gain_term = mean_w relu(gain - 1 + window_gain_margin)^2``, ``margin_term = relu(margin - M_w)``,
-      ``pole_term = relu(radius - pole_margin)`` and their sum ``terms``.
+    * ``gain_term = mean_w relu(gain - 1 + window_gain_margin)^2`` (``frequency_reduce`` mean, D128) or ``max_w`` of
+      the same terms (max, D134; :func:`reduce_frequencies`), ``margin_term = relu(margin - M_w)``, ``pole_term =
+      relu(radius - pole_margin)`` and their sum ``terms``.
 
     Every entry is differentiable with respect to ``jacobian``."""
     jac = jacobian.to(torch.float64)
     gain = transfer_windowed(jac, omega.to(device=jac.device, dtype=torch.float64), dt).abs()
     margin_window = windowed_margin(jac, dt)
     radius = spectral_radius(jac, dt)
-    gain_term = torch.relu(gain - 1.0 + cfg.window_gain_margin).square().mean(dim=1)
+    gain_term = reduce_frequencies(torch.relu(gain - 1.0 + cfg.window_gain_margin).square(), cfg.frequency_reduce)
     margin_term = torch.relu(cfg.margin - margin_window)
     pole_term = torch.relu(radius - cfg.pole_margin)
     return {
@@ -626,12 +660,16 @@ def windowed_gain_penalty(
     relu(rho - rho_max)`` (:func:`windowed_terms` of :func:`windowed_response`; ``m_w = window_gain_margin``, ``m =
     margin``, ``rho_max = pole_margin``), plus the existence term (:func:`existence_penalty`, as in ``gain`` and
     ``combined``). The windowed law is linearised over its whole window at the equilibrium history: no rollout.
+    A1' (D134): with ``frequency_reduce = "max"`` the gain term is ``max_w relu(|G_w| - 1 + m_w)^2`` instead of the
+    mean over the frequencies; the rest is unchanged.
 
     ``equilibria`` (at ``speeds``) are computed with the band of ``cfg`` when not given. ``info`` (detached):
     ``n_no_equilibrium``, ``max_gain`` (largest windowed gain over the anchored equilibria and the frequencies),
     ``min_margin_window`` (smallest ``M_w``), ``max_radius`` (largest spectral radius), the means of the three terms
-    over the anchored equilibria (``gain_term``, ``margin_term``, ``pole_term``) and ``existence``. Speeds without an
-    anchored equilibrium are linearised at the nominal spacing and masked out, as in :func:`jacobian_penalty`.
+    over the anchored equilibria (``gain_term``, ``margin_term``, ``pole_term``), ``existence`` and ``argmax_omega``
+    (D134: the frequency in rad/s of the largest excess ``|G_w| - 1 + m_w``, the frequency of ``max_gain``; the first
+    one of a tie). Speeds without an anchored equilibrium are linearised at the nominal spacing and masked out, as in
+    :func:`jacobian_penalty`.
     """
     eq = _equilibria(model, speeds, cfg, equilibria)
     s, v, anchored = _anchored(eq)
@@ -652,6 +690,10 @@ def windowed_gain_penalty(
     info["max_radius"] = largest(response["radius"])
     for key in ("gain_term", "margin_term", "pole_term"):
         info[key] = _masked_mean(response[key].detach().double(), anchored)
+    # D134: the frequency of the largest excess (a constant margin: the largest gain) over the anchored equilibria
+    gains = torch.where(anchored[:, None], response["gain"].detach().double(), -torch.inf)
+    at = response["omega"].double()[gains.argmax() % gains.shape[1]]
+    info["argmax_omega"] = torch.where(some, at, nan)
     return _masked_mean(response["terms"], anchored).to(s.dtype) + existence, info
 
 

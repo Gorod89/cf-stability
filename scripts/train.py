@@ -46,7 +46,8 @@ no ``fit``; the ``model`` group must name the model type of the checkpoint. Cert
 (D86): ``certificate.enforce=true`` (``residual_idm`` with a fixed core, not with ``init_from``) sets
 ``lipschitz = certificate.safety * b / r_max`` after the calibration of the core, with ``b`` the
 admissible budget of the a priori certificate at the model's ``r_max`` (``b = 0``: error); for
-``residual_idm_tt`` (D129) ``b`` is the smallest over the frozen latents its online latent can reach.
+``residual_idm_tt`` (D129) ``b`` is the smallest over the frozen latents its online latent can reach, for
+``residual_idm_tt2`` (D135) over the 21 latents of its range [z_lo, z_hi].
 """
 
 from __future__ import annotations
@@ -78,8 +79,9 @@ from cf_stability.train.tensors import training_context  # noqa: E402
 from cf_stability.train.trainer import TrainConfig, seed_everything, train_model  # noqa: E402
 from cf_stability.utils import config_hash, git_revision, read_json, resolve_path, to_plain, write_json  # noqa: E402
 
-NEEDS_IDM = ("idm", "pidl", "residual_idm", "residual_idm_tt")
-CERTIFIED = ("residual_idm", "residual_idm_tt")  # models with the certified budget of D86 (residual_idm_tt: D129)
+NEEDS_IDM = ("idm", "pidl", "residual_idm", "residual_idm_tt", "residual_idm_tt2")
+# models with the certified budget of D86 (residual_idm_tt: D129; residual_idm_tt2: D135)
+CERTIFIED = ("residual_idm", "residual_idm_tt", "residual_idm_tt2")
 NEEDS_NEWELL = ("newell", "perl")
 NEEDS_OVM = ("ovm",)
 CALIBRATIONS = {"idm": calibrate_global, "newell": calibrate_newell, "ovm": calibrate_ovm}

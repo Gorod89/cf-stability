@@ -1,6 +1,6 @@
 # H12.2 on the errors: residual_idm_certified against idm_global (exploratory, review of M8)
 
-- Runs: 1670 of 1670 expected runs have a macro.json (I-80: 27 laws x 3 scenarios x 10 seeds + 4 laws (idm_global_p0, residual_idm_certified_p0, mlp_p0, gru_p0) x 2 scenarios (i80_p1, i80_p2) x 10 seeds; US-101: 26 laws x 3 scenarios x 10 seeds); missing runs, files and values: missing.txt.
+- Runs: 1910 of 1910 expected runs have a macro.json (I-80: 31 laws x 3 scenarios x 10 seeds + 4 laws (idm_global_p0, residual_idm_certified_p0, mlp_p0, gru_p0) x 2 scenarios (i80_p1, i80_p2) x 10 seeds; US-101: 30 laws x 3 scenarios x 10 seeds); missing runs, files and values: missing.txt.
 - Analysis window (scenario.json): 180-840 s, 90-870 s.
 - Exploratory comparison on the errors (review of M8), not a verdict: the pre-specified H12.2 used the TOST of the raw metrics (table tost, D108: equivalence of residual_idm_certified and idm_global within +-10 % of the mean of idm_global) and stays as reported (verdicts).
 - Per corridor, residual_idm_certified against idm_global, paired by scenario and seed (pairs): the absolute value |e| of every component of the macro-error vector (signed relative errors against the ground truth of the run's scenario, as in components; the macro triple first: throughput, travel time (W1), wave speed by cross-correlation) and of the macro error and the dynamic macro error (means of the absolute components; kind summary).

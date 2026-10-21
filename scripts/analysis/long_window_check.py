@@ -17,6 +17,14 @@ equilibria outside the band are reported beside it. Writes ``long_window.json`` 
 of the new experiments only (``WRITE``: ``e2_windowed*``; the reference runs of E1 and E2 are left as they are), the
 per-equilibrium results of every run to ``runs/_tables/m11/long_window_runs.json`` and the table
 ``runs/_tables/m11/long_window.{csv,md}`` (``cf_stability/eval/tables.py`` conventions).
+
+    python scripts/analysis/long_window_check.py --arm-set m12   # M12 (D134): the pilot of the maximum
+
+``--arm-set m12`` (M12, docs/m12_contract.md, D134): the arms of ``M12_ARMS`` instead, the fold-0, seed-0 runs of the
+pilot of the windowed-gain penalty with the maximum over the frequencies (``e2_wmax_w{0.1,1,10,100}``) next to E1 and
+to the pilot of M11 (the mean, ``e2_windowed_w{0.1,1,10}``), into ``runs/_tables/m12/long_window_wmax.{csv,md}`` and
+``long_window_wmax_runs.json``; ``long_window.json`` is written into the runs of ``e2_wmax*`` only (``M12_WRITE``). The
+default arm set, its table and its files are unchanged.
 """
 
 from __future__ import annotations
@@ -51,6 +59,16 @@ ARMS: dict[str, dict[str, str]] = {  # arm -> architecture -> experiment
 }
 RUN = "driver_fold0_seed0"
 WRITE = ("e2_windowed",)  # experiments (prefixes) whose runs get long_window.json
+# M12 (D134): the pilot of the maximum over the frequencies (configs/queue/e2_wmax_pilot.yaml) beside E1 and the pilot
+# of the mean of M11; long_window.json into the runs of e2_wmax* only
+M12_WEIGHTS = ("0.1", "1", "10", "100")
+M12_ARMS: dict[str, dict[str, str]] = {
+    "E1": {a: "e1" for a in ARCHITECTURES},
+    **{f"windowed mean w{w} (M11)": {a: f"e2_windowed_w{w}" for a in ARCHITECTURES} for w in WEIGHTS},
+    **{f"windowed max w{w}": {a: f"e2_wmax_w{w}" for a in ARCHITECTURES} for w in M12_WEIGHTS},
+}
+M12_WRITE = ("e2_wmax",)
+M12_OUT, M12_TABLE = "runs/_tables/m12", "long_window_wmax"
 OMEGAS = (0.02, 0.05, 0.1)  # rad/s
 HORIZON_S, MEASURE_S, AMPLITUDE = 380.0, 252.0, 0.2  # as configs/queue/e2_horizon_pilot.yaml; m/s
 THRESHOLD = 1.02
@@ -147,18 +165,22 @@ def check_run(run_dir: Path, device: torch.device, write: bool = True) -> dict[s
 
 
 def collect(
-    runs_root: Path, data: str, device: torch.device, write: bool = True, details: dict[str, Any] | None = None
+    runs_root: Path, data: str, device: torch.device, write: bool = True, details: dict[str, Any] | None = None,
+    arms: Mapping[str, Mapping[str, str]] | None = None, write_only: Sequence[str] | None = None,
 ) -> tuple[pd.DataFrame, list[str]]:  # fmt: skip
-    """One row per run of ``ARMS`` (fold 0, seed 0) and the problems; ``details`` (when given) receives the result of
-    every run under ``<experiment>/<data>/<architecture>/<run>``."""
+    """One row per run of ``arms`` (default ``ARMS``; fold 0, seed 0) and the problems; ``details`` (when given) receives
+    the result of every run under ``<experiment>/<data>/<architecture>/<run>``; ``long_window.json`` is written into the
+    runs of the experiments that start with a prefix of ``write_only`` (default ``WRITE``)."""
+    arms = ARMS if arms is None else arms
+    write_only = WRITE if write_only is None else write_only
     rows, problems = [], []
-    for arm, experiments in ARMS.items():
+    for arm, experiments in arms.items():
         for architecture, experiment in experiments.items():
             run_dir = runs_root / experiment / data / architecture / RUN
             if not run_dir.is_dir():
                 problems.append(f"{experiment}/{data}/{architecture}/{RUN}: run missing")
                 continue
-            mine = write and any(experiment.startswith(prefix) for prefix in WRITE)
+            mine = write and any(experiment.startswith(prefix) for prefix in write_only)
             result = check_run(run_dir, device, mine)
             if isinstance(result, str):
                 problems.append(f"{experiment}/{data}/{architecture}/{RUN}: {result}")
@@ -176,14 +198,14 @@ def collect(
     frame = pd.DataFrame(rows)
     if len(frame):
         order = {a: k for k, a in enumerate(ARCHITECTURES)}
-        arms = {a: k for k, a in enumerate(ARMS)}
+        arm_order = {a: k for k, a in enumerate(arms)}
         frame = frame.sort_values(by=["architecture", "arm"], key=lambda c: c.map(order if c.name == "architecture"
-                                                                                  else arms), kind="stable")
+                                                                                  else arm_order), kind="stable")
         frame = frame.reset_index(drop=True)
     return frame, problems
 
 
-def table(frame: pd.DataFrame, problems: Sequence[str], data: str) -> Table:
+def table(frame: pd.DataFrame, problems: Sequence[str], data: str, arm_set: str = "m11") -> Table:
     columns = [
         Column("architecture", "architecture", "text"), Column("arm", "arm", "text"),
         Column("speeds_inside", "speeds (inside band, support)", "int"),
@@ -209,8 +231,18 @@ def table(frame: pd.DataFrame, problems: Sequence[str], data: str) -> Table:
         "penalty of D128 at the pilot weights. Per run: long_window_runs.json next to this table (and long_window.json "
         "next to stability.json of the runs of the windowed penalty).",
     ]
+    if arm_set == "m12":  # M12 (D134): the arms of the maximum over the frequencies
+        notes[0] = notes[0].replace("(M11, hypothesis H-N3)", "(M12, D134, hypothesis H-N3')")
+        notes[3] = ("Arms: E1 (no penalty); windowed mean w<weight> (M11): the windowed-gain penalty of D128 (the mean "
+                    "over the frequencies) at the pilot weights of M11; windowed max w<weight>: the penalty with the "
+                    "maximum over the frequencies of D134 (frequency_reduce max) at the pilot weights of M12. Per run: "
+                    f"{M12_TABLE}_runs.json next to this table (and long_window.json next to stability.json of the runs "
+                    "of the maximum).")  # fmt: skip
     if problems:
         notes.append(f"Problems: {len(problems)} (first: {problems[0]}).")
+    if arm_set == "m12":
+        return Table(M12_TABLE, "Long-window check of the windowed-gain penalty with the maximum over the frequencies "
+                     "(M12, D134)", notes, frame, columns)  # fmt: skip
     return Table("long_window", "Long-window check of the windowed-gain penalty (M11, D128)", notes, frame, columns)
 
 
@@ -218,21 +250,25 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--runs-root", default="runs")
     parser.add_argument("--data", default="follownet_highd")
-    parser.add_argument("--out", default="runs/_tables/m11")
+    parser.add_argument("--out", default=None, help="default: runs/_tables/m11 (m11), runs/_tables/m12 (m12)")
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--no-json", action="store_true", help="do not write long_window.json into the runs")
+    parser.add_argument("--arm-set", choices=("m11", "m12"), default="m11",
+                        help="m12: the pilot of the maximum over the frequencies (D134) into runs/_tables/m12")
     args = parser.parse_args(argv)
     details: dict[str, Any] = {}
+    m12 = args.arm_set == "m12"
     frame, problems = collect(resolve_path(args.runs_root), args.data, torch.device(args.device), not args.no_json,
-                              details)  # fmt: skip
-    out = resolve_path(args.out)
-    write_table(table(frame, problems, args.data), out)
-    write_json(out / "long_window_runs.json", details)
+                              details, arms=M12_ARMS if m12 else None, write_only=M12_WRITE if m12 else None)  # fmt: skip
+    out = resolve_path(args.out or (M12_OUT if m12 else "runs/_tables/m11"))
+    name = M12_TABLE if m12 else "long_window"
+    write_table(table(frame, problems, args.data, args.arm_set), out)
+    write_json(out / f"{name}_runs.json", details)
     for line in problems:
         print(f"  problem: {line}")
     holds = ", ".join(f"{r['architecture']} {r['arm']}: {'holds' if r['holds'] else 'fails'} (max {r['max_gain']})"
                       for r in frame.to_dict("records") if r["arm"].startswith("windowed"))  # fmt: skip
-    print(f"long_window: {len(frame)} runs, {len(problems)} problems -> {out / 'long_window.md'}; {holds}")
+    print(f"{name}: {len(frame)} runs, {len(problems)} problems -> {out / (name + '.md')}; {holds}")
     return 0
 
 

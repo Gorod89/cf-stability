@@ -32,8 +32,10 @@ N_TRAINABLE = {
     "idm": 0, "newell": 0, "ovm": 0, "persistence": 0, "knn": 0, "mlp": 4481, "gru": 13313, "lstm": 17729,
     "pidl": 4481, "perl": 17729, "residual_idm": 4481,
     "residual_idm_tt": 5570,  # M11, D129: the residual with the input z (4545), the GRU of the latent (1008), its head (17)
+    "residual_idm_tt2": 5570,  # M12, D135: the same layers, the latent carried along the vehicle
 }  # fmt: skip
-DIFFERENTIABLE = ("mlp", "gru", "lstm", "pidl", "perl", "residual_idm", "residual_idm_tt", "idm", "newell", "ovm")
+DIFFERENTIABLE = ("mlp", "gru", "lstm", "pidl", "perl", "residual_idm", "residual_idm_tt", "idm", "newell", "ovm",
+                  "residual_idm_tt2")  # fmt: skip
 DATA_SCALED = ("mlp", "gru", "lstm", "pidl")
 LOW = torch.tensor([3.0, -3.0, 0.0], dtype=torch.float64)
 SPAN = torch.tensor([77.0, 6.0, 30.0], dtype=torch.float64)
@@ -76,7 +78,7 @@ def make(name: str, context: ModelContext = CONTEXT):
     model = build_model(model_cfg(name), context)
     if name == "knn":
         model.fit(EVENTS, context)
-    if name == "residual_idm_tt":  # D129: the head of the latent starts at zero (z = 0); give the window its say
+    if name in ("residual_idm_tt", "residual_idm_tt2"):  # D129, D135: the latent starts at 0; give the window its say
         with torch.no_grad():
             model.latent_head.weight.normal_()
     return model.eval()

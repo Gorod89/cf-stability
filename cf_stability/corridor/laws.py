@@ -49,6 +49,14 @@ M11 adds two laws (docs/m11_contract.md):
 * kind ``models`` with the members of ``residual_idm_tt`` (D129): the two-timescale certified hybrid is a model with a
   window, its latent runs online on the history of every vehicle (as the GRU laws); nothing of its own here.
 
+M12 adds stateful members (docs/m12_contract.md, D135, ``residual_idm_tt2``: the latent carried along the vehicle): the
+law file of a kind ``models`` law whose members are stateful holds ``stateful: true`` (a spec may set ``stateful:
+false``: the members are then called without a state, the window-restarted latent of D129), and :class:`ModelLaw` keeps
+one state per vehicle, the initial state of its member until its first step under the law (its insertion into the
+controlled section, where the loop fills its history with its first state), then advanced by every call and carried
+with its history window. The key is written only for stateful members (the files of every other law are unchanged), and
+it enters the fingerprint, hence the hashed config of a run.
+
 Simulation (:func:`load_law`): an object with ``n_members``, ``window``, ``assign(n, rng)`` (the member of
 every vehicle of the demand, drawn in the order of the planned departures) and
 ``accelerations(rows, history)`` (unclipped accelerations of the vehicles ``rows`` for their histories
@@ -156,6 +164,8 @@ def export_law(
         "support_v": support_of(present),
         "window": max(int(model.window) for model in models),
     }
+    if kind == "models" and any(getattr(model, "stateful", False) for model in models):  # D135: one state per vehicle
+        payload["stateful"] = bool(spec.get("stateful", True))
     if kind == "idm":
         wrong = [run for run, model in zip(present, models) if not isinstance(model, IDM)]
         defaults = tuple(IDM_DEFAULTS.values())
@@ -688,9 +698,12 @@ class IDMLaw:
 
 
 class ModelLaw:
-    """Checkpoints of the members; the vehicles of one member are evaluated in one batch per step."""
+    """Checkpoints of the members; the vehicles of one member are evaluated in one batch per step. With ``stateful``
+    (D135, the law file's ``stateful``) a stateful member keeps one state per vehicle (``states``: per member a tensor
+    over the vehicles of the demand, the member's initial state until the vehicle's first step), advanced by every call
+    of the vehicle and carried with its history window; without it every member is called as ``model(history)``."""
 
-    def __init__(self, name: str, models: Sequence[Any], device: str) -> None:
+    def __init__(self, name: str, models: Sequence[Any], device: str, stateful: bool = False) -> None:
         import torch
 
         self.name, self._torch, self.device = name, torch, torch.device(device)
@@ -698,9 +711,14 @@ class ModelLaw:
         self.n_members = len(self.models)
         self.window = max(int(model.window) for model in self.models)
         self.member: np.ndarray | None = None
+        self.stateful = bool(stateful) and any(getattr(model, "stateful", False) for model in self.models)
+        self.states: list[Any] | None = None
 
     def assign(self, n_vehicles: int, rng: np.random.Generator) -> np.ndarray:
         self.member = rng.integers(self.n_members, size=n_vehicles).astype(np.int8)
+        if self.stateful:  # D135: the state of every vehicle, initial until its first step
+            self.states = [model.initial_state(n_vehicles, self.device) if getattr(model, "stateful", False) else None
+                           for model in self.models]  # fmt: skip
         return self.member
 
     def accelerations(self, rows: np.ndarray, history: np.ndarray) -> np.ndarray:
@@ -714,6 +732,12 @@ class ModelLaw:
                     continue
                 batch = np.ascontiguousarray(history[idx, -int(model.window) :, :], dtype=np.float32)
                 x = torch.from_numpy(batch).to(self.device, non_blocking=False)
+                if self.states is not None and self.states[m] is not None:  # D135: the state of every vehicle
+                    vehicles = torch.from_numpy(np.ascontiguousarray(rows[idx], dtype=np.int64)).to(self.device)
+                    acc, state = model(x, self.states[m][vehicles])
+                    self.states[m][vehicles] = state
+                    out[idx] = acc.to("cpu", torch.float64).numpy()
+                    continue
                 out[idx] = model(x).to("cpu", torch.float64).numpy()
         return out
 
@@ -806,4 +830,4 @@ def load_law(path: str | Path, device: str | None = None) -> tuple[IDMLaw | Mode
             table = np.stack([np.asarray(data[key], dtype=np.float64).reshape(-1) for key in IDM_KEYS], axis=1)
             weights = np.asarray(data["weight"], dtype=np.float64) if "weight" in data.files else None  # D132
         return ResidualHetLaw(name, models, table, device, weights), device
-    return ModelLaw(name, models, device), device
+    return ModelLaw(name, models, device, stateful=bool(payload.get("stateful", False))), device

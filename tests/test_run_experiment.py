@@ -308,6 +308,8 @@ def test_queue_files_of_the_experiments(monkeypatch):
         "e2_horizon_pilot": 2, "e4_variant_d": 50,  # M9 (revision of 7 October 2026)
         "e2_windowed_pilot": 9, "e2_windowed": 15, "m11_ft_windowed": 15,  # M11 (D128)
         "e4_tt_pilot": 3, "e4_tt": 10,  # M11 (D129): the pilot of tau_z; e4_tt with its fine-tuning e4_tt_ft
+        "e4_tt2_pilot": 3, "e4_tt2": 10,  # M12 (D135): the pilot of tau_z; e4_tt2 with its fine-tuning e4_tt2_ft
+        "e2_wmax_pilot": 12, "e2_wmax": 15, "m12_ft_wmax": 15,  # M12 (D134): the maximum over the frequencies
     }  # fmt: skip
     files = sorted((REPO_ROOT / "configs" / "queue").glob("*.yaml"))
     queues = {path.stem: eq.QueueConfig.from_file(path) for path in files}
@@ -322,6 +324,10 @@ def test_queue_files_of_the_experiments(monkeypatch):
     assert experiments["e4"] == ["e4_free_ft", "e4_stable", "e4_stable_ft"]
     assert experiments["e4_tt_pilot"] == ["e4_tt_pilot_tau15", "e4_tt_pilot_tau30", "e4_tt_pilot_tau60"]  # M11 (D129)
     assert experiments["e4_tt"] == ["e4_tt", "e4_tt_ft"]
+    assert experiments["e4_tt2_pilot"] == ["e4_tt2_pilot_tau15", "e4_tt2_pilot_tau30", "e4_tt2_pilot_tau60"]  # M12
+    assert experiments["e4_tt2"] == ["e4_tt2", "e4_tt2_ft"]
+    assert all(spec.steps == ("train", "audit", "platoon", "certificate") for name in ("e4_tt2_pilot", "e4_tt2")
+               for spec in specs[name])  # fmt: skip
     assert all(spec.steps == ("train", "audit", "platoon", "certificate") for name in ("e4_tt_pilot", "e4_tt")
                for spec in specs[name])  # fmt: skip
     assert experiments["e5"] == ["e5"]
@@ -439,6 +445,29 @@ def test_queue_files_of_the_experiments(monkeypatch):
                 assert o["init_from"] == f"runs/e2_windowed_w{w:g}/follownet_highd/{o['model']}/driver_fold{o['fold']}_seed0"
                 assert spec.experiment == f"m11_ft_windowed_w{w:g}"
     assert sorted({spec.overrides["fold"] for spec in specs["e2_windowed"]}) == [0, 1, 2, 3, 4]
+    # M12 (D134): the windowed-gain penalty with the maximum over the frequencies, its pilot (the M11 grid and 100), five
+    # folds at the weights chosen on the pilot and the fine-tuning with the penalty continued
+    assert experiments["e2_wmax_pilot"] == ["e2_wmax_w0.1", "e2_wmax_w1", "e2_wmax_w10", "e2_wmax_w100"]
+    chosen_max = {spec.overrides["model"]: spec.overrides["train.penalty.weight"] for spec in specs["e2_wmax"]}
+    assert set(chosen_max) == {"gru", "lstm", "perl"} and set(chosen_max.values()) <= {0.1, 1.0, 10.0, 100.0}
+    for name in ("e2_wmax_pilot", "e2_wmax", "m12_ft_wmax"):
+        for spec in specs[name]:
+            o = spec.overrides
+            assert o["train.penalty.kind"] == "windowed_gain" and o["train.penalty.frequency_reduce"] == "max"
+            assert o["seed"] == 0 and o["fold"] in range(5)
+            assert o["train.penalty.every"] == 4 and o["train.penalty.n_equilibria"] == 16
+            assert spec.steps == (("train", "audit") if name == "m12_ft_wmax" else ("train", "audit", "platoon"))
+            if name == "e2_wmax_pilot":
+                assert o["fold"] == 0 and o["data"] == "follownet_highd"
+            elif name == "e2_wmax":  # the chosen weight of the pilot on every fold
+                assert o["train.penalty.weight"] == chosen_max[o["model"]] and o["data"] == "follownet_highd"
+                assert spec.experiment == f"e2_wmax_w{o['train.penalty.weight']:g}"
+            else:  # fine-tuned from the run of the same fold with the penalty continued (as m11_ft_windowed)
+                w = chosen_max[o["model"]]
+                assert o["data"] == "ngsim_i80" and o["train.penalty.weight"] == w
+                assert o["init_from"] == f"runs/e2_wmax_w{w:g}/follownet_highd/{o['model']}/driver_fold{o['fold']}_seed0"
+                assert spec.experiment == f"m12_ft_wmax_w{w:g}"
+    assert sorted({spec.overrides["fold"] for spec in specs["e2_wmax"]}) == [0, 1, 2, 3, 4]
 
     for name, queue in queues.items():  # the first value of every list composes
         groups = tuple({**g, "overrides": {k: v[:1] for k, v in g["overrides"].items()}} for g in queue.groups)

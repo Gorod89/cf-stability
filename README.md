@@ -479,6 +479,35 @@ python scripts/analysis/robust_certificate.py --workers 3              # A3: run
 python scripts/analysis/empirical_gain.py                              # H-N4: runs/_tables/m11/empirical_gain, figure empirical_gain (needs the event sets, level 3)
 ```
 
+#### M12: the two repairs of M11 (20-21 October 2026)
+
+Decision rules fixed before the runs (`docs/m12_contract.md`, D134-D136), results in `docs/m12_report.md` (H-N3'
+partial: with the maximum over the frequencies the penalty enforces the linearised stability of GRU and LSTM at
+every equilibrium, at +46 % and +30 % RMSE, and the fully stabilised laws collapse in the corridor; H-N2' refuted
+by accuracy alone: the two-timescale law with a persistent latent keeps its certificate at all 21 latents and is
+the best law on US-101). The four new laws are further rows of the corridor tables (design keys `wmax_laws`,
+`m12_laws`; not in the correlations). The hotfix 990363b2 of v2.1.0 (the design key `filter_laws` and the corridor
+tables) is part of this state.
+
+```bash
+python scripts/run_experiment.py configs/queue/e2_wmax_pilot.yaml       # A1': frequency_reduce=max, GRU/LSTM/PERL, weights 0.1/1/10/100, fold 0 (12 runs)
+python scripts/analysis/windowed_gain.py choose --arm wmax             # the weights by D85 -> configs/queue/e2_wmax.yaml
+python scripts/run_experiment.py configs/queue/e2_wmax.yaml             # five folds (12 further runs)
+python scripts/analysis/long_window_check.py --device cuda --arm-set m12
+python scripts/analysis/full_history_audit.py --arm-set m12            # runs/_tables/m12/full_history_wmax (with the 0.5-2 rad/s statistic)
+python scripts/run_experiment.py configs/queue/m12_ft_wmax.yaml         # fine-tuning on NGSIM I-80 with the penalty (15 runs)
+python scripts/analysis/windowed_gain.py tables --arm wmax             # runs/_tables/m12/e2_wmax*, the branch of H-N3'
+python scripts/run_experiment.py configs/queue/e4_tt2_pilot.yaml        # A2': residual_idm_tt2, tau_z 15/30/60 s (3 runs)
+python scripts/run_experiment.py configs/queue/e4_tt2.yaml              # five folds and their fine-tuning on NGSIM I-80 (10 runs)
+python scripts/analysis/certificate_tt.py --arm tt2                    # the exact certificate at the 21 latents of [-0.2, 1] (runs/_tables/m12/certificate_tt2)
+python scripts/analysis/tt2_summary.py                                 # runs/_tables/m12/tt2_pilot, tt2_highd, tt2_ngsim
+python scripts/build_corridor.py scenarios=false                       # the laws gru_wmax, lstm_wmax, perl_wmax, residual_idm_tt2
+python scripts/run_corridor.py scenarios=[i80_p0,i80_p1,i80_p2,us101_p0,us101_p1,us101_p2] laws=[gru_wmax,lstm_wmax,perl_wmax,residual_idm_tt2] seeds=[0,1,2,3,4,5,6,7,8,9] workers=3   # 240 runs
+python scripts/corridor_metrics.py; python scripts/corridor_asymmetry.py workers=2
+python scripts/make_tables.py; python scripts/corridor_metrics.py compute=false tables=true
+python scripts/analysis/wmax_pairs.py; python scripts/analysis/m12_pairs.py   # runs/_tables/m12/wmax_pairs, tt2_pairs
+```
+
 ## Outputs
 
 * `runs/_report/report.md`: the generated report (eleven sections, every number read from the tables),
