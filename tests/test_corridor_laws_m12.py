@@ -84,8 +84,9 @@ def test_model_law_carries_the_latent_of_every_vehicle(members, tmp_path):
             with torch.no_grad():
                 ref, z_ref[row] = model(x[i : i + 1], z_ref[row])
             assert acc[i] == pytest.approx(float(ref), abs=1e-6)
-    assert float(law.states[0][0]) == pytest.approx(float(z_ref[0]), abs=1e-7)
-    assert float(law.states[0][2]) == pytest.approx(float(z_ref[2]), abs=1e-7)
+    # float32 latent: the BLAS of the CI platform differs from a local one by about 1e-7 (as in test_residual_idm_tt2)
+    assert float(law.states[0][0]) == pytest.approx(float(z_ref[0]), abs=1e-5)
+    assert float(law.states[0][2]) == pytest.approx(float(z_ref[2]), abs=1e-5)
     assert float(law.states[0][0]) != float(law.states[0][2]) and float(law.states[0][1]) == 0.0  # vehicle 1: none
     plain = ModelLaw("tt2", [model], "cpu", stateful=False)
     plain.assign(3, np.random.default_rng(0))
