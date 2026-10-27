@@ -66,16 +66,28 @@ def save_model(model: CFModel, path: str | Path) -> None:
         torch.save({"name": model.name, "config": model.config(), "state_dict": model.state_dict()}, f)
 
 
-def load_model(path: str | Path, map_location: str | torch.device | None = None) -> CFModel:
+def load_model(
+    path: str | Path, map_location: str | torch.device | None = None, *, refit: bool = True
+) -> CFModel:
     """Model of a checkpoint written by :func:`save_model`, in eval mode, on ``map_location`` (CPU when ``None``).
 
     Eval mode matters for ``residual_idm``: in training mode every call runs a power iteration.
+
+    A kNN checkpoint holds no samples (D137): with ``refit`` the model is re-fitted from the training events of
+    its run (``metrics.json`` next to the checkpoint, the events of level 3) when they are on disk; without
+    them the model is returned unfitted and raises when called.
     """
     with open(path, "rb") as f:
         checkpoint = torch.load(f, map_location="cpu", weights_only=True)
     model = build_model({"name": checkpoint.get("name"), **checkpoint["config"]})
     model.load_state_dict(checkpoint["state_dict"])
     model.eval()
+    if refit and isinstance(model, KNN) and not model.fitted:
+        from cf_stability.eval.knn_refit import events_available, refit_from_run  # here: the module reads the data
+
+        run_dir = Path(path).parent
+        if events_available(run_dir):
+            refit_from_run(model, run_dir)
     return model if map_location is None else model.to(map_location)
 
 

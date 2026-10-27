@@ -214,9 +214,45 @@ def used(path: Path) -> Path:
     return path
 
 
+POST_SUBMISSION_KEYS = ("m11_laws", "windowed_laws", "wmax_laws", "m12_laws", "filter_laws")  # design keys of M11, M12
+_POST_SUBMISSION_LAWS: set[str] | None = None
+
+
+def post_submission_laws() -> set[str]:
+    """The corridor laws added after the submission of the manuscript (9 October 2026): the laws of the design keys
+    :data:`POST_SUBMISSION_KEYS` of ``configs/corridor_metrics.yaml`` (M11, M12). The tables of the manuscript keep the
+    law set of the submitted version, so the rows of these laws are dropped from every CSV that names a law."""
+    global _POST_SUBMISSION_LAWS
+    if _POST_SUBMISSION_LAWS is None:
+        import yaml
+
+        found: set[str] = set()
+
+        def walk(node: object) -> None:
+            if isinstance(node, dict):
+                for key, value in node.items():
+                    if key in POST_SUBMISSION_KEYS and isinstance(value, list):
+                        found.update(str(v) for v in value)
+                    walk(value)
+            elif isinstance(node, list):
+                for v in node:
+                    walk(v)
+
+        design = from_root("configs/corridor_metrics.yaml")
+        if design.exists():
+            with design.open(encoding="utf-8") as f:
+                walk(yaml.safe_load(f))
+        _POST_SUBMISSION_LAWS = found
+    return _POST_SUBMISSION_LAWS
+
+
 def read_csv(path: Path) -> list[dict[str, str]]:
     with used(path).open(encoding="utf-8", newline="") as f:
-        return list(csv.DictReader(f))
+        rows = list(csv.DictReader(f))
+    if rows and "law" in rows[0]:  # the manuscript keeps the law set of the submitted version
+        dropped = post_submission_laws()
+        rows = [r for r in rows if r["law"] not in dropped]
+    return rows
 
 
 def fnum(x: str | None) -> float | None:
@@ -1283,8 +1319,10 @@ def main_temporal() -> Tab:
     return Tab("temporal", "tab:temporal", caption, cols, note="from runs/_tables/m8/temporal.csv")
 
 
-MAIN_BUILDERS = [main_e1, main_e2, main_e2_arms, main_e5, main_e4, main_laws, main_verdicts, main_sensitivity,
-                 main_correlation, main_temporal]
+MAIN_BUILDERS = [main_e1, main_e2, main_e5, main_e4, main_laws, main_verdicts, main_correlation]
+# main_e2_arms, main_sensitivity and main_temporal are kept for the record but no longer built: revision 1 (23 October
+# 2026) moved their content to Tables S2--S4, S26 and S28 and summarises the sensitivity study in the hand-written
+# Table tab:sensitivity_ranks of sections/results_corridor.tex.
 
 
 def build_main(out: Path) -> list[Tab]:
@@ -2085,6 +2123,8 @@ def read_md(path: Path) -> MdDoc:
                 rows.append(md_cells(lines[i]))
                 i += 1
             assert all(len(r) == len(heads) for r in rows), (path.name, heads)
+            # the manuscript keeps the law set of the submitted version (read_csv drops the same rows)
+            rows = [r for r in rows if not any(c in post_submission_laws() for c in r)]
             tables.append(MdTable(before, heads, rows))
             before = ""
             continue
@@ -3151,6 +3191,8 @@ def write_supplementary(tabs: list[Tab], out: Path) -> None:
         r"\setlength{\LTcapwidth}{\textwidth}",
         HELPERS,
         r"\renewcommand{\thesection}{S\arabic{section}}",
+        "% Revision 1 (October 2026): changes against the submitted version are highlighted in yellow with \\fixme{...}",
+        r"\newcommand{\fixme}[1]{\sethlcolor{yellow}\hl{#1}}",
         "",
         r"\Title{" + TITLE + "}",
         "",
@@ -3191,6 +3233,12 @@ def write_supplementary(tabs: list[Tab], out: Path) -> None:
               r"corridors (S10--S21) and the full-history linearisation of the recurrent laws (S22).", ""]
     for k, (name, _ctx) in enumerate(SUPP_FIGURES, start=1):
         lines.append(rf"\input{{supplement/figures/S{k:02d}_{name}_env}}")
+    lines += ["", r"\section{Derivations}", "",
+              r"\fixme{The two derivations below were the appendices of the submitted version and were moved here at the "
+              r"request of the reviewers.} Section~\ref{sec:Sderiv_windowed} derives the windowed low-frequency coefficient "
+              r"$M_w$ (Equation (5) of the main text); Section~\ref{sec:Sderiv_certificate} gives the exact minimisation of the "
+              r"guaranteed margin behind Table~\ref{tab:Scertificate_exact}.", "",
+              r"\input{supplement/derivations}"]
     cites = [f.name for f in sorted((out / OUT_SUPP).glob("*.tex")) + sorted((out / OUT_SUPP_FIG).glob("*_env.tex"))
              if r"\cite" in f.read_text(encoding="utf-8")]
     if cites:  # a caption cites: the references of the main text, as the class prints them
@@ -3204,6 +3252,8 @@ def write_items(out: Path) -> None:
     """The list of the Supplementary Materials for \\supplementary{...} of main.tex."""
     items = [f"Table S{k}: {title}" for k, (_b, title) in enumerate(SUPP_BUILDERS, start=1)]
     items += [f"Figure S{k}: {title}" for k, title in enumerate(SUPP_FIGURE_TITLES, start=1)]
+    items.append("Section S8: Derivations (S8.1 the low-frequency coefficient of a windowed law, S8.2 the exact "
+                 "minimisation of the guaranteed margin)")
     (out / "supplement" / "items.txt").write_text("; ".join(items) + ".\n", encoding="utf-8")
 
 
@@ -3226,7 +3276,6 @@ MAIN_FLOATS = [  # the floats of the main text in the order of the manuscript (p
     ("figure", "fig:gain_curves", "Gain of the frequency response without and with the penalty", "gain_curves", None),
     ("table", "tab:loopholes", "How stability penalties get gamed", None,
      "the loophole table of `docs/theory_notes.md` (training runs of E2 and of its arms)"),
-    ("table", "tab:e2_arms", "Arms of E2: existence term, combined penalty, monotonicity terms", "e2_arms", None),
     ("table", "tab:e4", "Certified hybrid against its free counterparts (E4)", "e4", None),
     ("table", "tab:laws", "Corridor laws on I-80 and US-101", "laws", None),
     ("figure", "fig:corridor_speed_contours", "Speed fields of period 1 of I-80", "corridor_speed_contours", None),
@@ -3234,8 +3283,8 @@ MAIN_FLOATS = [  # the floats of the main text in the order of the manuscript (p
     ("figure", "fig:macro_error_vs_instability", "Macro error against the share of unstable equilibria",
      "macro_error_vs_instability", None),
     ("table", "tab:correlation", "Correlation of macro error and instability over the laws", "correlation", None),
-    ("table", "tab:sensitivity", "Sensitivity of the macro error to the corridor model", "sensitivity", None),
-    ("table", "tab:temporal", "Temporal hold-out on I-80", "temporal", None),
+    ("table", "tab:sensitivity_ranks", "Ranking of the laws under the boundary and lane-change settings", None,
+     "hand-written summary of Table S26 (`runs/_tables/m5/sensitivity.csv`: macro errors and contacts of the variants)"),
     ("table", "tab:verdicts", "Verdicts of the pre-specified hypotheses", "verdicts", None),
 ]
 STEPS = {  # the commands that write the sources, in the order of the pipeline (README.md, section Reproduce)

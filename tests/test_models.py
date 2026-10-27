@@ -155,9 +155,14 @@ def test_checkpoint_round_trip(name, tmp_path):
     save_model(model, tmp_path / "model.pt")
     loaded = load_model(tmp_path / "model.pt")
     assert type(loaded) is type(model) and loaded.config() == model.config() and not loaded.training
+    if name == "knn":  # a kNN checkpoint holds no samples (D137): the model is re-fitted from its events
+        assert not loaded.fitted
+        loaded.refit(EVENTS)
     assert torch.equal(loaded(x), out)
     rebuilt = build_model(model.config(), CONTEXT)
     rebuilt.load_state_dict(model.state_dict())
+    if name == "knn":
+        rebuilt.refit(EVENTS)
     assert torch.equal(rebuilt.eval()(x), out)
 
 

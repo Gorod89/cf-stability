@@ -8,7 +8,7 @@ generated tables and figure environments are written by `python scripts/paper_as
 `paper/v2`, the authors' copy of the manuscript; `--out paper_assets` in a checkout). One row per table and figure,
 numbered as in the manuscript: its label, the generated files (relative to `<dir>`), the files of this repository
 it is built from (every CSV and report its builder reads; a figure is copied unchanged from its PDF) and the
-commands that write them, upstream first. Tables 1, 2, 3 and 7 of the main text are written by hand in the
+commands that write them, upstream first. Tables 1, 2, 3, 7 and 11 of the main text are written by hand in the
 manuscript.
 
 ## Commands
@@ -28,7 +28,7 @@ The section Reproduce of `README.md` gives the inputs of every command and the t
 | `python scripts/make_report.py` | `runs/_report/tables/` (the tables above, copied, and the tables derived from them), the seven figures of `runs/_report/figures/` (Figures 5 and 6 from the `trajectories.npz`, else the `fields.npz` of the corridor runs) and `runs/_report/report.md` |
 | `python scripts/paper_assets.py --out <dir>` | the generated files of the tables below |
 
-## Main text (14 tables, 7 figures)
+## Main text (12 tables, 7 figures)
 
 | item | content | label | generated files | built from | commands |
 |---|---|---|---|---|---|
@@ -43,16 +43,14 @@ The section Reproduce of `README.md` gives the inputs of every command and the t
 | Table 6 | Chosen penalty weight against E1 (E2) | `tab:e2` | `tables/e2.tex` | `runs/_report/tables/e2.csv` | `python scripts/make_tables.py` → `python scripts/make_report.py` |
 | Figure 4 | Gain of the frequency response without and with the penalty | `fig:gain_curves` | `figures/gain_curves_env.tex`, `figures/gain_curves.pdf` | `runs/_report/figures/gain_curves.pdf` | `python scripts/make_report.py` |
 | Table 7 | How stability penalties get gamed | `tab:loopholes` | written by hand in the manuscript | the loophole table of `docs/theory_notes.md` (training runs of E2 and of its arms) | — |
-| Table 8 | Arms of E2: existence term, combined penalty, monotonicity terms | `tab:e2_arms` | `tables/e2_arms.tex` | `runs/_report/tables/e2_existence.csv`, `runs/_report/tables/e2_lowfreq.csv`, `runs/_tables/m8/e2_monotone.csv` | `python scripts/make_tables.py` → `python scripts/make_report.py` |
-| Table 9 | Certified hybrid against its free counterparts (E4) | `tab:e4` | `tables/e4.tex` | `runs/_report/tables/e4.csv`, `runs/_tables/m5/e4_rmax.csv`, `runs/_report/tables/laws.csv` | `python scripts/make_tables.py` → `python scripts/corridor_metrics.py compute=false tables=true` → `python scripts/make_report.py` |
-| Table 10 | Corridor laws on I-80 and US-101 | `tab:laws` | `tables/laws.tex` | `runs/_report/tables/laws.csv`, `runs/_report/tables/instability.csv`, `runs/_report/tables/power.csv` | `python scripts/corridor_metrics.py compute=false tables=true` → `python scripts/make_report.py` |
+| Table 8 | Certified hybrid against its free counterparts (E4) | `tab:e4` | `tables/e4.tex` | `runs/_report/tables/e4.csv`, `runs/_tables/m5/e4_rmax.csv`, `runs/_report/tables/laws.csv` | `python scripts/make_tables.py` → `python scripts/corridor_metrics.py compute=false tables=true` → `python scripts/make_report.py` |
+| Table 9 | Corridor laws on I-80 and US-101 | `tab:laws` | `tables/laws.tex` | `runs/_report/tables/laws.csv`, `runs/_report/tables/instability.csv`, `runs/_report/tables/power.csv` | `python scripts/corridor_metrics.py compute=false tables=true` → `python scripts/make_report.py` |
 | Figure 5 | Speed fields of period 1 of I-80 | `fig:corridor_speed_contours` | `figures/corridor_speed_contours_env.tex`, `figures/corridor_speed_contours.pdf` | `runs/_report/figures/corridor_speed_contours.pdf` | `python scripts/make_report.py` |
 | Figure 6 | Fundamental diagrams of period 1 of I-80 | `fig:fundamental_diagrams` | `figures/fundamental_diagrams_env.tex`, `figures/fundamental_diagrams.pdf` | `runs/_report/figures/fundamental_diagrams.pdf` | `python scripts/make_report.py` |
 | Figure 7 | Macro error against the share of unstable equilibria | `fig:macro_error_vs_instability` | `figures/macro_error_vs_instability_env.tex`, `figures/macro_error_vs_instability.pdf` | `runs/_report/figures/macro_error_vs_instability.pdf` | `python scripts/make_report.py` |
-| Table 11 | Correlation of macro error and instability over the laws | `tab:correlation` | `tables/correlation.tex` | `runs/_report/tables/instability_correlation.csv`, `runs/_tables/m8/correlation_pooled.csv` | `python scripts/corridor_metrics.py compute=false tables=true` → `python scripts/make_report.py` |
-| Table 12 | Sensitivity of the macro error to the corridor model | `tab:sensitivity` | `tables/sensitivity.tex` | `runs/_tables/m5/sensitivity.csv` | `python scripts/corridor_metrics.py compute=false tables=true` |
-| Table 13 | Temporal hold-out on I-80 | `tab:temporal` | `tables/temporal.tex` | `runs/_tables/m8/temporal.csv` | `python scripts/corridor_metrics.py compute=false tables=true` |
-| Table 14 | Verdicts of the pre-specified hypotheses | `tab:verdicts` | `tables/verdicts.tex` | `runs/_report/tables/verdicts.csv`, `runs/_report/tables/verdicts_h12.csv` | `python scripts/make_tables.py` → `python scripts/corridor_metrics.py compute=false tables=true` → `python scripts/make_report.py` |
+| Table 10 | Correlation of macro error and instability over the laws | `tab:correlation` | `tables/correlation.tex` | `runs/_report/tables/instability_correlation.csv`, `runs/_tables/m8/correlation_pooled.csv` | `python scripts/corridor_metrics.py compute=false tables=true` → `python scripts/make_report.py` |
+| Table 11 | Ranking of the laws under the boundary and lane-change settings | `tab:sensitivity_ranks` | written by hand in the manuscript | hand-written summary of Table S26 (`runs/_tables/m5/sensitivity.csv`: macro errors and contacts of the variants) | — |
+| Table 12 | Verdicts of the pre-specified hypotheses | `tab:verdicts` | `tables/verdicts.tex` | `runs/_report/tables/verdicts.csv`, `runs/_report/tables/verdicts_h12.csv` | `python scripts/make_tables.py` → `python scripts/corridor_metrics.py compute=false tables=true` → `python scripts/make_report.py` |
 
 ## Supplementary Materials (41 tables, 22 figures)
 

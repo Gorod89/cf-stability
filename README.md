@@ -155,7 +155,8 @@ them. `python scripts/check_release.py` checks in a few seconds that a checkout 
 
 Inputs, all in git: per training run `metrics.json`, `stability.json`, `platoon.json`, `certificate.json`,
 `full_history.json`, the per-event closed-loop metrics `test_events.parquet` and `transfer_*.parquet` and the
-weights `model.pt`; per corridor run `run.json`, `macro.json`, `asymmetry.json` and the compact speed fields
+weights `model.pt` (a kNN checkpoint holds no samples, D137: the samples are training data, and the kNN is
+re-fitted from the events of level 3 when it is used); per corridor run `run.json`, `macro.json`, `asymmetry.json` and the compact speed fields
 `fields.npz`; the scenarios with their ground truths (`runs/corridor/scenarios/`), the law files
 (`runs/corridor/laws/`, with the tables `*.npz` of the three heterogeneous laws), `data/calibration/`,
 `data/splits/` and `configs/`.
@@ -218,7 +219,7 @@ run, at most 9 min; the 390 runs of M5 took 70 min with `workers=4`). Disk: abou
 | NGSIM I-80 and US-101 raw trajectories (US DOT data portal, Socrata API) | public domain | `python scripts/download_data.py ngsim --locations i-80 us-101` |
 | NGSIM reconstruction (own, D42-D46; the Montanino-Punzo set is not public) | - | computed by `python scripts/extract_events.py data=ngsim_i80` and `data=ngsim_us101`, cached in `data/raw/ngsim/cache/ngsim_<location>_reconstructed.parquet` (the corridor reads it) |
 | Waymo car-following pairs (Hu et al. 2022, Mendeley Data 10.17632/wfn2c3437n.2) | CC BY 4.0 | Mendeley answers scripts with a browser challenge (D24): download the five files in a browser or with PowerShell `Invoke-WebRequest` into `data/raw/waymo/` and check their sha256 against the Mendeley API |
-| highD raw (levelXdata) | research licence | needs the levelXdata agreement, not included (D22): the FollowNet HighD events stand in |
+| highD raw (levelXdata) | research licence | needs the levelXdata agreement, not included (D22): the FollowNet HighD events stand in; no file in git holds highD samples (the kNN checkpoints were rewritten without their samples in v2.2.1, D137) |
 | I-24 MOTION | - | not used (D101) |
 
 Every downloaded file is recorded in `data/raw/<dataset>/SOURCES.json` (url, size, sha256, licence,
