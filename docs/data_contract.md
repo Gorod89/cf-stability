@@ -90,7 +90,7 @@ between campaigns and files.
 * `Time` is a common time frame in seconds with an arbitrary origin; speeds are raw Doppler speeds,
   unfiltered in most campaigns.
 
-**FollowNet event sets** (figshare, CC0). One array per dataset, each event has four rows:
+**FollowNet event sets** (figshare, CC0 label; the terms of highD, NGSIM and Waymo still apply, `NOTICE.md`). One array per dataset, each event has four rows:
 `spacing`, `follower speed`, `relative speed`, `leader speed`.
 
 * `relative speed = v_lead - v_follower` (verified: equals row 4 - row 2 exactly and matches
@@ -104,7 +104,8 @@ between campaigns and files.
   (HighD: 29 events reach 120 m; Waymo: 2 events with non-positive spacing, 547 of 1440 events
   with the follower standing for more than 20 % of the time).
 
-**Waymo car-following pairs** (Hu et al. 2022, Mendeley Data 10.17632/wfn2c3437n.2, CC BY 4.0).
+**Waymo car-following pairs** (Hu et al. 2022, Mendeley Data 10.17632/wfn2c3437n.2, CC BY 4.0 on Mendeley; the
+Waymo Dataset License Agreement for Non-Commercial Use applies to the underlying data).
 `all_seg_paired_cf_trj_final_with_large_vehicle.csv` with columns `segment_id, local_veh_id,
 length, local_time, follower_id, leader_id, filter_pos, filter_speed, filter_accer`.
 

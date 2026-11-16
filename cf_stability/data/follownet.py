@@ -1,9 +1,12 @@
-"""FollowNet car-following event sets (figshare, CC0; format in docs/data_contract.md, 4a).
+"""FollowNet car-following event sets (figshare; format in docs/data_contract.md, 4a).
 
 Each event has four rows: spacing, follower speed, relative speed (``v_lead - v``), leader
 speed. The published relative speed is not used (``dv = v - v_lead``, D17). Events carry no
 identifiers: every event is its own driver (D19). Gross spacings are reduced by
 ``spacing_offset`` (D18). Pickled files are loaded only after a sha256 check (D21).
+
+Figshare labels the sets CC0. They derive from highD, NGSIM and the Waymo Open Dataset, whose terms still
+apply to the events and to everything derived from them (NOTICE.md).
 """
 
 from __future__ import annotations

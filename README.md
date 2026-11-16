@@ -220,7 +220,7 @@ run, at most 9 min; the 390 runs of M5 took 70 min with `workers=4`). Disk: abou
 | NGSIM I-80 and US-101 raw trajectories (US DOT data portal, Socrata API) | CC BY-SA (the portal: Attribution-ShareAlike 3.0 Unported) | `python scripts/download_data.py ngsim --locations i-80 us-101` |
 | NGSIM reconstruction (own, D42-D46; the Montanino-Punzo set is not public) | - | computed by `python scripts/extract_events.py data=ngsim_i80` and `data=ngsim_us101`, cached in `data/raw/ngsim/cache/ngsim_<location>_reconstructed.parquet` (the corridor reads it) |
 | Waymo car-following pairs (Hu et al. 2022, Mendeley Data 10.17632/wfn2c3437n.2) | CC BY 4.0 on Mendeley; the Waymo Open Dataset itself: Waymo Dataset License Agreement for Non-Commercial Use | Mendeley answers scripts with a browser challenge (D24): download the five files in a browser or with PowerShell `Invoke-WebRequest` into `data/raw/waymo/` and check their sha256 against the Mendeley API |
-| highD raw (levelXdata) | research licence | needs the levelXdata agreement, not included (D22): the FollowNet HighD events stand in; no file in git holds highD samples (the kNN checkpoints were rewritten without their samples in v2.2.1, D137) |
+| highD raw (levelXdata) | non-commercial use only, no redistribution of the data or of modified versions | needs the levelXdata agreement, not included (D22): the FollowNet HighD events stand in; no file in git holds highD samples (the kNN checkpoints were rewritten without their samples in v2.2.1, D137) |
 | I-24 MOTION | - | not used (D101) |
 
 Every downloaded file is recorded in `data/raw/<dataset>/SOURCES.json` (url, size, sha256, licence,

@@ -40,12 +40,16 @@ writing the reconstruction cache and the event files.
 | Source | Files | Size | Licence | Status |
 |---|---|---|---|---|
 | OpenACC, 6 platoon campaigns | 139 runs + notes | 501 MB | CC BY 4.0 | downloaded |
-| FollowNet event sets (HighD, NGSIM I-80, Waymo) | 3 | 176 MB | CC0 | downloaded, sha256 recorded |
-| Waymo car-following pairs (Hu et al. 2022) | 5 | 52 MB | CC BY 4.0 | downloaded, sha256 verified |
-| NGSIM raw I-80 | 4 566 387 rows | 150 MB parquet | public domain | downloaded |
-| NGSIM raw US-101 | 4 802 933 rows | 159 MB parquet | public domain | downloaded |
+| FollowNet event sets (HighD, NGSIM I-80, Waymo) | 3 | 176 MB | CC0 label on figshare; the terms of highD, NGSIM and Waymo still apply | downloaded, sha256 recorded |
+| Waymo car-following pairs (Hu et al. 2022) | 5 | 52 MB | CC BY 4.0 on Mendeley; Waymo Dataset License Agreement for Non-Commercial Use | downloaded, sha256 verified |
+| NGSIM raw I-80 | 4 566 387 rows | 150 MB parquet | CC BY-SA 3.0 Unported (portal) | downloaded |
+| NGSIM raw US-101 | 4 802 933 rows | 159 MB parquet | CC BY-SA 3.0 Unported (portal) | downloaded |
 | NGSIM reconstructed (Montanino-Punzo) | - | - | - | not public; own reconstruction |
-| highD raw | - | - | levelXdata | **not available** (D22) |
+| highD raw | - | - | levelXdata: non-commercial use, no redistribution | **not available** (D22) |
+
+The licence column was corrected on 16 November 2026 (D139): the first version of this report called NGSIM public
+domain and gave the figshare label of the FollowNet sets without the terms of their sources. `NOTICE.md` is the
+reference for the terms and for the files derived from each source.
 
 ## 3. Extracted events
 

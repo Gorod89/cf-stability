@@ -29,7 +29,7 @@ from cf_stability.utils import read_json, write_json  # noqa: E402
 
 OPENACC_BASE = "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/TransportExpData/JRCDBT0001/LATEST/"
 OPENACC_CAMPAIGNS = ("AstaZero", "Casale", "Cherasco", "JRC low speed", "Vicolungo", "ZalaZone")
-FOLLOWNET_ARTICLES = {  # figshare article ids of the event sets (collection 6777810, CC0)
+FOLLOWNET_ARTICLES = {  # figshare article ids of the event sets (collection 6777810, CC0 label)
     "highd": 23898534,
     "ngsim_i80": 23898519,
     "waymo": 23898513,
@@ -112,7 +112,8 @@ def download_follownet(root: Path, subsets: tuple[str, ...]) -> None:
             info = _download(session, f["download_url"], root / f["name"], expected_size=int(f["size"]))
             entries[f["name"]] = {"url": f["download_url"], "doi": article["doi"], "subset": subset, **info}
             print(f"FollowNet {subset}: {f['name']} {info['size'] / 1e6:.1f} MB ({info['status']})")
-    _record(root, entries, "CC0", "https://doi.org/10.6084/m9.figshare.c.6777810")
+    _record(root, entries, "CC0 label on figshare; the terms of highD, NGSIM and the Waymo Open Dataset still apply (NOTICE.md)",
+            "https://doi.org/10.6084/m9.figshare.c.6777810")
 
 
 NGSIM_RESOURCE = "https://data.transportation.gov/resource/8ect-6jqj.csv"
@@ -196,7 +197,8 @@ def download_waymo(root: Path) -> None:
             raise IOError(f"sha256 mismatch for {f['filename']}")
         entries[f["filename"]] = {"url": details["download_url"], **info}
         print(f"Waymo pairs: {f['filename']} {info['size'] / 1e6:.1f} MB ({info['status']})")
-    _record(root, entries, "CC BY 4.0", "https://doi.org/10.17632/wfn2c3437n.2")
+    _record(root, entries, "CC BY 4.0 on Mendeley; Waymo Dataset License Agreement for Non-Commercial Use for the underlying data",
+            "https://doi.org/10.17632/wfn2c3437n.2")
 
 
 def download_ngsim(root: Path, locations: tuple[str, ...]) -> None:
