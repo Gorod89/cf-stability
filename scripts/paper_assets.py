@@ -800,7 +800,7 @@ def main_e2() -> Tab:
         r"the same verdicts); "
         r"hysteresis area of the first follower behind a braking pulse (m$^2$/s), mean over the pairs of runs in "
         r"which both have a value; H1.2: verdict of the pre-specified rule on the share not stable in band and the "
-        r"RMSE change (Table~\ref{tab:verdicts}). " + CI_NOTE)
+        r"RMSE change (Section~\ref{sec:verdicts}). " + CI_NOTE)
     return Tab("e2", "tab:e2", caption, cols, note="from runs/_report/tables/e2.csv")
 
 
@@ -3145,27 +3145,32 @@ HELPERS = f"% Helpers of the generated tables ({Path(GENERATED_BY).name}):\n" + 
 \newcommand{\headstack}[2][c]{\begin{tabular}[b]{@{}#1@{}}#2\end{tabular}}"""
 SECTIONS = [  # (heading, sentence, table numbers in the order of the document); the numbers are binding, a table
     # placed out of their order gets its number by \setcounter
+    # Since the proofs (31 October 2026) the tables appear in numerical order (a request of the production team): the
+    # tables added in the revision rounds form their own section instead of joining the sections of their topics.
     ("Penalties", r"Full tables of the penalty experiment E2: the sweep of the weight, the existence arm, the "
-                  r"low-frequency arm, the monotonicity control and the long-window arm of the rollout penalty.",
-     [1, 2, 3, 4, 39]),
+                  r"low-frequency arm and the monotonicity control (the long-window arm: Table S39).",
+     [1, 2, 3, 4]),
     ("Transfer, Platoon Test and Certificate",
-     r"Full tables of the transfer experiment E3, the OpenACC control E5 and the certified hybrid E4, with the exact "
-     r"verification of the a priori certificate.", [5, 6, 7, 8, 9, 41]),
+     r"Full tables of the transfer experiment E3, the OpenACC control E5 and the certified hybrid E4 (the exact "
+     r"verification of the a priori certificate: Table S41).", [5, 6, 7, 8, 9]),
     ("Audit: Gain Expansion and Spacing Band",
-     r"The exact gain against the numerical gains of the audit, the width of the spacing band, the band "
-     r"sensitivity of the audit, the full-history linearisation of the recurrent laws, the threshold of the "
-     r"numerical rule and the zero crossings of the equilibrium condition.", [10, 11, 12, 32, 33, 34]),
+     r"The exact gain against the numerical gains of the audit, the width of the spacing band and the band "
+     r"sensitivity of the audit (the full-history linearisation of the recurrent laws, the threshold of the "
+     r"numerical rule and the zero crossings of the equilibrium condition: Tables S32--S34).", [10, 11, 12]),
     ("Corridor", r"Full tables of the corridor validation: the laws, their raw metrics and components, the "
                  r"instability of their members, the correlations, the equivalence tests, the verdicts of the "
-                 r"corridor hypotheses, the sensitivity study, the power analysis, the temporal hold-out, the "
-                 r"acceleration asymmetry, the clustered inference of the correlation, the absolute contact exposure "
-                 r"and the errors of the certified hybrid and the IDM against the ground truth.",
-     list(range(13, 31)) + [35, 36, 37]),
-    ("Controlled Ablation of the Certified Hybrid",
-     r"The parts of the certified hybrid separated in a controlled ablation of components: the calibrated IDM, the "
-     r"margin-constrained IDM cores without residual, a free and a margin core with the bounded residual, and the "
-     r"certified hybrid; then the paired differences between the variants.", [38, 40]),
+                 r"corridor hypotheses, the sensitivity study, the power analysis, the temporal hold-out and the "
+                 r"acceleration asymmetry (the clustered inference of the correlation, the absolute contact exposure "
+                 r"and the errors of the certified hybrid and the IDM against the ground truth: Tables S35--S37).",
+     list(range(13, 31))),
     ("Verdicts of the Single-Vehicle Hypotheses", r"Every unit of the verdicts of H1.1--H1.5.", [31]),
+    ("Tables Added in the Revision Rounds",
+     r"In numerical order: the full-history linearisation of the recurrent laws (Table S32), the threshold of the "
+     r"numerical rule (S33), the zero crossings of the equilibrium condition (S34), the clustered inference of the "
+     r"correlation (S35), the absolute contact exposure (S36), the errors of the certified hybrid and the IDM "
+     r"against the ground truth (S37), the controlled ablation of the certified hybrid (S38) and its paired "
+     r"differences (S40), the long-window arm of the rollout penalty (S39) and the exact verification of the a "
+     r"priori certificate (S41).", list(range(32, 42))),
 ]
 
 
@@ -3191,8 +3196,8 @@ def write_supplementary(tabs: list[Tab], out: Path) -> None:
         r"\setlength{\LTcapwidth}{\textwidth}",
         HELPERS,
         r"\renewcommand{\thesection}{S\arabic{section}}",
-        "% Revision 1 (October 2026): changes against the submitted version are highlighted in yellow with \\fixme{...}",
-        r"\newcommand{\fixme}[1]{\sethlcolor{yellow}\hl{#1}}",
+        "% Revision 1 (October 2026) highlighted its changes with \\fixme{...}; the final version typesets them plainly.",
+        r"\newcommand{\fixme}[1]{#1}",
         "",
         r"\Title{" + TITLE + "}",
         "",
@@ -3234,8 +3239,7 @@ def write_supplementary(tabs: list[Tab], out: Path) -> None:
     for k, (name, _ctx) in enumerate(SUPP_FIGURES, start=1):
         lines.append(rf"\input{{supplement/figures/S{k:02d}_{name}_env}}")
     lines += ["", r"\section{Derivations}", "",
-              r"\fixme{The two derivations below were the appendices of the submitted version and were moved here at the "
-              r"request of the reviewers.} Section~\ref{sec:Sderiv_windowed} derives the windowed low-frequency coefficient "
+              r"Section~\ref{sec:Sderiv_windowed} derives the windowed low-frequency coefficient "
               r"$M_w$ (Equation (5) of the main text); Section~\ref{sec:Sderiv_certificate} gives the exact minimisation of the "
               r"guaranteed margin behind Table~\ref{tab:Scertificate_exact}.", "",
               r"\input{supplement/derivations}"]

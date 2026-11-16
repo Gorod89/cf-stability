@@ -1,11 +1,11 @@
 {
   "title": "cf-stability: string stability of learned car-following models",
-  "description": "Code, configurations, run manifests and results of the study \"String Stability of Learned Car-Following Models: Audit, Differentiable Penalties, a Certified Hybrid and Corridor-Level Validation\" (submitted to Mathematics, MDPI, 2026): an audit of the equilibrium (string) stability of learned car-following models, differentiable stability penalties, a residual hybrid with an a priori certificate, and the validation of the laws on SUMO corridors of NGSIM I-80 and US-101. The archive holds the code, the published tables, figures and report, and the run outputs they are computed from (training-run metrics and audits, per-event closed-loop metrics, corridor-run metrics and the compact speed fields of the figures, scenarios, law files, calibrations and fold definitions). The raw data, the extracted events and the simulated trajectories are not included; the README (section Reproduce) gives the three levels of reproduction and the data access steps.",
+  "description": "Code, configurations, run manifests and results of the study \"String Stability of Learned Car-Following Models: Audit, Differentiable Penalties, a Certified Hybrid and Corridor-Level Validation\" (Mathematics 2026, 14(22), 4152, https://doi.org/10.3390/math14224152): an audit of the equilibrium (string) stability of learned car-following models, differentiable stability penalties, a residual hybrid with an a priori certificate, and the validation of the laws on SUMO corridors of NGSIM I-80 and US-101. The archive holds the code, the published tables, figures and report, and the run outputs they are computed from (training-run metrics and audits, per-event closed-loop metrics, corridor-run metrics and the compact speed fields of the figures, scenarios, law files, calibrations and fold definitions). The raw data, the extracted events and the simulated trajectories are not included; the README (section Reproduce) gives the three levels of reproduction and the data access steps.",
   "upload_type": "software",
   "access_right": "open",
   "license": "MIT",
   "language": "eng",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "creators": [
     {
       "name": "Gorodnichev, Mikhail",
@@ -25,5 +25,20 @@
     "stability certificate",
     "traffic simulation",
     "SUMO"
-  ]
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.3390/math14224152",
+      "relation": "isSupplementTo",
+      "resource_type": "publication-article",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "https://github.com/Gorod89/cf-stability",
+      "relation": "isSupplementTo",
+      "resource_type": "software",
+      "scheme": "url"
+    }
+  ],
+  "notes": "The code, the configurations and the documentation are under the MIT licence. The run outputs derived from third-party data carry the terms of their sources (NOTICE.md): the files derived from NGSIM, the reconstructed trajectories of the corridor scenarios included, are shared under CC BY-SA 4.0; the files derived from highD and from the Waymo Open Dataset (model weights, fitted parameters, per-event metrics; no data) are for non-commercial research use only; the files derived from OpenACC are under CC BY 4.0."
 }

@@ -115,7 +115,7 @@ length, local_time, follower_id, leader_id, filter_pos, filter_speed, filter_acc
   authors' `waymo_data_process.py`). Filtered accelerations are provided.
 * The FollowNet Waymo spacing equals the centre-to-centre distance of these pairs.
 
-**NGSIM raw** (data.transportation.gov `8ect-6jqj`, public domain). 25 columns, feet and ft/s,
+**NGSIM raw** (data.transportation.gov `8ect-6jqj`, CC BY-SA: Attribution-ShareAlike 3.0 Unported on the portal). 25 columns, feet and ft/s,
 10 Hz; `local_y` is the longitudinal position of the front centre, `preceding = 0` means no leader.
 Verified on I-80 (4 566 387 rows):
 

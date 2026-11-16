@@ -205,7 +205,7 @@ def download_ngsim(root: Path, locations: tuple[str, ...]) -> None:
         path = fetch_ngsim(location, root)
         entry = {path.name: {"url": "https://data.transportation.gov/d/8ect-6jqj", "location": location,
                              "size": path.stat().st_size, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}}
-        _record(root, entry, "public domain (US DOT)", "https://data.transportation.gov/d/8ect-6jqj")
+        _record(root, entry, "CC BY-SA 3.0 Unported (portal licence CC_30_BY_SA; Common Core: CC BY-SA 4.0)", "https://data.transportation.gov/d/8ect-6jqj")
 
 
 def main() -> None:

@@ -23,9 +23,12 @@ identifiers:
   - type: doi
     value: 10.5281/zenodo.23256679
     description: "The concept DOI of the Zenodo archive (resolves to the latest version)."
+  - type: doi
+    value: 10.3390/math14224152
+    description: "The article that this repository accompanies (Mathematics 2026, 14(22), 4152)."
 license: MIT
-version: "2.2.1"
-date-released: "2026-10-27"
+version: "2.2.2"
+date-released: "2026-11-16"
 keywords:
   - car-following models
   - string stability
@@ -34,7 +37,7 @@ keywords:
   - traffic simulation
   - SUMO
 preferred-citation:
-  type: unpublished
+  type: article
   title: "String Stability of Learned Car-Following Models: Audit, Differentiable Penalties, a Certified Hybrid and Corridor-Level Validation"
   authors:
     - family-names: Gorodnichev
@@ -45,6 +48,14 @@ preferred-citation:
       given-names: Marina
       orcid: "https://orcid.org/0000-0002-9778-124X"
       affiliation: "Faculty of Information Technology, Moscow Technical University of Communication and Informatics"
-  status: submitted
-  notes: "Submitted to Mathematics (MDPI), 2026."
+  journal: "Mathematics"
+  volume: 14
+  issue: 22
+  start: 4152
   year: 2026
+  month: 11
+  doi: 10.3390/math14224152
+  url: "https://doi.org/10.3390/math14224152"
+  issn: "2227-7390"
+  publisher:
+    name: "MDPI"

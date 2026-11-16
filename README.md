@@ -7,10 +7,11 @@ Code, configurations, run manifests and results of the study
 
 > **String Stability of Learned Car-Following Models: Audit, Differentiable Penalties, a Certified Hybrid
 > and Corridor-Level Validation.** Mikhail Gorodnichev and Marina Moseva, Faculty of Information
-> Technology, Moscow Technical University of Communication and Informatics. Submitted to *Mathematics*
-> (MDPI), 2026.
+> Technology, Moscow Technical University of Communication and Informatics. *Mathematics* **2026**, *14*(22),
+> 4152. <https://doi.org/10.3390/math14224152>
 
-The manuscript itself is not part of this repository. The repository holds the code, the configurations and run
+The article is open access at the DOI above; its source files are not part of this repository. The terms of the
+data sources that apply to the published run outputs are in [`NOTICE.md`](NOTICE.md). The repository holds the code, the configurations and run
 manifests, the published results, the generator of the computed materials of the manuscript and the map of every
 table and figure of it (`docs/paper_materials.md`): ten of the fourteen tables of the main text, the 41 supplementary
 tables and the 29 figures are generated here from the run outputs by the commands of the section
@@ -215,10 +216,10 @@ run, at most 9 min; the 390 runs of M5 took 70 min with `workers=4`). Disk: abou
 | Source | Licence | How |
 |---|---|---|
 | OpenACC (JRC), 6 campaigns | CC BY 4.0 | `python scripts/download_data.py openacc` |
-| FollowNet event sets (HighD, NGSIM I-80, Waymo; figshare collection 6777810) | CC0 | `python scripts/download_data.py follownet` (sha256 recorded; the pickled files are loaded only after the check, D21) |
-| NGSIM I-80 and US-101 raw trajectories (US DOT data portal, Socrata API) | public domain | `python scripts/download_data.py ngsim --locations i-80 us-101` |
+| FollowNet event sets (HighD, NGSIM I-80, Waymo; figshare collection 6777810) | CC0 label on figshare; the underlying sources keep their terms (`NOTICE.md`) | `python scripts/download_data.py follownet` (sha256 recorded; the pickled files are loaded only after the check, D21) |
+| NGSIM I-80 and US-101 raw trajectories (US DOT data portal, Socrata API) | CC BY-SA (the portal: Attribution-ShareAlike 3.0 Unported) | `python scripts/download_data.py ngsim --locations i-80 us-101` |
 | NGSIM reconstruction (own, D42-D46; the Montanino-Punzo set is not public) | - | computed by `python scripts/extract_events.py data=ngsim_i80` and `data=ngsim_us101`, cached in `data/raw/ngsim/cache/ngsim_<location>_reconstructed.parquet` (the corridor reads it) |
-| Waymo car-following pairs (Hu et al. 2022, Mendeley Data 10.17632/wfn2c3437n.2) | CC BY 4.0 | Mendeley answers scripts with a browser challenge (D24): download the five files in a browser or with PowerShell `Invoke-WebRequest` into `data/raw/waymo/` and check their sha256 against the Mendeley API |
+| Waymo car-following pairs (Hu et al. 2022, Mendeley Data 10.17632/wfn2c3437n.2) | CC BY 4.0 on Mendeley; the Waymo Open Dataset itself: Waymo Dataset License Agreement for Non-Commercial Use | Mendeley answers scripts with a browser challenge (D24): download the five files in a browser or with PowerShell `Invoke-WebRequest` into `data/raw/waymo/` and check their sha256 against the Mendeley API |
 | highD raw (levelXdata) | research licence | needs the levelXdata agreement, not included (D22): the FollowNet HighD events stand in; no file in git holds highD samples (the kNN checkpoints were rewritten without their samples in v2.2.1, D137) |
 | I-24 MOTION | - | not used (D101) |
 
@@ -530,37 +531,49 @@ python scripts/analysis/wmax_pairs.py; python scripts/analysis/m12_pairs.py   # 
 ## Citation
 
 `CITATION.cff` holds the citation metadata (GitHub: "Cite this repository"). Every release from v2.0.2 on is
-archived on Zenodo: the concept DOI <https://doi.org/10.5281/zenodo.23256679> resolves to the latest version, version
-2.0.2 (the state of the submitted manuscript) is <https://doi.org/10.5281/zenodo.23256680>. Cite the article and the
-archived version you used:
+archived on Zenodo: the concept DOI <https://doi.org/10.5281/zenodo.23256679> resolves to the latest version; the
+article cites version 2.2.0 (<https://doi.org/10.5281/zenodo.23520296>), and version 2.0.2
+(<https://doi.org/10.5281/zenodo.23256680>) is the state of its first submission. Cite the article and the archived
+version you used:
 
 ```bibtex
-@unpublished{gorodnichev2026string,
-  author = {Gorodnichev, Mikhail and Moseva, Marina},
-  title  = {String Stability of Learned Car-Following Models: Audit, Differentiable Penalties,
-            a Certified Hybrid and Corridor-Level Validation},
-  note   = {Submitted to Mathematics (MDPI)},
-  year   = {2026}
+@article{gorodnichev2026string,
+  author  = {Gorodnichev, Mikhail and Moseva, Marina},
+  title   = {String Stability of Learned Car-Following Models: Audit, Differentiable Penalties,
+             a Certified Hybrid and Corridor-Level Validation},
+  journal = {Mathematics},
+  year    = {2026},
+  volume  = {14},
+  number  = {22},
+  pages   = {4152},
+  doi     = {10.3390/math14224152}
 }
 
 @misc{gorodnichev2026code,
   author       = {Gorodnichev, Mikhail and Moseva, Marina},
-  title        = {cf-stability: string stability of learned car-following models (version 2.0.2)},
+  title        = {cf-stability: string stability of learned car-following models (version 2.2.0)},
   year         = {2026},
   howpublished = {Zenodo},
-  doi          = {10.5281/zenodo.23256680},
+  doi          = {10.5281/zenodo.23520296},
   url          = {https://github.com/Gorod89/cf-stability}
 }
 ```
 
 ## Data licences
 
-OpenACC: CC BY 4.0 (JRC). FollowNet event sets: CC0. NGSIM: public domain (US DOT). Waymo
-car-following pairs: CC BY 4.0. highD: non-commercial research licence of levelXdata, no
-redistribution: extracted highD events are never written outside the working copy and `data/raw`,
-`data/events` are excluded from git.
+[`NOTICE.md`](NOTICE.md) lists, per source, the files of this repository that derive from it and the terms that
+apply to them. In short: OpenACC is CC BY 4.0 (JRC); NGSIM is published under CC BY-SA (Attribution-ShareAlike 3.0
+Unported on the portal), so the NGSIM-derived files, the reconstructed trajectories of the corridor scenarios
+included, are shared under CC BY-SA 4.0; highD is free for non-commercial use only and may not be redistributed,
+so only abstract representations of it are published (model weights, fitted parameters, per-event metrics), for
+non-commercial use; the Waymo Open Dataset is under the Waymo Dataset License Agreement for Non-Commercial Use,
+and only evaluation metrics computed on its car-following pairs are published; the FollowNet event sets carry a
+CC0 label on figshare, which does not lift the terms of the sources they were derived from. The raw data and the
+extracted events are never committed (`data/raw`, `data/events` are excluded from git), and no checkpoint holds
+samples of its training data (D137).
 
 ## Licence
 
-The code, the configurations and the documentation are released under the MIT License (`LICENSE`);
-the data sets keep their own licences as listed above.
+The code, the configurations and the documentation are released under the MIT License (`LICENSE`). The MIT
+licence does not extend to the run outputs derived from third-party data (checkpoints, calibrations, per-event
+metrics, corridor scenarios and results): they carry the terms of their sources as set out in `NOTICE.md`.
