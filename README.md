@@ -215,12 +215,12 @@ run, at most 9 min; the 390 runs of M5 took 70 min with `workers=4`). Disk: abou
 
 | Source | Licence | How |
 |---|---|---|
-| OpenACC (JRC), 6 campaigns | CC BY 4.0 | `python scripts/download_data.py openacc` |
+| OpenACC (JRC), 6 campaigns | CC BY 4.0 (the copyright notice shipped with the data; the JRC catalogue record names the European Commission reuse notice) | `python scripts/download_data.py openacc` |
 | FollowNet event sets (HighD, NGSIM I-80, Waymo; figshare collection 6777810) | CC0 label on figshare; the underlying sources keep their terms (`NOTICE.md`) | `python scripts/download_data.py follownet` (sha256 recorded; the pickled files are loaded only after the check, D21) |
-| NGSIM I-80 and US-101 raw trajectories (US DOT data portal, Socrata API) | CC BY-SA (the portal: Attribution-ShareAlike 3.0 Unported) | `python scripts/download_data.py ngsim --locations i-80 us-101` |
+| NGSIM I-80 and US-101 raw trajectories (US DOT data portal, Socrata API) | CC BY-SA 3.0 Unported (licence of the portal record `8ect-6jqj`) | `python scripts/download_data.py ngsim --locations i-80 us-101` |
 | NGSIM reconstruction (own, D42-D46; the Montanino-Punzo set is not public) | - | computed by `python scripts/extract_events.py data=ngsim_i80` and `data=ngsim_us101`, cached in `data/raw/ngsim/cache/ngsim_<location>_reconstructed.parquet` (the corridor reads it) |
-| Waymo car-following pairs (Hu et al. 2022, Mendeley Data 10.17632/wfn2c3437n.2) | CC BY 4.0 on Mendeley; the Waymo Open Dataset itself: Waymo Dataset License Agreement for Non-Commercial Use | Mendeley answers scripts with a browser challenge (D24): download the five files in a browser or with PowerShell `Invoke-WebRequest` into `data/raw/waymo/` and check their sha256 against the Mendeley API |
-| highD raw (levelXdata) | non-commercial use only, no redistribution of the data or of modified versions | needs the levelXdata agreement, not included (D22): the FollowNet HighD events stand in; no file in git holds highD samples (the kNN checkpoints were rewritten without their samples in v2.2.1, D137) |
+| Waymo car-following pairs (Hu et al. 2022, Mendeley Data 10.17632/wfn2c3437n.2) | CC BY 4.0 label on Mendeley; the Waymo Open Dataset itself: Waymo Dataset License Agreement for Non-Commercial Use (copy in `WAYMO_OPEN_DATASET_LICENSE.txt`) | Mendeley answers scripts with a browser challenge (D24): download the five files in a browser or with PowerShell `Invoke-WebRequest` into `data/raw/waymo/` and check their sha256 against the Mendeley API |
+| highD raw (levelXdata) | non-commercial purposes only; no distribution of the dataset or of modified versions; no commercial use of a derivative work | needs the levelXdata agreement, not included (D22): the FollowNet HighD events stand in; no file in git holds highD samples (the kNN checkpoints were rewritten without their samples in v2.2.1, D137) |
 | I-24 MOTION | - | not used (D101) |
 
 Every downloaded file is recorded in `data/raw/<dataset>/SOURCES.json` (url, size, sha256, licence,
@@ -561,19 +561,30 @@ version you used:
 
 ## Data licences
 
-[`NOTICE.md`](NOTICE.md) lists, per source, the files of this repository that derive from it and the terms that
-apply to them. In short: OpenACC is CC BY 4.0 (JRC); NGSIM is published under CC BY-SA (Attribution-ShareAlike 3.0
-Unported on the portal), so the NGSIM-derived files, the reconstructed trajectories of the corridor scenarios
-included, are shared under CC BY-SA 4.0; highD is free for non-commercial use only and may not be redistributed,
-so only abstract representations of it are published (model weights, fitted parameters, per-event metrics), for
-non-commercial use; the Waymo Open Dataset is under the Waymo Dataset License Agreement for Non-Commercial Use,
-and only evaluation metrics computed on its car-following pairs are published; the FollowNet event sets carry a
-CC0 label on figshare, which does not lift the terms of the sources they were derived from. The raw data and the
-extracted events are never committed (`data/raw`, `data/events` are excluded from git), and no checkpoint holds
-samples of its training data (D137).
+[`NOTICE.md`](NOTICE.md) reports, per source, the terms of the provider as they were read on 16 November 2026 and
+the files of this repository computed from that source. It does not merge the terms of several sources into one
+licence. In short:
+
+* highD: free for non-commercial purposes; the dataset and modified versions may not be distributed, and no
+  derivative work may be used commercially. Only abstract representations are published (model weights, fitted
+  parameters, per-event metrics). Every file with the highD events in its provenance, the checkpoints fine-tuned
+  from highD models on NGSIM and the corridor laws and results built from them included, is provided for
+  non-commercial research and teaching only.
+* NGSIM: the portal record carries CC BY-SA 3.0 Unported. The corridor scenarios hold NGSIM data in adapted form and
+  are shared under CC BY-SA 4.0. The other files computed from NGSIM hold no NGSIM data; the notice does not state
+  their legal status.
+* Waymo Open Dataset: Waymo Dataset License Agreement for Non-Commercial Use. The IDM parameters fitted on the
+  car-following pairs and the metrics computed on them are released under that Agreement (copy in
+  `WAYMO_OPEN_DATASET_LICENSE.txt`).
+* OpenACC: CC BY 4.0, by the copyright notice distributed with the data.
+* FollowNet: the event sets carry a CC0 label on figshare; the terms of the sources they were derived from are
+  applied to everything computed from them.
+
+The raw data and the extracted events are never committed (`data/raw`, `data/events` are excluded from git), and no
+checkpoint holds samples of its training data (D137).
 
 ## Licence
 
 The code, the configurations and the documentation are released under the MIT License (`LICENSE`). The MIT
 licence does not extend to the run outputs derived from third-party data (checkpoints, calibrations, per-event
-metrics, corridor scenarios and results): they carry the terms of their sources as set out in `NOTICE.md`.
+metrics, corridor scenarios and results): the terms of their data sources are reported in `NOTICE.md`.

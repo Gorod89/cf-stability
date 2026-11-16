@@ -5,7 +5,7 @@
   "access_right": "open",
   "license": "MIT",
   "language": "eng",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "creators": [
     {
       "name": "Gorodnichev, Mikhail",
@@ -40,5 +40,5 @@
       "scheme": "url"
     }
   ],
-  "notes": "The code, the configurations and the documentation are under the MIT licence. The run outputs derived from third-party data carry the terms of their sources (NOTICE.md): the files derived from NGSIM, the reconstructed trajectories of the corridor scenarios included, are shared under CC BY-SA 4.0; the files derived from highD and from the Waymo Open Dataset (model weights, fitted parameters, per-event metrics; no data) are for non-commercial research use only; the files derived from OpenACC are under CC BY 4.0."
+  "notes": "The code, the configurations and the documentation are under the MIT licence. The run outputs computed from third-party data are not: NOTICE.md reports the terms of each data provider, as read on 16 November 2026, and the files computed from each source, and it does not merge these terms into one licence. The corridor scenario files hold NGSIM data in adapted form and are shared under CC BY-SA 4.0. Every file with highD-derived events in its provenance (the checkpoints trained on them, the checkpoints fine-tuned from these on NGSIM, the corridor laws and results built from them, the metrics) is provided for non-commercial research and teaching only: the highD terms allow no commercial use of a derivative work. The IDM parameters fitted on the Waymo car-following pairs and the metrics computed on them are released under the Waymo Dataset License Agreement for Non-Commercial Use (https://waymo.com/open/terms/; copy in WAYMO_OPEN_DATASET_LICENSE.txt). The files computed from OpenACC follow CC BY 4.0. No data of highD or of the Waymo Open Dataset is included."
 }
