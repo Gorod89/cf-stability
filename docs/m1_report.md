@@ -81,6 +81,8 @@ of two independent measurements (GNSS spacing, Doppler speed), not a sign proble
 Splits: `data/splits/<name>_driver.json` and `<name>_site.json` for every event set (5 folds,
 seed 0). Site-level folds: OpenACC 5 folds over 6 campaigns; the FollowNet sets and Waymo have
 one site (no site split); driver-level folds of the FollowNet sets are event-level folds (D19).
+The two files of the Waymo pairs are not in the repository from version 2.2.4, and the per-event
+calibration table of the pairs carries ordinal numbers (D143; `README.md`, section Data access).
 
 ## 4. IDM calibration and persistence baseline
 

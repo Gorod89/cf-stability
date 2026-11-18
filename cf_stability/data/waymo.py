@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from collections import Counter
 from pathlib import Path
-from typing import Iterator, Mapping
+from typing import Iterable, Iterator, Mapping
 
 import numpy as np
 import pandas as pd
@@ -39,6 +39,30 @@ def vehicle_type(vehicle: int) -> str:
 def raw_vehicle_id(segment: int, vehicle: int) -> str:
     """``AV`` for the automated vehicle (one driver across segments), else ``s<segment>_v<id>``."""
     return "AV" if vehicle == AV_ID else f"s{segment}_v{vehicle}"
+
+
+def ordinal_ids(
+    event_ids: Iterable[str], follower_ids: Iterable[str], dataset: str = DATASET
+) -> tuple[dict[str, str], dict[str, str]]:
+    """Ordinal identifiers that stand for the labels of the pairs in the published per-event tables (D143).
+
+    The identifiers of this loader are built from the segment number and the local vehicle number of the source
+    file (:func:`raw_vehicle_id`). A published table carries ``<dataset>/all/e<k>`` for an event and
+    ``<dataset>/all/f<k>`` for a follower instead, ``k`` being the position of the identifier in the sorted list
+    of the identifiers of the whole event set, written with four digits; the automated vehicle keeps
+    ``<dataset>/all/AV``. The numbers sort as the labels do, so a statistic that groups a table by follower
+    (:func:`cf_stability.eval.stats.driver_table`) is unchanged. Returns the two maps, label to number.
+    """
+    prefix, automated = f"{dataset}/{SITE}/", f"{dataset}/{SITE}/{raw_vehicle_id(0, AV_ID)}"
+    events = {label: f"{prefix}e{k:04d}" for k, label in enumerate(sorted(set(event_ids)))}
+    followers = {
+        label: label if label == automated else f"{prefix}f{k:04d}"
+        for k, label in enumerate(sorted(set(follower_ids)))
+    }
+    for mapping in (events, followers):
+        if len(mapping) > 10000 or [mapping[label] for label in sorted(mapping)] != sorted(mapping.values()):
+            raise ValueError("the ordinal identifiers do not keep the order of the labels")
+    return events, followers
 
 
 def load_pairs(path: str | Path, dataset: str = DATASET, dt: float = DT) -> Iterator[PairSeries]:

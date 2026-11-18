@@ -84,9 +84,9 @@ once laws and architecture families are treated as clusters).
 | `configs/` | hydra configs (`queue/`: the experiment queues; `corridor/`: sites and laws; `data/`, `model/`) |
 | `scripts/` | entry points (`scripts/analysis/`: one-off analyses; `paper_assets.py`: the generated tables and figure environments of the manuscript and their map; `check_environment.py`, `check_release.py`: checks of the environment and of the checkout) |
 | `tests/` | 600+ pytest tests (event invariants, criterion against the IDM, penalty gradients by finite differences, conservation in the corridor loop, tables and report) |
-| `data/calibration/`, `data/splits/` | IDM calibrations and the fold definitions (the raw data and the extracted events are not in git: see the data access table) |
+| `data/calibration/`, `data/splits/` | IDM calibrations and the fold definitions (the raw data and the extracted events are not in git: see the data access table; the fold definitions of the Waymo pairs are not distributed either and are rebuilt from a copy of the pairs, see "Waymo pairs: identifiers" under Data access) |
 | `runs/` | every training run (`metrics.json`, `stability.json`, `platoon.json`, `certificate.json`, `full_history.json`, the per-event closed-loop metrics `test_events.parquet` and `transfer_*.parquet`, weights), every corridor run (`run.json`, `macro.json`, `asymmetry.json`, the compact speed fields `fields.npz`), the SUMO scenarios with their ground truths and the law files, the tables `runs/_tables/` and the generated report `runs/_report/` (the simulated trajectories are not in git) |
-| `docs/` | `data_contract.md` (conventions and source formats), `decisions.md` (every choice and deviation, D1-D124), `study_plan.md`, the milestone contracts and reports `m1`-`m8`, `theory_notes.md`, `paper_materials.md` (every table and figure of the manuscript with its files and commands) |
+| `docs/` | `data_contract.md` (conventions and source formats), `decisions.md` (every choice and deviation, D1-D143), `study_plan.md`, the milestone contracts and reports `m1`-`m8`, `theory_notes.md`, `paper_materials.md` (every table and figure of the manuscript with its files and commands) |
 | `.github/workflows/tests.yml`, `CITATION.cff` | continuous integration (environment, completeness of the checkout, tests without SUMO and GPU); citation metadata |
 
 ## Setup
@@ -160,7 +160,10 @@ weights `model.pt` (a kNN checkpoint holds no samples, D137: the samples are tra
 re-fitted from the events of level 3 when it is used); per corridor run `run.json`, `macro.json`, `asymmetry.json` and the compact speed fields
 `fields.npz`; the scenarios with their ground truths (`runs/corridor/scenarios/`), the law files
 (`runs/corridor/laws/`, with the tables `*.npz` of the three heterogeneous laws), `data/calibration/`,
-`data/splits/` and `configs/`.
+`data/splits/` and `configs/`. The per-event tables of the Waymo pairs (`transfer_waymo.parquet` of the runs and
+`data/calibration/waymo/idm_per_event.parquet`) name the events and the followers by ordinal numbers, not by the
+segment and vehicle labels of the pairs (D143; "Waymo pairs: identifiers" under Data access); no command of this
+level reads the fold definitions of the Waymo pairs.
 
 ```bash
 python scripts/check_environment.py --no-sumo --no-gpu
@@ -225,6 +228,38 @@ run, at most 9 min; the 390 runs of M5 took 70 min with `workers=4`). Disk: abou
 
 Every downloaded file is recorded in `data/raw/<dataset>/SOURCES.json` (url, size, sha256, licence,
 date). `data/raw` and `data/events` are not in git.
+
+#### Waymo pairs: identifiers
+
+The identifiers of the events of the Waymo pairs are built from the segment number and the local vehicle number of
+the file of Hu et al. (`cf_stability/data/waymo.py`). From version 2.2.4 the repository does not distribute these
+labels (D143):
+
+* The fold definitions `data/splits/waymo_driver.json` and `data/splits/waymo_site.json` are not in the repository.
+  `python scripts/extract_events.py data=waymo` writes both, together with the event set, from a copy of
+  `all_seg_paired_cf_trj_final_with_large_vehicle.csv` in `data/raw/waymo/` (sha256
+  `1b9d55743dce7ad23f95de8ee25462c9b58e5f410b9de43e965edd903b3502c1`); it takes a few seconds. Rule: the events are grouped by follower, the sorted groups are
+  shuffled with `numpy.random.default_rng(0)` and dealt in that order to the lightest of five folds, the weight of a
+  group being its number of samples (`cf_stability/data/splits.py`); the pairs have one site, so the site file holds
+  a single fold. The files are rebuilt bit for bit (967 events, 849 followers, `events_config_hash` `6ca7ac18bee8`):
+
+  | File | sha256 as written on Windows (CRLF) | sha256 with LF line endings |
+  |---|---|---|
+  | `waymo_driver.json` | `ec8dab394e5f078de876f30d0a80d6e370224bd6d3eddc89d891893eec9a0ef0` | `8bb768da49b1bb6067ed1fbfabea67d2aa1ac768885728f0936369127b97ebcf` |
+  | `waymo_site.json` | `837569170d39d30b187463b4a7ba77d87840d795bac97b284a241d0a3c41332a` | `001393b27b70985f6c6c8e90a004915db88cac0916b9f21b2247bd4da98b91a1` |
+
+* The per-event tables of the pairs, the 85 files `transfer_waymo.parquet` of the runs of E3 and
+  `data/calibration/waymo/idm_per_event.parquet`, carry ordinal numbers in the columns `event_id` and `follower_id`:
+  `waymo/all/e<k>` and `waymo/all/f<k>`, `k` being the position of the identifier in the sorted list of the
+  identifiers of the event set; the automated vehicle keeps `waymo/all/AV`. The rows, their order and every other
+  column are those of the tables with the labels, and the numbers sort as the labels do, so `make_tables.py` writes
+  the same tables byte for byte. `python scripts/strip_waymo_labels.py` numbers a table that
+  `scripts/evaluate_transfer.py` or `scripts/calibrate_idm.py` wrote anew, with the fold definition above as the
+  list of identifiers; a numbered table of one's own run can then be compared with the published one row by row.
+
+The event set of the FollowNet release (`follownet_waymo`) carries no segment or vehicle label: its identifiers are
+the positions of the events in the released array, and its fold definitions and tables are unchanged. The tags up
+to v2.2.3 and their archived versions hold the files as they were published.
 
 ### Milestone command log (as run)
 
@@ -523,7 +558,7 @@ python scripts/analysis/wmax_pairs.py; python scripts/analysis/m12_pairs.py   # 
   `supplementary.tex` of the manuscript into `paper_assets/` (`--manifest` rewrites `docs/paper_materials.md`).
 * `python scripts/check_release.py`: the completeness of a checkout for levels 1 and 2 (exit status 1 and the
   missing files when something is absent).
-* `docs/decisions.md`: the decision log (D1-D124, E1-E10) that records every deviation from the study
+* `docs/decisions.md`: the decision log (D1-D143, E1-E10) that records every deviation from the study
   plan; `docs/study_plan.md`: the pre-specified hypotheses and thresholds and the list of the exploratory
   branches; `docs/m1_report.md` ... `docs/m8_report.md`: the milestone reports with the commands run, the
   key numbers and the deviations.
@@ -575,7 +610,8 @@ licence. In short:
   their legal status.
 * Waymo Open Dataset: Waymo Dataset License Agreement for Non-Commercial Use. The IDM parameters fitted on the
   car-following pairs and the metrics computed on them are released under that Agreement (copy in
-  `WAYMO_OPEN_DATASET_LICENSE.txt`).
+  `WAYMO_OPEN_DATASET_LICENSE.txt`). From version 2.2.4 the segment and vehicle labels of the pairs are not
+  distributed (see "Waymo pairs: identifiers" under Data access).
 * OpenACC: CC BY 4.0, by the copyright notice distributed with the data.
 * FollowNet: the event sets carry a CC0 label on figshare; the terms of the sources they were derived from are
   applied to everything computed from them.

@@ -8,7 +8,11 @@ __pycache__/
 # raw data and extracted events never go into git (highD licence forbids redistribution; the rest is large)
 data/raw/
 data/events/
-# calibrations (5 MB) and split files are part of the reproducibility record and stay
+# calibrations (5 MB) and split files are part of the reproducibility record and stay, except the fold
+# definitions of the Waymo pairs, whose event identifiers carry the segment and vehicle labels of the pairs
+# (D143): scripts/extract_events.py data=waymo writes them from a copy of the pairs
+data/splits/waymo_driver.json
+data/splits/waymo_site.json
 
 # hydra output directories
 outputs/

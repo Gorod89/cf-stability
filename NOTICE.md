@@ -82,7 +82,14 @@ both sets of terms allow, and it is the only use for which this project provides
   any data of the data set, and this project applies it to everything computed from the pairs.
 * Files: the IDM parameters fitted on the pairs (`data/calibration/waymo/` and `data/calibration/follownet_waymo/`:
   the global fit, the fits per event and their spread), the per-event metrics `transfer_waymo.parquet`, the fold
-  definitions `data/splits/*waymo*.json`, and the rows of the tables built from them.
+  definitions of the FollowNet event set `data/splits/follownet_waymo_*.json`, and the rows of the tables built
+  from them.
+* Identifiers. The event identifiers of the pairs are built from the segment number and the local vehicle number of
+  the file of Hu et al. From version 2.2.4 this repository does not distribute these labels: the fold definitions of
+  the pairs (`data/splits/waymo_driver.json`, `data/splits/waymo_site.json`) are not in the repository, and the
+  per-event tables of the pairs name events and followers by ordinal numbers. `README.md` (section Data access)
+  gives the rule and the commands that rebuild the fold definitions from a copy of the pairs, with their checksums.
+  The identifiers of the FollowNet event set are positions in the released array.
 * Notice required by the Agreement. These files are released under the Waymo Dataset License Agreement for
   Non-Commercial Use. Any further downstream use or modification of them is subject to the terms of that Agreement,
   including the non-commercial restrictions of its Section 4. The attribution is given below.

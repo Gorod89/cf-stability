@@ -149,6 +149,12 @@ reduced to the number of groups (leave-one-group-out) and the fact is written to
 With two folds the non-test fold is divided by follower into training and validation
 (at least 20 % of its events for validation); with one fold there is nothing to train on.
 
+The fold definitions of the Waymo pairs (`waymo_driver.json`, `waymo_site.json`) are written by the
+extraction like the others but are not in the repository from version 2.2.4 (D143): their event
+identifiers carry the segment and vehicle labels of the pairs. `README.md` (section Data access)
+gives their checksums. The published per-event tables of the pairs carry ordinal numbers
+(`cf_stability.data.waymo.ordinal_ids`, `scripts/strip_waymo_labels.py`).
+
 ## 6. IDM calibration
 
 * IDM: `a = a_max * (1 - (v / v0)^4 - (s_star / s)^2)`, `s_star = s0 + max(0, v*T + v*dv / (2*sqrt(a_max*b)))`, with `dv = v - v_lead`.
